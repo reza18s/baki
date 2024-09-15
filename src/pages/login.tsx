@@ -31,11 +31,11 @@ const Login: React.FC = () => {
         </div>
     <div className='grid justify-end  pr-4 pt-2'>
       <h3 className='text-black text-end'>شماره موبایل</h3>
-      <p className='text-black text-end'>ما با اطمینان از واقعی بودن همه افراد در باکی از کاربران خود محافظت میکنیم </p>
+      <p className='text-black text-end p-2'>ما با اطمینان از واقعی بودن همه افراد در باکی از کاربران خود محافظت میکنیم </p>
     </div>
     <div className='phoen-number-wrapper flex justify-center pt-10'>
     <IonInput labelPlacement="stacked" className='phone-input  relative color-black rounded-lg h-[40px] w-[80%] shadow' aria-label="Email" >
-    <img slot="end" className='w-7 h-7 p-1 absolute right-2'  src={phoneicon} ></img>
+    <img slot="end" className='w-7 h-7 p-1 mb-1 absolute right-2'  src={phoneicon} ></img>
     </IonInput>
     </div>
     </div>
