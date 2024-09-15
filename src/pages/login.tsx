@@ -4,10 +4,29 @@ import phoneicon from "../assets/icon/telephone.png"
 import lock from "../assets/icon/lock.png"
 import previous from "../assets/icon/previous.png"
 const Login: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const handleClick = (step) => {
+      setCurrentStep(step);
+  };
   return (
     <IonPage>
       <div className='main-login-wrapper'>
         <div className='flex  h-[80px] justify-end items-center stepper-wrapper'>
+        <div className="stepper-container">
+            <div className="stepper-line"></div>
+            <div dir='rtl' className="steps">
+                {[1, 2, 3, 4, 5, 6,7,8,9,10].map(step => (
+                    <div
+                        key={step}
+                        className={`step ${currentStep >= step ? 'completed' : ''} ${step === 6 ? 'final-step' : ''}`}
+                        onClick={() => handleClick(step)}
+                    >
+                        {step}
+                    </div>
+                ))}
+            </div>
+        </div>
           <img className='w-10 h-10 mr-5' src={previous}></img>
         </div>
     <div className='grid justify-end  pr-4 pt-2'>
