@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+
+    background-color: white;
+}
+
+.phone-input{
+    border: 2px solid black;
+    color: black;
+}
+.footer-button-wrapper{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+}
+.next-button-login{
+    --background:#ffb103;
+    color: white;
+}
+.input-label-placement-floating.sc-ion-input-ios-h, .input-label-placement-stacked.sc-ion-input-ios-h {
+    min-height: 40px!important;
+}

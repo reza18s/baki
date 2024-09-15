@@ -1,24 +1,16 @@
-/** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line no-undef
-module.exports = {
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
   content: ['./src/**/*.{html,js,tsx,ts}'],
   theme: {
     extend: {
-      boxShadow: {
-        
-      },
-      dropShadow: {
-        
-      },
+      boxShadow: {},
+      dropShadow: {},
       fontFamily: {
-        
         vazir: ['vazir', 'sans'],
       },
-      borderRadius: {
-       
-      },
+      borderRadius: {},
       colors: {
-       
         gray: {
           900: '#0F172A',
           800: '#1E293B',
@@ -35,8 +27,7 @@ module.exports = {
     },
   },
   important: 'body',
-
   plugins: [],
 };
 
-
+export default config;
