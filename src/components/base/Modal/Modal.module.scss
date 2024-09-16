@@ -1,0 +1,41 @@
+.overlay {
+  @apply fixed inset-0  flex justify-center items-center;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+
+  
+
+  &.close {
+    animation: normal;
+    animation-name: fadeOut;
+    animation-duration: 0.2s;
+  }
+
+  &.open {
+    animation: normal;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+  }
+
+  &:focus,
+  &:focus-within {
+    visibility: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: rgba($color: #000000, $alpha: 0);
+  }
+  to {
+    background-color: rgba($color: #000000, $alpha: 0.5);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: rgba($color: #000000, $alpha: 0.5);
+  }
+  to {
+    background-color: rgba($color: #000000, $alpha: 0);
+  }
+}

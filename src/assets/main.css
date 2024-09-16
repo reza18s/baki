@@ -25,12 +25,7 @@ body{
     min-height: 40px!important;
 }
 
-.stepper-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
+
 
 .steps {
     display: flex;

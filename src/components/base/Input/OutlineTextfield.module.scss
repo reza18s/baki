@@ -1,0 +1,68 @@
+$animation-duration: 0.2s;
+
+.textfield {
+  @apply flex flex-col;
+
+  &:hover:not(.disabled):not(:focus-within) {
+    > .input {
+      @apply border-gray-400;
+    }
+  }
+
+  &:focus-within {
+    > .input {
+      @apply border-gray-400;
+    }
+  }
+}
+
+.input {
+  @apply text-gray-800 bg-gray-50 font-vazir text-[0.75rem] rounded-xl border-gray-200
+   caret-gray-500 min-h-[2.5rem] w-full text-base outline-none border-[1px]  px-[0.6rem];
+
+  &.white {
+    @apply bg-white;
+  }
+  &.startIcon {
+    @apply pr-[2.5rem];
+  }
+  &.endIcon {
+    @apply pl-[2.5rem];
+  }
+
+  transition: $animation-duration ease-out;
+
+  &.error {
+    @apply border-warning-400;
+  }
+
+  &:not(:placeholder-shown) {
+    & + .helper {
+      display: none;
+    }
+  }
+
+  &:disabled {
+    @apply bg-gray-100  border-transparent opacity-70;
+  }
+
+  &::placeholder {
+    @apply text-gray-400 text-[0.75rem];
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}
+
+.icon_container {
+  @apply flex items-center justify-center mx-[0.85rem] absolute 
+  h-[1.25rem] w-[1.25rem] top-[50%] -translate-y-1/2 overflow-clip;
+
+  &.startIcon {
+    inset-inline-start: 0;
+  }
+  &.endIcon {
+    inset-inline-end: 0;
+  }
+}

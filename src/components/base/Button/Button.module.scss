@@ -1,0 +1,83 @@
+.button {
+  @apply transition-colors duration-200 p-2  font-vazir text-center;
+  &:disabled {
+    @apply opacity-50;
+  }
+  &.primary {
+    @apply bg-warning-50;
+    &:active:not(:disabled) {
+      @apply bg-[#FF4E1D];
+    }
+  }
+
+  &.brand {
+    @apply bg-brand-600;
+    &:active:not(:disabled) {
+      @apply bg-[#60A5FA];
+    }
+  }
+
+  &.white {
+    @apply bg-white text-gray-800;
+    &:active:not(:disabled) {
+      @apply bg-gray-200;
+    }
+  }
+  &.gray {
+    @apply bg-gray-100;
+    &:active:not(:disabled) {
+      @apply bg-gray-300;
+    }
+  }
+  &.premium {
+    background-image: url('../../../public/imgs/premiumBackground.png');
+    background-size: cover;
+  }
+
+  &.text {
+    @apply bg-transparent;
+    &:active:not(:disabled) {
+      @apply bg-gray-500 bg-opacity-20;
+    }
+  }
+  &.outline {
+    @apply bg-transparent border border-solid border-gray-200 text-gray-800;
+    &:active:not(:disabled) {
+      @apply bg-gray-200;
+    }
+  }
+
+  &.secondary {
+    @apply bg-warning-700 text-white;
+    &:active:not(:disabled) {
+      @apply bg-[#1A333E];
+    }
+    &:disabled {
+      @apply bg-gray-400 opacity-100;
+    }
+  }
+  &.secondaryOutline {
+    @apply bg-transparent border-[2px] border-solid border-gray-800 text-gray-800 font-bold;
+    &:active:not(:disabled) {
+      @apply bg-gray-200;
+    }
+  }
+  &.tertiary {
+    @apply bg-warning-100 text-gray-800;
+    &:active:not(:disabled) {
+      @apply bg-[#FDD281];
+    }
+  }
+  &.danger {
+    @apply bg-warning-400 text-white;
+    &:active:not(:disabled) {
+      @apply bg-[#ef725f];
+    }
+  }
+  &.success {
+    @apply bg-success-300 text-white;
+    &:active:not(:disabled) {
+      @apply bg-[#2ECC71];
+    }
+  }
+}

@@ -1,7 +1,7 @@
-import {
-  ApolloClient,
+// import {
+//   ApolloClient,
 
-} from '@apollo/client';
+// } from '@apollo/client';
 
 
-export const client = new ApolloClient();
+// export const client = new ApolloClient();

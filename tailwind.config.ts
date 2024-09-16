@@ -11,6 +11,11 @@ const config: Config = {
       },
       borderRadius: {},
       colors: {
+        brand: {
+          yellow: "#FFCC4E",
+          black: "#1A1D1E",
+          green: "#149A6D",
+        },
         gray: {
           900: '#0F172A',
           800: '#1E293B',
