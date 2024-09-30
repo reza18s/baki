@@ -19,6 +19,7 @@ export default function Login() {
   const handleSignup = () => {
     signup({ variables: { phoneNumber: watch("phoneNumber") } })
   }
+  console.log("ps", watch("phoneNumber"))
 
   return (
     <div className="text-black p-[24px] relative h-full" dir="rtl">
@@ -34,7 +35,29 @@ export default function Login() {
         </div>
       </div>
       {/* Body */}
-      {step === 0 && <FirstStep control={control} />}
+      {step === 0 &&
+        (
+          <div className="flex flex-col gap-y-[40px]">
+            <div className="flex flex-col gap-y-[16px]">
+              <h1 className="font-['IRANSansX'] text-[32px] font-bold">
+                شماره موبایل
+              </h1>
+              <p className="text-sm font-medium font-['IRANSansXFaNum'] leading-tight text-[#64748B]">
+                ما با اطمینان از واقعی بودن همه افرادی که در باکی هستند از کاربران خود محافظت می کنیم.
+              </p>
+            </div>
+            <div className="rounded-[12px] border-[1.5px] border-black flex items-center justify-between py-[16px] pr-[16px] pl-[12px]">
+              <SolarIconSet.Phone size={30} />
+              <input
+                {...register("phoneNumber")}
+                type="text"
+                dir="ltr"
+                placeholder="09111111111"
+                className="bg-white border-none outline-none w-full"
+              />
+            </div>
+          </div>)
+      }
       {/* Footer */}
       <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px]">
         <div className="flex items-center gap-x-[8px]">

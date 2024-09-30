@@ -1,8 +1,8 @@
-import { Control, Controller } from "react-hook-form";
+import {  Controller, FieldValues } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 
 export default function FirstStep(props: {
-    control: Control
+    control: any
 }) {
     return (
         <div className="flex flex-col gap-y-[40px]">
@@ -19,6 +19,7 @@ export default function FirstStep(props: {
                 <Controller
                     name="phoneNumber"
                     control={props.control}
+                    defaultValue={null}
                     render={() => (
                         <input
                             type="text"
