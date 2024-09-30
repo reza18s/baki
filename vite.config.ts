@@ -14,5 +14,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
+  },
+  server: {
+    host: "192.168.0.102",
+    port: 3000
   }
 })
