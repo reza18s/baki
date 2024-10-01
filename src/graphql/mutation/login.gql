@@ -1,0 +1,3 @@
+mutation Signup($phoneNumber: String!) {
+  Signup(phoneNumber: $phoneNumber)
+}
