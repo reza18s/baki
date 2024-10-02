@@ -4,7 +4,6 @@ import { SigninMutation } from "../graphql/mutation/signup";
 
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import FirstStep from "../components/layout/Login/FirstStep";
 import { useState } from "react";
 
 export default function Login() {
