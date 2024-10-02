@@ -49,9 +49,10 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-        <IonRouterOutlet>
-          <Route  path="/login" component={routes.home.component} />
-          </IonRouterOutlet>
+      <IonRouterOutlet>
+        <Route path={routes.home.path} component={routes.home.component} />
+        <Route path={routes.login.path} component={routes.login.component} />
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );

@@ -1,8 +1,13 @@
 
 
+import Index from "../pages";
 import login from "../pages/login";
 const routes = {
-    home: {
+  home: {
+    path: "/",
+    component: Index
+  },
+    login: {
       path: '/login',
       component: login,
     }
