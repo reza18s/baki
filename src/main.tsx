@@ -2,7 +2,8 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import "./assets/main.css"
 import { ApolloProvider } from '@apollo/client';
-import client from './ApolloClient';
+// @ts-ignore
+import client from './ApolloClient.js';
 
 
 const container = document.getElementById('root');
