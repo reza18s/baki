@@ -6,6 +6,7 @@ import FirstStep from '../components/layout/Login/FirstStep';
 import { useState } from 'react';
 import { useSignupMutation } from '../graphql/generated/graphql.codegen';
 import OTPStep from '../components/layout/Login/OTPStep';
+import NameStep from '../components/layout/Login/NameStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
@@ -20,7 +21,9 @@ const HeadStep = ({ stepNum, activeStep }: { stepNum: StepsNumber, activeStep: S
 
 export default function Login() {
   const { register, watch, control } = useForm();
-  const [step, setStep] = useState<StepsNumber>(1);
+
+  const [step, setStep] = useState<StepsNumber>(2);
+
   const [signup, { data, loading, error }] = useSignupMutation();
 
   const handleSignup = () => {
@@ -45,7 +48,7 @@ export default function Login() {
       }
       });
   };
-
+console.log(watch())
   return (
     <div className="text-black p-[24px] relative h-full" dir="rtl">
       {/* Head */}
@@ -66,7 +69,9 @@ export default function Login() {
       {step === 1 &&
         <OTPStep activePage={step} control={control} phone={watch("phoneNumber")} handlePrevStep={handlePrevStep} />
       }
-    
+      {step === 2 &&
+        <NameStep control={control} handleSignup={handleSignup} name={watch("name")} />
+      }
     </div>
   );
 }
