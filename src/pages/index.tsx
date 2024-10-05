@@ -24,16 +24,16 @@ export default function Index() {
                 {/* Head */}
                 <div className="flex flex-col items-center justify-between max-h-fit">
                     <img src={BakiLogo} alt="BakiLogo" />
-                    <h2 className="text-sm font-bold font-['IRANSansX'] leading-tight">
+                    <h2 className="text-sm font-bold leading-tight">
                         راه حلی برای سفر های از دست رفته
                     </h2>
                 </div>
                 {/* Foot */}
                 <div className="w-full flex flex-col items-center justify-between gap-y-[16px]">
                     <div className="flex flex-col items-center justify-between w-full gap-y-[8px] text-center">
-                        <Link to="/login" className="text-brand-black bg-brand-yellow rounded-[12px] w-full py-[16px]">
+                        <a href="/signup" className="text-brand-black bg-brand-yellow rounded-[12px] w-full py-[16px]">
                             ورود / ثبت نام
-                        </Link>
+                        </a>
                         <button className="w-full rounded-[12px] border-solid border border-white py-[16px]">
                             ورود به صورت مهمان
                         </button>
@@ -57,7 +57,7 @@ export default function Index() {
                                 <h1 className="text-base font-bold">
                                     قوانین و مقررات حریم خصوصی باکی
                                 </h1>
-                                <p className="text-[#1a1d1e] text-sm font-medium font-['IRANSansXFaNum'] leading-tight w-full h-full max-w-full max-h-[90%] overflow-auto">
+                                <p className="text-[#1a1d1e] text-sm font-medium leading-tight w-full h-full max-w-full max-h-[90%] overflow-auto">
                                     با کی در چارچوب قوانین اینترنتی جمهوری اسلامی ایران فعالیت می کند.
                                     <br />این اپلیکیشن بستری برای آشنایی مستقیم افرادی است که قصد سفر دارند و هیچ نقش و تعهد دیگری در قبال ارتباط و پاسخگویی سایر کاربران ندارد.
                                     <br />ثبت نام و استفاده از هر یک از بخش های این اپلیکیشن به منزله مطالعه و پذیرش تمام قوانین باکی می باشد.

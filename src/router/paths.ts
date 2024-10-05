@@ -1,16 +1,16 @@
 
 
 import Index from "../pages";
-import login from "../pages/login";
+import signup from "../pages/signup";
 const routes = {
   home: {
     path: "/",
     component: Index
   },
-    login: {
-      path: '/login',
-      component: login,
-    }
-  };
-  
-  export default routes;
+  signup: {
+    path: '/signup',
+    component: signup,
+  }
+};
+
+export default routes;

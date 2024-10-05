@@ -7,6 +7,7 @@ const config: Config = {
       boxShadow: {},
       dropShadow: {},
       fontFamily: {
+        iransans: ['IRANSansX', 'sans'],
         vazir: ['vazir', 'sans'],
       },
       borderRadius: {},

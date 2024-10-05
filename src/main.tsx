@@ -12,7 +12,7 @@ root.render(
   <ApolloProvider client={client}>
     <div 
     dir='rtl'
-    className="text-brand-black bg-white font-['IRANSansX'] leading-tight"
+    className="text-brand-black bg-white font-iransans leading-tight"
     >
       <App />
     </div>
