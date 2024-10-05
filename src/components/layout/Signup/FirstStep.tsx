@@ -16,8 +16,8 @@ export default function FirstStep(props: {
                     ما با اطمینان از واقعی بودن همه افرادی که در باکی هستند از کاربران خود محافظت می کنیم.
                 </p>
             </div>
-            <div className="rounded-[12px] border-[1.5px] border-black flex items-center justify-between py-[16px] pr-[16px] pl-[12px]">
-                <SolarIconSet.Phone size={30} />
+            <div className={`rounded-[12px] border-[1.5px] border-black flex items-center justify-between py-[16px] pr-[16px] pl-[12px] ${ props.phoneNumber?.length !== 0 ? "border-b-[4px]" : ""}`}>
+            <SolarIconSet.Phone size={30} />
                 <Controller
                     name="phoneNumber"
                     control={props.control}

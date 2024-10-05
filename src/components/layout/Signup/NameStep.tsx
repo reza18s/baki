@@ -17,7 +17,7 @@ export default function NameStep(props: {
           شما می توانید نام خود را در آینده تغییر دهید .
         </p>
       </div>
-      <div className="rounded-[12px] border-[1.5px] border-black flex items-center justify-between py-[16px] pr-[16px] pl-[12px]">
+      <div className={`rounded-[12px] border-[1.5px] border-black flex items-center justify-between py-[16px] pr-[16px] pl-[12px] ${ props.name?.length !== 0 ? "border-b-[4px]" : ""}`}>
         <SolarIconSet.UserRounded size={30} />
         <Controller
           name="name"

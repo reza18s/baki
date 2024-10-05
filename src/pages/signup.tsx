@@ -2,11 +2,12 @@ import * as SolarIconSet from 'solar-icon-set';
 
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
-import FirstStep from '../components/layout/Login/FirstStep';
+import FirstStep from '../components/layout/Signup/FirstStep';
 import { useState } from 'react';
 import { useSignupMutation } from '../graphql/generated/graphql.codegen';
-import OTPStep from '../components/layout/Login/OTPStep';
-import NameStep from '../components/layout/Login/NameStep';
+import OTPStep from '../components/layout/Signup/OTPStep';
+import NameStep from '../components/layout/Signup/NameStep';
+import GenderStep from '../components/layout/Signup/GenderStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
@@ -19,10 +20,10 @@ const HeadStep = ({ stepNum, activeStep }: { stepNum: StepsNumber, activeStep: S
   )
 }
 
-export default function Login() {
+export default function Signup() {
   const { register, watch, control } = useForm();
 
-  const [step, setStep] = useState<StepsNumber>(2);
+  const [step, setStep] = useState<StepsNumber>(3);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -71,6 +72,9 @@ console.log(watch())
       }
       {step === 2 &&
         <NameStep control={control} handleSignup={handleSignup} name={watch("name")} />
+      }
+      {step === 3 &&
+        <GenderStep control={control} handleSignup={handleSignup} name={watch("name")} />
       }
     </div>
   );
