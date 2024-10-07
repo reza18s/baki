@@ -1,6 +1,8 @@
 import { Controller, FieldValues } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 import { IoEye } from "react-icons/io5";
+import { Radio } from 'antd';
+// import 'antd/dist/antd.css';
 
 export default function GenderStep(props: {
   control: any,
@@ -18,12 +20,28 @@ export default function GenderStep(props: {
         </p>
       </div>
       <div className="flex flex-col gap-y-3">
-        <p className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
-          مرد
-        </p>
-        <p className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
-          زن
-        </p>
+        <label htmlFor="default-radio-1" className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
+          <p>
+            مرد
+          </p>
+          <div className="flex items-center mb-4">
+            <Radio
+              className="w-4 h-4 text-red-600 border-gray-300 focus:ring-red-500 !ring-red-300"
+              value="male"
+            />
+          </div>
+        </label>
+        <label htmlFor="default-radio-2" className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
+          <p>
+            زن
+          </p>
+          <div className="flex items-center mb-4">
+            <Radio
+              className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+              value="female"
+            />
+          </div>
+        </label>
       </div>
       {/* Footer */}
       <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
@@ -47,5 +65,5 @@ export default function GenderStep(props: {
         </button>
       </div>
     </div>
-  )
+  );
 }

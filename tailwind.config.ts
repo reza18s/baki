@@ -1,7 +1,9 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: ['./src/**/*.{html,js,tsx,ts}'],
+  content: [
+    './src/**/*.{html,js,tsx,ts}',
+  ],
   theme: {
     extend: {
       boxShadow: {},
@@ -32,7 +34,7 @@ const config: Config = {
       },
     },
   },
-  important: 'body',
+  important: true,
   plugins: [],
 };
 
