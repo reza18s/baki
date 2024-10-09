@@ -2,11 +2,13 @@ import OtpInput from "react-otp-input";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { MdTimer } from "react-icons/md";
+import { useSignupVerifyOtpMutation } from "../../../graphql/generated/graphql.codegen";
 
 export default function OTPStep(props: {
     control: any;
     phone: string;
     activePage: number;
+    resendOtp(): void;
     handlePrevStep(): void;
 }) {
     const [timer, setTimer] = useState(60);
@@ -21,18 +23,23 @@ export default function OTPStep(props: {
     const handleChange = (enteredOtp: string) => {
         setOtp(enteredOtp);
         setValue("token", enteredOtp);
-        if (enteredOtp.length === 4) {
-            trigger("token");
+        if (enteredOtp.length === 6) {
+            handleSubmit()
         }
     };
 
+    const [verifyOtp] = useSignupVerifyOtpMutation();
     const handleSubmit = async () => {
         const validate = await trigger("token");
         if (validate) {
-            // Add your submission logic here
-            console.log("OTP submitted:", otp);
+            verifyOtp({
+                variables: {
+                    phoneNumber: props.phone,
+                    otp: watch("token")
+                }
+            })
         }
-    };
+    }
 
     useEffect(() => {
         setTimer(60);
@@ -74,7 +81,7 @@ export default function OTPStep(props: {
                         value={otp}
                         onChange={handleChange}
                         shouldAutoFocus
-                        numInputs={4}
+                        numInputs={6}
                         renderSeparator={<span className="w-1"></span>}
                         renderInput={(props: any) => <input {...props} />}
                         inputStyle={{
@@ -105,7 +112,7 @@ export default function OTPStep(props: {
 
                     }
                 </div>
-                <button disabled={timer !== 0} className={`rounded-[12px] bg-slate-100 ${timer === 0 ? "bg-[#FFCC4E]" : "text-slate-400"} font-bold px-5 py-4`}>
+                <button onClick={props.resendOtp} disabled={timer !== 0} className={`rounded-[12px] bg-slate-100 ${timer === 0 ? "bg-[#FFCC4E]" : "text-slate-400"} font-bold px-5 py-4`}>
                     تایید
                 </button>
             </div>

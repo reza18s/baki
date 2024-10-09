@@ -14,6 +14,15 @@ import PicturesStep from '../components/layout/Signup/PicturesStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
+interface SignupForm {
+  phoneNumber: string;
+  name: string;
+  gender: string;
+  birthdate: string;
+  residenceCity: string;
+  pictures: string[];
+}
+
 const HeadStep = ({ stepNum, activeStep }: { stepNum: StepsNumber, activeStep: StepsNumber }) => {
   return (
     <div
@@ -24,9 +33,14 @@ const HeadStep = ({ stepNum, activeStep }: { stepNum: StepsNumber, activeStep: S
 }
 
 export default function Signup() {
-  const { register, watch, control } = useForm();
+  const { register, watch, control } = useForm<SignupForm>(
+    {
+      defaultValues: {
+        phoneNumber: '09395608390'}
+      }
+  );
 
-  const [step, setStep] = useState<StepsNumber>(6);
+  const [step, setStep] = useState<StepsNumber>(1);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -34,7 +48,6 @@ export default function Signup() {
     signup({
       variables: { phoneNumber: watch('phoneNumber') },
       onCompleted: (data) => {
-        console.log('data', data);
         setStep(1);
       },
       onError(error) {
@@ -52,7 +65,7 @@ export default function Signup() {
       }
       });
   };
-console.log(watch())
+
   return (
     <div className="text-black p-[24px] relative h-full" dir="rtl">
       {/* Head */}
@@ -71,7 +84,7 @@ console.log(watch())
         <FirstStep control={control} handleSignup={handleSignup} phoneNumber={watch("phoneNumber")} />
       }
       {step === 1 &&
-        <OTPStep activePage={step} control={control} phone={watch("phoneNumber")} handlePrevStep={handlePrevStep} />
+        <OTPStep activePage={step} control={control} phone={watch("phoneNumber")} resendOtp={handleSignup} handlePrevStep={handlePrevStep} />
       }
       {step === 2 &&
         <NameStep control={control} handleSignup={handleSignup} name={watch("name")} />

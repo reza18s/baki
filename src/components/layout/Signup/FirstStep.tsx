@@ -1,4 +1,4 @@
-import { Controller, FieldValues } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 
 export default function FirstStep(props: {
@@ -6,6 +6,7 @@ export default function FirstStep(props: {
     phoneNumber: string,
     handleSignup: () => void,
 }) {
+
     return (
         <div className="flex flex-col gap-y-[40px]">
             <div className="flex flex-col gap-y-[16px]">
