@@ -15,6 +15,96 @@ export default function GeneralInterestsStep(props: {
     name: string,
     handleSignup: () => void,
 }) {
+    const interestsItems = [
+        {
+            title: "قوم شناسی",
+            icon: EthnologyIcon
+        },
+        {
+            title: "کاوشگری",
+            icon: ExplorationIcon
+        },
+        {
+            title: "کشتی",
+            icon: ShipIcon
+        },
+        {
+            title: "مسافرت با قطار",
+            icon: TrainIcon
+        },
+        {
+            title: "کمپینگ",
+            icon: CampingIcon
+        },
+        {
+            title: "روستا گردی",
+            icon: VillageTourIcon
+        },
+        {
+            title: "فرهنگی",
+            icon: CulturalIcon
+        },
+        {
+            title: "قایق سواری",
+            icon: BoatIcon
+        },
+        {
+            title: "شنا",
+            icon: SwimmingIcon
+        },
+        {
+            title: "مسافرت با کشتی",
+            icon: TravelingByShipIcon
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+        {
+            title: "",
+            icon: ""
+        },
+    ]
     return (
         <div className="flex flex-col gap-y-[40px] w-full">
             <div className="flex flex-col gap-y-[16px]">
@@ -27,76 +117,30 @@ export default function GeneralInterestsStep(props: {
             </div>
             {/* Body */}
             <div className="flex flex-col items-start gap-y-3">
-                <div className="flex items-center gap-x-3">
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={EthnologyIcon} alt="EthnologyIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        قوم شناسی
-                        </p>
-                    </div>
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={ExplorationIcon} alt="ExplorationIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        کاوشگری
-                        </p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-x-3">
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={ShipIcon} alt="ShipIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        کشتی
-                        </p>
-                    </div>
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={TrainIcon} alt="TrainIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        مسافرت با قطار
-                        </p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-x-3">
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={CampingIcon} alt="CampingIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        کمپینگ
-                        </p>
-                    </div>
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={VillageTourIcon} alt="VillageTourIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        روستا گردی
-                        </p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-x-3">
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={CulturalIcon} alt="CulturalIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        فرهنگی
-                        </p>
-                    </div>
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={BoatIcon} alt="BoatIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        قایق سواری
-                        </p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-x-3">
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={SwimmingIcon} alt="SwimmingIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        شنا
-                        </p>
-                    </div>
-                    <div className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
-                        <img src={TravelingByShipIcon} alt="TravelingByShipIcon" className="w-5 h-5" />
-                        <p className="text-[#1a1d1e] text-sm">
-                        مسافرت با کشتی
-                        </p>
-                    </div>
-                </div>
+                {
+                    interestsItems.map((item, index) => {
+                        const nextIndex = index + 1;
+                        const nextItem = interestsItems[nextIndex];
+                        if (index % 2 === 0) {
+                            return (
+                                <div className="flex items-center gap-x-2">
+                                    <div key={index} className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
+                                        <img src={item.icon} alt={item.title} className="w-5 h-5" />
+                                        <p className="text-[#1a1d1e] text-sm">
+                                            {item.title}
+                                        </p>
+                                    </div>
+                                    <div key={nextIndex} className="rounded-[32px] bg-[#F1F5F9] p-[12px] max-w-fit flex items-center gap-x-3">
+                                        <img src={item.icon} alt={nextItem.title} className="w-5 h-5" />
+                                        <p className="text-[#1a1d1e] text-sm">
+                                            {nextItem.title}
+                                        </p>
+                                    </div>
+                                </div>
+                            )
+                        }
+                    })
+                }
             </div>
             {/* Footer */}
             <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
