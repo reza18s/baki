@@ -68,7 +68,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="text-black p-[24px] relative h-full" dir="rtl">
+    <div className="text-black p-[24px] relative h-full overflow-auto" dir="rtl">
       {/* Head */}
       <div className="flex items-center justify-between gap-x-[7px] w-full">
         <SolarIconSet.SquareArrowRight size={32} />
