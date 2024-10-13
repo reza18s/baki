@@ -12,6 +12,7 @@ import BirthdateStep from '../components/layout/Signup/BirthdateStep';
 import ResidenceCityStep from '../components/layout/Signup/ResidenceCityStep';
 import PicturesStep from '../components/layout/Signup/PicturesStep';
 import GeneralInterestsStep from '../components/layout/Signup/GeneralInterestsStep';
+import PersonalInterestsStep from '../components/layout/Signup/PersonalInterestsStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
@@ -41,7 +42,7 @@ export default function Signup() {
       }
   );
 
-  const [step, setStep] = useState<StepsNumber>(7);
+  const [step, setStep] = useState<StepsNumber>(8);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -104,6 +105,9 @@ export default function Signup() {
       }
       {step === 7 &&
         <GeneralInterestsStep control={control} handleSignup={handleSignup} name={watch("name")} />
+      }
+      {step === 8 &&
+        <PersonalInterestsStep control={control} handleSignup={handleSignup} name={watch("name")} />
       }
     </div>
   );
