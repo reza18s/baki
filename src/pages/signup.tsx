@@ -1,6 +1,5 @@
 import * as SolarIconSet from 'solar-icon-set';
 
-import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import FirstStep from '../components/layout/Signup/FirstStep';
 import { useState } from 'react';
@@ -39,12 +38,12 @@ const HeadStep = ({ stepNum, activeStep }: { stepNum: StepsNumber, activeStep: S
 export default function Signup() {
   const { register, watch, control } = useForm<SignupForm>(
     {
-      defaultValues: {
-        phoneNumber: '09395608390'}
+      // defaultValues: {
+      //   phoneNumber: '09395608390'}
       }
   );
 
-  const [step, setStep] = useState<StepsNumber>(10);
+  const [step, setStep] = useState<StepsNumber>(0);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -70,6 +69,16 @@ export default function Signup() {
       });
   };
 
+  const handleNextStep = () => {
+    setStep((prevStep: StepsNumber) => {
+      if (prevStep < 10) {
+        return (prevStep + 1) as StepsNumber;
+      } else {
+        return prevStep;
+      }
+    });
+  };
+
   return (
     <div className="text-black p-[24px] relative h-full max-w-[100vw] overflow-auto" dir="rtl">
       {/* Head */}
@@ -88,7 +97,7 @@ export default function Signup() {
         <FirstStep control={control} handleSignup={handleSignup} phoneNumber={watch("phoneNumber")} />
       }
       {step === 1 &&
-        <OTPStep activePage={step} control={control} phone={watch("phoneNumber")} resendOtp={handleSignup} handlePrevStep={handlePrevStep} />
+        <OTPStep activePage={step} control={control} phone={watch("phoneNumber")} resendOtp={handleSignup} handlePrevStep={handlePrevStep} handleNextStep={handleNextStep} />
       }
       {step === 2 &&
         <NameStep control={control} handleSignup={handleSignup} name={watch("name")} />

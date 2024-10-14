@@ -1,5 +1,5 @@
 mutation Signup($phoneNumber: String!) {
-  Signup(phoneNumber: $phoneNumber)
+  Signin(phoneNumber: $phoneNumber)
 }
 
 mutation SignupVerifyOtp($phoneNumber: String!, $otp: String!) {

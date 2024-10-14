@@ -10,6 +10,7 @@ export default function OTPStep(props: {
     activePage: number;
     resendOtp(): void;
     handlePrevStep(): void;
+    handleNextStep(): void;
 }) {
     const [timer, setTimer] = useState(60);
     const [otp, setOtp] = useState("");
@@ -36,6 +37,10 @@ export default function OTPStep(props: {
                 variables: {
                     phoneNumber: props.phone,
                     otp: watch("token")
+                },
+                onCompleted: (data) => {
+                    localStorage.setItem("token", JSON.stringify(data.verifyOtp?.accessToken));
+                    props.handleNextStep()
                 }
             })
         }
@@ -67,7 +72,6 @@ export default function OTPStep(props: {
                         لطفا کدی که به شماره
                         <span className="text-[#1a1d1e] px-1">
                             {props.phone}
-                            09130833494
                         </span>
                         ارسال کردیم را وارد کنید.
                         <span onClick={props.handlePrevStep} className="text-[#1a1d1e] font-bold underline px-1 cursor-pointer">

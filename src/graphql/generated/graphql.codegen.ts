@@ -554,7 +554,7 @@ export type SignupMutationVariables = Exact<{
 }>;
 
 
-export type SignupMutation = { Signup?: string | null };
+export type SignupMutation = { Signin?: string | null };
 
 export type SignupVerifyOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
@@ -567,7 +567,7 @@ export type SignupVerifyOtpMutation = { verifyOtp?: { accessToken?: string | nul
 
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
-  Signup(phoneNumber: $phoneNumber)
+  Signin(phoneNumber: $phoneNumber)
 }
     `;
 export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
