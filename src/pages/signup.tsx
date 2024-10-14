@@ -43,7 +43,7 @@ export default function Signup() {
       }
   );
 
-  const [step, setStep] = useState<StepsNumber>(0);
+  const [step, setStep] = useState<StepsNumber>(2);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 

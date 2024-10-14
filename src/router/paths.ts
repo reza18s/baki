@@ -1,7 +1,8 @@
 
 
 import Index from "../pages";
-import signup from "../pages/signup";
+import Profile from "../pages/profile";
+import Signup from "../pages/signup";
 const routes = {
   home: {
     path: "/",
@@ -9,8 +10,12 @@ const routes = {
   },
   signup: {
     path: '/signup',
-    component: signup,
-  }
+    component: Signup,
+  },
+  profile: {
+    path: '/profile',
+    component: Profile,
+  },
 };
 
 export default routes;
