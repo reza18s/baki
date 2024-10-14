@@ -14,8 +14,9 @@ import PicturesStep from '../components/layout/Signup/PicturesStep';
 import GeneralInterestsStep from '../components/layout/Signup/GeneralInterestsStep';
 import PersonalInterestsStep from '../components/layout/Signup/PersonalInterestsStep';
 import SpecialtyStep from '../components/layout/Signup/SpecialtyStep';
+import FinalStep from '../components/layout/Signup/FinalStep';
 
-type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
 interface SignupForm {
   phoneNumber: string;
@@ -43,7 +44,7 @@ export default function Signup() {
       }
   );
 
-  const [step, setStep] = useState<StepsNumber>(9);
+  const [step, setStep] = useState<StepsNumber>(10);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -70,14 +71,14 @@ export default function Signup() {
   };
 
   return (
-    <div className="text-black p-[24px] relative h-full overflow-auto" dir="rtl">
+    <div className="text-black p-[24px] relative h-full max-w-[100vw] overflow-auto" dir="rtl">
       {/* Head */}
       <div className="flex items-center justify-between gap-x-[7px] w-full">
         <SolarIconSet.SquareArrowRight size={32} />
         {/* Progress bar */}
         <div className="flex justify-around gap-x-[1.81px] w-full">
           {/* Steps */}
-          {[...Array(10)].map((_, i) => (
+          {[...Array(11)].map((_, i) => (
             <HeadStep key={i} stepNum={i as StepsNumber} activeStep={step} />
           ))}
         </div>
@@ -112,6 +113,9 @@ export default function Signup() {
       }
       {step === 9 &&
         <SpecialtyStep control={control} handleSignup={handleSignup} name={watch("name")} />
+      }
+      {step === 10 &&
+        <FinalStep control={control} handleSignup={handleSignup} name={watch("name")} />
       }
     </div>
   );
