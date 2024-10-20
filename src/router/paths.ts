@@ -1,7 +1,8 @@
 
 
 import Index from "../pages";
-import Profile from "../pages/profile";
+import ComplateProfile from "../pages/Profile/ComplateProfile";
+import Profile from "../pages/Profile/profile";
 import Signup from "../pages/signup";
 const routes = {
   home: {
@@ -15,6 +16,10 @@ const routes = {
   profile: {
     path: '/profile',
     component: Profile,
+  },
+  complate_profile: {
+    path: '/profile/complate_profile',
+    component: ComplateProfile,
   },
 };
 

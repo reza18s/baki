@@ -53,6 +53,7 @@ const App: React.FC = () => (
         <Route path={routes.home.path} component={routes.home.component} />
         <Route path={routes.signup.path} component={routes.signup.component} />
         <Route path={routes.profile.path} component={routes.profile.component} />
+        <Route path={routes.complate_profile.path} component={routes.complate_profile.component} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

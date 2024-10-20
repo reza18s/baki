@@ -1,13 +1,14 @@
 import * as SolarIconSet from 'solar-icon-set';
-import BakiBanner from "../assets/img/profile/BakiBanner.svg"
-import UploadPictures from '../components/shared/Inputs/UploadPictures';
-import TextInput from '../components/shared/Inputs/TextInput';
+import BakiBanner from "../../assets/img/profile/BakiBanner.svg"
+import UploadPictures from '../../components/shared/Inputs/UploadPictures';
+import TextInput from '../../components/shared/Inputs/TextInput';
 import { useForm } from 'react-hook-form';
-import ArrowButton from '../components/shared/Buttons/ArrowButton';
+import ArrowButton from '../../components/shared/Buttons/ArrowButton';
 import { LiaSmokingSolid } from "react-icons/lia";
 import { PiGraphLight } from "react-icons/pi";
 import { TbZodiacAries } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
     const {
@@ -26,12 +27,12 @@ export default function Profile() {
             </div>
             {/* Body */}
             <div className='w-full px-6 flex flex-col items-center gap-y-3'>
-                <div className='w-full'>
+                <a href="/profile/complate_profile" className='w-full text-brand-black'>
                     <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                         تکمیل پروفایل:
                     </h2>
                     <ArrowButton text="65 درصد کامل شده" className='bg-brand-yellow' />
-                </div>
+                </a>
                 <div className='w-full'>
                     <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                         تایید هویت
