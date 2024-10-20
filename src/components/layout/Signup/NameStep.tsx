@@ -1,6 +1,7 @@
 import { Controller, FieldValues } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 import { IoEye } from "react-icons/io5";
+import TextInput from "../../shared/Inputs/TextInput";
 
 export default function NameStep(props: {
   control: any,
@@ -17,22 +18,7 @@ export default function NameStep(props: {
           شما می توانید نام خود را در آینده تغییر دهید .
         </p>
       </div>
-      <div className={`rounded-[12px] border-[1.5px] border-black flex items-center justify-between py-[16px] pr-[16px] pl-[12px] ${ props.name?.length !== 0 ? "border-b-[4px]" : ""}`}>
-        <SolarIconSet.UserRounded size={30} />
-        <Controller
-          name="name"
-          control={props.control}
-          defaultValue={null}
-          render={({ field }) => (
-            <input
-              {...field}
-              type="text"
-              placeholder="نام خود را وارد کنید"
-              className="bg-white border-none outline-none w-full"
-            />
-          )}
-        />
-      </div>
+      <TextInput control={props.control} icon={<SolarIconSet.UserRounded size={30} />} name="name" value={props.name} placeholder="نام خود را وارد کنید" />
       {/* Footer */}
       <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
         <div className="flex items-center gap-x-[8px] min-w-fit justify-between">

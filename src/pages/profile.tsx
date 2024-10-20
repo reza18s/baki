@@ -3,10 +3,16 @@ import ComplateProfile from '../components/layout/Profile/ComplateProfile';
 import Authentication from '../components/layout/Profile/Authentication';
 import BakiBanner from "../assets/img/profile/BakiBanner.svg"
 import UploadPictures from '../components/shared/Inputs/UploadPictures';
+import TextInput from '../components/shared/Inputs/TextInput';
+import { useForm } from 'react-hook-form';
 
 export default function Profile() {
+    const {
+        control,
+        watch,
+    } = useForm()
     return (
-        <div className='w-full flex flex-col items-center gap-y-3'>
+        <div className='w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto'>
             {/* Head */}
             <div className='w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50'>
                 <SolarIconSet.AltArrowRight size={24} />
@@ -32,11 +38,36 @@ export default function Profile() {
                 <div className='py-8 w-full flex items-center'>
                     <img src={BakiBanner} alt="BakiBanner" />
                 </div>
-                <div className='w-full flex flex-col items-center gap-y-3'>
-                    <h1>
+                {/* Upload Picture */}
+                <div className='w-full flex flex-col items-center gap-y-3 min-h-fit max-w-fit'>
+                    <h1 className='w-full text-end text-[#64748B] pr-3'>
                         انتخاب عکس
                     </h1>
                     <UploadPictures />
+                </div>
+                {/* About Me */}
+                <div className='w-full flex flex-col items-center gap-y-3 min-h-fit max-w-fit'>
+                    <h1 className='w-full text-end text-lg font-bold'>
+                        درباره من
+                    </h1>
+                    <div>
+                        <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
+                            نام
+                        </h2>
+                        <TextInput placeholder='نام' control={control} icon={<SolarIconSet.UserRounded size={30} />} name='name' value={watch("name")} />
+                    </div>
+                    <div>
+                        <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
+                            نام کاربری
+                        </h2>
+                        <TextInput placeholder='نام کاربری حسابتان ...' control={control} icon={<SolarIconSet.UserCircle size={30} />} name='username' value={watch("username")} />
+                    </div>
+                    <div className='w-full'>
+                        <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
+                            بیوگرافی
+                        </h2>
+                        <TextInput placeholder='از علایق، ویژگی‌ها و هرچی دوست دارین درباره خودتون بگید...' multiline={true} rows={3} control={control} name='biography' value={watch("biography")} />
+                    </div>
                 </div>
             </div>
         </div>
