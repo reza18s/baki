@@ -1,7 +1,16 @@
+import { Route } from 'react-router-dom';
 import {
   IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
   setupIonicReact
 } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { ellipse, square, triangle } from 'ionicons/icons';
 import Routes from './Routes/Routes';
 
 /* Core CSS required for Ionic components to work properly */
@@ -32,12 +41,31 @@ import '@ionic/react/css/display.css';
 /* import '@ionic/react/css/palettes/dark.class.css'; */
 import '@ionic/react/css/palettes/dark.system.css';
 
+/* Theme variables */
+import './theme/variables.css';
+import Index from './pages';
+import Signup from './pages/signup';
+import Profile from './pages/Profile/profile';
+import ComplateProfile from './pages/Profile/ComplateProfile';
+import IdentityVerification from './components/layout/Profile/IdentityVerification';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <Routes />
+    <IonReactRouter>
+      <IonRouterOutlet>
+        <Route path="/" element={<Index />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile">
+          <Route path="/complate_profile" element={<ComplateProfile />} />
+          <Route path="/complate_profile">
+            <Route path="/identity_verification" element={<IdentityVerification />} />
+          </Route>
+        </Route>
+      </IonRouterOutlet>
+    </IonReactRouter>
   </IonApp>
 );
 
