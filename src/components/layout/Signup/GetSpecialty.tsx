@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function SpecialtyStep(props: {
+export default function GetSpecialty(props: {
     control: any,
     name: string,
     handleSignup: () => void,

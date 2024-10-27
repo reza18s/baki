@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 
-export default function FirstStep(props: {
+export default function GetPhoneNumber(props: {
     control: any,
     phoneNumber: string,
     handleSignup: () => void,

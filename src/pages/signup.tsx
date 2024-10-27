@@ -1,18 +1,18 @@
 import * as SolarIconSet from 'solar-icon-set';
 
 import { useForm } from 'react-hook-form';
-import FirstStep from '../components/layout/Signup/FirstStep';
+import GetPhoneNumber from '../components/layout/Signup/GetPhoneNumber';
 import { useState } from 'react';
 import { useSignupMutation } from '../graphql/generated/graphql.codegen';
-import OTPStep from '../components/layout/Signup/OTPStep';
-import NameStep from '../components/layout/Signup/NameStep';
-import GenderStep from '../components/layout/Signup/GenderStep';
-import BirthdateStep from '../components/layout/Signup/BirthdateStep';
-import ResidenceCityStep from '../components/layout/Signup/ResidenceCityStep';
-import PicturesStep from '../components/layout/Signup/PicturesStep';
-import GeneralInterestsStep from '../components/layout/Signup/GeneralInterestsStep';
-import PersonalInterestsStep from '../components/layout/Signup/PersonalInterestsStep';
-import SpecialtyStep from '../components/layout/Signup/SpecialtyStep';
+import VerifyOTP from '../components/layout/Signup/VerifyOTP';
+import GetName from '../components/layout/Signup/GetName';
+import GetGender from '../components/layout/Signup/GetGender';
+import GetBirthdate from '../components/layout/Signup/GetBirthdate';
+import GetResidenceCity from '../components/layout/Signup/GetResidenceCity';
+import GetPictures from '../components/layout/Signup/GetPictures';
+import GetGeneralInterests from '../components/layout/Signup/GetGeneralInterests';
+import GetPersonalInterests from '../components/layout/Signup/GetPersonalInterests';
+import GetSpecialty from '../components/layout/Signup/GetSpecialty';
 import FinalStep from '../components/layout/Signup/FinalStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
@@ -43,7 +43,7 @@ export default function Signup() {
       }
   );
 
-  const [step, setStep] = useState<StepsNumber>(2);
+  const [step, setStep] = useState<StepsNumber>(0);
 
   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -94,34 +94,34 @@ export default function Signup() {
       </div>
       {/* Body */}
       {step === 0 &&
-        <FirstStep control={control} handleSignup={handleSignup} phoneNumber={watch("phoneNumber")} />
+        <GetPhoneNumber control={control} handleSignup={handleSignup} phoneNumber={watch("phoneNumber")} />
       }
       {step === 1 &&
-        <OTPStep activePage={step} control={control} phone={watch("phoneNumber")} resendOtp={handleSignup} handlePrevStep={handlePrevStep} handleNextStep={handleNextStep} />
+        <VerifyOTP activePage={step} control={control} phone={watch("phoneNumber")} resendOtp={handleSignup} handlePrevStep={handlePrevStep} handleNextStep={handleNextStep} />
       }
       {step === 2 &&
-        <NameStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetName control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 3 &&
-        <GenderStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetGender control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 4 &&
-        <BirthdateStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetBirthdate control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 5 &&
-        <ResidenceCityStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetResidenceCity control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 6 &&
-        <PicturesStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetPictures control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 7 &&
-        <GeneralInterestsStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetGeneralInterests control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 8 &&
-        <PersonalInterestsStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetPersonalInterests control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 9 &&
-        <SpecialtyStep control={control} handleSignup={handleSignup} name={watch("name")} />
+        <GetSpecialty control={control} handleSignup={handleSignup} name={watch("name")} />
       }
       {step === 10 &&
         <FinalStep control={control} handleSignup={handleSignup} name={watch("name")} />

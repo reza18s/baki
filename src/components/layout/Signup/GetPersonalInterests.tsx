@@ -48,7 +48,7 @@ import CulturalExchangeIcon from "../../../assets/img/signup/CulturalExchangeIco
 import { useState } from "react";
 import { bicycle } from "ionicons/icons";
 
-export default function PersonalInterestsStep(props: {
+export default function GetPersonalInterests(props: {
     control: any,
     name: string,
     handleSignup: () => void,

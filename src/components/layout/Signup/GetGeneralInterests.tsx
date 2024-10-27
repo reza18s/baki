@@ -26,7 +26,7 @@ import FoodIcon from "../../../assets/img/signup/FoodIcon.svg";
 import { useState } from "react";
 import { bicycle } from "ionicons/icons";
 
-export default function GeneralInterestsStep(props: {
+export default function GetGeneralInterests(props: {
     control: any,
     name: string,
     handleSignup: () => void,

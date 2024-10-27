@@ -3,7 +3,7 @@ import { Button, Radio } from 'antd';
 import type { MenuProps } from 'antd';
 import { Dropdown } from 'antd';
 
-export default function ResidenceCityStep(props: {
+export default function GetResidenceCity(props: {
     control: any,
     name: string,
     handleSignup: () => void,

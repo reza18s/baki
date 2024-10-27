@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MdTimer } from "react-icons/md";
 import { useSignupVerifyOtpMutation } from "../../../graphql/generated/graphql.codegen";
 
-export default function OTPStep(props: {
+export default function VerifyOTP(props: {
     control: any;
     phone: string;
     activePage: number;

@@ -1,9 +1,10 @@
 import { Controller, FieldValues } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 import { IoEye } from "react-icons/io5";
-import TextInput from "../../shared/Inputs/TextInput";
+import { Radio } from 'antd';
+// import 'antd/dist/antd.css';
 
-export default function NameStep(props: {
+export default function GetGender(props: {
   control: any,
   name: string,
   handleSignup: () => void,
@@ -12,13 +13,36 @@ export default function NameStep(props: {
     <div className="flex flex-col gap-y-[40px] w-full">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">
-          نام
+          جنسیت
         </h1>
         <p className="text-sm font-medium leading-tight text-[#64748B]">
-          شما می توانید نام خود را در آینده تغییر دهید .
+          از بین گزینه های زیر یکی را انتخاب کنید .
         </p>
       </div>
-      <TextInput control={props.control} icon={<SolarIconSet.UserRounded size={30} />} name="name" value={props.name} placeholder="نام خود را وارد کنید" />
+      <div className="flex flex-col gap-y-3">
+        <label htmlFor="default-radio-1" className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
+          <p>
+            مرد
+          </p>
+          <div className="flex items-center mb-4">
+            <Radio
+              className="w-4 h-4 text-red-600 border-gray-300 focus:ring-red-500 !ring-red-300"
+              value="male"
+            />
+          </div>
+        </label>
+        <label htmlFor="default-radio-2" className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
+          <p>
+            زن
+          </p>
+          <div className="flex items-center mb-4">
+            <Radio
+              className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+              value="female"
+            />
+          </div>
+        </label>
+      </div>
       {/* Footer */}
       <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
         <div className="flex items-center gap-x-[8px] min-w-fit justify-between">
@@ -41,5 +65,5 @@ export default function NameStep(props: {
         </button>
       </div>
     </div>
-  )
+  );
 }

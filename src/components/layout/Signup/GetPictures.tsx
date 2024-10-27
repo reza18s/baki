@@ -3,7 +3,7 @@ import * as SolarIconSet from "solar-icon-set";
 import { Button } from 'antd';
 import UploadPictures from "../../shared/Inputs/UploadPictures";
 
-export default function PicturesStep(props: {
+export default function GetPictures(props: {
     control: any,
     name: string,
     handleSignup: () => void,
