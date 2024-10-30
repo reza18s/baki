@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { 
   IonApp, 
   IonRouterOutlet,
@@ -27,6 +27,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
+import Routes from './Routes/Routes';
 
 setupIonicReact();
 
@@ -34,15 +35,7 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonRouterOutlet>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/complate_profile" element={<ComplateProfile />} />
-            <Route path="/profile/complate_profile/identity_verification" element={<IdentityVerification />} />
-          </Routes>
-        </IonRouterOutlet>
+        <Routes />
       </IonReactRouter>
     </IonApp>
   );
