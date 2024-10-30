@@ -7,9 +7,10 @@ const CustomeCard = (props: {
     status: boolean,
     title: string,
     description: string,
+    url: string,
 }) => {
     return (
-        <div className="h-[180px] w-full py-6 rounded-xl border border-slate-300 flex-col justify-start items-center gap-4 inline-flex">
+        <Link to={props.url} className="h-[180px] w-full py-6 rounded-xl border border-slate-300 flex-col justify-start items-center gap-4 inline-flex">
             <div className={`p-4 rounded-[40px] justify-center items-center gap-2 inline-flex ${props.status ? "bg-brand-green" : "bg-brand-yellow"}`}>
                 {props.icon}
             </div>
@@ -21,7 +22,7 @@ const CustomeCard = (props: {
                     {props.description}
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 
@@ -29,10 +30,10 @@ export default function ComplateProfile() {
     return (
         <div className='w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto'>
             {/* Head */}
-            <Link to="/profile" className='w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black'>
+            <Link to="/profile/complate_profile" className='w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black'>
                 <SolarIconSet.AltArrowRight size={24} />
                 <h1 className='text-lg font-bold my-auto'>
-                    ویرایش پروفایل
+                    تایید هویت
                 </h1>
                 <div></div>
             </Link>
@@ -48,14 +49,14 @@ export default function ComplateProfile() {
                 </div>
                 {/* Cards */}
                 <div className='w-full grid grid-cols-2 gap-5 py-4 px-2'>
-                    <CustomeCard icon={<SolarIconSet.PenNewSquare size={32} />} title='بیوگرافی' description='نوشته نشده' status={false} />
-                    <CustomeCard icon={<SolarIconSet.VerifiedCheck size={32} />} title='تایید هویت' description='انجام نشده' status={false} />
-                    <CustomeCard icon={<SolarIconSet.Gallery size={32} />} title='تصاویر' description='0 از 4 آپلود شده' status={false} />
-                    <CustomeCard icon={<SolarIconSet.InfoCircle size={32} />} title='اطلاعات اولیه' description='0 از 7 اضافه شده' status={false} />
-                    <CustomeCard icon={<SolarIconSet.StickerSmileSquare size={32} />} title='آواتار' description='انتخاب نشده' status={false} />
-                    <CustomeCard icon={<SolarIconSet.Microphone size={32} />} title='پیام خوش‌آمد گویی' description='ضبط نشده' status={false} />
-                    <CustomeCard icon={<CiStar size={32} />} title='علایق شخصی' description='0 از 5 اضافه شده' status={false} />
-                    <CustomeCard icon={<SolarIconSet.SuitcaseTag size={32} />} title='علایق عمومی در سفر' description='0 از 5 اضافه شده' status={false} />
+                    <CustomeCard icon={<SolarIconSet.PenNewSquare size={32} />} title='بیوگرافی' description='نوشته نشده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.VerifiedCheck size={32} />} title='تایید هویت' description='انجام نشده' url="/profile/complate_profile/identify_verification" status={false} />
+                    <CustomeCard icon={<SolarIconSet.Gallery size={32} />} title='تصاویر' description='0 از 4 آپلود شده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.InfoCircle size={32} />} title='اطلاعات اولیه' description='0 از 7 اضافه شده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.StickerSmileSquare size={32} />} title='آواتار' description='انتخاب نشده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.Microphone size={32} />} title='پیام خوش‌آمد گویی' description='ضبط نشده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<CiStar size={32} />} title='علایق شخصی' description='0 از 5 اضافه شده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.SuitcaseTag size={32} />} title='علایق عمومی در سفر' description='0 از 5 اضافه شده' url="/profile/complate_profile/" status={false} />
                 </div>
             </div>
         </div>
