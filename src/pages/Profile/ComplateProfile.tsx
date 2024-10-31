@@ -52,7 +52,7 @@ export default function ComplateProfile() {
                     <CustomeCard icon={<SolarIconSet.PenNewSquare size={32} />} title='بیوگرافی' description='نوشته نشده' url="/profile/complate_profile/" status={false} />
                     <CustomeCard icon={<SolarIconSet.VerifiedCheck size={32} />} title='تایید هویت' description='انجام نشده' url="/profile/complate_profile/identify_verification" status={false} />
                     <CustomeCard icon={<SolarIconSet.Gallery size={32} />} title='تصاویر' description='0 از 4 آپلود شده' url="/profile/complate_profile/complate_pictures" status={false} />
-                    <CustomeCard icon={<SolarIconSet.InfoCircle size={32} />} title='اطلاعات اولیه' description='0 از 7 اضافه شده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.InfoCircle size={32} />} title='اطلاعات اولیه' description='0 از 7 اضافه شده' url="/profile/complate_profile/complate_basicinformations" status={false} />
                     <CustomeCard icon={<SolarIconSet.StickerSmileSquare size={32} />} title='آواتار' description='انتخاب نشده' url="/profile/complate_profile/" status={false} />
                     <CustomeCard icon={<SolarIconSet.Microphone size={32} />} title='پیام خوش‌آمد گویی' description='ضبط نشده' url="/profile/complate_profile/" status={false} />
                     <CustomeCard icon={<CiStar size={32} />} title='علایق شخصی' description='0 از 5 اضافه شده' url="/profile/complate_profile/complate_personalInterests" status={false} />

@@ -15,6 +15,7 @@ import ComplateGeneralInterests from '../components/layout/Profile/ComplateGener
 import ComplatePersonalInterests from '../components/layout/Profile/ComplatePersonalInterests';
 import ComplateResidenceCity from '../components/layout/Profile/ComplateResidenceCity';
 import ComplateSpecialty from '../components/layout/Profile/ComplateSpecialty';
+import BasicInformations from '../components/layout/Profile/BasicInformations/BasicInformations';
 
 export default function Routes() {
   return (
@@ -31,6 +32,7 @@ export default function Routes() {
           <Route exact path="/profile/complate_profile/complate_personalInterests" component={ComplatePersonalInterests} />
           <Route exact path="/profile/complate_profile/complate_residencecity" component={ComplateResidenceCity} />
           <Route exact path="/profile/complate_profile/complate_specialty" component={ComplateSpecialty} />
+          <Route exact path="/profile/complate_profile/complate_basicinformations" component={BasicInformations} />
           
           {/* Profile Routes with Layout */}
           {/* <Route 

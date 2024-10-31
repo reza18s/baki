@@ -1,7 +1,8 @@
-import { Controller, FieldValues } from "react-hook-form";
+import { Controller, FieldValues, useForm } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 import { IoEye } from "react-icons/io5";
 import { Radio } from 'antd';
+import RadioButton from "../../shared/Buttons/RadioButton";
 // import 'antd/dist/antd.css';
 
 export default function GetGender(props: {
@@ -9,6 +10,9 @@ export default function GetGender(props: {
   name: string,
   handleSignup: () => void,
 }) {
+  const {
+    control
+  } = useForm()
   return (
     <div className="flex flex-col gap-y-[40px] w-full">
       <div className="flex flex-col gap-y-[16px]">
@@ -19,7 +23,8 @@ export default function GetGender(props: {
           از بین گزینه های زیر یکی را انتخاب کنید .
         </p>
       </div>
-      <div className="flex flex-col gap-y-3">
+      <RadioButton control={control} items={[{ label: "زن", value: "femail" }, { label: "مرد", value: "mail" }]} name="gender" />
+      {/* <div className="flex flex-col gap-y-3">
         <label htmlFor="default-radio-1" className={`rounded-[12px] flex items-center justify-between py-[16px] pr-[16px] pl-[12px] bg-slate-100 ${props.name?.length !== 0 ? "bg-brand-yellow" : ""}`}>
           <p>
             مرد
@@ -42,7 +47,7 @@ export default function GetGender(props: {
             />
           </div>
         </label>
-      </div>
+      </div> */}
       {/* Footer */}
       <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
         <div className="flex items-center gap-x-[8px] min-w-fit justify-between">
