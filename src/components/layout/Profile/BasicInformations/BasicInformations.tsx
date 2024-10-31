@@ -61,7 +61,7 @@ export default function BasicInformations() {
 
     const handleNextStep = () => {
         setStep((prevStep: StepsNumber) => {
-            if (prevStep < 10) {
+            if (prevStep < 7) {
                 return (prevStep + 1) as StepsNumber;
             } else {
                 return prevStep;
@@ -92,7 +92,7 @@ export default function BasicInformations() {
             </div>
             {/* Body */}
             {step === 0 &&
-                <GenderStep control={control} handleSignup={handleSignup} name={watch("name")} />
+                <GenderStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
             }
         </div>
     );
