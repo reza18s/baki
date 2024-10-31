@@ -1,12 +1,11 @@
 import { Controller, FieldValues } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 import { IoEye } from "react-icons/io5";
-import { Button, Radio } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
+import { Dropdown } from 'antd';
 
-export default function BirthdateStep(props: {
+export default function GetBirthdate(props: {
   control: any,
   name: string,
   handleSignup: () => void,

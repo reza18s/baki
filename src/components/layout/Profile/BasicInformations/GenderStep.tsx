@@ -1,5 +1,4 @@
-import { FieldValues, useForm } from "react-hook-form";
-import { IoEye } from "react-icons/io5";
+import { useForm } from "react-hook-form";
 import RadioButton from "../../../shared/Buttons/RadioButton";
 import * as SolarIconSet from 'solar-icon-set';
 import Button from "../../../base/Button/Button";

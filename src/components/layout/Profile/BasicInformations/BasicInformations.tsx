@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GenderStep from './GenderStep';
+import BirthdateStep from './BirthdateStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -33,7 +34,7 @@ export default function BasicInformations() {
         }
     );
 
-    const [step, setStep] = useState<StepsNumber>(0);
+    const [step, setStep] = useState<StepsNumber>(1);
 
     //   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -47,16 +48,6 @@ export default function BasicInformations() {
         //     //
         //   },
         // });
-    };
-
-    const handlePrevStep = () => {
-        setStep((prevStep: StepsNumber) => {
-            if (prevStep > 0) {
-                return (prevStep - 1) as StepsNumber;
-            } else {
-                return prevStep;
-            }
-        });
     };
 
     const handleNextStep = () => {
@@ -93,6 +84,9 @@ export default function BasicInformations() {
             {/* Body */}
             {step === 0 &&
                 <GenderStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
+            }
+            {step === 1 &&
+                <BirthdateStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
             }
         </div>
     );
