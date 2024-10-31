@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import * as SolarIconSet from 'solar-icon-set';
 import { useSignupMutation } from "../../../graphql/generated/graphql.codegen";
 import { useForm } from "react-hook-form";
-import GetGeneralInterests from "../Signup/GetGeneralInterests";
+import GetPersonalInterests from "../Signup/GetPersonalInterests";
 
-export default function ComplateGeneralInterests() {
+export default function ComplatePersonalInterests() {
 
   const {
     control,
@@ -41,13 +41,13 @@ export default function ComplateGeneralInterests() {
       <Link to="/profile/complate_profile" className='w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black'>
         <SolarIconSet.AltArrowRight size={24} />
         <h1 className='text-lg font-bold my-auto'>
-          علایق عمومی
+          علایق شخصی
         </h1>
         <div></div>
       </Link>
       {/* Body */}
       <div className="text-black p-[24px] relative h-full min-h-full min-w-[100vw] overflow-auto" dir="rtl">
-      <GetGeneralInterests control={control} handleSignup={handleSignup} name={watch("name")} />
+      <GetPersonalInterests control={control} handleSignup={handleSignup} name={watch("name")} />
       </div>
     </div>
   );
