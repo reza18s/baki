@@ -11,6 +11,7 @@ import { Route, Switch } from 'react-router-dom';
 import ProfileLayout from '../components/layout/Profile/Layout';
 import IdentityVerification from '../components/layout/Profile/IdentityVerification';
 import ComplatePictures from '../components/layout/Profile/ComplatePictures';
+import ComplateGeneralInterests from '../components/layout/Profile/ComplateGeneralInterests';
 
 export default function Routes() {
   return (
@@ -23,6 +24,7 @@ export default function Routes() {
           <Route exact path="/profile/complate_profile" component={ComplateProfile} />
           <Route exact path="/profile/complate_profile/identify_verification" component={IdentityVerification} />
           <Route exact path="/profile/complate_profile/complate_pictures" component={ComplatePictures} />
+          <Route exact path="/profile/complate_profile/complate_generalinterests" component={ComplateGeneralInterests} />
           
           {/* Profile Routes with Layout */}
           {/* <Route 
