@@ -5,6 +5,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GenderStep from './GenderStep';
 import BirthdateStep from './BirthdateStep';
+import MaritalStatusStep from './MaritalStatusStep';
+import CigarettesStep from './CigarettesStep';
+import SportStep from './SportStep';
+import WakeUpEarlyStep from './WakeUpEarlyStep';
+import SpiritStep from './SpiritStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -34,7 +39,7 @@ export default function BasicInformations() {
         }
     );
 
-    const [step, setStep] = useState<StepsNumber>(1);
+    const [step, setStep] = useState<StepsNumber>(6);
 
     //   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -52,7 +57,7 @@ export default function BasicInformations() {
 
     const handleNextStep = () => {
         setStep((prevStep: StepsNumber) => {
-            if (prevStep < 7) {
+            if (prevStep < 5) {
                 return (prevStep + 1) as StepsNumber;
             } else {
                 return prevStep;
@@ -87,6 +92,21 @@ export default function BasicInformations() {
             }
             {step === 1 &&
                 <BirthdateStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
+            }
+            {step === 2 &&
+                <MaritalStatusStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
+            }
+            {step === 3 &&
+                <CigarettesStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
+            }
+            {step === 4 &&
+                <SportStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
+            }
+            {step === 5 &&
+                <WakeUpEarlyStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
+            }
+            {step === 6 &&
+                <SpiritStep control={control} handleSignup={handleSignup} handleNextStep={handleNextStep} name={watch("name")} />
             }
         </div>
     );
