@@ -1,17 +1,17 @@
 .button {
-  @apply transition-colors duration-200 p-2  font-vazir text-center;
+  @apply transition-colors duration-200 py-[16px] text-center font-bold;
   &:disabled {
     @apply opacity-50;
   }
   &.primary {
-    @apply bg-warning-50;
+    @apply bg-brand-yellow;
     &:active:not(:disabled) {
       @apply bg-[#FF4E1D];
     }
   }
 
   &.brand {
-    @apply bg-brand-600;
+    @apply bg-brand-yellow;
     &:active:not(:disabled) {
       @apply bg-[#60A5FA];
     }
@@ -48,9 +48,9 @@
   }
 
   &.secondary {
-    @apply bg-warning-700 text-white;
+    @apply bg-brand-yellow text-brand-black;
     &:active:not(:disabled) {
-      @apply bg-[#1A333E];
+      @apply bg-yellow-600;
     }
     &:disabled {
       @apply bg-gray-400 opacity-100;
@@ -63,19 +63,19 @@
     }
   }
   &.tertiary {
-    @apply bg-warning-100 text-gray-800;
+    @apply bg-brand-yellow text-gray-800;
     &:active:not(:disabled) {
       @apply bg-[#FDD281];
     }
   }
   &.danger {
-    @apply bg-warning-400 text-white;
+    @apply bg-brand-yellow text-white;
     &:active:not(:disabled) {
       @apply bg-[#ef725f];
     }
   }
-  &.success {
-    @apply bg-success-300 text-white;
+  &.brand {
+    @apply bg-brand-yellow text-white;
     &:active:not(:disabled) {
       @apply bg-[#2ECC71];
     }

@@ -39,7 +39,7 @@ export const LargeButton: React.FC<ButtonProps> = ({
       variant={variant}
       loading={loading}
       className={clsx(
-        'py-3 w-full min-h-[54px] text-[16px] font-medium',
+        'py-3 w-full min-h-[54px] text-base',
         className,
       )}
       {...rest}

@@ -3,20 +3,7 @@ import * as SolarIconSet from 'solar-icon-set';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import GetGender from '../../Signup/GetGender';
-// import GetPhoneNumber from '../components/layout/Signup/GetPhoneNumber';
-// import { useState } from 'react';
-// import { useSignupMutation } from '../graphql/generated/graphql.codegen';
-// import VerifyOTP from '../components/layout/Signup/VerifyOTP';
-// import GetName from '../components/layout/Signup/GetName';
-// import GetGender from '../components/layout/Signup/GetGender';
-// import GetBirthdate from '../components/layout/Signup/GetBirthdate';
-// import GetResidenceCity from '../components/layout/Signup/GetResidenceCity';
-// import GetPictures from '../components/layout/Signup/GetPictures';
-// import GetGeneralInterests from '../components/layout/Signup/GetGeneralInterests';
-// import GetPersonalInterests from '../components/layout/Signup/GetPersonalInterests';
-// import GetSpecialty from '../components/layout/Signup/GetSpecialty';
-// import FinalStep from '../components/layout/Signup/FinalStep';
+import GenderStep from './GenderStep';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -105,7 +92,7 @@ export default function BasicInformations() {
             </div>
             {/* Body */}
             {step === 0 &&
-                <GetGender control={control} handleSignup={handleSignup} name={watch("name")} />
+                <GenderStep control={control} handleSignup={handleSignup} name={watch("name")} />
             }
         </div>
     );

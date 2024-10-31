@@ -18,7 +18,7 @@ interface RadioButtonProps {
 
 export default function RadioButton(props: RadioButtonProps) {
     return (
-        <FormControl>
+        <FormControl sx={{ width: '100%', padding: '8px' }}>
             <Controller
                 name={props.name}
                 control={props.control}
@@ -31,6 +31,7 @@ export default function RadioButton(props: RadioButtonProps) {
                             display: 'flex',
                             flexDirection: 'column',
                             gap: '16px',
+                            width: '100%',
                         }}
                     >
                         {props.items.map((item) => (
@@ -46,7 +47,8 @@ export default function RadioButton(props: RadioButtonProps) {
                                         field.value === item.value ? '#FEF3C7' : '#F1F5F9',
                                     borderRadius: '12px',
                                     padding: '16px',
-                                    transition: 'background-color 0.3s',
+                                    width: 'calc(100% - 16px)', // تنظیم فاصله از کناره‌ها
+                                    margin: '0 auto', // هم‌تراز کردن در وسط والد
                                 }}
                                 control={
                                     <Radio
