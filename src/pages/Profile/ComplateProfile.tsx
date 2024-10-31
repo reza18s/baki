@@ -57,6 +57,8 @@ export default function ComplateProfile() {
                     <CustomeCard icon={<SolarIconSet.Microphone size={32} />} title='پیام خوش‌آمد گویی' description='ضبط نشده' url="/profile/complate_profile/" status={false} />
                     <CustomeCard icon={<CiStar size={32} />} title='علایق شخصی' description='0 از 5 اضافه شده' url="/profile/complate_profile/complate_personalInterests" status={false} />
                     <CustomeCard icon={<SolarIconSet.SuitcaseTag size={32} />} title='علایق عمومی در سفر' description='0 از 5 اضافه شده' url="/profile/complate_profile/complate_generalinterests" status={false} />
+                    <CustomeCard icon={<SolarIconSet.Accessibility size={32} />} title='تخصص' description='انتخاب نشده' url="/profile/complate_profile/complate_specialty" status={false} />
+                    <CustomeCard icon={<SolarIconSet.Home size={32} />} title='محل زندگی' description='انتخاب نشده' url="/profile/complate_profile/complate_residencecity" status={false} />
                 </div>
             </div>
         </div>
