@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
-import { Button as AntButton } from 'antd';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from "../../../base/Button/Button";
-import { Dropdown, type MenuProps } from 'antd';
 import MonthPicker from "../../../shared/Inputs/MonthPicker";
 
 export default function BirthdateStep(props: {
@@ -29,12 +27,12 @@ export default function BirthdateStep(props: {
                         </p>
                     </div>
                 </div>
-                <div className="w-full flex items-center justify-center">
+                <div className="w-full flex items-center justify-center gap-x-3">
                     <div>
                         <h2 className="text-[##64748B] text-sm font-bold mr-1">
                             ماه
                         </h2>
-                        <MonthPicker />
+                        <MonthPicker name="month" control={control} />
                     </div>
                     <div>
                         <h2 className="text-[##64748B] text-sm font-bold mr-1">

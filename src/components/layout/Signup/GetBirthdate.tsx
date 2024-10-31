@@ -1,99 +1,17 @@
-import { Controller, FieldValues } from "react-hook-form";
-import * as SolarIconSet from "solar-icon-set";
+import { useForm } from "react-hook-form";
 import { IoEye } from "react-icons/io5";
-import { Button } from 'antd';
-import type { MenuProps } from 'antd';
-import { Dropdown } from 'antd';
+import MonthPicker from "../../shared/Inputs/MonthPicker";
 
 export default function GetBirthdate(props: {
   control: any,
   name: string,
   handleSignup: () => void,
 }) {
-  const items: MenuProps['items'] = [
-    {
-      label: <p className="text-center">فروردین</p>,
-      key: '0',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">اردیبهشت</p>,
-      key: '1',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">خرداد</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">تیر</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">مرداد</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">شهریور</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">مهر</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">آبان</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">آذر</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">دی</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">بهمن</p>,
-      key: '3',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <p className="text-center w-full">اسفند</p>,
-      key: '3',
-    },
-  ];
-  
+
+  const {
+    control
+  } = useForm()
+
   return (
     <div className="flex flex-col gap-y-[40px] w-full">
       <div className="flex flex-col gap-y-[16px]">
@@ -105,19 +23,15 @@ export default function GetBirthdate(props: {
         </p>
       </div>
       {/* Body */}
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center justify-center gap-x-3">
         <div>
           <h2 className="text-[##64748B] text-sm font-bold mr-1">
             ماه
           </h2>
-          <Dropdown menu={{ items }} trigger={['click']} className="max-w-fit">
-              <Button onClick={(e) => e.preventDefault()} className="rounded-[12px] cursor-pointer border-[1.5px] border-[#1a1d1e] max-w-fit text-slate-400 text-base font-bold w-[110px] h-[48px]">
-                انتخاب کنید
-              </Button>
-          </Dropdown>
+          <MonthPicker name="month" control={control} />
         </div>
         <div>
-        <h2 className="text-[##64748B] text-sm font-bold mr-1">
+          <h2 className="text-[##64748B] text-sm font-bold mr-1">
             سال
           </h2>
           <input dir="ltr" type="tel" className="border-[1.5px] border-[#1a1d1e] rounded-[12px] text-base font-bold text-[#1a1d1e] outline-none bg-white w-[67px] h-[48px] text-center" maxLength={4} min={1320} placeholder="1380" />
