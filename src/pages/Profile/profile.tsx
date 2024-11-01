@@ -66,7 +66,7 @@ export default function Profile() {
                         </h2>
                         <TextInput placeholder='نام کاربری حسابتان ...' control={control} icon={<SolarIconSet.UserCircle size={30} />} name='username' value={watch("username")} />
                     </div>
-                    <div className='w-full'>
+                    <div className='w-full' id='biography'>
                         <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                             بیوگرافی
                         </h2>
@@ -76,7 +76,7 @@ export default function Profile() {
                         <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                             محل زندگی
                         </h2>
-                        <ArrowButton text="محل زندگی کنونی خود را وارد کنید" icon={<SolarIconSet.Home size={24} />} />
+                        <ArrowButton url='/profile/complate_profile/complate_residencecity' text="محل زندگی کنونی خود را وارد کنید" icon={<SolarIconSet.Home size={24} />} />
                     </div>
                 </div>
                 {/* Basic Information */}
@@ -85,13 +85,13 @@ export default function Profile() {
                         اطلاعات اولیه
                     </h1>
                     <div className='w-full flex flex-col gap-y-2'>
-                        <ArrowButton text="جنسیت" arrowText='افزودن' className='w-full' icon={<SolarIconSet.UserId size={24} />} />
-                        <ArrowButton text="سال و ماه تولد" arrowText='افزودن' className='w-full' icon={<SolarIconSet.Calendar size={24} />} />
-                        <ArrowButton text="وضعیت تاهل" arrowText='افزودن' className='w-full' icon={<SolarIconSet.Heart size={24} />} />
-                        <ArrowButton text="سیگار" arrowText='افزودن' className='w-full' icon={<LiaSmokingSolid size={24} />} />
-                        <ArrowButton text="ورزش" arrowText='افزودن' className='w-full' icon={<SolarIconSet.DumbbellSmall size={24} />} />
-                        <ArrowButton text="میزان سحرخیزی" arrowText='افزودن' className='w-full' icon={<SolarIconSet.SunFog size={24} />} />
-                        <ArrowButton text="روحیه" arrowText='افزودن' className='w-full' icon={<SolarIconSet.MaskHapply size={24} />} />
+                        <ArrowButton text="جنسیت" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<SolarIconSet.UserId size={24} />} />
+                        <ArrowButton text="سال و ماه تولد" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<SolarIconSet.Calendar size={24} />} />
+                        <ArrowButton text="وضعیت تاهل" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<SolarIconSet.Heart size={24} />} />
+                        <ArrowButton text="سیگار" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<LiaSmokingSolid size={24} />} />
+                        <ArrowButton text="ورزش" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<SolarIconSet.DumbbellSmall size={24} />} />
+                        <ArrowButton text="میزان سحرخیزی" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<SolarIconSet.SunFog size={24} />} />
+                        <ArrowButton text="روحیه" url='/profile/complate_profile/complate_basicinformations' arrowText='افزودن' className='w-full' icon={<SolarIconSet.MaskHapply size={24} />} />
                         <div>
                             <div className="flex items-center justify-between px-[16px] py-[12px] rounded-[12px] bg-[#F1F5F9] w-full">
                                 <div className='flex items-center gap-x-2'>
@@ -122,7 +122,7 @@ export default function Profile() {
                         <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                             تخصص
                         </h2>
-                        <ArrowButton text="اضافه کردن" className='w-full' icon={<SolarIconSet.SuitcaseTag size={24} />} />
+                        <ArrowButton text="اضافه کردن" url='/profile/complate_profile/complate_specialty' className='w-full' icon={<SolarIconSet.SuitcaseTag size={24} />} />
                     </div>
                     <div className='w-full'>
                         <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
@@ -146,13 +146,13 @@ export default function Profile() {
                         <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                         علایق شخصی من
                         </h2>
-                        <ArrowButton text="اضافه کردن" className='w-full' icon={<CiStar size={24} />} />
+                        <ArrowButton text="اضافه کردن" url='/profile/complate_profile/complate_personalInterests' className='w-full' icon={<CiStar size={24} />} />
                     </div>
                     <div className='w-full'>
                         <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                         علایق عمومی من در سفر
                         </h2>
-                        <ArrowButton text="اضافه کردن" className='w-full' icon={<SolarIconSet.SuitcaseTag size={24} />} />
+                        <ArrowButton text="اضافه کردن" url='/profile/complate_profile/complate_generalinterests' className='w-full' icon={<SolarIconSet.SuitcaseTag size={24} />} />
                     </div>
                 </div>
             </div>

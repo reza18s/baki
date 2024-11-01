@@ -49,7 +49,7 @@ export default function ComplateProfile() {
                 </div>
                 {/* Cards */}
                 <div className='w-full grid grid-cols-2 gap-5 py-4 px-2'>
-                    <CustomeCard icon={<SolarIconSet.PenNewSquare size={32} />} title='بیوگرافی' description='نوشته نشده' url="/profile/complate_profile/" status={false} />
+                    <CustomeCard icon={<SolarIconSet.PenNewSquare size={32} />} title='بیوگرافی' description='نوشته نشده' url="/profile#biography" status={false} />
                     <CustomeCard icon={<SolarIconSet.VerifiedCheck size={32} />} title='تایید هویت' description='انجام نشده' url="/profile/complate_profile/identify_verification" status={false} />
                     <CustomeCard icon={<SolarIconSet.Gallery size={32} />} title='تصاویر' description='0 از 4 آپلود شده' url="/profile/complate_profile/complate_pictures" status={false} />
                     <CustomeCard icon={<SolarIconSet.InfoCircle size={32} />} title='اطلاعات اولیه' description='0 از 7 اضافه شده' url="/profile/complate_profile/complate_basicinformations" status={false} />

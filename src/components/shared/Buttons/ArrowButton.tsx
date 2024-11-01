@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import * as SolarIconSet from 'solar-icon-set';
 
 export default function ArrowButton(props: {
@@ -6,9 +7,10 @@ export default function ArrowButton(props: {
     className?: string,
     icon?: any,
     arrowText?: string,
+    url?: string,
 }) {
     return (
-        <div className={`flex items-center justify-between px-[16px] py-[12px] rounded-[12px] border border-slate-300 w-full ${props.className}`} onClick={props.onClick}>
+        <Link to={props.url || ""} className={`flex items-center justify-between px-[16px] py-[12px] rounded-[12px] border border-slate-300 w-full ${props.className}`} onClick={props.onClick}>
             <div className='flex items-center gap-x-2'>
                 {props.icon}
                 <p className='text-sm font-medium'>
@@ -21,6 +23,6 @@ export default function ArrowButton(props: {
                 </p>
                 <SolarIconSet.AltArrowLeft size={24} />
             </div>
-        </div>
+        </Link>
     )
 }
