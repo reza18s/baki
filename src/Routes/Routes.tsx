@@ -8,7 +8,6 @@ import Profile from '../pages/Profile/profile';
 import Signup from '../pages/signup';
 import ComplateProfile from '../pages/Profile/ComplateProfile';
 import { Route, Switch } from 'react-router-dom';
-import ProfileLayout from '../components/layout/Profile/Layout';
 import IdentityVerification from '../components/layout/Profile/IdentityVerification';
 import ComplatePictures from '../components/layout/Profile/ComplatePictures';
 import ComplateGeneralInterests from '../components/layout/Profile/ComplateGeneralInterests';
@@ -16,6 +15,8 @@ import ComplatePersonalInterests from '../components/layout/Profile/ComplatePers
 import ComplateResidenceCity from '../components/layout/Profile/ComplateResidenceCity';
 import ComplateSpecialty from '../components/layout/Profile/ComplateSpecialty';
 import BasicInformations from '../components/layout/Profile/BasicInformations/BasicInformations';
+import Explore from '../pages/Explore.tsx/Explore';
+import MailLayout from '../components/layout/Main/MainLayout';
 
 export default function Routes() {
   return (
@@ -34,22 +35,22 @@ export default function Routes() {
           <Route exact path="/profile/complate_profile/complate_specialty" component={ComplateSpecialty} />
           <Route exact path="/profile/complate_profile/complate_basicinformations" component={BasicInformations} />
           
-          {/* Profile Routes with Layout */}
-          {/* <Route 
-            path="/profile"
+          {/* Explore Routes with Layout */}
+          <Route 
+            path="/explore"
             render={({ match }) => (
-              <ProfileLayout>
+              <MailLayout>
                 <Switch>
-                  <Route exact path={match.path} component={Profile} />
+                  <Route exact path={match.path} component={Explore} />
                   <Route 
                     exact 
                     path={`${match.path}/complate_profile`} 
                     component={ComplateProfile} 
                   />
                 </Switch>
-              </ProfileLayout>
+              </MailLayout>
             )}
-          /> */}
+          />
         </Switch>
       </IonRouterOutlet>
     </IonReactRouter>
