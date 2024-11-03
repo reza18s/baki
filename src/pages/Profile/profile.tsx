@@ -27,12 +27,12 @@ export default function Profile() {
             </Link>
             {/* Body */}
             <div className='w-full px-6 flex flex-col items-center gap-y-3'>
-                <a href="/profile/complate_profile" className='w-full text-brand-black'>
+                <Link to="/profile/complate_profile" className='w-full text-brand-black'>
                     <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                         تکمیل پروفایل:
                     </h2>
                     <ArrowButton text="65 درصد کامل شده" className='bg-brand-yellow' />
-                </a>
+                </Link>
                 <div className='w-full'>
                     <h2 className='text-[#64748B] text-sm font-semibold mr-3'>
                         تایید هویت
