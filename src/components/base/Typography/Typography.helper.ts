@@ -1,6 +1,5 @@
 import { TextSize } from "./Typography.types";
 
-
 const displaySizeToTag: { [key in TextSize]: string } = {
   "2x": "h1",
   xl: "h2",

@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import React from 'react';
+import { FC } from "react";
+import React from "react";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   shadow?: string;
@@ -30,8 +30,8 @@ const Card: FC<CardProps> = ({
         shadow,
         rounded,
 
-        clip && 'overflow-clip',
-        backgroundImage && 'bg-cover',
+        clip && "overflow-clip",
+        backgroundImage && "bg-cover",
       )}
       style={{ backgroundImage: backgroundImage }}
     >

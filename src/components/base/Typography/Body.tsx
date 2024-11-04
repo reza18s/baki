@@ -1,20 +1,20 @@
-import { TextProps } from './Typography.types';
-import { Text } from './Text';
-import React from 'react';
+import { TextProps } from "./Typography.types";
+import { Text } from "./Text";
+import React from "react";
 
 export const BodyXlBold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-bold',
+  color = "text-typography-heading",
+  weight = "font-bold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xl'}
+      type={"body"}
+      size={"xl"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -28,18 +28,18 @@ export const BodyXlBold: React.FC<TextProps> = ({
 };
 
 export const BodyXlSemibold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-semibold',
+  color = "text-typography-heading",
+  weight = "font-semibold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xl'}
+      type={"body"}
+      size={"xl"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -53,18 +53,18 @@ export const BodyXlSemibold: React.FC<TextProps> = ({
 };
 
 export const BodyXlMedium: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-medium',
+  color = "text-typography-heading",
+  weight = "font-medium",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xl'}
+      type={"body"}
+      size={"xl"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -78,18 +78,18 @@ export const BodyXlMedium: React.FC<TextProps> = ({
 };
 
 export const BodyXlRegular: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-normal',
+  color = "text-typography-heading",
+  weight = "font-normal",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xl'}
+      type={"body"}
+      size={"xl"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -103,18 +103,18 @@ export const BodyXlRegular: React.FC<TextProps> = ({
 };
 
 export const BodyLgBold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-bold',
+  color = "text-typography-heading",
+  weight = "font-bold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'lg'}
+      type={"body"}
+      size={"lg"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -128,18 +128,18 @@ export const BodyLgBold: React.FC<TextProps> = ({
 };
 
 export const BodyLgSemibold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-semibold',
+  color = "text-typography-heading",
+  weight = "font-semibold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'lg'}
+      type={"body"}
+      size={"lg"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -153,18 +153,18 @@ export const BodyLgSemibold: React.FC<TextProps> = ({
 };
 
 export const BodyLgMedium: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-medium',
+  color = "text-typography-heading",
+  weight = "font-medium",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'lg'}
+      type={"body"}
+      size={"lg"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -178,18 +178,18 @@ export const BodyLgMedium: React.FC<TextProps> = ({
 };
 
 export const BodyLgRegular: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-normal',
+  color = "text-typography-heading",
+  weight = "font-normal",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'lg'}
+      type={"body"}
+      size={"lg"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -203,18 +203,18 @@ export const BodyLgRegular: React.FC<TextProps> = ({
 };
 
 export const Body2XlBold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-bold',
+  color = "text-typography-heading",
+  weight = "font-bold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      size={'2x'}
-      type={'body'}
+      size={"2x"}
+      type={"body"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -228,18 +228,18 @@ export const Body2XlBold: React.FC<TextProps> = ({
 };
 
 export const Body2XlSemibold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-semibold',
+  color = "text-typography-heading",
+  weight = "font-semibold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      size={'2x'}
-      type={'body'}
+      size={"2x"}
+      type={"body"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -253,18 +253,18 @@ export const Body2XlSemibold: React.FC<TextProps> = ({
 };
 
 export const Body2XlMedium: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-medium',
+  color = "text-typography-heading",
+  weight = "font-medium",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      size={'2x'}
-      type={'body'}
+      size={"2x"}
+      type={"body"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -278,18 +278,18 @@ export const Body2XlMedium: React.FC<TextProps> = ({
 };
 
 export const Body2XlRegular: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-normal',
+  color = "text-typography-heading",
+  weight = "font-normal",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      size={'2x'}
-      type={'body'}
+      size={"2x"}
+      type={"body"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -303,18 +303,18 @@ export const Body2XlRegular: React.FC<TextProps> = ({
 };
 
 export const BodyMdBold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-bold',
+  color = "text-typography-heading",
+  weight = "font-bold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'md'}
+      type={"body"}
+      size={"md"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -328,18 +328,18 @@ export const BodyMdBold: React.FC<TextProps> = ({
 };
 
 export const BodyMdSemibold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-semibold',
+  color = "text-typography-heading",
+  weight = "font-semibold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'md'}
+      type={"body"}
+      size={"md"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -353,18 +353,18 @@ export const BodyMdSemibold: React.FC<TextProps> = ({
 };
 
 export const BodyMdMedium: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-medium',
+  color = "text-typography-heading",
+  weight = "font-medium",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'md'}
+      type={"body"}
+      size={"md"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -378,18 +378,18 @@ export const BodyMdMedium: React.FC<TextProps> = ({
 };
 
 export const BodyMdRegular: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-normal',
+  color = "text-typography-heading",
+  weight = "font-normal",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'md'}
+      type={"body"}
+      size={"md"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -403,18 +403,18 @@ export const BodyMdRegular: React.FC<TextProps> = ({
 };
 
 export const BodySmBold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-bold',
+  color = "text-typography-heading",
+  weight = "font-bold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'sm'}
+      type={"body"}
+      size={"sm"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -428,18 +428,18 @@ export const BodySmBold: React.FC<TextProps> = ({
 };
 
 export const BodySmSemibold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-semibold',
+  color = "text-typography-heading",
+  weight = "font-semibold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'sm'}
+      type={"body"}
+      size={"sm"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -453,18 +453,18 @@ export const BodySmSemibold: React.FC<TextProps> = ({
 };
 
 export const BodySmMedium: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-medium',
+  color = "text-typography-heading",
+  weight = "font-medium",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'sm'}
+      type={"body"}
+      size={"sm"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -478,18 +478,18 @@ export const BodySmMedium: React.FC<TextProps> = ({
 };
 
 export const BodySmRegular: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-normal',
+  color = "text-typography-heading",
+  weight = "font-normal",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'sm'}
+      type={"body"}
+      size={"sm"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -503,18 +503,18 @@ export const BodySmRegular: React.FC<TextProps> = ({
 };
 
 export const BodyXsBold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-bold',
+  color = "text-typography-heading",
+  weight = "font-bold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xs'}
+      type={"body"}
+      size={"xs"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -528,18 +528,18 @@ export const BodyXsBold: React.FC<TextProps> = ({
 };
 
 export const BodyXsSemibold: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-semibold',
+  color = "text-typography-heading",
+  weight = "font-semibold",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xs'}
+      type={"body"}
+      size={"xs"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -553,18 +553,18 @@ export const BodyXsSemibold: React.FC<TextProps> = ({
 };
 
 export const BodyXsMedium: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-medium',
+  color = "text-typography-heading",
+  weight = "font-medium",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xs'}
+      type={"body"}
+      size={"xs"}
       weight={weight}
       color={color}
       decoration={decoration}
@@ -578,18 +578,18 @@ export const BodyXsMedium: React.FC<TextProps> = ({
 };
 
 export const BodyXsRegular: React.FC<TextProps> = ({
-  color = 'text-typography-heading',
-  weight = 'font-normal',
+  color = "text-typography-heading",
+  weight = "font-normal",
   font = undefined,
   as = undefined,
   className = undefined,
-  decoration = 'no-underline',
+  decoration = "no-underline",
   children,
 }) => {
   return (
     <Text
-      type={'body'}
-      size={'xs'}
+      type={"body"}
+      size={"xs"}
       weight={weight}
       color={color}
       decoration={decoration}

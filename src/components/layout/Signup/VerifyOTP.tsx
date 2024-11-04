@@ -1,8 +1,8 @@
-import OtpInput from 'react-otp-input';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { MdTimer } from 'react-icons/md';
-import { useSignupVerifyOtpMutation } from '../../../graphql/generated/graphql.codegen';
+import OtpInput from "react-otp-input";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { MdTimer } from "react-icons/md";
+import { useSignupVerifyOtpMutation } from "../../../graphql/generated/graphql.codegen";
 
 export default function VerifyOTP(props: {
   control: any;
@@ -13,13 +13,13 @@ export default function VerifyOTP(props: {
   handleNextStep(): void;
 }) {
   const [timer, setTimer] = useState(60);
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState("");
 
   const { setValue, trigger, watch } = useForm();
 
   const handleChange = (enteredOtp: string) => {
     setOtp(enteredOtp);
-    setValue('token', enteredOtp);
+    setValue("token", enteredOtp);
     if (enteredOtp.length === 6) {
       handleSubmit();
     }
@@ -27,17 +27,17 @@ export default function VerifyOTP(props: {
 
   const [verifyOtp] = useSignupVerifyOtpMutation();
   const handleSubmit = async () => {
-    const validate = await trigger('token');
+    const validate = await trigger("token");
     if (validate) {
       verifyOtp({
         variables: {
           phoneNumber: props.phone,
-          otp: watch('token'),
+          otp: watch("token"),
         },
         onCompleted: (data) => {
           console.log(data);
           localStorage.setItem(
-            'token',
+            "token",
             JSON.stringify(data.verifyOtp?.accessToken),
           );
           props.handleNextStep();
@@ -90,13 +90,13 @@ export default function VerifyOTP(props: {
             renderSeparator={<span className="w-1"></span>}
             renderInput={(props: any) => <input {...props} />}
             inputStyle={{
-              width: '38px',
-              height: '48px',
-              margin: '0 4px',
-              fontSize: '12pt',
-              borderRadius: '12px',
-              textAlign: 'center',
-              backgroundColor: '#F1F5F9',
+              width: "38px",
+              height: "48px",
+              margin: "0 4px",
+              fontSize: "12pt",
+              borderRadius: "12px",
+              textAlign: "center",
+              backgroundColor: "#F1F5F9",
             }}
             containerStyle="flex flex-row-reverse justify-center"
           />
@@ -120,7 +120,7 @@ export default function VerifyOTP(props: {
           onClick={props.resendOtp}
           disabled={timer !== 0}
           className={`rounded-[12px] bg-slate-100 ${
-            timer === 0 ? 'bg-[#FFCC4E]' : 'text-slate-400'
+            timer === 0 ? "bg-[#FFCC4E]" : "text-slate-400"
           } font-bold px-5 py-4`}
         >
           تایید

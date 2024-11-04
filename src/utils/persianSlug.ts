@@ -1,12 +1,12 @@
 export const nameToPersianSlug = (name: string) => {
   return name
-    .replace(/\u200C/gm, ' ')
-    .replace(/\(|\)/g, ' ')
+    .replace(/\u200C/gm, " ")
+    .replace(/\(|\)/g, " ")
     .trim()
-    .split(' ')
-    .join('-');
+    .split(" ")
+    .join("-");
 };
 
 export const persianSlugToName = (slug: string) => {
-  return slug.split('-').join(' ');
+  return slug.split("-").join(" ");
 };

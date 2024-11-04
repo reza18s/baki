@@ -1,5 +1,3 @@
-
-
 export interface ModalProps {
   isOpen: boolean;
   closeOnClickOverlay?: boolean;
@@ -11,7 +9,6 @@ export interface ModalProps {
 
   onRequestClose: () => void;
   onCloseEnd?: () => void;
-  
 
   id?: string;
   children?: React.ReactNode;

@@ -1,4 +1,4 @@
-import moment from 'jalali-moment';
+import moment from "jalali-moment";
 
 export const ceilTime = (timeMinute: number) => {
   const hour = timeMinute / 60;
@@ -15,9 +15,9 @@ export const secondsToMMSS = (seconds: number) => {
 };
 
 export const persianLongDate = (date: string): string => {
-  return moment(date).locale('fa').format('DD MMMM YYYY');
+  return moment(date).locale("fa").format("DD MMMM YYYY");
 };
 
 export const persianShortDate = (date: string): string => {
-  return moment(date).locale('fa').format('YYYY/MM/DD');
+  return moment(date).locale("fa").format("YYYY/MM/DD");
 };

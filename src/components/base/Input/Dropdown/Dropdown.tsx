@@ -1,14 +1,12 @@
-import React from 'react';
-import { useField, FieldHookConfig } from 'formik';
-import { v4 as uuidv4 } from 'uuid';
-import { ClassAttributes, InputHTMLAttributes, PropsWithChildren } from 'react';
-import InputLayout from '../InputLayout';
-import Modal from '../../Modal/Modal';
+import React from "react";
+import { FieldHookConfig, useField } from "formik";
+import { v4 as uuidv4 } from "uuid";
+import { ClassAttributes, InputHTMLAttributes, PropsWithChildren } from "react";
+import InputLayout from "../InputLayout";
+import Modal from "../../Modal/Modal";
 
-import Button from '../../Button/Button';
-import Card from '../../Card';
-
-
+import Button from "../../Button/Button";
+import Card from "../../Card";
 
 interface OutlineDropdownProps extends PropsWithChildren {
   label: string;

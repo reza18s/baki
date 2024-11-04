@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
-export type InputVarient = 'white' | 'gray';
+export type InputVarient = "white" | "gray";
 
 export type TextfieldType = {
   label?: string;
@@ -10,7 +10,7 @@ export type TextfieldType = {
   endIcon?: ReactNode;
   dateFormat?: string;
   inputClassName?: string;
-  mode?: 'text' | 'date';
+  mode?: "text" | "date";
   dropdown?: ReactNode;
   errorEnabled?: boolean;
   hintEnabled?: boolean;
@@ -25,6 +25,6 @@ export type InputLayoutType = {
   errorEnabled?: boolean; //اگه فعال باشه کامپوننت تکسش رو رندر میکنه حتی وقتی ارور خالی باشه
   customLabel?: ReactNode;
   dropdown?: ReactNode;
-  orientation?: 'vertical' | 'horizontal';
+  orientation?: "vertical" | "horizontal";
   meta: FieldMetaProps<string>;
 };

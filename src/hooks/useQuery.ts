@@ -1,8 +1,8 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from "react-router-dom";
 
 export function useBooleanQuery(name: string): [boolean, (v: boolean) => void] {
   const history = useHistory();
-  const value = history.location.search.includes(`${name}=true`) ? true : false;
+  const value = !!history.location.search.includes(`${name}=true`);
 
   const setValue = (newValue: boolean) => {
     if (value !== newValue) {

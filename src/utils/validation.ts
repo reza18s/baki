@@ -1,4 +1,4 @@
-import moment from 'jalali-moment';
+import moment from "jalali-moment";
 
 export const validateEmail = (email: string) => {
   return String(email)
@@ -21,9 +21,7 @@ export const validatePhoneNumber = (phoneNumber: string) => {
   return phoneNumber.match(mobileReg);
 };
 
-
 export const validateBirthYear = (year: string) => {
   const yearNumber = Number(year);
   return yearNumber > 1319 && yearNumber < 1401;
-
-}
+};

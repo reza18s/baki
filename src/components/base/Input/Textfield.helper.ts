@@ -3,7 +3,7 @@ import { useState } from "react";
 export function useHelperText(
   helper: string,
   onF?: React.FocusEventHandler<HTMLInputElement>,
-  onB?: React.FocusEventHandler<HTMLInputElement>
+  onB?: React.FocusEventHandler<HTMLInputElement>,
 ) {
   const [helperText, setHelperText] = useState(" ");
 

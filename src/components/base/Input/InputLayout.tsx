@@ -1,9 +1,9 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren } from "react";
 
-import { InputLayoutType } from './Textfield.types';
-import clsx from 'clsx';
-import React from 'react';
-import { BodySmRegular } from '../Typography/Body';
+import { InputLayoutType } from "./Textfield.types";
+import clsx from "clsx";
+import React from "react";
+import { BodySmRegular } from "../Typography/Body";
 
 const InputLayout = ({
   id,
@@ -11,7 +11,7 @@ const InputLayout = ({
   hint,
   className,
   customLabel,
-  orientation = 'vertical',
+  orientation = "vertical",
   meta,
   dropdown,
   errorEnabled = true,
@@ -19,15 +19,14 @@ const InputLayout = ({
   children,
 }: InputLayoutType & PropsWithChildren) => {
   const error = meta.touched ? meta.error : undefined;
-  
 
   return (
     <div>
       <div
         className={clsx(
           className,
-          'flex',
-          orientation === 'vertical' ? 'flex-col' : 'flex-row-reverse',
+          "flex",
+          orientation === "vertical" ? "flex-col" : "flex-row-reverse",
         )}
       >
         {customLabel ? (
@@ -36,8 +35,8 @@ const InputLayout = ({
           <label
             htmlFor={id}
             className={clsx(
-              'font-vazir font-bold text-[0.75rem] text-gray-800 mb-[0.5rem]', //! change text color if need
-              orientation === 'vertical' ? 'mr-3' : 'mr-1',
+              "font-vazir font-bold text-[0.75rem] text-gray-800 mb-[0.5rem]", //! change text color if need
+              orientation === "vertical" ? "mr-3" : "mr-1",
             )}
           >
             {label}
@@ -48,7 +47,7 @@ const InputLayout = ({
       {errorEnabled ? (
         <InputError error={error} />
       ) : hintEnabled ? (
-        <InputHint hint={hint??""} />
+        <InputHint hint={hint ?? ""} />
       ) : null}
 
       <div className="relative">{dropdown}</div>
@@ -58,7 +57,11 @@ const InputLayout = ({
 
 export const InputError = ({ error }: { error: string }) => {
   return (
-    <BodySmRegular color="errorColorHere" weight='font-bold' className="min-h-[1rem]">
+    <BodySmRegular
+      color="errorColorHere"
+      weight="font-bold"
+      className="min-h-[1rem]"
+    >
       {error}
     </BodySmRegular>
   );
@@ -66,7 +69,11 @@ export const InputError = ({ error }: { error: string }) => {
 
 export const InputHint = ({ hint }: { hint: string }) => {
   return (
-   <BodySmRegular color={"hintColorHere"} weight='font-bold' className="min-h-[1rem]">
+    <BodySmRegular
+      color={"hintColorHere"}
+      weight="font-bold"
+      className="min-h-[1rem]"
+    >
       {hint}
     </BodySmRegular>
   );

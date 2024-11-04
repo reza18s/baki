@@ -1,29 +1,28 @@
-import { FieldHookConfig, useField } from 'formik';
-import { ClassAttributes, InputHTMLAttributes, useState } from 'react';
-import style from './OutlineTextfield.module.scss';
-import clsx from 'clsx';
-import { TextfieldType } from './Textfield.types';
+import { FieldHookConfig, useField } from "formik";
+import { ClassAttributes, InputHTMLAttributes, useState } from "react";
+import style from "./OutlineTextfield.module.scss";
+import clsx from "clsx";
+import { TextfieldType } from "./Textfield.types";
 
-import { v4 as uuidv4 } from 'uuid';
-import InputLayout from './InputLayout';
+import { v4 as uuidv4 } from "uuid";
+import InputLayout from "./InputLayout";
 
-
-import Modal from '../Modal/Modal';
-import Datepicker from '../Datepicker/Datepicker';
+import Modal from "../Modal/Modal";
+import Datepicker from "../Datepicker/Datepicker";
 
 const OutlineTextfield = ({
   label,
   hint = undefined,
-  varient = 'white',
+  varient = "white",
   startIcon = null,
   endIcon = null,
-  mode = 'text',
+  mode = "text",
   id,
   inputClassName,
   errorEnabled = true,
   hintEnabled = true,
   dropdown,
-  dateFormat = 'jYYYY/jMM/jDD',
+  dateFormat = "jYYYY/jMM/jDD",
   ...props
 }: TextfieldType &
   InputHTMLAttributes<HTMLInputElement> &
@@ -33,7 +32,7 @@ const OutlineTextfield = ({
   const [datePicker, showDatepicker] = useState(false);
 
   const theId = id ?? uuidv4();
-  const isError = (mode === 'date' || meta.touched) && meta.error;
+  const isError = (mode === "date" || meta.touched) && meta.error;
   return (
     <InputLayout
       id={theId}
@@ -49,11 +48,11 @@ const OutlineTextfield = ({
         <input
           {...field}
           {...props}
-          readOnly={mode === 'date'}
+          readOnly={mode === "date"}
           onClick={(e) => {
             e.preventDefault();
             props.onClick?.(e);
-            if (mode === 'date') {
+            if (mode === "date") {
               showDatepicker(!datePicker);
             }
           }}

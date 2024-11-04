@@ -1,17 +1,17 @@
-import React, { ForwardedRef, forwardRef } from 'react';
-import style from './Button.module.scss';
-import clsx from 'clsx';
-import { ButtonProps } from './Button.type';
-import { DotesLoading } from '../Loader/Loader';
+import React, { ForwardedRef, forwardRef } from "react";
+import style from "./Button.module.scss";
+import clsx from "clsx";
+import { ButtonProps } from "./Button.type";
+import { DotesLoading } from "../Loader/Loader";
 
 const Button = forwardRef(function Button(
   props: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement>,
 ) {
   const {
-    variant = 'secondary',
+    variant = "secondary",
     children,
-    rounded = 'rounded-xl',
+    rounded = "rounded-xl",
     className,
     ...rest
   } = props;
@@ -28,7 +28,7 @@ const Button = forwardRef(function Button(
 });
 
 export const LargeButton: React.FC<ButtonProps> = ({
-  variant = 'secondary',
+  variant = "secondary",
   className,
   children,
   loading,
@@ -38,10 +38,7 @@ export const LargeButton: React.FC<ButtonProps> = ({
     <Button
       variant={variant}
       loading={loading}
-      className={clsx(
-        'py-3 w-full min-h-[54px] text-base',
-        className,
-      )}
+      className={clsx("py-3 w-full min-h-[54px] text-base", className)}
       {...rest}
     >
       {children}
