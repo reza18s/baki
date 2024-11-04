@@ -3,17 +3,18 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { MdTimer } from "react-icons/md";
 import { useSignupVerifyOtpMutation } from "../../../graphql/generated/graphql.codegen";
+import { useLocalStore } from "../../../store/useLocalStore";
 
 export default function VerifyOTP(props: {
   control: any;
   phone: string;
-  activePage: number;
   resendOtp(): void;
-  handlePrevStep(): void;
-  handleNextStep(): void;
 }) {
   const [timer, setTimer] = useState(60);
   const [otp, setOtp] = useState("");
+  const handleNextStep = useLocalStore((store) => store.handleNextStep);
+  const handlePrevStep = useLocalStore((store) => store.handlePrevStep);
+  const step = useLocalStore((store) => store.step);
 
   const { setValue, trigger, watch } = useForm();
 
@@ -35,12 +36,11 @@ export default function VerifyOTP(props: {
           otp: watch("token"),
         },
         onCompleted: (data) => {
-          console.log(data);
           localStorage.setItem(
             "token",
             JSON.stringify(data.verifyOtp?.accessToken),
           );
-          props.handleNextStep();
+          handleNextStep();
         },
       });
     }
@@ -58,30 +58,30 @@ export default function VerifyOTP(props: {
       });
     }, 1000);
     return () => clearInterval(timeInterval);
-  }, [props.activePage]);
+  }, [step]);
 
   return (
-    <div className="w-full flex flex-col items-center justify-between pb-[24px] h-full">
+    <div className="flex h-[calc(100%-32px)] w-full flex-col items-center justify-between">
       <div className="flex flex-col items-center gap-y-[40px]">
         {/* Head */}
         <div className="flex flex-col">
-          <h1 className="text-slate-950 text-[32px] font-bold">
+          <h1 className="text-[32px] font-bold text-slate-950">
             تایید شماره موبایل
           </h1>
           <p className="text-black/50">
             لطفا کدی که به شماره
-            <span className="text-[#1a1d1e] px-1">{props.phone}</span>
+            <span className="px-1 text-[#1a1d1e]">{props.phone}</span>
             ارسال کردیم را وارد کنید.
             <span
-              onClick={props.handlePrevStep}
-              className="text-[#1a1d1e] font-bold underline px-1 cursor-pointer"
+              onClick={handlePrevStep}
+              className="cursor-pointer px-1 font-bold text-[#1a1d1e] underline"
             >
               تغییر شماره
             </span>
           </p>
         </div>
         {/* Body */}
-        <div className="flex flex-col items-center justify-center space-y-[30px] mb-[5vh] text-black">
+        <div className="mb-[5vh] flex flex-col items-center justify-center space-y-[30px] text-black">
           <OtpInput
             value={otp}
             onChange={handleChange}
@@ -103,15 +103,15 @@ export default function VerifyOTP(props: {
         </div>
       </div>
       {/* Resend */}
-      <div className="flex items-center">
+      <div className="mb-5 flex w-full items-center justify-between">
         <div className="flex items-center gap-x-3">
           <MdTimer />
           {timer === 0 ? (
-            <p className="text-[#1a1d1e] text-xs w-[200px] underline font-bold">
+            <p className="w-[200px] text-xs font-bold text-[#1a1d1e] underline">
               ارسال مجدد کد تایید
             </p>
           ) : (
-            <p className="text-[#1a1d1e] text-xs w-[200px]">
+            <p className="w-[200px] text-xs text-[#1a1d1e]">
               کد تایید نهایتا تا {timer} ثانیه دیگر بدست شما میرسه!
             </p>
           )}
@@ -121,7 +121,7 @@ export default function VerifyOTP(props: {
           disabled={timer !== 0}
           className={`rounded-[12px] bg-slate-100 ${
             timer === 0 ? "bg-[#FFCC4E]" : "text-slate-400"
-          } font-bold px-5 py-4`}
+          } px-5 py-4 font-bold`}
         >
           تایید
         </button>
