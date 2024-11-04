@@ -1,45 +1,43 @@
-import { FieldValues, useForm } from "react-hook-form";
 import { IoEye } from "react-icons/io5";
 import RadioButton from "../../shared/Buttons/RadioButton";
-// import 'antd/dist/antd.css';
-
-export default function GetGender(props: {
-  control: any;
-  name: string;
-  handleSignup: () => void;
-}) {
-  const { control } = useForm();
+import { useLocalStore } from "../../../store/useLocalStore";
+export default function GetGender(props: { control: any; value: string }) {
+  const handleNextStep = useLocalStore((store) => store.handleNextStep);
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   return (
-    <div className="flex flex-col gap-y-[40px] w-full">
+    <div className="flex h-[calc(100%-32px)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">جنسیت</h1>
-        <p className="text-sm font-medium leading-tight text-[#64748B]">
+        <p className="mb-10 text-sm font-medium leading-tight text-[#64748B]">
           از بین گزینه های زیر یکی را انتخاب کنید .
         </p>
+        <RadioButton
+          control={props.control}
+          items={[
+            { label: "زن", value: "femail" },
+            { label: "مرد", value: "mail" },
+          ]}
+          name="gender"
+        />
       </div>
-      <RadioButton
-        control={control}
-        items={[
-          { label: "زن", value: "femail" },
-          { label: "مرد", value: "mail" },
-        ]}
-        name="gender"
-      />
       {/* Footer */}
-      <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
-        <div className="flex items-center gap-x-[8px] min-w-fit justify-between">
+      <div className="mb-5 flex w-full items-center justify-between">
+        <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
-          <p className="text-[#1a1d1e] text-xs font-medium leading-none w-[200px] pl-[29px]">
+          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-[#1a1d1e]">
             این نام در پروفایل شما نمایش داده خواهد شد .
           </p>
         </div>
         <button
-          disabled={props.name?.length < 1}
-          onClick={props.handleSignup}
+          disabled={props.value?.length < 1}
+          onClick={() => {
+            updateUserInfo({ gender: props.value });
+            handleNextStep();
+          }}
           className={`px-[20px] py-[16px] ${
-            props.name?.length > 1 ? "bg-[#ffcc4e]" : "bg-slate-100"
-          } rounded-[12px] text-slate-400 font-bold leading-none`}
+            props.value?.length > 1 ? "bg-[#ffcc4e]" : "bg-slate-100"
+          } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>

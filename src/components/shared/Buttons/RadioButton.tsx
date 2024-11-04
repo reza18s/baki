@@ -20,7 +20,7 @@ export default function RadioButton(props: RadioButtonProps) {
   return (
     <FormControl sx={{ width: "100%", padding: "8px" }}>
       <Controller
-        name={props.name}
+        name="gender"
         control={props.control}
         defaultValue={null}
         render={({ field }) => (

@@ -26,9 +26,12 @@ export default function MonthPicker(props: { control: any; name: string }) {
       render={({ field }) => (
         <Autocomplete
           {...field}
-          disablePortal
           options={items}
           getOptionLabel={(option) => option.label}
+          isOptionEqualToValue={(option, value) => option.key === value?.key}
+          disablePortal
+          onChange={(_, selectedOption) => field.onChange(selectedOption)}
+          value={field.value || null}
           className="!text-center text-base font-bold text-[#1a1d1e] h-[48px]"
           clearIcon={null} // حذف علامت ضربدر
           popupIcon={null} // حذف علامت فلش
@@ -39,7 +42,7 @@ export default function MonthPicker(props: { control: any; name: string }) {
               borderColor: "#1a1d1e",
               paddingRight: "0 !important",
               height: "48px",
-              width: "90px",
+              width: "120px",
             },
             "& .MuiAutocomplete-input": {
               textAlign: "right", // تنظیم متن به راست

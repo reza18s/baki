@@ -1,38 +1,34 @@
 import React, { useState } from "react";
 import * as SolarIconSet from "solar-icon-set";
-import { Button } from "antd";
 import UploadPictures from "../../shared/Inputs/UploadPictures";
+import { useLocalStore } from "../../../store/useLocalStore";
 
-export default function GetPictures(props: {
-  control: any;
-  name: string;
-  handleSignup: () => void;
-}) {
+export default function GetPictures(props: { control: any; name: string }) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
   const hideHelp = () => {
     setShowHelp(false);
   };
 
+  const handleNextStep = useLocalStore((store) => store.handleNextStep);
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   return (
-    <div className="flex flex-col gap-y-[40px] w-full">
+    <div className="flex h-[calc(100%-32px)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">تصاویر من</h1>
         <p className="text-sm font-medium leading-tight text-[#64748B]">
           در صورت تمایل تصویر دلخواه خود را اپلود کنید.
         </p>
+        <UploadPictures />
       </div>
-      {/* Body */}
-      <UploadPictures />
-      {/* Footer */}
-      <div className="absolute bottom-[24px] flex items-center justify-between gap-x-[16px] min-w-fit w-[90%] px-2">
-        <div className="flex items-center gap-x-[8px] min-w-fit justify-between">
+      <div className="mb-5 flex w-full min-w-fit items-center justify-between">
+        <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.Gallery size={24} />
-          <div className="text-[#1a1d1e] text-xs font-medium leading-none">
+          <div className="text-xs font-medium leading-none text-[#1a1d1e]">
             <p className="font-bold">
               نمی دونی چی آپلود کنی ؟
               <span
                 onClick={() => setShowHelp(true)}
-                className="underline font-bold mx-1"
+                className="mx-1 font-bold underline"
               >
                 مشاهده راهنما
               </span>
@@ -41,44 +37,47 @@ export default function GetPictures(props: {
         </div>
         <button
           disabled={props.name?.length < 1}
-          onClick={props.handleSignup}
-          className={`px-[20px] py-[16px] ${props.name?.length > 1 ? "bg-[#ffcc4e]" : "bg-slate-100"} rounded-[12px] text-slate-400 font-bold leading-none`}
+          onClick={() => {
+            // updateUserInfo({ residenceCity: select });
+            handleNextStep();
+          }}
+          className={`px-[20px] py-[16px] ${props.name?.length > 1 ? "bg-[#ffcc4e]" : "bg-slate-100"} rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>
       </div>
       {/* Help */}
       {showHelp && (
-        <div className="absolute w-[100vw] overflow-hidden h-[94vh] top-0 flex items-end justify-center px-[24px] pb-5 bg-black bg-opacity-70 z-50 mx-auto left-0 right-0">
-          <div className="bg-white min-h-fit w-full rounded-[24px] flex flex-col items-center justify-center py-3 px-[24px] text-brand-black text-sm">
+        <div className="absolute left-0 right-0 top-0 z-50 mx-auto flex h-[94vh] w-[100vw] items-end justify-center overflow-hidden bg-black bg-opacity-70 px-[24px] pb-5">
+          <div className="flex min-h-fit w-full flex-col items-center justify-center rounded-[24px] bg-white px-[24px] py-3 text-sm text-brand-black">
             {/* Head */}
-            <div className="w-full text-brand-yellow rounded-full p-[16px] max-w-fit">
+            <div className="w-full max-w-fit rounded-full p-[16px] text-brand-yellow">
               <SolarIconSet.GalleryCheck size={64} />
             </div>
             {/* Body */}
-            <div className="w-full h-full max-w-full max-h-[80%] text-[##64748B] flex flex-col items-center gap-y-4">
-              <h1 className="text-2xl font-bold text-center w-full">
+            <div className="flex h-full max-h-[80%] w-full max-w-full flex-col items-center gap-y-4 text-[##64748B]">
+              <h1 className="w-full text-center text-2xl font-bold">
                 راهنمای آپلود تصاویر
               </h1>
-              <div className="flex flex-col gap-y-3 w-full">
+              <div className="flex w-full flex-col gap-y-3">
                 <div className="flex items-center gap-x-2">
                   <SolarIconSet.CheckCircle
                     size={24}
-                    className="bg-brand-yellow text-white rounded-full"
+                    className="rounded-full bg-brand-yellow text-white"
                   />
                   <p>فقط خودت توی تصویر باش!</p>
                 </div>
                 <div className="flex items-center gap-x-2">
                   <SolarIconSet.CheckCircle
                     size={24}
-                    className="bg-brand-yellow text-white rounded-full"
+                    className="rounded-full bg-brand-yellow text-white"
                   />
                   <p>لبخند بزن!</p>
                 </div>
                 <div className="flex items-center gap-x-2">
                   <SolarIconSet.CheckCircle
                     size={24}
-                    className="bg-brand-yellow text-white rounded-full"
+                    className="rounded-full bg-brand-yellow text-white"
                   />
                   <p>تار نباشه!</p>
                 </div>
@@ -86,7 +85,7 @@ export default function GetPictures(props: {
             </div>
             <button
               onClick={hideHelp}
-              className="text-brand-black bg-brand-yellow rounded-[12px] w-full py-[16px] font-bold mt-[22px]"
+              className="mt-[22px] w-full rounded-[12px] bg-brand-yellow py-[16px] font-bold text-brand-black"
             >
               فهمیدم !
             </button>

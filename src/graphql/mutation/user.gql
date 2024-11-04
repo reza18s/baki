@@ -1,0 +1,43 @@
+mutation UpdateUser(
+  $gender: Gender
+  $birthday: String
+  $province: String
+  $city: String
+  $images: [String!]
+  $travelInterests: [TravelInterests!]
+  $personalInterests: [PersonalInterests!]
+  $mySpecialty: [String!]
+  $username: String
+  $bio: String
+  $maritalStatus: String
+  $smokeStatus: String
+  $sportsStatus: String
+  $amountOfEarlyRising: String
+  $languages: [Language!]
+  $traveledToPlaces: [String!]
+  $livedInPlaces: [String!]
+  $avatar: String
+) {
+  updateUser(
+    gender: $gender
+    birthday: $birthday
+    province: $province
+    city: $city
+    images: $images
+    travelInterests: $travelInterests
+    personalInterests: $personalInterests
+    mySpecialty: $mySpecialty
+    username: $username
+    bio: $bio
+    maritalStatus: $maritalStatus
+    smokeStatus: $smokeStatus
+    sportsStatus: $sportsStatus
+    AmountOfEarlyRising: $amountOfEarlyRising
+    languages: $languages
+    traveledToPlaces: $traveledToPlaces
+    livedInPlaces: $livedInPlaces
+    avatar: $avatar
+  ) {
+    id
+  }
+}

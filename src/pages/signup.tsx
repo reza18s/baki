@@ -1,21 +1,35 @@
 import * as SolarIconSet from "solar-icon-set";
-
 import { useForm } from "react-hook-form";
-import GetPhoneNumber from "../components/layout/Signup/GetPhoneNumber";
-import { useState } from "react";
+import { lazy, Suspense } from "react";
 import { useSignupMutation } from "../graphql/generated/graphql.codegen";
-import VerifyOTP from "../components/layout/Signup/VerifyOTP";
-import GetName from "../components/layout/Signup/GetName";
-import GetGender from "../components/layout/Signup/GetGender";
-import GetBirthdate from "../components/layout/Signup/GetBirthdate";
-import GetResidenceCity from "../components/layout/Signup/GetResidenceCity";
-import GetPictures from "../components/layout/Signup/GetPictures";
-import GetGeneralInterests from "../components/layout/Signup/GetGeneralInterests";
-import GetPersonalInterests from "../components/layout/Signup/GetPersonalInterests";
-import GetSpecialty from "../components/layout/Signup/GetSpecialty";
-import FinalStep from "../components/layout/Signup/FinalStep";
+import { useLocalStore } from "../store/useLocalStore";
+import { StepsNumber } from "../types";
 
-type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+const GetPhoneNumber = lazy(
+  () => import("../components/layout/Signup/GetPhoneNumber"),
+);
+const VerifyOTP = lazy(() => import("../components/layout/Signup/VerifyOTP"));
+const GetName = lazy(() => import("../components/layout/Signup/GetName"));
+const GetGender = lazy(() => import("../components/layout/Signup/GetGender"));
+const GetBirthdate = lazy(
+  () => import("../components/layout/Signup/GetBirthdate"),
+);
+const GetResidenceCity = lazy(
+  () => import("../components/layout/Signup/GetResidenceCity"),
+);
+const GetPictures = lazy(
+  () => import("../components/layout/Signup/GetPictures"),
+);
+const GetGeneralInterests = lazy(
+  () => import("../components/layout/Signup/GetTravelInterests"),
+);
+const GetPersonalInterests = lazy(
+  () => import("../components/layout/Signup/GetPersonalInterests"),
+);
+const GetSpecialty = lazy(
+  () => import("../components/layout/Signup/GetSpecialty"),
+);
+const FinalStep = lazy(() => import("../components/layout/Signup/FinalStep"));
 
 interface SignupForm {
   phoneNumber: string;
@@ -24,6 +38,9 @@ interface SignupForm {
   birthdate: string;
   residenceCity: string;
   pictures: string[];
+  specialty: string[];
+  generalInterests: string[];
+  personalInterests: string[];
 }
 
 const HeadStep = ({
@@ -32,156 +49,102 @@ const HeadStep = ({
 }: {
   stepNum: StepsNumber;
   activeStep: StepsNumber;
-}) => {
-  return (
-    <div
-      className={`w-[27.16px] h-[3.62px] ${
-        activeStep === stepNum ? "bg-[#ffcc4e]" : "bg-slate-100"
-      } rounded-xl`}
-    />
-  );
-};
+}) => (
+  <div
+    className={`h-[3.62px] w-[27.16px] ${
+      activeStep === stepNum ? "bg-[#ffcc4e]" : "bg-slate-100"
+    } rounded-xl`}
+  />
+);
 
 export default function Signup() {
-  const { register, watch, control } = useForm<SignupForm>({
-    // defaultValues: {
-    //   phoneNumber: '09395608390'}
+  const userInfo = useLocalStore((store) => store.userInfo);
+  const { control, watch } = useForm<SignupForm>({
+    defaultValues: {
+      name: userInfo.name || "",
+      gender: userInfo.gender || "",
+    },
   });
-
-  const [step, setStep] = useState<StepsNumber>(0);
-
-  const [signup, { data, loading, error }] = useSignupMutation();
+  const step = useLocalStore((store) => store.step);
+  const setStep = useLocalStore((store) => store.setSteps);
+  const [signup, { loading, error }] = useSignupMutation();
 
   const handleSignup = () => {
     signup({
       variables: { phoneNumber: watch("phoneNumber") },
-      onCompleted: (data) => {
-        console.log(data);
-        setStep(1);
-      },
-      onError(error) {
-        //
+      onCompleted: () => setStep(1),
+      onError: (error) => {
+        console.error("Signup error:", error);
+        alert("An error occurred. Please try again.");
       },
     });
   };
 
-  const handlePrevStep = () => {
-    setStep((prevStep: StepsNumber) => {
-      if (prevStep > 0) {
-        return (prevStep - 1) as StepsNumber;
-      } else {
-        return prevStep;
-      }
-    });
-  };
-
-  const handleNextStep = () => {
-    setStep((prevStep: StepsNumber) => {
-      if (prevStep < 10) {
-        return (prevStep + 1) as StepsNumber;
-      } else {
-        return prevStep;
-      }
-    });
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return (
+          <GetPhoneNumber
+            control={control}
+            handleSignup={handleSignup}
+            phoneNumber={watch("phoneNumber")}
+          />
+        );
+      case 1:
+        return (
+          <VerifyOTP
+            control={control}
+            phone={watch("phoneNumber")}
+            resendOtp={handleSignup}
+          />
+        );
+      case 2:
+        return <GetName control={control} value={watch("name")} />;
+      case 3:
+        return <GetGender control={control} value={watch("gender")} />;
+      case 4:
+        return <GetBirthdate />;
+      case 5:
+        return <GetResidenceCity />;
+      case 6:
+        return <GetPictures control={control} name={watch("name")} />;
+      case 7:
+        return <GetGeneralInterests />;
+      case 8:
+        return <GetPersonalInterests />;
+      case 9:
+        return <GetSpecialty />;
+      case 10:
+        return <FinalStep />;
+      default:
+        return null;
+    }
   };
 
   return (
     <div
-      className="text-black p-[24px] relative h-full max-w-[100vw] overflow-auto"
+      className="relative h-full max-w-[100vw] overflow-auto p-6 pb-0 text-black"
       dir="rtl"
     >
       {/* Head */}
-      <div className="flex items-center justify-between gap-x-[7px] w-full">
-        <SolarIconSet.SquareArrowRight size={32} />
+      <div className="flex w-full items-center justify-between gap-x-[7px]">
+        <SolarIconSet.SquareArrowRight
+          size={32}
+          onClick={() =>
+            setStep((prev) => (prev > 0 ? ((prev - 1) as StepsNumber) : prev))
+          }
+        />
         {/* Progress bar */}
-        <div className="flex justify-around gap-x-[1.81px] w-full">
-          {/* Steps */}
+        <div className="flex w-full justify-around gap-x-[1.81px]">
           {[...Array(11)].map((_, i) => (
             <HeadStep key={i} stepNum={i as StepsNumber} activeStep={step} />
           ))}
         </div>
       </div>
       {/* Body */}
-      {step === 0 && (
-        <GetPhoneNumber
-          control={control}
-          handleSignup={handleSignup}
-          phoneNumber={watch("phoneNumber")}
-        />
-      )}
-      {step === 1 && (
-        <VerifyOTP
-          activePage={step}
-          control={control}
-          phone={watch("phoneNumber")}
-          resendOtp={handleSignup}
-          handlePrevStep={handlePrevStep}
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 2 && (
-        <GetName
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 3 && (
-        <GetGender
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 4 && (
-        <GetBirthdate
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 5 && (
-        <GetResidenceCity
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 6 && (
-        <GetPictures
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 7 && (
-        <GetGeneralInterests
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 8 && (
-        <GetPersonalInterests
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 9 && (
-        <GetSpecialty
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
-      {step === 10 && (
-        <FinalStep
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
-      )}
+      <Suspense fallback={<div>Loading step...</div>}>{renderStep()}</Suspense>
+      {error && <div className="mt-2 text-red-500">Error: {error.message}</div>}
+      {loading && <div className="mt-2 text-blue-500">Processing...</div>}
     </div>
   );
 }
