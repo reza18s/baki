@@ -15,7 +15,7 @@ import GetPersonalInterests from '../components/layout/Signup/GetPersonalInteres
 import GetSpecialty from '../components/layout/Signup/GetSpecialty';
 import FinalStep from '../components/layout/Signup/FinalStep';
 
-type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 interface SignupForm {
   phoneNumber: string;
@@ -26,22 +26,27 @@ interface SignupForm {
   pictures: string[];
 }
 
-const HeadStep = ({ stepNum, activeStep }: { stepNum: StepsNumber, activeStep: StepsNumber }) => {
+const HeadStep = ({
+  stepNum,
+  activeStep,
+}: {
+  stepNum: StepsNumber;
+  activeStep: StepsNumber;
+}) => {
   return (
     <div
-      className={`w-[27.16px] h-[3.62px] ${activeStep === stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-        } rounded-xl`}
+      className={`w-[27.16px] h-[3.62px] ${
+        activeStep === stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+      } rounded-xl`}
     />
-  )
-}
+  );
+};
 
 export default function Signup() {
-  const { register, watch, control } = useForm<SignupForm>(
-    {
-      // defaultValues: {
-      //   phoneNumber: '09395608390'}
-      }
-  );
+  const { register, watch, control } = useForm<SignupForm>({
+    // defaultValues: {
+    //   phoneNumber: '09395608390'}
+  });
 
   const [step, setStep] = useState<StepsNumber>(0);
 
@@ -51,6 +56,7 @@ export default function Signup() {
     signup({
       variables: { phoneNumber: watch('phoneNumber') },
       onCompleted: (data) => {
+        console.log(data);
         setStep(1);
       },
       onError(error) {
@@ -66,7 +72,7 @@ export default function Signup() {
       } else {
         return prevStep;
       }
-      });
+    });
   };
 
   const handleNextStep = () => {
@@ -80,7 +86,10 @@ export default function Signup() {
   };
 
   return (
-    <div className="text-black p-[24px] relative h-full max-w-[100vw] overflow-auto" dir="rtl">
+    <div
+      className="text-black p-[24px] relative h-full max-w-[100vw] overflow-auto"
+      dir="rtl"
+    >
       {/* Head */}
       <div className="flex items-center justify-between gap-x-[7px] w-full">
         <SolarIconSet.SquareArrowRight size={32} />
@@ -93,39 +102,86 @@ export default function Signup() {
         </div>
       </div>
       {/* Body */}
-      {step === 0 &&
-        <GetPhoneNumber control={control} handleSignup={handleSignup} phoneNumber={watch("phoneNumber")} />
-      }
-      {step === 1 &&
-        <VerifyOTP activePage={step} control={control} phone={watch("phoneNumber")} resendOtp={handleSignup} handlePrevStep={handlePrevStep} handleNextStep={handleNextStep} />
-      }
-      {step === 2 &&
-        <GetName control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 3 &&
-        <GetGender control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 4 &&
-        <GetBirthdate control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 5 &&
-        <GetResidenceCity control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 6 &&
-        <GetPictures control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 7 &&
-        <GetGeneralInterests control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 8 &&
-        <GetPersonalInterests control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 9 &&
-        <GetSpecialty control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
-      {step === 10 &&
-        <FinalStep control={control} handleSignup={handleSignup} name={watch("name")} />
-      }
+      {step === 0 && (
+        <GetPhoneNumber
+          control={control}
+          handleSignup={handleSignup}
+          phoneNumber={watch('phoneNumber')}
+        />
+      )}
+      {step === 1 && (
+        <VerifyOTP
+          activePage={step}
+          control={control}
+          phone={watch('phoneNumber')}
+          resendOtp={handleSignup}
+          handlePrevStep={handlePrevStep}
+          handleNextStep={handleNextStep}
+        />
+      )}
+      {step === 2 && (
+        <GetName
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 3 && (
+        <GetGender
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 4 && (
+        <GetBirthdate
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 5 && (
+        <GetResidenceCity
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 6 && (
+        <GetPictures
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 7 && (
+        <GetGeneralInterests
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 8 && (
+        <GetPersonalInterests
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 9 && (
+        <GetSpecialty
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
+      {step === 10 && (
+        <FinalStep
+          control={control}
+          handleSignup={handleSignup}
+          name={watch('name')}
+        />
+      )}
     </div>
   );
 }
