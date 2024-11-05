@@ -1,11 +1,12 @@
 mutation UpdateUser(
+  $name: String
   $gender: Gender
   $birthday: String
   $province: String
   $city: String
   $images: [String!]
-  $travelInterests: [TravelInterests!]
-  $personalInterests: [PersonalInterests!]
+  $travelInterests: [String!]
+  $personalInterests: [String!]
   $mySpecialty: [String!]
   $username: String
   $bio: String
@@ -13,12 +14,13 @@ mutation UpdateUser(
   $smokeStatus: String
   $sportsStatus: String
   $amountOfEarlyRising: String
-  $languages: [Language!]
+  $languages: [String!]
   $traveledToPlaces: [String!]
   $livedInPlaces: [String!]
   $avatar: String
 ) {
   updateUser(
+    name: $name
     gender: $gender
     birthday: $birthday
     province: $province

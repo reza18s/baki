@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { StepsNumber } from "../types";
-import { Gender, TravelInterests } from "../graphql/generated/graphql.codegen";
+import { Gender } from "../graphql/generated/graphql.codegen";
 export type UserInfo = {
   phoneNumber: string;
   name: string;
@@ -9,7 +9,7 @@ export type UserInfo = {
   birthdate: string;
   residenceCity: string;
   pictures: string[];
-  travelsInterests: TravelInterests[];
+  travelsInterests: string[];
   personalInterests: string[];
   specialty: string[];
 };

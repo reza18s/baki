@@ -36,10 +36,7 @@ export default function VerifyOTP(props: {
           otp: watch("token"),
         },
         onCompleted: (data) => {
-          localStorage.setItem(
-            "token",
-            JSON.stringify(data.verifyOtp?.accessToken),
-          );
+          localStorage.setItem("token", data.verifyOtp?.accessToken as string);
           handleNextStep();
         },
       });

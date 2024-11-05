@@ -68,7 +68,7 @@ import PotteryIcon from "../../../assets/img/signup/PotteryIcon.svg";
 import GardeningIcon from "../../../assets/img/signup/GardeningIcon.svg";
 import NatureTourIcon from "../../../assets/img/signup/NatureTourIcon.svg";
 import CulturalExchangeIcon from "../../../assets/img/signup/CulturalExchangeIcon.svg";
-export const GeneralInterestsItems = [
+export const TravelInterestsItems = [
   {
     title: "قوم شناسی",
     icon: EthnologyIcon,

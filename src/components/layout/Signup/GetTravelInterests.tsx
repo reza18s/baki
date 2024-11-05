@@ -1,8 +1,7 @@
 import * as SolarIconSet from "solar-icon-set";
 import { useState } from "react";
 import { useLocalStore } from "../../../store/useLocalStore";
-import { GeneralInterestsItems } from "./constants";
-import { TravelInterests } from "../../../graphql/generated/graphql.codegen";
+import { TravelInterestsItems } from "./constants";
 
 export default function GetTravelInterests() {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
@@ -11,9 +10,7 @@ export default function GetTravelInterests() {
   const setShowAllTrue = () => {
     setShowAll(true);
   };
-  const [selectedInterests, setSelectedInterests] = useState<TravelInterests[]>(
-    [],
-  );
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const handleClickInterests = (selected: string) => {
     if (selectedInterests.includes(selected)) {
       setSelectedInterests((prevInterests: any) =>
@@ -36,14 +33,13 @@ export default function GetTravelInterests() {
           کمکمون میکنه افراد با علاقه‌مندی‌های مشابه رو بهتون پیشنهاد بدیم!
         </p>
         <div className="mb-10 flex min-h-fit w-full flex-col items-start justify-around gap-y-3">
-          {GeneralInterestsItems.map((item, index) => {
+          {TravelInterestsItems.map((item, index) => {
             const nextIndex =
-              GeneralInterestsItems.length + 1 >= index &&
-              (showAll || index < 9)
+              TravelInterestsItems.length + 1 >= index && (showAll || index < 9)
                 ? index + 1
                 : 0;
             const nextItem =
-              nextIndex > 0 ? GeneralInterestsItems[nextIndex] : null;
+              nextIndex > 0 ? TravelInterestsItems[nextIndex] : null;
             if (index % 2 === 0) {
               return (
                 <div className="flex items-center gap-x-2" key={item.title}>

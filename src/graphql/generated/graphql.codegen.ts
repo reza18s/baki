@@ -106,111 +106,236 @@ export type Includes = {
 };
 
 export enum Language {
-  Abkhaz = 'Abkhaz',
-  Afrikaans = 'Afrikaans',
-  Albanian = 'Albanian',
-  Altai = 'Altai',
-  Amharic = 'Amharic',
-  Armenian = 'Armenian',
-  Avar = 'Avar',
-  Aymara = 'Aymara',
-  Azerbaijani = 'Azerbaijani',
-  Bashkir = 'Bashkir',
-  Basque = 'Basque',
-  Bengali = 'Bengali',
-  Bosnian = 'Bosnian',
-  Breton = 'Breton',
-  Buryat = 'Buryat',
-  Cantonese = 'Cantonese',
-  Catalan = 'Catalan',
-  Cebuano = 'Cebuano',
-  Chechen = 'Chechen',
-  Chuvash = 'Chuvash',
-  Corsican = 'Corsican',
-  Dutch = 'Dutch',
-  English = 'English',
-  Frisian = 'Frisian',
-  Galician = 'Galician',
-  Georgian = 'Georgian',
-  German = 'German',
-  Greek = 'Greek',
-  Guarani = 'Guarani',
-  Gujarati = 'Gujarati',
-  HaitianCreole = 'HaitianCreole',
-  Hebrew = 'Hebrew',
-  Hindi = 'Hindi',
-  Huichol = 'Huichol',
-  Hungarian = 'Hungarian',
-  Icelandic = 'Icelandic',
-  Igbo = 'Igbo',
-  Indonesian = 'Indonesian',
-  Ingush = 'Ingush',
-  Irish = 'Irish',
-  Italian = 'Italian',
-  Japanese = 'Japanese',
-  Javanese = 'Javanese',
-  Kabardian = 'Kabardian',
-  Kalmyk = 'Kalmyk',
-  KarachayBalkar = 'KarachayBalkar',
-  Kazakh = 'Kazakh',
-  Khmer = 'Khmer',
-  Korean = 'Korean',
-  Kurdish = 'Kurdish',
-  Kyrgyz = 'Kyrgyz',
-  Lao = 'Lao',
-  Laz = 'Laz',
-  Lezgin = 'Lezgin',
-  Luxembourgish = 'Luxembourgish',
-  Malagasy = 'Malagasy',
-  Maltese = 'Maltese',
-  Manx = 'Manx',
-  Maori = 'Maori',
-  Marathi = 'Marathi',
-  Mari = 'Mari',
-  Mazahua = 'Mazahua',
-  Mingrelian = 'Mingrelian',
-  Mixtec = 'Mixtec',
-  Mongolian = 'Mongolian',
-  Mordvin = 'Mordvin',
-  Nahuatl = 'Nahuatl',
-  Nepali = 'Nepali',
-  Ossetian = 'Ossetian',
-  Otomi = 'Otomi',
-  Pashto = 'Pashto',
-  Persian = 'Persian',
-  Polish = 'Polish',
-  Portuguese = 'Portuguese',
-  Purepecha = 'Purepecha',
-  Quechua = 'Quechua',
-  Romanian = 'Romanian',
-  Russian = 'Russian',
-  Sami = 'Sami',
-  ScottishGaelic = 'ScottishGaelic',
-  SerboCroatian = 'SerboCroatian',
-  Sinhala = 'Sinhala',
-  Somali = 'Somali',
-  Spanish = 'Spanish',
-  Svan = 'Svan',
-  Swahili = 'Swahili',
-  Tajik = 'Tajik',
-  Tatar = 'Tatar',
-  Telugu = 'Telugu',
-  Thai = 'Thai',
-  Tibetan = 'Tibetan',
-  Turkish = 'Turkish',
-  Turkmen = 'Turkmen',
-  Tuvan = 'Tuvan',
-  Ukrainian = 'Ukrainian',
-  Urdu = 'Urdu',
-  Uyghur = 'Uyghur',
-  Uzbek = 'Uzbek',
-  Vietnamese = 'Vietnamese',
-  Welsh = 'Welsh',
-  Xhosa = 'Xhosa',
-  Yakut = 'Yakut',
-  Yiddish = 'Yiddish',
-  Yoruba = 'Yoruba',
-  Zulu = 'Zulu'
+  Abkhaz = 'ABKHAZ',
+  Acehnese = 'ACEHNESE',
+  Acholi = 'ACHOLI',
+  Afar = 'AFAR',
+  Afrikaans = 'AFRIKAANS',
+  Akan = 'AKAN',
+  Albanian = 'ALBANIAN',
+  Alur = 'ALUR',
+  Amharic = 'AMHARIC',
+  Arabic = 'ARABIC',
+  Armenian = 'ARMENIAN',
+  Assamese = 'ASSAMESE',
+  Avar = 'AVAR',
+  Awadhi = 'AWADHI',
+  Aymara = 'AYMARA',
+  Azerbaijani = 'AZERBAIJANI',
+  Balinese = 'BALINESE',
+  Baluchi = 'BALUCHI',
+  Bambara = 'BAMBARA',
+  Baoule = 'BAOULE',
+  Bashkir = 'BASHKIR',
+  Basque = 'BASQUE',
+  BatakKaro = 'BATAK_KARO',
+  BatakSimalungun = 'BATAK_SIMALUNGUN',
+  BatakToba = 'BATAK_TOBA',
+  Belarusian = 'BELARUSIAN',
+  Bemba = 'BEMBA',
+  Bengali = 'BENGALI',
+  Betawi = 'BETAWI',
+  Bhojpuri = 'BHOJPURI',
+  Bikol = 'BIKOL',
+  Bislama = 'BISLAMA',
+  Bosnian = 'BOSNIAN',
+  Breton = 'BRETON',
+  Bulgarian = 'BULGARIAN',
+  Burmese = 'BURMESE',
+  Cantonese = 'CANTONESE',
+  Catalan = 'CATALAN',
+  Cebuano = 'CEBUANO',
+  Chamorro = 'CHAMORRO',
+  Chechen = 'CHECHEN',
+  Chichewa = 'CHICHEWA',
+  ChineseSimplified = 'CHINESE_SIMPLIFIED',
+  ChineseTraditional = 'CHINESE_TRADITIONAL',
+  Chuukes = 'CHUUKES',
+  Chuvash = 'CHUVASH',
+  Corsican = 'CORSICAN',
+  CrimeanTatar = 'CRIMEAN_TATAR',
+  Croatian = 'CROATIAN',
+  Czech = 'CZECH',
+  Danish = 'DANISH',
+  Dari = 'DARI',
+  Dinka = 'DINKA',
+  Divehi = 'DIVEHI',
+  Dombe = 'DOMBE',
+  Dutch = 'DUTCH',
+  Dyula = 'DYULA',
+  Dzongkha = 'DZONGKHA',
+  English = 'ENGLISH',
+  Esperanto = 'ESPERANTO',
+  Estonian = 'ESTONIAN',
+  Ewe = 'EWE',
+  Faroese = 'FAROESE',
+  Fijian = 'FIJIAN',
+  Filipino = 'FILIPINO',
+  Finnish = 'FINNISH',
+  Fon = 'FON',
+  French = 'FRENCH',
+  Frisian = 'FRISIAN',
+  Friulian = 'FRIULIAN',
+  Fulani = 'FULANI',
+  Ga = 'GA',
+  Galician = 'GALICIAN',
+  Georgian = 'GEORGIAN',
+  German = 'GERMAN',
+  Greek = 'GREEK',
+  Guarani = 'GUARANI',
+  Gujarati = 'GUJARATI',
+  HaitianCreole = 'HAITIAN_CREOLE',
+  HakhaChin = 'HAKHA_CHIN',
+  Hausa = 'HAUSA',
+  Hawaiian = 'HAWAIIAN',
+  Hebrew = 'HEBREW',
+  Hiligaynon = 'HILIGAYNON',
+  Hindi = 'HINDI',
+  Hmong = 'HMONG',
+  Hungarian = 'HUNGARIAN',
+  Hunsrik = 'HUNSRIK',
+  Iban = 'IBAN',
+  Icelandic = 'ICELANDIC',
+  Igbo = 'IGBO',
+  Ilocano = 'ILOCANO',
+  Indonesian = 'INDONESIAN',
+  Irish = 'IRISH',
+  Italian = 'ITALIAN',
+  JamaicanPatois = 'JAMAICAN_PATOIS',
+  Japanese = 'JAPANESE',
+  Javanese = 'JAVANESE',
+  Jingpo = 'JINGPO',
+  Kalaallisut = 'KALAALLISUT',
+  Kannada = 'KANNADA',
+  Kanuri = 'KANURI',
+  Kapampangan = 'KAPAMPANGAN',
+  Kazakh = 'KAZAKH',
+  Khasi = 'KHASI',
+  Khmer = 'KHMER',
+  Kiga = 'KIGA',
+  Kikongo = 'KIKONGO',
+  Kinyarwanda = 'KINYARWANDA',
+  Kirundi = 'KIRUNDI',
+  Kituba = 'KITUBA',
+  Kokborok = 'KOKBOROK',
+  Komi = 'KOMI',
+  Korean = 'KOREAN',
+  KurdishKurmanji = 'KURDISH_KURMANJI',
+  KurdishSorani = 'KURDISH_SORANI',
+  Kyrgyz = 'KYRGYZ',
+  Lao = 'LAO',
+  Latgalian = 'LATGALIAN',
+  Latin = 'LATIN',
+  Latvian = 'LATVIAN',
+  Ligurian = 'LIGURIAN',
+  Limburgish = 'LIMBURGISH',
+  Lingala = 'LINGALA',
+  Lithuanian = 'LITHUANIAN',
+  Lombard = 'LOMBARD',
+  Luo = 'LUO',
+  Luxembourgish = 'LUXEMBOURGISH',
+  Macedonian = 'MACEDONIAN',
+  Madurese = 'MADURESE',
+  Makassar = 'MAKASSAR',
+  Malagasy = 'MALAGASY',
+  Malay = 'MALAY',
+  Malayalam = 'MALAYALAM',
+  MalayJawi = 'MALAY_JAWI',
+  Maltese = 'MALTESE',
+  Manx = 'MANX',
+  Maori = 'MAORI',
+  Marathi = 'MARATHI',
+  Marshallese = 'MARSHALLESE',
+  Marwadi = 'MARWADI',
+  MauritianCreole = 'MAURITIAN_CREOLE',
+  MeadowMari = 'MEADOW_MARI',
+  Minang = 'MINANG',
+  Mongolian = 'MONGOLIAN',
+  Nahuatl = 'NAHUATL',
+  Ndau = 'NDAU',
+  NdebeleSouth = 'NDEBELE_SOUTH',
+  NepalbhasaNewari = 'NEPALBHASA_NEWARI',
+  Nepali = 'NEPALI',
+  Nko = 'NKO',
+  Norwegian = 'NORWEGIAN',
+  Nuer = 'NUER',
+  Nyanja = 'NYANJA',
+  Occitan = 'OCCITAN',
+  Odia = 'ODIA',
+  Ossetian = 'OSSETIAN',
+  Pangasinan = 'PANGASINAN',
+  Papiamento = 'PAPIAMENTO',
+  Pashto = 'PASHTO',
+  Persian = 'PERSIAN',
+  Polish = 'POLISH',
+  Portuguese = 'PORTUGUESE',
+  PunjabiGurmukhi = 'PUNJABI_GURMUKHI',
+  PunjabiShahmukhi = 'PUNJABI_SHAHMUKHI',
+  Quechua = 'QUECHUA',
+  QEqchi = 'Q_EQCHI',
+  Romani = 'ROMANI',
+  Romanian = 'ROMANIAN',
+  Russian = 'RUSSIAN',
+  SamiNorth = 'SAMI_NORTH',
+  Samoan = 'SAMOAN',
+  Sango = 'SANGO',
+  Santali = 'SANTALI',
+  ScotsGaelic = 'SCOTS_GAELIC',
+  Serbian = 'SERBIAN',
+  Sesotho = 'SESOTHO',
+  SeychelloisCreole = 'SEYCHELLOIS_CREOLE',
+  Shan = 'SHAN',
+  Shona = 'SHONA',
+  Sicilian = 'SICILIAN',
+  Silesian = 'SILESIAN',
+  Sindhi = 'SINDHI',
+  Sinhala = 'SINHALA',
+  Slovak = 'SLOVAK',
+  Slovenian = 'SLOVENIAN',
+  Somali = 'SOMALI',
+  Spanish = 'SPANISH',
+  Sundanese = 'SUNDANESE',
+  Susu = 'SUSU',
+  Swahili = 'SWAHILI',
+  Swati = 'SWATI',
+  Swedish = 'SWEDISH',
+  Tahitian = 'TAHITIAN',
+  Tajik = 'TAJIK',
+  Tamazight = 'TAMAZIGHT',
+  Tamil = 'TAMIL',
+  Tatar = 'TATAR',
+  Telugu = 'TELUGU',
+  Tetum = 'TETUM',
+  Thai = 'THAI',
+  Tibetan = 'TIBETAN',
+  Tigrinya = 'TIGRINYA',
+  Tiv = 'TIV',
+  TokPisin = 'TOK_PISIN',
+  Tongan = 'TONGAN',
+  Tswana = 'TSWANA',
+  Tulu = 'TULU',
+  Tumbuka = 'TUMBUKA',
+  Turkish = 'TURKISH',
+  Turkmen = 'TURKMEN',
+  Tuvan = 'TUVAN',
+  Udmurt = 'UDMURT',
+  Ukrainian = 'UKRAINIAN',
+  Urdu = 'URDU',
+  Uyghur = 'UYGHUR',
+  Uzbek = 'UZBEK',
+  Venda = 'VENDA',
+  Venetian = 'VENETIAN',
+  Vietnamese = 'VIETNAMESE',
+  Waray = 'WARAY',
+  Welsh = 'WELSH',
+  Wolof = 'WOLOF',
+  Xhosa = 'XHOSA',
+  Yakut = 'YAKUT',
+  Yiddish = 'YIDDISH',
+  Yoruba = 'YORUBA',
+  YucatecMaya = 'YUCATEC_MAYA',
+  Zapotec = 'ZAPOTEC',
+  Zulu = 'ZULU'
 }
 
 export type Message = {
@@ -333,15 +458,16 @@ export type MutationUpdateUserArgs = {
   city?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
   images?: InputMaybe<Array<Scalars['String']['input']>>;
-  languages?: InputMaybe<Array<Language>>;
+  languages?: InputMaybe<Array<Scalars['String']['input']>>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
   maritalStatus?: InputMaybe<Scalars['String']['input']>;
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']>>;
-  personalInterests?: InputMaybe<Array<PersonalInterests>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  personalInterests?: InputMaybe<Array<Scalars['String']['input']>>;
   province?: InputMaybe<Scalars['String']['input']>;
   smokeStatus?: InputMaybe<Scalars['String']['input']>;
   sportsStatus?: InputMaybe<Scalars['String']['input']>;
-  travelInterests?: InputMaybe<Array<TravelInterests>>;
+  travelInterests?: InputMaybe<Array<Scalars['String']['input']>>;
   traveledToPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -373,45 +499,6 @@ export enum NotificationType {
   FriendRequest = 'FRIEND_REQUEST',
   Invitation = 'INVITATION',
   Message = 'MESSAGE'
-}
-
-export enum PersonalInterests {
-  Acting = 'Acting',
-  ActionMovies = 'ActionMovies',
-  Adventure = 'Adventure',
-  Ballad = 'Ballad',
-  Basketball = 'Basketball',
-  Billiards = 'Billiards',
-  BoardGames = 'BoardGames',
-  Bowling = 'Bowling',
-  Camping = 'Camping',
-  ClassicalMusic = 'ClassicalMusic',
-  CoffeeAndDrinks = 'CoffeeAndDrinks',
-  ComedyMovies = 'ComedyMovies',
-  DanceMusic = 'DanceMusic',
-  FastFood = 'FastFood',
-  FilmDirecting = 'FilmDirecting',
-  Fitness = 'Fitness',
-  InternationalCuisine = 'InternationalCuisine',
-  JazzMusic = 'JazzMusic',
-  MountainClimbing = 'MountainClimbing',
-  MoviesAndSeries = 'MoviesAndSeries',
-  PetsBird = 'Pets_Bird',
-  PetsCat = 'Pets_Cat',
-  PetsDog = 'Pets_Dog',
-  PetsFish = 'Pets_Fish',
-  PetsHamster = 'Pets_Hamster',
-  PingPong = 'PingPong',
-  PopMusic = 'PopMusic',
-  RapMusic = 'RapMusic',
-  RomanticMovies = 'RomanticMovies',
-  ScienceFictionMovies = 'ScienceFictionMovies',
-  Singing = 'Singing',
-  SportsMatches = 'SportsMatches',
-  Sweets = 'Sweets',
-  ThrillerMovies = 'ThrillerMovies',
-  Traveling = 'Traveling',
-  Volleyball = 'Volleyball'
 }
 
 export type Plan = {
@@ -471,32 +558,6 @@ export enum Role {
   User = 'user'
 }
 
-export enum TravelInterests {
-  Adventure = 'Adventure',
-  Anthropology = 'Anthropology',
-  Beach = 'Beach',
-  Boating = 'Boating',
-  Camping = 'Camping',
-  CliffDiving = 'CliffDiving',
-  Cultural = 'Cultural',
-  Fishing = 'Fishing',
-  FoodAndCooking = 'FoodAndCooking',
-  Hiking = 'Hiking',
-  HistoricalSites = 'HistoricalSites',
-  Kayaking = 'Kayaking',
-  MountainClimbing = 'MountainClimbing',
-  Nature = 'Nature',
-  OffroadRiding = 'OffroadRiding',
-  RuralTourism = 'RuralTourism',
-  ScubaDiving = 'ScubaDiving',
-  Shopping = 'Shopping',
-  Skiing = 'Skiing',
-  Swimming = 'Swimming',
-  TrainTravel = 'TrainTravel',
-  Walking = 'Walking',
-  WildLife = 'WildLife'
-}
-
 export type User = {
   AmountOfEarlyRising?: Maybe<Scalars['String']['output']>;
   LivedInPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -515,14 +576,14 @@ export type User = {
   hostingInvitations?: Maybe<Array<Maybe<HostingInvitation>>>;
   id: Scalars['String']['output'];
   images?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  languages?: Maybe<Array<Maybe<Language>>>;
+  languages?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
   messages?: Maybe<Array<Maybe<Message>>>;
   mySpecialty?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   name?: Maybe<Scalars['String']['output']>;
   otp?: Maybe<Scalars['String']['output']>;
   otpExpiresAt?: Maybe<Scalars['DateTime']['output']>;
-  personalInterests?: Maybe<Array<Maybe<PersonalInterests>>>;
+  personalInterests?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   phoneNumber: Scalars['String']['output'];
   plans?: Maybe<Array<Maybe<Plan>>>;
   province?: Maybe<Scalars['String']['output']>;
@@ -532,7 +593,7 @@ export type User = {
   score?: Maybe<Scalars['Int']['output']>;
   smokeStatus?: Maybe<Scalars['String']['output']>;
   sportsStatus?: Maybe<Scalars['String']['output']>;
-  travelInterests?: Maybe<Array<Maybe<TravelInterests>>>;
+  travelInterests?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   traveledToPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   updatedAt: Scalars['DateTime']['output'];
   username?: Maybe<Scalars['String']['output']>;
@@ -565,13 +626,14 @@ export type SignupVerifyOtpMutationVariables = Exact<{
 export type SignupVerifyOtpMutation = { verifyOtp?: { accessToken?: string | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
+  name?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
   birthday?: InputMaybe<Scalars['String']['input']>;
   province?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
-  travelInterests?: InputMaybe<Array<TravelInterests> | TravelInterests>;
-  personalInterests?: InputMaybe<Array<PersonalInterests> | PersonalInterests>;
+  travelInterests?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  personalInterests?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
@@ -579,7 +641,7 @@ export type UpdateUserMutationVariables = Exact<{
   smokeStatus?: InputMaybe<Scalars['String']['input']>;
   sportsStatus?: InputMaybe<Scalars['String']['input']>;
   amountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
-  languages?: InputMaybe<Array<Language> | Language>;
+  languages?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   traveledToPlaces?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
@@ -655,8 +717,9 @@ export type SignupVerifyOtpMutationHookResult = ReturnType<typeof useSignupVerif
 export type SignupVerifyOtpMutationResult = Apollo.MutationResult<SignupVerifyOtpMutation>;
 export type SignupVerifyOtpMutationOptions = Apollo.BaseMutationOptions<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($gender: Gender, $birthday: String, $province: String, $city: String, $images: [String!], $travelInterests: [TravelInterests!], $personalInterests: [PersonalInterests!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [Language!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $avatar: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthday: String, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $avatar: String) {
   updateUser(
+    name: $name
     gender: $gender
     birthday: $birthday
     province: $province
@@ -695,6 +758,7 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  * @example
  * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
  *   variables: {
+ *      name: // value for 'name'
  *      gender: // value for 'gender'
  *      birthday: // value for 'birthday'
  *      province: // value for 'province'

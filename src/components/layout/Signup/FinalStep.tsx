@@ -26,11 +26,13 @@ export default function FinalStep() {
         onClick={() => {
           updateUser({
             variables: {
-              birthday: userInfo.birthdate,
-              travelInterests: userInfo.travelsInterests,
-              gender: userInfo.gender,
-              province: userInfo.residenceCity,
-              mySpecialty: userInfo.specialty,
+              name: "lllll",
+            },
+            onCompleted: (data) => {
+              console.log(data);
+            },
+            onError: (err) => {
+              console.log(err);
             },
           });
         }}
