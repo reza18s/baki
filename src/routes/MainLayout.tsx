@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
 import * as SolarIconSet from "solar-icon-set";
-import BakiLogo from "../../../assets/img/Explore/BakiLogo.svg";
 import { MdOutlineTravelExplore } from "react-icons/md";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 
@@ -8,7 +7,7 @@ interface MailLayoutProps extends RouteComponentProps {
   children: ReactNode;
 }
 
-function MailLayout({ children, location }: MailLayoutProps) {
+function MainLayout({ children, location }: MailLayoutProps) {
   // Determine which icon should be brand-yellow based on the current URL
   const [isChatActive, setIsChatActive] = React.useState(false);
   const [isExploreActive, setIsExploreActive] = React.useState(false);
@@ -23,17 +22,11 @@ function MailLayout({ children, location }: MailLayoutProps) {
   }, [location.pathname]);
 
   return (
-    <div className="pt-5 pb-3 px-7 w-full min-h-full h-[100%] flex flex-col items-center justify-between">
-      {/* Head */}
-      <div className="w-full flex items-center justify-between">
-        <SolarIconSet.HamburgerMenu size={24} />
-        <img src={BakiLogo} alt="BakiLogo" />
-        <SolarIconSet.Tuning2 size={24} />
-      </div>
+    <div className="flex h-dvh w-full flex-col items-center justify-between">
       {/* Body */}
-      <div>{children}</div>
+      <div className="h-full w-full">{children}</div>
       {/* Footer */}
-      <div className="w-full flex items-center justify-between">
+      <div className="flex w-full items-center justify-between p-3 shadow-[0_0_5px_#88888875]">
         <SolarIconSet.ChatRound
           size={30}
           className={isChatActive ? "text-brand-yellow" : "text-brand-black"}
@@ -63,4 +56,4 @@ function MailLayout({ children, location }: MailLayoutProps) {
   );
 }
 
-export default withRouter(MailLayout);
+export default withRouter(MainLayout);

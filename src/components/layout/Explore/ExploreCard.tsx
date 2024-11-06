@@ -13,43 +13,43 @@ export default function ExploreCard(props: {
   searchMethod: string;
 }) {
   return (
-    <div className="relative w-[343px] h-[420px] flex flex-col justify-between">
+    <div className="relative flex w-full flex-col justify-between">
       <img
         src={props.image}
         alt="ExploreCard"
-        className="rounded-t-[16px] absolute w-full h-full -z-10"
+        className="absolute -z-10 h-full w-full rounded-t-[16px]"
       />
-      <div className="w-full flex items-center justify-end p-[16px]">
-        <p className="bg-brand-yellow text-xs font-medium max-w-fit px-[8px] py-[4px] rounded-[16px]">
+      <div className="flex w-full items-center justify-end p-[16px]">
+        <p className="max-w-fit rounded-[16px] bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
           {props.searchMethod}
         </p>
       </div>
-      <div className="p-[16px] flex items-center justify-between">
-        <div className="text-white text-sm">
+      <div className="flex items-center justify-between p-[16px]">
+        <div className="text-sm text-white">
           <div className="flex items-center gap-x-2">
             <h1 className="text-lg font-black">
               {props.name} ، {props.age}
             </h1>
-            <MdVerified size={24} className="text-brand-yellow mt-3" />
+            <MdVerified size={24} className="mt-3 text-brand-yellow" />
           </div>
           <div className="flex items-center gap-x-1">
             <RiMapPin2Fill size={16} />
             <p>{props.location}</p>
           </div>
           <div className="flex items-center gap-x-1">
-            <div className="bg-white rounded-full w-[12px] h-[12px] flex items-center justify-center">
+            <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
               <div
-                className={`w-[8px] h-[8px] rounded-full ${props.isOnline ? "bg-brand-green" : "bg-red-500"}`}
+                className={`h-[8px] w-[8px] rounded-full ${props.isOnline ? "bg-brand-green" : "bg-red-500"}`}
               />
             </div>
             <p>{props.isOnline ? "آنلاین" : "آفلاین"}</p>
           </div>
         </div>
         <div className="flex items-center gap-x-[8px]">
-          <div className="bg-brand-yellow rounded-full max-w-fit max-h-fit p-[8px]">
+          <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]">
             <FaCirclePlay size={24} />
           </div>
-          <div className="bg-brand-yellow rounded-full max-w-fit max-h-fit">
+          <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow">
             <img src={CardAvatar} alt="CardAvatar" />
           </div>
         </div>

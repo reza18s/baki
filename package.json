@@ -10,6 +10,7 @@
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint",
+    "build:css": "postcss src/theme/tailwindcss.css -o src/theme/final.css --watch",
     "codegen": "graphql-codegen --verbose --watch --config codegen.ts"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.53.0",
     "react-icons": "^5.3.0",
+    "react-modal": "^3.16.1",
     "react-otp-input": "^3.1.1",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.0.1",
@@ -59,6 +61,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/node": "^22.9.0",
     "@types/postcss-load-config": "^3.0.1",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",

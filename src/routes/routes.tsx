@@ -1,4 +1,4 @@
-import { IonApp, IonRouterOutlet } from "@ionic/react";
+import { IonRouterOutlet } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Index from "../pages";
 import Profile from "../pages/Profile/profile";
@@ -13,7 +13,7 @@ import ComplateResidenceCity from "../components/layout/Profile/ComplateResidenc
 import ComplateSpecialty from "../components/layout/Profile/ComplateSpecialty";
 import BasicInformations from "../components/layout/Profile/BasicInformations/BasicInformations";
 import Explore from "../pages/Explore.tsx/Explore";
-import MailLayout from "../components/layout/Main/MainLayout";
+import MainLayout from "./MainLayout";
 
 export default function Routes() {
   return (
@@ -68,7 +68,7 @@ export default function Routes() {
           <Route
             path="/explore"
             render={({ match }) => (
-              <MailLayout>
+              <MainLayout>
                 <Switch>
                   <Route exact path={match.path} component={Explore} />
                   <Route
@@ -77,7 +77,7 @@ export default function Routes() {
                     component={ComplateProfile}
                   />
                 </Switch>
-              </MailLayout>
+              </MainLayout>
             )}
           />
         </Switch>
