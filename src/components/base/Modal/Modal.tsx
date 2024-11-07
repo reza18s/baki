@@ -11,10 +11,7 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   closeOnClickOverlay = true,
   onRequestClose,
-  width = "max-w-3xl ",
-  rounded = "rounded-26",
-  margin = "sm:mx-10 mx-5",
-  background = "bg-white",
+  className,
   onCloseEnd,
   children,
 }) => {
@@ -61,17 +58,11 @@ const Modal: React.FC<ModalProps> = ({
         transition={{
           duration: animationDuration / 1000,
         }}
-        className="fixed inset-0  flex justify-center items-center"
+        className="fixed inset-0 flex items-center justify-center"
         onClick={closeOnClickOverlay ? onRequestClose : undefined}
       >
         <motion.div
-          className={clsx(
-            " max-h-[90vh] overflow-y-auto",
-            background,
-            width,
-            rounded,
-            margin,
-          )}
+          className={clsx("max-h-[90vh] overflow-y-auto", className)}
           initial={initialState}
           variants={{
             visible: { transform: "translateY(0px)", opacity: 1 },
