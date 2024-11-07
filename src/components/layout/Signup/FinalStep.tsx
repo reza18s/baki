@@ -7,6 +7,7 @@ export default function FinalStep() {
   const [updateUser, { loading }] = useUpdateUserMutation();
   const hs = useHistory();
   const userInfo = useLocalStore((store) => store.userInfo);
+  hs.push("/explore");
   return (
     <div className="flex h-[calc(100%-32px)] w-full flex-col items-center justify-between">
       <div className="flex w-full flex-col items-center gap-y-[16px]">
@@ -36,7 +37,7 @@ export default function FinalStep() {
               name: userInfo.name,
             },
             onCompleted: (data) => {
-              hs.push("explore");
+              console.log(data);
             },
             onError: (err) => {
               console.log(err);

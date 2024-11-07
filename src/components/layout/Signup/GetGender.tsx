@@ -16,8 +16,8 @@ export default function GetGender(props: { control: any; value: string }) {
         <RadioButton
           control={props.control}
           items={[
-            { label: "زن", value: "femail" },
-            { label: "مرد", value: "mail" },
+            { label: "زن", value: "female" },
+            { label: "مرد", value: "male" },
           ]}
           name="gender"
         />
