@@ -45,6 +45,10 @@
   },
   "devDependencies": {
     "@capacitor/cli": "6.1.2",
+    "@graphql-codegen/client-preset": "^4.3.3",
+    "@graphql-codegen/introspection": "^4.0.3",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.2",
     "@testing-library/dom": ">=7.21.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
