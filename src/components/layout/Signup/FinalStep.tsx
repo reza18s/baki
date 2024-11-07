@@ -27,7 +27,13 @@ export default function FinalStep() {
         onClick={() => {
           updateUser({
             variables: {
-              name: "lllll",
+              birthday: userInfo.birthdate,
+              travelInterests: userInfo.travelsInterests,
+              gender: userInfo.gender,
+              province: userInfo.residenceCity,
+              mySpecialty: userInfo.specialty,
+              personalInterests: userInfo.personalInterests,
+              name: userInfo.name,
             },
             onCompleted: (data) => {
               hs.push("explore");
