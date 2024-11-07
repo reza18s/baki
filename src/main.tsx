@@ -14,5 +14,5 @@ root.render(
     >
       <App />
     </div>
-  </ApolloProvider>,
+  </ApolloProvider>
 );

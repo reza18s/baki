@@ -13,14 +13,16 @@ export default function Explore() {
         <img src={BakiLogo} alt="BakiLogo" />
         <SolarIconSet.Tuning2 size={24} />
       </div>
-      <ExploreCard
-        image={CardImage}
-        name="سحر رضایی"
-        age={24}
-        isOnline={false}
-        location="گلستان گرگان"
-        searchMethod="تصادفی"
-      />
+      <div className="p-2">
+        <ExploreCard
+          image={CardImage}
+          name="سحر رضایی"
+          age={24}
+          isOnline={false}
+          location="گلستان گرگان"
+          searchMethod="تصادفی"
+        />
+      </div>
     </div>
   );
 }

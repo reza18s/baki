@@ -1,10 +1,11 @@
+import { useHistory } from "react-router";
 import BakiLogo from "../../../assets/img/signup/BakiLogo.svg";
 import { useUpdateUserMutation } from "../../../graphql/generated/graphql.codegen";
 import { useLocalStore } from "../../../store/useLocalStore";
 
 export default function FinalStep() {
   const [updateUser, { loading }] = useUpdateUserMutation();
-
+  const hs = useHistory();
   const userInfo = useLocalStore((store) => store.userInfo);
   return (
     <div className="flex h-[calc(100%-32px)] w-full flex-col items-center justify-between">
@@ -29,7 +30,7 @@ export default function FinalStep() {
               name: "lllll",
             },
             onCompleted: (data) => {
-              console.log(data);
+              hs.push("explore");
             },
             onError: (err) => {
               console.log(err);
