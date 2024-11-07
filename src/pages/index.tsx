@@ -1,9 +1,9 @@
 import BackgroundImage from "../assets/img/home/BackgroundImage.svg";
 import BakiLogo from "../assets/img/home/BakiLogo.svg";
 import { useState } from "react";
-import Modal from "@/components/base/Modal/Modal";
 import { Link } from "react-router-dom";
 import { Rules } from "@/components/layout/Signup/rules";
+import Modal from "../components/base/Modal/Modal";
 export default function Index() {
   const [showRules, setShowRules] = useState<boolean>(false);
   return (

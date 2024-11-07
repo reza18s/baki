@@ -47,11 +47,7 @@ export default function ComplateGeneralInterests() {
         className="relative h-full min-h-full min-w-[100vw] overflow-auto p-[24px] text-black"
         dir="rtl"
       >
-        <GetTravelInterests
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
+        <GetTravelInterests />
       </div>
     </div>
   );

@@ -50,11 +50,7 @@ export default function ComplatePictures() {
         className="text-black p-[24px] relative h-full min-h-full min-w-[100vw] overflow-auto"
         dir="rtl"
       >
-        <GetPictures
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
+        <GetPictures control={control} name={watch("name")} />
       </div>
     </div>
   );

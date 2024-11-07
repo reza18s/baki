@@ -2,7 +2,7 @@ export interface ModalProps {
   isOpen: boolean;
   closeOnClickOverlay?: boolean;
   disableDrag?: boolean;
-  className: string;
+  className?: string;
 
   onRequestClose: () => void;
   onCloseEnd?: () => void;
