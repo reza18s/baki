@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 export default function Profile() {
   const { control, watch } = useForm();
   return (
-    <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto">
+    <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto text-brand-black">
       {/* Head */}
       <Link
         to="/explore"
@@ -86,7 +86,7 @@ export default function Profile() {
               value={watch("biography")}
             />
           </div>
-          <div className="w-full">
+          <div className="w-full text-brand-black">
             <h2 className="text-[#64748B] text-sm font-semibold mr-3">
               محل زندگی
             </h2>
