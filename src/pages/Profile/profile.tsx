@@ -25,20 +25,19 @@ export default function Profile() {
       </Link>
       {/* Body */}
       <div className="w-full px-6 flex flex-col items-center gap-y-3">
-        <Link
-          to="/profile/complate_profile"
+        <div
           className="w-full text-brand-black"
         >
           <h2 className="text-[#64748B] text-sm font-semibold mr-3">
             تکمیل پروفایل:
           </h2>
-          <ArrowButton text="65 درصد کامل شده" className="bg-brand-yellow" />
-        </Link>
+          <ArrowButton url="/profile/complate_profile" text="65 درصد کامل شده" className="bg-brand-yellow" />
+        </div>
         <div className="w-full">
           <h2 className="text-[#64748B] text-sm font-semibold mr-3">
             تایید هویت
           </h2>
-          <ArrowButton text="تایید شماره موبایل" />
+          <ArrowButton url="/profile/complate_profile/identify_verification" text="تایید شماره موبایل" />
         </div>
         <div className="py-8 w-full flex items-center">
           <img src={BakiBanner} alt="BakiBanner" />
