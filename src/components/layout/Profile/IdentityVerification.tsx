@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useSignupMutation } from "../../../graphql/generated/graphql.codegen";
 import { useForm } from "react-hook-form";
 import VerifyOTP from "../Signup/VerifyOTP";
+import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
 
 type StepsNumber = 0 | 1;
 
@@ -27,24 +28,12 @@ export default function IdentityVerification() {
     });
   };
 
-  const handlePrevStep = () => {
-    setStep((prevStep: StepsNumber) => {
-      if (prevStep > 0) {
-        return (prevStep - 1) as StepsNumber;
-      } else {
-        return prevStep;
-      }
-    });
-  };
-
-  const handleNextStep = () => {
-    setStep((prevStep: StepsNumber) => {
-      if (prevStep < 10) {
-        return (prevStep + 1) as StepsNumber;
-      } else {
-        return prevStep;
-      }
-    });
+  const onOTPSuccess = () => {
+    SweetAlertToast.fire({
+      title: "تایید هویت با موفقیت انجام شد",
+      icon: "success"
+  })
+   window.location.replace("/profile/complate_profile")
   };
 
   return (
@@ -75,6 +64,7 @@ export default function IdentityVerification() {
             control={control}
             phone={watch("phoneNumber")}
             resendOtp={handleSignup}
+            onSuccess={onOTPSuccess}
           />
         )}
       </div>
