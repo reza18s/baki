@@ -3,19 +3,45 @@ import RadioButton from "../../../shared/Buttons/RadioButton";
 import * as SolarIconSet from "solar-icon-set";
 import Button from "../../../base/Button/Button";
 import { useLocalStore } from "@/store/useLocalStore";
+import { useHistory } from "react-router";
+import { useUpdateUserMutation } from "@/graphql/generated/graphql.codegen";
+import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
 
-export default function SpiritStep(props: {
-  handleNextStep: () => void;
-}) {
+export default function SpiritStep() {
   const { control, watch } = useForm();
+  const [updateUser, { loading }] = useUpdateUserMutation();
+  const hs = useHistory();
+  const userInfo = useLocalStore((store) => store.userInfo);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   
   const handleSubmit = () => {
-    // updateUserInfo({
-    //   gender: watch("gender"),
-    // });
-    props.handleNextStep()
+    updateUser({
+      variables: {
+        gender: userInfo.gender,
+        maritalStatus: userInfo.maritalStatus,
+        birthday: userInfo.birthdate,
+        smokeStatus: userInfo.smokeStatus,
+        sportsStatus: userInfo.sportsStatus,
+        amountOfEarlyRising: userInfo.AmountOfEarlyRising,
+      },
+      onCompleted: (data) => {
+        SweetAlertToast.fire({
+          icon: "success",
+          title: "اطلاعات شما با موفقیت ثبت شد",
+        })
+        setTimeout(() => {
+          hs.push("/profile/complate_profile");
+        }, 1000);
+      },
+      onError: (err) => {
+        SweetAlertToast.fire({
+          icon: "error",
+          title: "خطا",
+          text: "مشکلی پیش آمده است لطفا دوباره امتحان کنید",
+        });
+      },
+    })
   }
 
   return (
@@ -40,7 +66,7 @@ export default function SpiritStep(props: {
         />
       </div>
       {/* Footer */}
-      <Button onClick={props.handleNextStep}>پایان</Button>
+      <Button onClick={handleSubmit}>پایان</Button>
     </div>
   );
 }

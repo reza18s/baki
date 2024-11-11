@@ -115,9 +115,7 @@ export default function BasicInformations() {
         />
       )}
       {step === 6 && (
-        <SpiritStep
-          handleNextStep={handleNextStep}
-        />
+        <SpiritStep />
       )}
     </div>
   );
