@@ -1,11 +1,12 @@
 import * as SolarIconSet from "solar-icon-set";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PersonalInterestsItems } from "./constants";
 import { useLocalStore } from "../../../store/useLocalStore";
 
-export default function GetPersonalInterests() {
+export default function GetPersonalInterests(props: { handleSubmit?: () => void }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+  const userInfo = useLocalStore((store) => store.userInfo);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const handleClickInterests = (selected: string) => {
     if (selectedInterests.includes(selected)) {
@@ -16,6 +17,21 @@ export default function GetPersonalInterests() {
       setSelectedInterests((prevInterests: any) =>
         prevInterests.concat(selected),
       );
+    }
+  };
+
+  useEffect(() => {
+    setSelectedInterests(userInfo.personalInterests);
+  }, [userInfo.personalInterests]);
+
+  const handleSubmit = () => {
+    updateUserInfo({
+      personalInterests: selectedInterests,
+    });
+    if (props?.handleSubmit) {
+      props.handleSubmit();
+    } else {
+      handleNextStep();
     }
   };
 
@@ -67,14 +83,10 @@ export default function GetPersonalInterests() {
           </p>
         </div>
         <button
-          disabled={selectedInterests.length < 4}
-          onClick={() => {
-            updateUserInfo({ personalInterests: selectedInterests });
-            handleNextStep();
-          }}
-          className={`px-[20px] py-[16px] ${
-            selectedInterests.length > 4 ? "bg-[#ffcc4e]" : "bg-slate-100"
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          disabled={selectedInterests.length < 5}
+          onClick={handleSubmit}
+          className={`px-[20px] py-[16px] ${selectedInterests.length > 4 ? "bg-[#ffcc4e]" : "bg-slate-100"
+            } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>
