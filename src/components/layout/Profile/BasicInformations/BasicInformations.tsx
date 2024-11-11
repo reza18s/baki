@@ -10,6 +10,7 @@ import CigarettesStep from "./CigarettesStep";
 import SportStep from "./SportStep";
 import WakeUpEarlyStep from "./WakeUpEarlyStep";
 import SpiritStep from "./SpiritStep";
+import { useLocalStore } from "@/store/useLocalStore";
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -69,6 +70,9 @@ export default function BasicInformations() {
       }
     });
   };
+
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+
 
   return (
     <div
