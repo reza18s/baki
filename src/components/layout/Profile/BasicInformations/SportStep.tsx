@@ -3,11 +3,18 @@ import RadioButton from "../../../shared/Buttons/RadioButton";
 import * as SolarIconSet from "solar-icon-set";
 import Button from "../../../base/Button/Button";
 import { useLocalStore } from "@/store/useLocalStore";
+import { useEffect } from "react";
 
 export default function SportStep(props: {
   handleNextStep: () => void;
 }) {
-  const { control, watch } = useForm();
+  const { control, watch, setValue } = useForm();
+
+  const userInfo = useLocalStore((store) => store.userInfo);
+
+  useEffect(() => {
+    setValue("sportsStatus", userInfo.sportsStatus);
+  }, [userInfo.sportsStatus]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   

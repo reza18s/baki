@@ -3,11 +3,18 @@ import RadioButton from "../../../shared/Buttons/RadioButton";
 import Button from "../../../base/Button/Button";
 import { LiaSmokingSolid } from "react-icons/lia";
 import { useLocalStore } from "@/store/useLocalStore";
+import { useEffect } from "react";
 
 export default function CigarettesStep(props: {
   handleNextStep: () => void;
 }) {
-  const { control, watch } = useForm();
+  const { control, watch, setValue } = useForm();
+
+  const userInfo = useLocalStore((store) => store.userInfo);
+
+  useEffect(() => {
+    setValue("smokeStatus", userInfo.smokeStatus);
+  }, [userInfo.smokeStatus]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   

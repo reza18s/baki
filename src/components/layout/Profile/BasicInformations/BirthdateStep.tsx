@@ -3,11 +3,18 @@ import * as SolarIconSet from "solar-icon-set";
 import Button from "../../../base/Button/Button";
 import MonthPicker from "../../../shared/Inputs/MonthPicker";
 import { useLocalStore } from "@/store/useLocalStore";
+import { useEffect } from "react";
 
 export default function BirthdateStep(props: {
   handleNextStep: () => void;
 }) {
-  const { control, watch, register } = useForm();
+  const { control, watch, register, setValue } = useForm();
+
+  const userInfo = useLocalStore((store) => store.userInfo);
+
+  useEffect(() => {
+    setValue("year", userInfo.birthdate?.split("-")[0]);
+  }, [userInfo.birthdate]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   

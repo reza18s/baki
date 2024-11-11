@@ -3,14 +3,22 @@ import RadioButton from "../../../shared/Buttons/RadioButton";
 import * as SolarIconSet from "solar-icon-set";
 import Button from "../../../base/Button/Button";
 import { useLocalStore } from "@/store/useLocalStore";
+import { useEffect } from "react";
 
 export default function GenderStep(props: {
   handleNextStep: () => void;
 }) {
-  const { 
+  const {
     control,
     watch,
+    setValue,
   } = useForm();
+
+  const userInfo = useLocalStore((store) => store.userInfo);
+
+  useEffect(() => {
+    setValue("gender", userInfo.gender);
+  }, [userInfo.gender]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 

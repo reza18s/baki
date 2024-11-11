@@ -41,7 +41,7 @@ const HeadStep = ({
 export default function BasicInformations() {
   const { register, watch, control } = useForm<SignupForm>({});
 
-  const [step, setStep] = useState<StepsNumber>(5);
+  const [step, setStep] = useState<StepsNumber>(0);
 
   const handleSignup = () => {
   
@@ -116,10 +116,7 @@ export default function BasicInformations() {
       )}
       {step === 6 && (
         <SpiritStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
     </div>

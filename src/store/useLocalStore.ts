@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { StepsNumber } from "../types";
 import { Gender } from "../graphql/generated/graphql.codegen";
+import Undici from "undici-types";
 export type UserInfo = {
   phoneNumber: string;
   name: string;
@@ -41,6 +42,7 @@ export const defaultInitState: IStore = {
     travelsInterests: [],
     specialty: [],
     personalInterests: [],
+    gender: undefined,
     maritalStatus: null,
     smokeStatus: null,
     sportsStatus: null,
