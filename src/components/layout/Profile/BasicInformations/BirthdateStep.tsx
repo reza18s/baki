@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import * as SolarIconSet from "solar-icon-set";
 import Button from "../../../base/Button/Button";
 import MonthPicker from "../../../shared/Inputs/MonthPicker";
+import { useLocalStore } from "@/store/useLocalStore";
 
 export default function BirthdateStep(props: {
   control: any;
@@ -9,7 +10,17 @@ export default function BirthdateStep(props: {
   handleNextStep: () => void;
   handleSignup: () => void;
 }) {
-  const { control } = useForm();
+  const { control, watch, register } = useForm();
+
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+  
+  const handleSubmit = () => {
+    updateUserInfo({
+      birthdate: `${watch("year")}-${watch("month")?.key}`,
+    });
+    props.handleNextStep()
+  }
+
 
   return (
     <div className="flex flex-col gap-y-[40px] w-full mx-auto pt-10 h-[90%] justify-between">
@@ -31,6 +42,7 @@ export default function BirthdateStep(props: {
           <div>
             <h2 className="text-[##64748B] text-sm font-bold mr-1">سال</h2>
             <input
+            {...register("year")}
               dir="ltr"
               type="tel"
               className="border-[1.5px] border-[#1a1d1e] rounded-[12px] text-base font-bold text-[#1a1d1e] outline-none bg-white w-[67px] h-[48px] text-center"
@@ -42,7 +54,7 @@ export default function BirthdateStep(props: {
         </div>
       </div>
       {/* Footer */}
-      <Button onClick={props.handleNextStep}>بعدی</Button>
+      <Button onClick={handleSubmit}>بعدی</Button>
     </div>
   );
 }

@@ -102,10 +102,7 @@ export default function BasicInformations() {
       {/* Body */}
       {step === 0 && (
         <GenderStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
       {step === 1 && (

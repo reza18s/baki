@@ -5,10 +5,7 @@ import Button from "../../../base/Button/Button";
 import { useLocalStore } from "@/store/useLocalStore";
 
 export default function GenderStep(props: {
-  control: any;
-  name: string;
   handleNextStep: () => void;
-  handleSignup: () => void;
 }) {
   const { 
     control,
