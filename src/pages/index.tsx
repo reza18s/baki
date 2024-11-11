@@ -6,14 +6,10 @@ import { Rules } from '@/components/layout/Signup/rules';
 import Modal from '../components/base/Modal/Modal';
 export default function Index() {
   const [showRules, setShowRules] = useState<boolean>(false);
-
-  const viewRules = () => {
-    setShowRules(true);
-  };
-
-  const hideRules = () => {
-    setShowRules(false);
-  };
+  const history = useHistory();
+  useEffect(() => {
+    history.push('/explore');
+  }, []);
   return (
     <div
       className="h-screen bg-cover bg-center"
@@ -39,9 +35,12 @@ export default function Index() {
             </button>
           </div>
           <p className="px-[20px] font-bold">
-            ورود و استفاده از اپلیکی​شن باکی به معنای موافقت با{' '}
-            <span onClick={viewRules} className="text-brand-yellow underline">
-              قوانین و مقررات حریم خصوص​ی
+            {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{' '}
+            <span
+              onClick={() => setShowRules(true)}
+              className="text-brand-yellow underline"
+            >
+              {` قوانین و مقررات حریم خصوصی`}
             </span>
             می‌باشد .
           </p>
