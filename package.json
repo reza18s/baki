@@ -43,11 +43,8 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "solar-icon-set": "^1.0.0",
-<<<<<<< HEAD
     "sweetalert2": "^11.14.5",
-=======
     "tailwind-merge": "^2.5.4",
->>>>>>> 3c413370c133c69937a1ba96ad00d7f6f9bf72db
     "zustand": "^5.0.1"
   },
   "devDependencies": {
