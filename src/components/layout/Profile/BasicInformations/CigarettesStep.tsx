@@ -5,10 +5,7 @@ import { LiaSmokingSolid } from "react-icons/lia";
 import { useLocalStore } from "@/store/useLocalStore";
 
 export default function CigarettesStep(props: {
-  control: any;
-  name: string;
   handleNextStep: () => void;
-  handleSignup: () => void;
 }) {
   const { control, watch } = useForm();
 

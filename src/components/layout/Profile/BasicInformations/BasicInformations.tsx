@@ -39,25 +39,12 @@ const HeadStep = ({
 };
 
 export default function BasicInformations() {
-  const { register, watch, control } = useForm<SignupForm>({
-    // defaultValues: {
-    //   phoneNumber: '09395608390'}
-  });
+  const { register, watch, control } = useForm<SignupForm>({});
 
-  const [step, setStep] = useState<StepsNumber>(3);
-
-  //   const [signup, { data, loading, error }] = useSignupMutation();
+  const [step, setStep] = useState<StepsNumber>(4);
 
   const handleSignup = () => {
-    // signup({
-    //   variables: { phoneNumber: watch('phoneNumber') },
-    //   onCompleted: (data) => {
-    //     setStep(1);
-    //   },
-    //   onError(error) {
-    //     //
-    //   },
-    // });
+  
   };
 
   const handleNextStep = () => {
@@ -116,18 +103,12 @@ export default function BasicInformations() {
       )}
       {step === 3 && (
         <CigarettesStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
       {step === 4 && (
         <SportStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
       {step === 5 && (

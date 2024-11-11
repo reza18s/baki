@@ -14,6 +14,7 @@ export type UserInfo = {
   specialty: string[];
   maritalStatus: "single" | "married" | null;
   smokeStatus: "never" | "sometimes" | "regularly" | null;
+  sportsStatus: "never" | "sometimes" | "regularly" | null;
 };
 interface IStore {
   step: StepsNumber;
@@ -41,6 +42,7 @@ export const defaultInitState: IStore = {
     personalInterests: [],
     maritalStatus: null,
     smokeStatus: null,
+    sportsStatus: null,
   },
 };
 
