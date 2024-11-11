@@ -1,11 +1,15 @@
-import BackgroundImage from "../assets/img/home/BackgroundImage.svg";
-import BakiLogo from "../assets/img/home/BakiLogo.svg";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Rules } from "@/components/layout/Signup/rules";
-import Modal from "../components/base/Modal/Modal";
+import BackgroundImage from '../assets/img/home/BackgroundImage.svg';
+import BakiLogo from '../assets/img/home/BakiLogo.svg';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { Rules } from '@/components/layout/Signup/rules';
+import Modal from '../components/base/Modal/Modal';
 export default function Index() {
   const [showRules, setShowRules] = useState<boolean>(false);
+  const history = useHistory();
+  useEffect(() => {
+    history.push('/explore');
+  }, []);
   return (
     <div
       className="h-screen bg-cover bg-center"
@@ -31,7 +35,7 @@ export default function Index() {
             </button>
           </div>
           <p className="px-[20px] font-bold">
-            {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{" "}
+            {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{' '}
             <span
               onClick={() => setShowRules(true)}
               className="text-brand-yellow underline"
