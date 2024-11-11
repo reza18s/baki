@@ -49,3 +49,7 @@ body {
 .step.completed {
   background-color: #ffb103; /* Color for completed steps */
 }
+
+.my-swal {
+  z-index: 9999 !important;
+}

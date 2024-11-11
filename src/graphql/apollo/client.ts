@@ -29,7 +29,11 @@ const authLink = new ApolloLink((operation, forward) => {
 });
 
 // HttpLink for the GraphQL endpoint
+<<<<<<< HEAD
 const httpLink = new HttpLink({ uri: "http://api.baki.app/graphql" });
+=======
+const httpLink = new HttpLink({ uri: "https://api.baki.app/graphql" });
+>>>>>>> a1d488b154daad21912b2e7891d138e5a502c724
 
 // Combine the authLink and httpLink
 const link = ApolloLink.from([authLink, httpLink]);

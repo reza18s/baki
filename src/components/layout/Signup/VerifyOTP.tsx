@@ -9,6 +9,7 @@ export default function VerifyOTP(props: {
   control: any;
   phone: string;
   resendOtp(): void;
+  onSuccess?(): void;
 }) {
   const [timer, setTimer] = useState(60);
   const [otp, setOtp] = useState("");
@@ -37,6 +38,7 @@ export default function VerifyOTP(props: {
         },
         onCompleted: (data) => {
           localStorage.setItem("token", data.verifyOtp?.accessToken as string);
+          props.onSuccess?.();
           handleNextStep();
         },
       });

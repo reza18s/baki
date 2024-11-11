@@ -15,7 +15,7 @@ const CustomeCard = (props: {
       className="h-[180px] w-full py-6 rounded-xl border border-slate-300 flex-col justify-start items-center gap-4 inline-flex"
     >
       <div
-        className={`p-4 rounded-[40px] justify-center items-center gap-2 inline-flex ${props.status ? "bg-brand-green" : "bg-brand-yellow"}`}
+        className={`p-4 rounded-[40px] justify-center items-center gap-2 inline-flex text-brand-black ${props.status ? "bg-brand-green" : "bg-brand-yellow"}`}
       >
         {props.icon}
       </div>

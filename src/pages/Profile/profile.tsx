@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 export default function Profile() {
   const { control, watch } = useForm();
   return (
-    <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto">
+    <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto text-brand-black">
       {/* Head */}
       <Link
         to="/explore"
@@ -25,20 +25,19 @@ export default function Profile() {
       </Link>
       {/* Body */}
       <div className="w-full px-6 flex flex-col items-center gap-y-3">
-        <Link
-          to="/profile/complate_profile"
+        <div
           className="w-full text-brand-black"
         >
           <h2 className="text-[#64748B] text-sm font-semibold mr-3">
             تکمیل پروفایل:
           </h2>
-          <ArrowButton text="65 درصد کامل شده" className="bg-brand-yellow" />
-        </Link>
+          <ArrowButton url="/profile/complate_profile" text="65 درصد کامل شده" className="bg-brand-yellow" />
+        </div>
         <div className="w-full">
           <h2 className="text-[#64748B] text-sm font-semibold mr-3">
             تایید هویت
           </h2>
-          <ArrowButton text="تایید شماره موبایل" />
+          <ArrowButton url="/profile/complate_profile/identify_verification" text="تایید شماره موبایل" />
         </div>
         <div className="py-8 w-full flex items-center">
           <img src={BakiBanner} alt="BakiBanner" />
@@ -86,7 +85,7 @@ export default function Profile() {
               value={watch("biography")}
             />
           </div>
-          <div className="w-full">
+          <div className="w-full text-brand-black">
             <h2 className="text-[#64748B] text-sm font-semibold mr-3">
               محل زندگی
             </h2>
