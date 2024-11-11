@@ -31,7 +31,9 @@
     "antd": "^5.21.6",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.11",
+    "gsap": "^3.12.5",
     "ionicons": "^7.0.0",
+    "jalali-moment": "^3.3.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.53.1",
@@ -41,7 +43,11 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "solar-icon-set": "^1.0.0",
+<<<<<<< HEAD
     "sweetalert2": "^11.14.5",
+=======
+    "tailwind-merge": "^2.5.4",
+>>>>>>> 3c413370c133c69937a1ba96ad00d7f6f9bf72db
     "zustand": "^5.0.1"
   },
   "devDependencies": {
@@ -66,6 +72,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "jsdom": "^22.1.0",
     "postcss": "^8.4.47",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "sass": "^1.80.6",
     "tailwindcss": "^3.4.14",
     "terser": "^5.4.0",
