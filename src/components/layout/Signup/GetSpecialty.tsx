@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SpecialtyItems } from "./constants";
 import { useLocalStore } from "../../../store/useLocalStore";
 
-export default function GetSpecialty() {
+export default function GetSpecialty(props: {handleSubmit?: () => void}) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const [selectedSpecialty, setSelectedSpecialty] = useState<string[]>([]);
@@ -15,6 +15,22 @@ export default function GetSpecialty() {
       setSelectedSpecialty((prevInterests: any) =>
         prevInterests.concat(selected),
       );
+    }
+  };
+  const userInfo = useLocalStore((store) => store.userInfo);
+
+  useEffect(() => {
+    setSelectedSpecialty(userInfo.specialty);
+  }, [userInfo.specialty]);
+
+  const handleSubmit = () => {
+    updateUserInfo({
+      specialty: selectedSpecialty
+    });
+    if (props?.handleSubmit) {
+      props.handleSubmit();
+    } else {
+      handleNextStep();
     }
   };
 
@@ -53,10 +69,7 @@ export default function GetSpecialty() {
       >
         <button
           disabled={selectedSpecialty.length < 0}
-          onClick={() => {
-            updateUserInfo({ specialty: selectedSpecialty });
-            handleNextStep();
-          }}
+          onClick={handleSubmit}
           className={`px-[20px] py-[16px] ${
             selectedSpecialty.length > 0 ? "bg-[#ffcc4e]" : "bg-slate-100"
           } rounded-[12px] font-bold leading-none text-slate-400`}
