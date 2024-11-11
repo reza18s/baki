@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 import { useSignupMutation } from "../graphql/generated/graphql.codegen";
 import { useLocalStore } from "../store/useLocalStore";
 import { StepsNumber } from "../types";
+import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
 
 const GetPhoneNumber = lazy(
   () => import("../components/layout/Signup/GetPhoneNumber"),
@@ -75,7 +76,11 @@ export default function Signup() {
       onCompleted: () => setStep(1),
       onError: (error) => {
         console.error("Signup error:", error);
-        alert("An error occurred. Please try again.");
+        SweetAlertToast.fire({
+          icon: "error",
+          title: "خطا",
+          text: "مشکلی پیش آمده است لطفا دوباره امتحان کنید",
+        });
       },
     });
   };
