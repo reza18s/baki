@@ -32,9 +32,8 @@ const HeadStep = ({
 }) => {
   return (
     <div
-      className={`w-[27.16px] h-[3.62px] ${
-        activeStep === stepNum ? "bg-[#ffcc4e]" : "bg-slate-100"
-      } rounded-xl`}
+      className={`w-[27.16px] h-[3.62px] ${activeStep === stepNum ? "bg-[#ffcc4e]" : "bg-slate-100"
+        } rounded-xl`}
     />
   );
 };
@@ -45,7 +44,7 @@ export default function BasicInformations() {
     //   phoneNumber: '09395608390'}
   });
 
-  const [step, setStep] = useState<StepsNumber>(0);
+  const [step, setStep] = useState<StepsNumber>(2);
 
   //   const [signup, { data, loading, error }] = useSignupMutation();
 
@@ -107,18 +106,12 @@ export default function BasicInformations() {
       )}
       {step === 1 && (
         <BirthdateStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
       {step === 2 && (
         <MaritalStatusStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
       {step === 3 && (

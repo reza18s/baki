@@ -2,14 +2,21 @@ import { useForm } from "react-hook-form";
 import RadioButton from "../../../shared/Buttons/RadioButton";
 import * as SolarIconSet from "solar-icon-set";
 import Button from "../../../base/Button/Button";
+import { useLocalStore } from "@/store/useLocalStore";
 
 export default function MaritalStatusStep(props: {
-  control: any;
-  name: string;
   handleNextStep: () => void;
-  handleSignup: () => void;
 }) {
-  const { control } = useForm();
+  const { control, watch } = useForm();
+
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+  
+  const handleSubmit = () => {
+    updateUserInfo({
+      maritalStatus: watch("maritalStatus"),
+    });
+    props.handleNextStep()
+  }
 
   return (
     <div className="flex flex-col gap-y-[40px] w-full mx-auto pt-10 h-[90%] justify-between">
@@ -31,11 +38,11 @@ export default function MaritalStatusStep(props: {
             { label: "متاهل", value: "married" },
             { label: "مجرد", value: "single" },
           ]}
-          name="marital"
+          name="maritalStatus"
         />
       </div>
       {/* Footer */}
-      <Button onClick={props.handleNextStep}>بعدی</Button>
+      <Button onClick={handleSubmit}>بعدی</Button>
     </div>
   );
 }

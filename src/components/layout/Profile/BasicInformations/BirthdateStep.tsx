@@ -5,10 +5,7 @@ import MonthPicker from "../../../shared/Inputs/MonthPicker";
 import { useLocalStore } from "@/store/useLocalStore";
 
 export default function BirthdateStep(props: {
-  control: any;
-  name: string;
   handleNextStep: () => void;
-  handleSignup: () => void;
 }) {
   const { control, watch, register } = useForm();
 
