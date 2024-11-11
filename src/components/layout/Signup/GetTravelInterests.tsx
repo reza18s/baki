@@ -1,9 +1,9 @@
 import * as SolarIconSet from "solar-icon-set";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalStore } from "../../../store/useLocalStore";
 import { TravelInterestsItems } from "./constants";
 
-export default function GetTravelInterests() {
+export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const [showAll, setShowAll] = useState<boolean>(false);
@@ -22,6 +22,23 @@ export default function GetTravelInterests() {
       );
     }
   };
+
+  const userInfo = useLocalStore((store) => store.userInfo);
+  useEffect(() => {
+    setSelectedInterests(userInfo.travelsInterests);
+  }, [userInfo.travelsInterests]);
+
+  const handleSubmit = () => {
+    updateUserInfo({
+      travelsInterests: selectedInterests
+        });
+    if (props?.handleSubmit) {
+      props.handleSubmit();
+    } else {
+      handleNextStep();
+    }
+  };
+
   return (
     <div className="relative flex h-[calc(100%-32px)] w-full flex-col">
       <div className="flex flex-col gap-y-[16px]">
@@ -102,10 +119,7 @@ export default function GetTravelInterests() {
         </div>
         <button
           disabled={selectedInterests.length < 4}
-          onClick={() => {
-            updateUserInfo({ travelsInterests: selectedInterests });
-            handleNextStep();
-          }}
+          onClick={handleSubmit}
           className={`px-[20px] py-[16px] ${
             selectedInterests.length > 4 ? "bg-[#ffcc4e]" : "bg-slate-100"
           } rounded-[12px] font-bold leading-none text-slate-400`}

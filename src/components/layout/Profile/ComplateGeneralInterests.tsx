@@ -1,34 +1,38 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as SolarIconSet from "solar-icon-set";
-import { useSignupMutation } from "../../../graphql/generated/graphql.codegen";
+import { useSignupMutation, useUpdateUserMutation } from "../../../graphql/generated/graphql.codegen";
 import { useForm } from "react-hook-form";
 import GetTravelInterests from "../Signup/GetTravelInterests";
+import { useLocalStore } from "@/store/useLocalStore";
+import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
 
 export default function ComplateGeneralInterests() {
-  const { control, watch } = useForm();
+  const [updateUser, { loading }] = useUpdateUserMutation();
+  const hs = useHistory();
+  const userInfo = useLocalStore((store) => store.userInfo);
 
-  const [signup, { data, loading, error }] = useSignupMutation();
-
-  const handleSignup = () => {
-    signup({
-      variables: { phoneNumber: watch("phoneNumber") },
-      onCompleted: (data) => {
-        // setStep(1);
+  const handleSubmit = () => {
+    updateUser({
+      variables: {
+        travelInterests: userInfo.travelsInterests,
       },
-      onError(error) {
-        //
+      onCompleted: () => {
+        SweetAlertToast.fire({
+          icon: "success",
+          title: "اطلاعات شما با موفقیت ثبت شد",
+        })
+        setTimeout(() => {
+          hs.push("/profile/complate_profile");
+        }, 1000);
       },
-    });
-  };
-
-  const handleNextStep = () => {
-    // setStep((prevStep: StepsNumber) => {
-    //   if (prevStep < 10) {
-    //     return (prevStep + 1) as StepsNumber;
-    //   } else {
-    //     return prevStep;
-    //   }
-    // });
+      onError: () => {
+        SweetAlertToast.fire({
+          icon: "error",
+          title: "خطا",
+          text: "مشکلی پیش آمده است لطفا دوباره امتحان کنید",
+        });
+      },
+    })
   };
 
   return (
@@ -47,7 +51,7 @@ export default function ComplateGeneralInterests() {
         className="relative h-full min-h-full min-w-[100vw] overflow-auto p-[24px] text-black"
         dir="rtl"
       >
-        <GetTravelInterests />
+        <GetTravelInterests handleSubmit={handleSubmit} />
       </div>
     </div>
   );

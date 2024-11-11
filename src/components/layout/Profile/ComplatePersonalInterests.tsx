@@ -35,7 +35,6 @@ export default function ComplatePersonalInterests() {
     })
   };
 
-
   return (
     <div className="flex h-full w-full flex-col items-center gap-y-3 overflow-y-auto pb-16">
       {/* Head */}
