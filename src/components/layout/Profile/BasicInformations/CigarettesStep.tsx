@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import RadioButton from "../../../shared/Buttons/RadioButton";
 import Button from "../../../base/Button/Button";
 import { LiaSmokingSolid } from "react-icons/lia";
+import { useLocalStore } from "@/store/useLocalStore";
 
 export default function CigarettesStep(props: {
   control: any;
@@ -9,7 +10,16 @@ export default function CigarettesStep(props: {
   handleNextStep: () => void;
   handleSignup: () => void;
 }) {
-  const { control } = useForm();
+  const { control, watch } = useForm();
+
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+  
+  const handleSubmit = () => {
+    updateUserInfo({
+      smokeStatus: watch("smokeStatus"),
+    });
+    props.handleNextStep()
+  }
 
   return (
     <div className="flex flex-col gap-y-[40px] w-full mx-auto pt-10 h-[90%] justify-between">
@@ -30,11 +40,11 @@ export default function CigarettesStep(props: {
             { label: "بعضی‌وقت‌ها", value: "sometimes" },
             { label: "هرگز", value: "never" },
           ]}
-          name="cigarettes"
+          name="smokeStatus"
         />
       </div>
       {/* Footer */}
-      <Button onClick={props.handleNextStep}>بعدی</Button>
+      <Button onClick={handleSubmit}>بعدی</Button>
     </div>
   );
 }

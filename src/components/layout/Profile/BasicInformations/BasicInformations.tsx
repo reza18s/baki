@@ -44,7 +44,7 @@ export default function BasicInformations() {
     //   phoneNumber: '09395608390'}
   });
 
-  const [step, setStep] = useState<StepsNumber>(2);
+  const [step, setStep] = useState<StepsNumber>(3);
 
   //   const [signup, { data, loading, error }] = useSignupMutation();
 
