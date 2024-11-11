@@ -1,5 +1,4 @@
 import { ModalProps } from "./Modal.type";
-import style from "./Modal.module.scss";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import clsx from "clsx";

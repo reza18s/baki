@@ -1,11 +1,19 @@
-import { Link } from "react-router-dom";
-import BackgroundImage from "../assets/img/home/BackgroundImage.svg";
-import BakiLogo from "../assets/img/home/BakiLogo.svg";
-import { useState } from "react";
-import Modal from "@/components/base/Modal/Modal";
-import { Rules } from "@/components/layout/Signup/rules";
+import BackgroundImage from '../assets/img/home/BackgroundImage.svg';
+import BakiLogo from '../assets/img/home/BakiLogo.svg';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { Rules } from '@/components/layout/Signup/rules';
+import Modal from '../components/base/Modal/Modal';
 export default function Index() {
   const [showRules, setShowRules] = useState<boolean>(false);
+
+  const viewRules = () => {
+    setShowRules(true);
+  };
+
+  const hideRules = () => {
+    setShowRules(false);
+  };
   return (
     <div
       className="h-screen bg-cover bg-center"
@@ -31,12 +39,9 @@ export default function Index() {
             </button>
           </div>
           <p className="px-[20px] font-bold">
-            {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{" "}
-            <span
-              onClick={() => setShowRules(true)}
-              className="text-brand-yellow underline"
-            >
-              {` قوانین و مقررات حریم خصوصی`}
+            ورود و استفاده از اپلیکی​شن باکی به معنای موافقت با{' '}
+            <span onClick={viewRules} className="text-brand-yellow underline">
+              قوانین و مقررات حریم خصوص​ی
             </span>
             می‌باشد .
           </p>
