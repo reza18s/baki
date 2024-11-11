@@ -72,12 +72,9 @@ export default function IdentityVerification() {
         )}
         {step === 1 && (
           <VerifyOTP
-            activePage={step}
             control={control}
             phone={watch("phoneNumber")}
             resendOtp={handleSignup}
-            handlePrevStep={handlePrevStep}
-            handleNextStep={handleNextStep}
           />
         )}
       </div>

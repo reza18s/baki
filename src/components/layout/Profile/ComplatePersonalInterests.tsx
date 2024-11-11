@@ -47,11 +47,7 @@ export default function ComplatePersonalInterests() {
         className="text-black p-[24px] relative h-full min-h-full min-w-[100vw] overflow-auto"
         dir="rtl"
       >
-        <GetPersonalInterests
-          control={control}
-          handleSignup={handleSignup}
-          name={watch("name")}
-        />
+        <GetPersonalInterests />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { IoEye } from "react-icons/io5";
 import RadioButton from "../../shared/Buttons/RadioButton";
 import { useLocalStore } from "../../../store/useLocalStore";
+import { Gender } from "@/graphql/generated/graphql.codegen";
 export default function GetGender(props: { control: any; value: string }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
@@ -15,8 +16,8 @@ export default function GetGender(props: { control: any; value: string }) {
         <RadioButton
           control={props.control}
           items={[
-            { label: "زن", value: "femail" },
-            { label: "مرد", value: "mail" },
+            { label: "زن", value: "female" },
+            { label: "مرد", value: "male" },
           ]}
           name="gender"
         />
@@ -32,7 +33,7 @@ export default function GetGender(props: { control: any; value: string }) {
         <button
           disabled={props.value?.length < 1}
           onClick={() => {
-            updateUserInfo({ gender: props.value });
+            updateUserInfo({ gender: props.value as Gender });
             handleNextStep();
           }}
           className={`px-[20px] py-[16px] ${
