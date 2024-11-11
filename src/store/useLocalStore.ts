@@ -15,6 +15,7 @@ export type UserInfo = {
   maritalStatus: "single" | "married" | null;
   smokeStatus: "never" | "sometimes" | "regularly" | null;
   sportsStatus: "never" | "sometimes" | "regularly" | null;
+  AmountOfEarlyRising: "wakeUpEarly" | "sleepy" | "onTime" | null;
 };
 interface IStore {
   step: StepsNumber;
@@ -43,6 +44,7 @@ export const defaultInitState: IStore = {
     maritalStatus: null,
     smokeStatus: null,
     sportsStatus: null,
+    AmountOfEarlyRising: null,
   },
 };
 

@@ -41,7 +41,7 @@ const HeadStep = ({
 export default function BasicInformations() {
   const { register, watch, control } = useForm<SignupForm>({});
 
-  const [step, setStep] = useState<StepsNumber>(4);
+  const [step, setStep] = useState<StepsNumber>(5);
 
   const handleSignup = () => {
   
@@ -49,15 +49,13 @@ export default function BasicInformations() {
 
   const handleNextStep = () => {
     setStep((prevStep: StepsNumber) => {
-      if (prevStep < 5) {
+      if (prevStep < 6) {
         return (prevStep + 1) as StepsNumber;
       } else {
         return prevStep;
       }
     });
   };
-
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
 
   return (
@@ -113,10 +111,7 @@ export default function BasicInformations() {
       )}
       {step === 5 && (
         <WakeUpEarlyStep
-          control={control}
-          handleSignup={handleSignup}
           handleNextStep={handleNextStep}
-          name={watch("name")}
         />
       )}
       {step === 6 && (
