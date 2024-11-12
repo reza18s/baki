@@ -1,6 +1,6 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { Dropdown } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStore } from '../../../store/useLocalStore';
 const iranProvinces = [
   { label: 'البرز', key: '1' },
@@ -35,11 +35,29 @@ const iranProvinces = [
   { label: 'همدان', key: '31' },
   { label: 'یزد', key: '32' },
 ];
-export default function GetResidenceCity() {
+export default function GetResidenceCity(props: {handleSubmit?: () => void}) {
   const [search, setSearch] = useState('');
   const [select, setSelect] = useState<string>();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+
+  const userInfo = useLocalStore((store) => store.userInfo);
+
+  useEffect(() => {
+    setSelect(userInfo.residenceCity);
+  }, [userInfo.residenceCity]);
+
+  const handleSubmit = () => {
+    updateUserInfo({
+      residenceCity: select,
+    });
+    if (props?.handleSubmit) {
+      props.handleSubmit();
+    } else {
+      handleNextStep();
+    }
+  };
+
   return (
     <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
@@ -94,10 +112,7 @@ export default function GetResidenceCity() {
         </div>
         <button
           disabled={!select}
-          onClick={() => {
-            updateUserInfo({ residenceCity: select });
-            handleNextStep();
-          }}
+          onClick={handleSubmit}
           className={`px-[20px] py-[16px] ${
             select ? 'bg-[#ffcc4e]' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
