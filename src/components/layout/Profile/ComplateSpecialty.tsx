@@ -14,7 +14,7 @@ export default function ComplateSpecialty() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        personalInterests: userInfo.personalInterests,
+        mySpecialty: userInfo.specialty,
       },
       onCompleted: () => {
         SweetAlertToast.fire({
