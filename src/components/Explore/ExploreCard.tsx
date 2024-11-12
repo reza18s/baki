@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Bio, Info } from './card';
 import Button from '@/components/base/Button/Button';
-import { IcX } from '@/components/base/icons/IcX';
-import { IcTick } from '@/components/base/icons/IcTick';
+import { IcX } from '@/components/icons/IcX';
+import { IcTick } from '@/components/icons/IcTick';
 const profileDetails = {
   specialization: ['مهندسی صنعتی'],
   interests: [
@@ -18,7 +18,7 @@ const profileDetails = {
     'فیلم کمدی',
     'تبادل فرهنگی',
   ],
-  languagesKnown: ['ترکی', 'لری', 'گیلکی', 'فارسی', 'انگلیسی', 'ترکی'],
+  languagesKnown: ['ترکی', 'لری', 'گیلکی', 'فارسی', 'انگلیسی'],
   placesVisited: [
     'اسپانیا',
     'برزیل',

@@ -1,4 +1,4 @@
-import { IcArrowRight } from '@/components/base/icons/IcArrowRight';
+import { IcArrowRight } from '@/components/icons/IcArrowRight';
 import React from 'react';
 
 import { useHistory } from 'react-router-dom';

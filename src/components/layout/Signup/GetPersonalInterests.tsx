@@ -1,6 +1,6 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { useEffect, useState } from 'react';
-import { PersonalInterestsItems } from './constants';
+import { PersonalInterestsItems } from '../../../lib/constants';
 import { useLocalStore } from '../../../store/useLocalStore';
 
 export default function GetPersonalInterests(props: {

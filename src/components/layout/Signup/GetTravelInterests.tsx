@@ -1,7 +1,7 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { useEffect, useState } from 'react';
 import { useLocalStore } from '../../../store/useLocalStore';
-import { TravelInterestsItems } from './constants';
+import { TravelInterestsItems } from '../../../lib/constants';
 import { Button } from 'antd';
 
 export default function GetTravelInterests(props: {

@@ -10,7 +10,6 @@ const IcArrowLeft02: FC<IconProps> = ({ className }) => {
       fill="none"
       className={className}
       stroke="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M3.33313 8L13.3331 7.99984"

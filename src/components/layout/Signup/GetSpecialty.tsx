@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SpecialtyItems } from './constants';
+import { SpecialtyItems } from '../../../lib/constants';
 import { useLocalStore } from '../../../store/useLocalStore';
 
 export default function GetSpecialty(props: { handleSubmit?: () => void }) {

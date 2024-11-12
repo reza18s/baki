@@ -1,4 +1,4 @@
-import ExploreCard from '../../components/layout/Explore/ExploreCard';
+import ExploreCard from '../../components/Explore/ExploreCard';
 import CardImage from '../../assets/img/Explore/CardImage.svg';
 import BakiLogo from '../../assets/img/Explore/BakiLogo.svg';
 import * as SolarIconSet from 'solar-icon-set';

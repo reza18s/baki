@@ -1,5 +1,6 @@
+import { allIcon } from '@/lib/constants';
 import { clsx } from 'clsx';
-import { allIcon } from '../../Signup/constants';
+
 export function Info({
   title,
   className,

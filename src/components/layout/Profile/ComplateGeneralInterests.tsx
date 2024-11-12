@@ -1,15 +1,10 @@
-import { Link, useHistory } from 'react-router-dom';
-import * as SolarIconSet from 'solar-icon-set';
-import {
-  useSignupMutation,
-  useUpdateUserMutation,
-} from '../../../graphql/generated/graphql.codegen';
-import { useForm } from 'react-hook-form';
+import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
 import GetTravelInterests from '../Signup/GetTravelInterests';
 import { useLocalStore } from '@/store/useLocalStore';
 import SweetAlertToast from '@/components/shared/Toasts/SweetAlertToast';
 import { Page } from '../Page';
 import AppBar from '../Header/AppBar';
+import { useHistory } from 'react-router';
 
 export default function ComplateGeneralInterests() {
   const [updateUser, { loading }] = useUpdateUserMutation();
