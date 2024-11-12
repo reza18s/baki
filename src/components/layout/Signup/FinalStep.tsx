@@ -1,7 +1,7 @@
-import { useHistory } from "react-router";
-import BakiLogo from "../../../assets/img/signup/BakiLogo.svg";
-import { useUpdateUserMutation } from "../../../graphql/generated/graphql.codegen";
-import { useLocalStore } from "../../../store/useLocalStore";
+import { useHistory } from 'react-router';
+import BakiLogo from '../../../assets/img/signup/BakiLogo.svg';
+import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
+import { useLocalStore } from '../../../store/useLocalStore';
 
 export default function FinalStep() {
   const [updateUser, { loading }] = useUpdateUserMutation();
@@ -9,7 +9,7 @@ export default function FinalStep() {
   const userInfo = useLocalStore((store) => store.userInfo);
 
   return (
-    <div className="flex h-[calc(100%-32px)] w-full flex-col items-center justify-between">
+    <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
       <div className="flex w-full flex-col items-center gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">پایان!</h1>
         <p className="text-sm font-medium leading-tight text-[#64748B]">
@@ -38,7 +38,7 @@ export default function FinalStep() {
             },
             onCompleted: (data) => {
               console.log(data);
-              hs.push("/explore");
+              hs.push('/explore');
             },
             onError: (err) => {
               console.log(err);

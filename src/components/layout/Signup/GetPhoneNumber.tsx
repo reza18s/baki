@@ -1,5 +1,5 @@
-import { Controller } from "react-hook-form";
-import * as SolarIconSet from "solar-icon-set";
+import { Controller } from 'react-hook-form';
+import * as SolarIconSet from 'solar-icon-set';
 
 export default function GetPhoneNumber(props: {
   control: any;
@@ -7,7 +7,7 @@ export default function GetPhoneNumber(props: {
   handleSignup: () => void;
 }) {
   return (
-    <div className="flex h-[calc(100%-32px)] flex-col justify-between gap-y-[40px]">
+    <div className="flex h-[calc(100%)] flex-col justify-between gap-y-[40px]">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">شماره موبایل</h1>
         <p className="text-sm font-medium leading-tight text-[#64748B]">
@@ -15,7 +15,7 @@ export default function GetPhoneNumber(props: {
           محافظت می کنیم.
         </p>
         <div
-          className={`flex items-center justify-between rounded-[12px] border-[1.5px] border-black py-[16px] pl-[12px] pr-[16px] ${props.phoneNumber?.length !== 0 ? "border-b-[4px]" : ""}`}
+          className={`flex items-center justify-between rounded-[12px] border-[1.5px] border-black py-[16px] pl-[12px] pr-[16px] ${props.phoneNumber?.length !== 0 ? 'border-b-[4px]' : ''}`}
         >
           <SolarIconSet.Phone size={30} />
           <Controller
@@ -46,7 +46,7 @@ export default function GetPhoneNumber(props: {
           disabled={props.phoneNumber?.length !== 11}
           onClick={props.handleSignup}
           className={`px-[20px] py-[16px] ${
-            props.phoneNumber?.length === 11 ? "bg-[#ffcc4e]" : "bg-slate-100"
+            props.phoneNumber?.length === 11 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

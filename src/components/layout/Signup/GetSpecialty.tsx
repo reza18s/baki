@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { SpecialtyItems } from "./constants";
-import { useLocalStore } from "../../../store/useLocalStore";
+import { useEffect, useState } from 'react';
+import { SpecialtyItems } from './constants';
+import { useLocalStore } from '../../../store/useLocalStore';
 
-export default function GetSpecialty(props: {handleSubmit?: () => void}) {
+export default function GetSpecialty(props: { handleSubmit?: () => void }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const [selectedSpecialty, setSelectedSpecialty] = useState<string[]>([]);
@@ -25,7 +25,7 @@ export default function GetSpecialty(props: {handleSubmit?: () => void}) {
 
   const handleSubmit = () => {
     updateUserInfo({
-      specialty: selectedSpecialty
+      specialty: selectedSpecialty,
     });
     if (props?.handleSubmit) {
       props.handleSubmit();
@@ -54,7 +54,7 @@ export default function GetSpecialty(props: {handleSubmit?: () => void}) {
                     handleClickInterests(subItem);
                   }}
                   key={subItem}
-                  className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${selectedSpecialty.includes(subItem) ? "bg-brand-yellow" : "bg-[#F1F5F9]"}`}
+                  className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${selectedSpecialty.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                 >
                   <p className="text-sm text-[#1a1d1e]">{subItem}</p>
                 </button>
@@ -65,13 +65,13 @@ export default function GetSpecialty(props: {handleSubmit?: () => void}) {
       </div>
       {/* Footer */}
       <div
-        className={`sticky bottom-0 flex w-full items-center justify-end bg-white px-2 py-3`}
+        className={`sticky bottom-0 flex w-full items-center justify-end bg-white py-3`}
       >
         <button
           disabled={selectedSpecialty.length < 0}
           onClick={handleSubmit}
           className={`px-[20px] py-[16px] ${
-            selectedSpecialty.length > 0 ? "bg-[#ffcc4e]" : "bg-slate-100"
+            selectedSpecialty.length > 0 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

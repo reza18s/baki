@@ -1,47 +1,47 @@
-import * as SolarIconSet from "solar-icon-set";
-import { Dropdown } from "antd";
-import { useState } from "react";
-import { useLocalStore } from "../../../store/useLocalStore";
+import * as SolarIconSet from 'solar-icon-set';
+import { Dropdown } from 'antd';
+import { useState } from 'react';
+import { useLocalStore } from '../../../store/useLocalStore';
 const iranProvinces = [
-  { label: "البرز", key: "1" },
-  { label: "اردبیل", key: "2" },
-  { label: "ایلام", key: "3" },
-  { label: "اصفهان", key: "4" },
-  { label: "آذربایجان غربی", key: "5" },
-  { label: "آذربایجان شرقی", key: "6" },
-  { label: "بوشهر", key: "7" },
-  { label: "تهران", key: "8" },
-  { label: "چهار محال و بختیاری", key: "10" },
-  { label: "خراسان جنوبی", key: "11" },
-  { label: "خراسان رضوی", key: "12" },
-  { label: "خراسان شمالی", key: "13" },
-  { label: "خوزستان", key: "14" },
-  { label: "زنجان", key: "15" },
-  { label: "سمنان", key: "16" },
-  { label: "سیستان و بلوچستان", key: "17" },
-  { label: "فارس", key: "18" },
-  { label: "قزوین", key: "19" },
-  { label: "قم", key: "20" },
-  { label: "کردستان", key: "21" },
-  { label: "کرمان", key: "22" },
-  { label: "کرمانشاه", key: "23" },
-  { label: "کهکیلویه و بویراحمد", key: "24" },
-  { label: "گلستان", key: "25" },
-  { label: "گیلان", key: "26" },
-  { label: "لرستان", key: "27" },
-  { label: "مازندران", key: "28" },
-  { label: "مرکزی", key: "29" },
-  { label: "هرمزگان", key: "30" },
-  { label: "همدان", key: "31" },
-  { label: "یزد", key: "32" },
+  { label: 'البرز', key: '1' },
+  { label: 'اردبیل', key: '2' },
+  { label: 'ایلام', key: '3' },
+  { label: 'اصفهان', key: '4' },
+  { label: 'آذربایجان غربی', key: '5' },
+  { label: 'آذربایجان شرقی', key: '6' },
+  { label: 'بوشهر', key: '7' },
+  { label: 'تهران', key: '8' },
+  { label: 'چهار محال و بختیاری', key: '10' },
+  { label: 'خراسان جنوبی', key: '11' },
+  { label: 'خراسان رضوی', key: '12' },
+  { label: 'خراسان شمالی', key: '13' },
+  { label: 'خوزستان', key: '14' },
+  { label: 'زنجان', key: '15' },
+  { label: 'سمنان', key: '16' },
+  { label: 'سیستان و بلوچستان', key: '17' },
+  { label: 'فارس', key: '18' },
+  { label: 'قزوین', key: '19' },
+  { label: 'قم', key: '20' },
+  { label: 'کردستان', key: '21' },
+  { label: 'کرمان', key: '22' },
+  { label: 'کرمانشاه', key: '23' },
+  { label: 'کهکیلویه و بویراحمد', key: '24' },
+  { label: 'گلستان', key: '25' },
+  { label: 'گیلان', key: '26' },
+  { label: 'لرستان', key: '27' },
+  { label: 'مازندران', key: '28' },
+  { label: 'مرکزی', key: '29' },
+  { label: 'هرمزگان', key: '30' },
+  { label: 'همدان', key: '31' },
+  { label: 'یزد', key: '32' },
 ];
 export default function GetResidenceCity() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [select, setSelect] = useState<string>();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   return (
-    <div className="flex h-[calc(100%-32px)] w-full flex-col justify-between">
+    <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">محل زندگی</h1>
         <p className="text-sm font-medium leading-tight text-[#64748B]">
@@ -71,7 +71,7 @@ export default function GetResidenceCity() {
                   key: val.key,
                 })),
             }}
-            trigger={["click"]}
+            trigger={['click']}
             className="w-full"
             rootClassName="border-2 rounded-lg border-black"
           >
@@ -99,7 +99,7 @@ export default function GetResidenceCity() {
             handleNextStep();
           }}
           className={`px-[20px] py-[16px] ${
-            select ? "bg-[#ffcc4e]" : "bg-slate-100"
+            select ? 'bg-[#ffcc4e]' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

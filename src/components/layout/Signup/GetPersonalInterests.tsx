@@ -1,9 +1,11 @@
-import * as SolarIconSet from "solar-icon-set";
-import { useEffect, useState } from "react";
-import { PersonalInterestsItems } from "./constants";
-import { useLocalStore } from "../../../store/useLocalStore";
+import * as SolarIconSet from 'solar-icon-set';
+import { useEffect, useState } from 'react';
+import { PersonalInterestsItems } from './constants';
+import { useLocalStore } from '../../../store/useLocalStore';
 
-export default function GetPersonalInterests(props: { handleSubmit?: () => void }) {
+export default function GetPersonalInterests(props: {
+  handleSubmit?: () => void;
+}) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -36,7 +38,7 @@ export default function GetPersonalInterests(props: { handleSubmit?: () => void 
   };
 
   return (
-    <div className="flex h-[calc(100%-32px)] w-full flex-col gap-y-[40px] pb-20">
+    <div className="flex h-[calc(100%)] w-full flex-col gap-y-[40px] pb-20">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">
           علایق شخصی من
@@ -55,7 +57,7 @@ export default function GetPersonalInterests(props: { handleSubmit?: () => void 
                       handleClickInterests(subItem.title);
                     }}
                     key={subItem.title}
-                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] ${selectedInterests.includes(subItem.title) ? "bg-brand-yellow" : "bg-[#F1F5F9]"}`}
+                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] ${selectedInterests.includes(subItem.title) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                   >
                     <img
                       src={subItem.icon}
@@ -71,7 +73,7 @@ export default function GetPersonalInterests(props: { handleSubmit?: () => void 
         </div>
       </div>
       <div
-        className={`sticky bottom-0 flex w-full min-w-fit items-center justify-between bg-white pb-5`}
+        className={`sticky bottom-0 flex w-full items-center justify-between bg-white py-3`}
       >
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.CheckCircle
@@ -85,8 +87,9 @@ export default function GetPersonalInterests(props: { handleSubmit?: () => void 
         <button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
-          className={`px-[20px] py-[16px] ${selectedInterests.length > 4 ? "bg-[#ffcc4e]" : "bg-slate-100"
-            } rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-[20px] py-[16px] ${
+            selectedInterests.length > 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>

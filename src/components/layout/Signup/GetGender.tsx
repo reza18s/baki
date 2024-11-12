@@ -1,13 +1,13 @@
-import { IoEye } from "react-icons/io5";
-import RadioButton from "../../shared/Buttons/RadioButton";
-import { useLocalStore } from "../../../store/useLocalStore";
-import { Gender } from "@/graphql/generated/graphql.codegen";
+import { IoEye } from 'react-icons/io5';
+import RadioButton from '../../shared/Buttons/RadioButton';
+import { useLocalStore } from '../../../store/useLocalStore';
+import { Gender } from '@/graphql/generated/graphql.codegen';
 export default function GetGender(props: { control: any; value: string }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   return (
-    <div className="flex h-[calc(100%-32px)] w-full flex-col justify-between">
+    <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">جنسیت</h1>
         <p className="mb-10 text-sm font-medium leading-tight text-[#64748B]">
@@ -16,8 +16,8 @@ export default function GetGender(props: { control: any; value: string }) {
         <RadioButton
           control={props.control}
           items={[
-            { label: "زن", value: "female" },
-            { label: "مرد", value: "male" },
+            { label: 'زن', value: 'female' },
+            { label: 'مرد', value: 'male' },
           ]}
           name="gender"
         />
@@ -37,7 +37,7 @@ export default function GetGender(props: { control: any; value: string }) {
             handleNextStep();
           }}
           className={`px-[20px] py-[16px] ${
-            props.value?.length > 1 ? "bg-[#ffcc4e]" : "bg-slate-100"
+            props.value?.length > 1 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

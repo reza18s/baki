@@ -1,7 +1,7 @@
-import { IoEye } from "react-icons/io5";
-import MonthPicker from "../../shared/Inputs/MonthPicker";
-import { useLocalStore } from "../../../store/useLocalStore";
-import { Controller, useForm } from "react-hook-form";
+import { IoEye } from 'react-icons/io5';
+import MonthPicker from '../../shared/Inputs/MonthPicker';
+import { useLocalStore } from '../../../store/useLocalStore';
+import { Controller, useForm } from 'react-hook-form';
 
 export default function GetBirthdate() {
   const { control, watch } = useForm<{
@@ -9,7 +9,7 @@ export default function GetBirthdate() {
     year: string;
   }>({
     defaultValues: {
-      year: "",
+      year: '',
     },
   });
 
@@ -17,7 +17,7 @@ export default function GetBirthdate() {
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   return (
-    <div className="flex h-[calc(100%-32px)] w-full flex-col justify-between">
+    <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">ماه تولد</h1>
         <p className="mb-10 text-sm font-medium leading-tight text-[#64748B]">
@@ -60,15 +60,15 @@ export default function GetBirthdate() {
           </p>
         </div>
         <button
-          disabled={!watch("year") || watch("year").length < 4}
+          disabled={!watch('year') || watch('year').length < 4}
           onClick={() => {
             updateUserInfo({
-              birthdate: `${watch("year")}-${watch("month")?.key}`,
+              birthdate: `${watch('year')}-${watch('month')?.key}`,
             });
             handleNextStep();
           }}
           className={`px-[20px] py-[16px] ${
-            watch("year").length === 4 ? "bg-[#ffcc4e]" : "bg-slate-100"
+            watch('year').length === 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

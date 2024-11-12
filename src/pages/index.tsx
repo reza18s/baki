@@ -7,9 +7,9 @@ import Modal from '../components/base/Modal/Modal';
 export default function Index() {
   const [showRules, setShowRules] = useState<boolean>(false);
   const history = useHistory();
-  useEffect(() => {
-    history.push('/explore');
-  }, []);
+  // useEffect(() => {
+  //   history.push('/explore');
+  // }, []);
   return (
     <div
       className="h-screen bg-cover bg-center"

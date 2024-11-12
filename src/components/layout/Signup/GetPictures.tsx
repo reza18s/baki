@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import * as SolarIconSet from "solar-icon-set";
-import UploadPictures from "../../shared/Inputs/UploadPictures";
-import { useLocalStore } from "../../../store/useLocalStore";
+import React, { useState } from 'react';
+import * as SolarIconSet from 'solar-icon-set';
+import UploadPictures from '../../shared/Inputs/UploadPictures';
+import { useLocalStore } from '../../../store/useLocalStore';
 
 export default function GetPictures(props: { control: any; name: string }) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
@@ -12,7 +12,7 @@ export default function GetPictures(props: { control: any; name: string }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   return (
-    <div className="flex h-[calc(100%-32px)] w-full flex-col justify-between">
+    <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">تصاویر من</h1>
         <p className="text-sm font-medium leading-tight text-[#64748B]">
@@ -41,7 +41,7 @@ export default function GetPictures(props: { control: any; name: string }) {
             // updateUserInfo({ residenceCity: select });
             handleNextStep();
           }}
-          className={`px-[20px] py-[16px] ${props.name?.length > 1 ? "bg-[#ffcc4e]" : "bg-slate-100"} rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-[20px] py-[16px] ${props.name?.length > 1 ? 'bg-[#ffcc4e]' : 'bg-slate-100'} rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>

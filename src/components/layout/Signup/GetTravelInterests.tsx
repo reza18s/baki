@@ -1,9 +1,13 @@
-import * as SolarIconSet from "solar-icon-set";
-import { useEffect, useState } from "react";
-import { useLocalStore } from "../../../store/useLocalStore";
-import { TravelInterestsItems } from "./constants";
+import * as SolarIconSet from 'solar-icon-set';
+import { useEffect, useState } from 'react';
+import { useLocalStore } from '../../../store/useLocalStore';
+import { TravelInterestsItems } from './constants';
+import { Button } from 'antd';
 
-export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
+export default function GetTravelInterests(props: {
+  className?: string;
+  handleSubmit?: () => void;
+}) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const [showAll, setShowAll] = useState<boolean>(false);
@@ -30,8 +34,8 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
 
   const handleSubmit = () => {
     updateUserInfo({
-      travelsInterests: selectedInterests
-        });
+      travelsInterests: selectedInterests,
+    });
     if (props?.handleSubmit) {
       props.handleSubmit();
     } else {
@@ -40,7 +44,9 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
   };
 
   return (
-    <div className="relative flex h-[calc(100%-32px)] w-full flex-col">
+    <div
+      className={`relative flex h-[calc(100%)] w-full flex-col justify-between ${props.className}`}
+    >
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">
           علایق عمومی من در سفر
@@ -66,7 +72,7 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
                         handleClickInterests(item.title);
                       }}
                       key={index}
-                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] p-[12px] ${selectedInterests.includes(item.title) ? "bg-brand-yellow" : "bg-[#F1F5F9]"}`}
+                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] p-[12px] ${selectedInterests.includes(item.title) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                     >
                       <img
                         src={item.icon}
@@ -82,7 +88,7 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
                         handleClickInterests(nextItem.title);
                       }}
                       key={nextIndex}
-                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] ${selectedInterests.includes(nextItem.title) ? "bg-brand-yellow" : "bg-[#F1F5F9]"}`}
+                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] ${selectedInterests.includes(nextItem.title) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                     >
                       <img
                         src={nextItem.icon}
@@ -98,7 +104,7 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
           })}
           <button
             onClick={setShowAllTrue}
-            className={`${showAll ? "hidden" : "flex"} -mt-16 w-full items-center justify-center gap-x-2`}
+            className={`${showAll ? 'hidden' : 'flex'} -mt-16 w-full items-center justify-center gap-x-2`}
           >
             <SolarIconSet.AltArrowDown size={16} />
             <p className="text-sm font-bold text-[#1a1d1e]">مشاهده همه</p>
@@ -106,7 +112,7 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
         </div>
       </div>
       <div
-        className={`bottom-0 flex w-full items-center justify-between bg-white pb-5 ${showAll ? "sticky" : "absolute"}`}
+        className={`sticky bottom-0 flex w-full items-center justify-between bg-white py-3`}
       >
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.CheckCircle
@@ -121,8 +127,8 @@ export default function GetTravelInterests(props: {handleSubmit?: () => void}) {
           disabled={selectedInterests.length < 4}
           onClick={handleSubmit}
           className={`px-[20px] py-[16px] ${
-            selectedInterests.length > 4 ? "bg-[#ffcc4e]" : "bg-slate-100"
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+            selectedInterests.length > 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          } rounded-[12px] border-0 font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>

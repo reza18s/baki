@@ -3,14 +3,14 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
-} from "@apollo/client";
+} from '@apollo/client';
 
 // Safely retrieve the token from localStorage
 const getToken = () => {
   try {
-    return localStorage.getItem("token");
+    return localStorage.getItem('token');
   } catch (error) {
-    console.error("Could not access localStorage:", error);
+    console.error('Could not access localStorage:', error);
     return null;
   }
 };
@@ -22,14 +22,15 @@ const authLink = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   }));
   return forward(operation);
 });
-
 // HttpLink for the GraphQL endpoint
-const httpLink = new HttpLink({ uri: "http://api.baki.app/graphql" });
+const httpLink = new HttpLink({
+  uri: import.meta.env.VITE_APP_BASE_URL || 'http://localhost:3000/graphql',
+});
 
 // Combine the authLink and httpLink
 const link = ApolloLink.from([authLink, httpLink]);

@@ -1,10 +1,15 @@
-import { Link, useHistory } from "react-router-dom";
-import * as SolarIconSet from "solar-icon-set";
-import { useSignupMutation, useUpdateUserMutation } from "../../../graphql/generated/graphql.codegen";
-import { useForm } from "react-hook-form";
-import GetTravelInterests from "../Signup/GetTravelInterests";
-import { useLocalStore } from "@/store/useLocalStore";
-import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
+import { Link, useHistory } from 'react-router-dom';
+import * as SolarIconSet from 'solar-icon-set';
+import {
+  useSignupMutation,
+  useUpdateUserMutation,
+} from '../../../graphql/generated/graphql.codegen';
+import { useForm } from 'react-hook-form';
+import GetTravelInterests from '../Signup/GetTravelInterests';
+import { useLocalStore } from '@/store/useLocalStore';
+import SweetAlertToast from '@/components/shared/Toasts/SweetAlertToast';
+import { Page } from '../Page';
+import AppBar from '../Header/AppBar';
 
 export default function ComplateGeneralInterests() {
   const [updateUser, { loading }] = useUpdateUserMutation();
@@ -18,41 +23,30 @@ export default function ComplateGeneralInterests() {
       },
       onCompleted: () => {
         SweetAlertToast.fire({
-          icon: "success",
-          title: "اطلاعات شما با موفقیت ثبت شد",
-        })
+          icon: 'success',
+          title: 'اطلاعات شما با موفقیت ثبت شد',
+        });
         setTimeout(() => {
-          hs.push("/profile/complate_profile");
+          hs.push('/profile/complate_profile');
         }, 1000);
       },
       onError: () => {
         SweetAlertToast.fire({
-          icon: "error",
-          title: "خطا",
-          text: "مشکلی پیش آمده است لطفا دوباره امتحان کنید",
+          icon: 'error',
+          title: 'خطا',
+          text: 'مشکلی پیش آمده است لطفا دوباره امتحان کنید',
         });
       },
-    })
+    });
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center gap-y-3 overflow-y-auto pb-16">
-      {/* Head */}
-      <Link
-        to="/profile/complate_profile"
-        className="flex w-full items-center justify-between px-6 py-4 text-brand-black shadow-md shadow-zinc-50"
-      >
-        <SolarIconSet.AltArrowRight size={24} />
-        <h1 className="my-auto text-lg font-bold">علایق عمومی</h1>
-        <div></div>
-      </Link>
-      {/* Body */}
-      <div
-        className="relative h-full min-h-full min-w-[100vw] overflow-auto p-[24px] text-black"
-        dir="rtl"
-      >
-        <GetTravelInterests handleSubmit={handleSubmit} />
-      </div>
-    </div>
+    <Page
+      className="flex h-full w-full flex-col items-center"
+      contentClassName="h-[100dvh]"
+      header={<AppBar title="علایق عمومی"></AppBar>}
+    >
+      <GetTravelInterests className="p-4" handleSubmit={handleSubmit} />
+    </Page>
   );
 }

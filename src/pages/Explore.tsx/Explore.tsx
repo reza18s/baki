@@ -20,7 +20,7 @@ export default function Explore() {
   };
   return (
     <Page
-      className="overflow-scroll pb-14"
+      className="pb-14"
       contentClassName="h-[calc(100%)]"
       header={
         <div className="flex h-12 w-full items-center justify-between p-3">
