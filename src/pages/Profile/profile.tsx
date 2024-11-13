@@ -9,9 +9,73 @@ import { PiGraphLight } from "react-icons/pi";
 import { TbZodiacAries } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
+import { useLocalStore } from "@/store/useLocalStore";
+import { useUpdateUserMutation } from "@/graphql/generated/graphql.codegen";
 
 export default function Profile() {
-  const { control, watch } = useForm();
+  const { control, watch, setValue } = useForm();
+
+  const [updateUser, { loading }] = useUpdateUserMutation();
+  const userInfo = useLocalStore((store) => store.userInfo);
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+   
+  const bio = watch("bio");
+  const username = watch("username");
+  const name = watch("name");
+
+  const timeoutRef = useRef<number | null>(null); // Specify the type here
+
+  useEffect(() => {
+      setValue("name", userInfo.name);
+      setValue("username", userInfo.username);
+      setValue("bio", userInfo.bio);
+  }, [])
+
+  useEffect(() => {
+    // Clear any existing timer
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+    }
+    // Set a new timer 
+    timeoutRef.current = window.setTimeout(() => {
+      updateUserInfo({
+          name: name,
+          username: username,
+          bio: bio,
+        })
+    }, 1000);
+
+    // Cleanup timer on unmount or if values change
+    return () => {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [bio, username, name]); // Depend on changes in bio, username, and name
+
+  useEffect(() => {
+    updateUser({
+      variables: {
+        name: userInfo.name,
+      }})
+  }, [userInfo.name])
+
+  useEffect(() => {
+    updateUser({
+      variables: {
+        username: userInfo.username,
+      }})
+  }, [userInfo.username])
+
+  useEffect(() => {
+    updateUser({
+      variables: {
+        bio: userInfo.bio,
+      }})
+  }, [userInfo.bio])
+
   return (
     <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto text-brand-black">
       {/* Head */}
@@ -81,8 +145,8 @@ export default function Profile() {
               multiline={true}
               rows={3}
               control={control}
-              name="biography"
-              value={watch("biography")}
+              name="bio"
+              value={watch("bio")}
             />
           </div>
           <div className="w-full text-brand-black">
