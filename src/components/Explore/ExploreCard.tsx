@@ -10,14 +10,7 @@ import { IcX } from '@/components/icons/IcX';
 import { IcTick } from '@/components/icons/IcTick';
 const profileDetails = {
   specialization: ['مهندسی صنعتی'],
-  interests: [
-    'موسیقی پاپ',
-    'تیراندازی',
-    'سنجاب',
-    'آبجو',
-    'فیلم کمدی',
-    'تبادل فرهنگی',
-  ],
+  interests: ['تیراندازی', 'سنجاب', 'تبادل فرهنگی'],
   languagesKnown: ['ترکی', 'لری', 'گیلکی', 'فارسی', 'انگلیسی'],
   placesVisited: [
     'اسپانیا',

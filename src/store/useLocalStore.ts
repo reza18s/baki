@@ -1,8 +1,7 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { StepsNumber } from "../types";
-import { Gender } from "../graphql/generated/graphql.codegen";
-import Undici from "undici-types";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { StepsNumber } from '../types';
+import { Gender } from '../graphql/generated/graphql.codegen';
 export type UserInfo = {
   phoneNumber: string;
   name: string;
@@ -13,22 +12,26 @@ export type UserInfo = {
   travelsInterests: string[];
   personalInterests: string[];
   specialty: string[];
-  maritalStatus: "single" | "married" | null;
-  smokeStatus: "never" | "sometimes" | "regularly" | null;
-  sportsStatus: "never" | "sometimes" | "regularly" | null;
-  AmountOfEarlyRising: "wakeUpEarly" | "sleepy" | "onTime" | null;
+  maritalStatus: 'single' | 'married' | null;
+  smokeStatus: 'never' | 'sometimes' | 'regularly' | null;
+  sportsStatus: 'never' | 'sometimes' | 'regularly' | null;
+  AmountOfEarlyRising: 'wakeUpEarly' | 'sleepy' | 'onTime' | null;
   username: string;
   bio: string;
 };
 interface IStore {
   step: StepsNumber;
   userInfo: UserInfo;
+  ExploreEntered: boolean;
 }
 export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
   updateUserInfo: (userInfo: Partial<UserInfo>) => void;
+  setExploreEntered: () => void;
+  addItem: (key: string, val: boolean) => void;
+  getItem: (key: string) => boolean;
 };
 
 export type Store = IStore & Actions;
@@ -36,11 +39,11 @@ export type Store = IStore & Actions;
 export const defaultInitState: IStore = {
   step: 0,
   userInfo: {
-    phoneNumber: "",
-    name: "",
-    birthdate: "",
+    phoneNumber: '',
+    name: '',
+    birthdate: '',
     pictures: [],
-    residenceCity: "",
+    residenceCity: '',
     travelsInterests: [],
     specialty: [],
     personalInterests: [],
@@ -49,9 +52,10 @@ export const defaultInitState: IStore = {
     smokeStatus: null,
     sportsStatus: null,
     AmountOfEarlyRising: null,
-    username: "",
-    bio: "",
+    username: '',
+    bio: '',
   },
+  ExploreEntered: false,
 };
 
 export const useLocalStore = create<Store>()(
@@ -59,7 +63,7 @@ export const useLocalStore = create<Store>()(
     (set, get) => ({
       ...defaultInitState,
       setSteps: (step) => {
-        if (typeof step === "number") {
+        if (typeof step === 'number') {
           if (step < 0 || step > 10) {
             return;
           }
@@ -82,7 +86,16 @@ export const useLocalStore = create<Store>()(
       updateUserInfo: (userInfo) => {
         set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
       },
+      setExploreEntered() {
+        set({ ExploreEntered: true });
+      },
+      addItem: (key, val) => {
+        set({ [key]: val });
+      },
+      getItem: (key) => {
+        return get()[key];
+      },
     }),
-    { name: "store" },
+    { name: 'store' },
   ),
 );
