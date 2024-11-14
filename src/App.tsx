@@ -16,6 +16,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import './theme/main.css';
 import Routes from './routes/routes';
+import { Toaster } from 'react-hot-toast';
 
 setupIonicReact();
 
@@ -25,6 +26,20 @@ const App: React.FC = () => {
       <IonReactRouter>
         <Routes />
       </IonReactRouter>
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: '45px' }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          className: 'mt-9',
+        }}
+      />
     </IonApp>
   );
 };
