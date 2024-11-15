@@ -1,14 +1,14 @@
-import { FieldHookConfig, useField } from "formik";
-import { ClassAttributes, InputHTMLAttributes } from "react";
-import React from "react";
-import { v4 as uuidv4 } from "uuid";
-import InputLayout from "../InputLayout";
-import style from "./OutlineCheckbox.module.scss";
-import clsx from "clsx";
+import { FieldHookConfig, useField } from 'formik';
+import { ClassAttributes, InputHTMLAttributes } from 'react';
+import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import InputLayout from '../InputLayout';
+import style from './OutlineCheckbox.module.scss';
+import clsx from 'clsx';
 
 interface OutlineCheckboxProps {
   id?: string;
-  varient?: "filled" | "outline";
+  varient?: 'filled' | 'outline';
   label?: string;
   customLabel?: React.ReactNode;
   errorEnabled?: boolean;
@@ -19,7 +19,7 @@ interface OutlineCheckboxProps {
 const OutlineCheckbox = ({
   id,
   label,
-  varient = "outline",
+  varient = 'outline',
   customLabel,
   errorEnabled = true,
   hintEnabled = true,

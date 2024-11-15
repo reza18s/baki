@@ -19,7 +19,6 @@ body {
 }
 .next-button-login {
   --background: #ffb103;
-  color: white;
 }
 .input-label-placement-floating.sc-ion-input-ios-h,
 .input-label-placement-stacked.sc-ion-input-ios-h {
@@ -31,6 +30,10 @@ body {
   align-items: center;
   width: 90%;
 }
+/* textarea,
+input {
+  outline: none;
+} */
 
 .step {
   width: 100%;
@@ -53,4 +56,19 @@ body {
 
 .my-swal {
   z-index: 9999 !important;
+}
+.custom-checkbox {
+  position: relative;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.custom-checkbox:checked::after {
+  content: url('../assets/icon/tick.svg');
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px; /* Adjust the tick size */
 }

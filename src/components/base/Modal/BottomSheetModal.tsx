@@ -21,6 +21,7 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
   rounded = 'rounded-t-3xl',
   closeOnClickOverlay = true,
   fullScreen,
+  className,
   scroll = true,
   disableDrag = false,
   id,
@@ -83,6 +84,7 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
       >
         <motion.div
           className={clsx(
+            className,
             'w-[100vw] bg-white',
             scroll && 'overflow-y-auto',
             fullScreen ? 'max-h-[100vh]' : 'max-h-[90vh]',

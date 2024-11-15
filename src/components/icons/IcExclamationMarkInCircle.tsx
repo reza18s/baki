@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
 export const IcExclamationMarkInCircle: FC<IconProps> = ({
-  className: classname,
+  className,
+  stroke,
 }) => {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" className={classname}>
+    <svg width="16" height="16" viewBox="0 0 16 16" className={className}>
       <g clipPath="url(#clip0_5071_15412)">
         <circle
           cx="8.00016"
@@ -15,7 +16,7 @@ export const IcExclamationMarkInCircle: FC<IconProps> = ({
         />
         <path
           d="M8 11.3335V7.3335"
-          stroke="#FFCC4E"
+          stroke={stroke || '#FFCC4E'}
           strokeWidth="1.5"
           strokeLinecap="round"
         />
