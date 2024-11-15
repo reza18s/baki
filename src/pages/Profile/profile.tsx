@@ -10,27 +10,26 @@ import { TbZodiacAries } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
 import { useLocalStore } from "@/store/useLocalStore";
 import { useUpdateUserMutation } from "@/graphql/generated/graphql.codegen";
 import { useLocation } from "react-router-dom";
 
 export default function Profile() {
   const { hash } = useLocation(); // Retrieve the current hash from the URL
-const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
+  const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
 
-useEffect(() => {
-  if (hash === "#biography" && bioRef.current) {
-    bioRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-}, [hash]); // Trigger when the hash changes
+  useEffect(() => {
+    if (hash === "#biography" && bioRef.current) {
+      bioRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [hash]); // Trigger when the hash changes
 
   const { control, watch, setValue } = useForm();
 
   const [updateUser, { loading }] = useUpdateUserMutation();
   const userInfo = useLocalStore((store) => store.userInfo);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-   
+
   const bio = watch("bio");
   const username = watch("username");
   const name = watch("name");
@@ -38,9 +37,9 @@ useEffect(() => {
   const timeoutRef = useRef<number | null>(null); // Specify the type here
 
   useEffect(() => {
-      setValue("name", userInfo.name);
-      setValue("username", userInfo.username);
-      setValue("bio", userInfo.bio);
+    setValue("name", userInfo.name);
+    setValue("username", userInfo.username);
+    setValue("bio", userInfo.bio);
   }, [])
 
   useEffect(() => {
@@ -51,10 +50,10 @@ useEffect(() => {
     // Set a new timer 
     timeoutRef.current = window.setTimeout(() => {
       updateUserInfo({
-          name: name,
-          username: username,
-          bio: bio,
-        })
+        name: name,
+        username: username,
+        bio: bio,
+      })
     }, 1000);
 
     // Cleanup timer on unmount or if values change
@@ -69,22 +68,45 @@ useEffect(() => {
     updateUser({
       variables: {
         name: userInfo.name,
-      }})
+      }
+    })
   }, [userInfo.name])
 
   useEffect(() => {
     updateUser({
       variables: {
         username: userInfo.username,
-      }})
+      }
+    })
   }, [userInfo.username])
 
   useEffect(() => {
     updateUser({
       variables: {
         bio: userInfo.bio,
-      }})
+      }
+    })
   }, [userInfo.bio])
+
+  const calculateCompletionPercentage = () => {
+    const fields = [
+      userInfo.name,
+      userInfo.username,
+      userInfo.bio,
+      userInfo.residenceCity,
+      userInfo.gender,
+      userInfo.pictures.length >= 4,
+      userInfo.personalInterests.length >= 5,
+      userInfo.travelsInterests.length >= 5,
+      userInfo.specialty.length > 0,
+    ];
+    const completedFields = fields.filter(Boolean).length;
+    return Math.round((completedFields / fields.length) * 100);
+  };
+
+  const completionPercentage = calculateCompletionPercentage();
+  const backgroundClass =
+    completionPercentage === 100 ? "bg-brand-green" : "bg-brand-yellow";
 
   return (
     <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto text-brand-black">
@@ -99,13 +121,15 @@ useEffect(() => {
       </Link>
       {/* Body */}
       <div className="w-full px-6 flex flex-col items-center gap-y-3">
-        <div
-          className="w-full text-brand-black"
-        >
+        <div className="w-full text-brand-black">
           <h2 className="text-[#64748B] text-sm font-semibold mr-3">
             تکمیل پروفایل:
           </h2>
-          <ArrowButton url="/profile/complate_profile" text="65 درصد کامل شده" className="bg-brand-yellow" />
+          <ArrowButton
+            url="/profile/complate_profile"
+            text={`${completionPercentage} درصد کامل شده`}
+            className={backgroundClass}
+          />
         </div>
         <div className="w-full">
           <h2 className="text-[#64748B] text-sm font-semibold mr-3">
