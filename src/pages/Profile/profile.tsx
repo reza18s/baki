@@ -13,8 +13,18 @@ import { useEffect, useRef } from "react";
 import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
 import { useLocalStore } from "@/store/useLocalStore";
 import { useUpdateUserMutation } from "@/graphql/generated/graphql.codegen";
+import { useLocation } from "react-router-dom";
 
 export default function Profile() {
+  const { hash } = useLocation(); // Retrieve the current hash from the URL
+const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
+
+useEffect(() => {
+  if (hash === "#biography" && bioRef.current) {
+    bioRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+}, [hash]); // Trigger when the hash changes
+
   const { control, watch, setValue } = useForm();
 
   const [updateUser, { loading }] = useUpdateUserMutation();
@@ -136,7 +146,7 @@ export default function Profile() {
               value={watch("username")}
             />
           </div>
-          <div className="w-full" id="biography">
+          <div className="w-full" id="biography" ref={bioRef}>
             <h2 className="text-[#64748B] text-sm font-semibold mr-3">
               بیوگرافی
             </h2>
