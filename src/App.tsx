@@ -31,13 +31,7 @@ const App: React.FC = () => {
         gutter={12}
         containerStyle={{ margin: '45px' }}
         toastOptions={{
-          success: {
-            duration: 3000,
-          },
-          error: {
-            duration: 5000,
-          },
-          className: 'mt-9',
+          duration: 1000,
         }}
       />
     </IonApp>

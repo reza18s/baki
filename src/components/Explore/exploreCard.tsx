@@ -1,5 +1,5 @@
 import { FaCirclePlay } from 'react-icons/fa6';
-import CardAvatar from './image.png';
+import CardAvatar from '../../assets/icon/image.png';
 import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { motion } from 'framer-motion';
