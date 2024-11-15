@@ -34,17 +34,24 @@ export const LanguageFilter = ({
         <h1 className="my-3 text-center text-lg font-bold">
           زبان مدنظر را انتخاب کنید:
         </h1>
-        <div className="mb-4 flex h-9 w-full items-center gap-2 rounded-xl border-2 border-brand-black bg-transparent px-2">
-          <IcSearch></IcSearch>
-          <input
-            className="bg-transparent outline-none"
-            placeholder="جستجو برای زبان..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          ></input>
+        <div className="flex">
+          <div className="mb-4 flex h-9 w-full items-center gap-2 rounded-xl border-2 border-brand-black bg-transparent px-2">
+            <IcSearch></IcSearch>
+            <input
+              className="bg-transparent outline-none"
+              placeholder="جستجو برای زبان..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            ></input>
+          </div>
+          {search.length > 0 && (
+            <div className="p-2 text-red-500" onClick={() => setSearch('')}>
+              لغو
+            </div>
+          )}
         </div>
 
-        <div className="flex h-[73%] flex-col overflow-y-scroll">
+        <div className="flex h-[calc(100%-170px)] flex-col overflow-y-scroll">
           {languages
             .filter((el) =>
               el.language.toLowerCase().includes(search.toLowerCase()),

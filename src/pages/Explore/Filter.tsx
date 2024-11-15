@@ -1,4 +1,6 @@
 import Button from '@/components/base/Button/Button';
+import Modal from '@/components/base/Modal/Modal';
+import { Toast } from '@/components/base/toast/toast';
 import { AgeFilter } from '@/components/Explore/filter/ageFilter';
 import { InterestFilter } from '@/components/Explore/filter/interestFilter';
 import { LanguageFilter } from '@/components/Explore/filter/languageFilter';
@@ -11,6 +13,8 @@ import { Page } from '@/components/layout/Page';
 import { SearchTypes } from '@/lib';
 import { IFilter, useStore } from '@/store/useStore';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useHistory } from 'react-router';
 
 export const Filter = () => {
   const {
@@ -19,11 +23,24 @@ export const Filter = () => {
     setFilters: setStoreFilters,
   } = useStore((store) => store);
   const [filters, setFilters] = useState<IFilter>(storeFilters);
+  const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
   const SearchType = SearchTypes.find((val) => val.value === searchType);
   return (
     <Page
-      contentClassName="p-6 bg-gray-100 flex gap-6 flex-col pb-24"
-      header={<AppBar title="فیلتر جستجو"></AppBar>}
+      contentClassName="p-6 bg-gray-100 flex gap-6 flex-col"
+      header={
+        <AppBar
+          title="فیلتر جستجو"
+          onBack={() => {
+            if (JSON.stringify(filters) !== JSON.stringify(storeFilters)) {
+              setIsOpen(true);
+            } else {
+              history.goBack();
+            }
+          }}
+        ></AppBar>
+      }
     >
       <div className="mt-3 flex flex-col items-center gap-2 rounded-xl border border-gray-300 bg-white p-3">
         <h1 className="flex items-center gap-1 text-sm font-bold text-black">
@@ -81,20 +98,20 @@ export const Filter = () => {
         <InterestFilter
           setValue={(val) =>
             setFilters((prev) => {
-              if (prev.status?.includes(val)) {
+              if (prev.interest?.includes(val)) {
                 return {
                   ...prev,
-                  status: prev.status?.filter((e) => e !== val) || [],
+                  interest: prev.interest?.filter((e) => e !== val) || [],
                 };
               } else {
                 return {
                   ...prev,
-                  status: [...(prev.status || []), val],
+                  interest: [...(prev.interest || []), val],
                 };
               }
             })
           }
-          value={filters.status}
+          value={filters.interest}
         ></InterestFilter>
       ) : (
         ''
@@ -126,13 +143,105 @@ export const Filter = () => {
         value={filters.status}
       ></StatusFilter>
       <Button
-        className="fixed bottom-6 w-[calc(100%-48px)]"
+        className="sticky bottom-6 w-[calc(100%)]"
         onClick={() => {
+          if (
+            (searchType === 'random' &&
+              (!filters.provinces || filters.provinces.length <= 0)) ||
+            (searchType === 'baseOnInterest' &&
+              (!filters.interest || filters.interest.length <= 0)) ||
+            (searchType === 'famous' &&
+              (!filters.specialty || filters.specialty.length <= 0))
+          ) {
+            toast.custom(
+              <Toast type="error">
+                حداقل یک{' '}
+                {searchType === 'random'
+                  ? 'استان'
+                  : searchType === 'baseOnInterest'
+                    ? 'علاقه مندی'
+                    : searchType === 'famous'
+                      ? 'تخصص'
+                      : ''}{' '}
+                را انتخاب کنید
+              </Toast>,
+              { duration: 1000 },
+            );
+            return;
+          }
           setStoreFilters(filters);
+          history.goBack();
         }}
       >
         ذخیره فیلترها
       </Button>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        onCloseEnd={() => setIsOpen(false)}
+        className="flex w-[85%] flex-col gap-3 rounded-3xl bg-white px-5 py-3"
+      >
+        <div className="flex items-center justify-center">
+          <div className="flex size-16 items-center justify-center rounded-full bg-red-500">
+            <IcExclamationMarkInCircle
+              className="size-8 fill-none stroke-white"
+              stroke="#fff"
+            ></IcExclamationMarkInCircle>
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-2 text-lg font-bold">
+          شما تغییرات ذخیره نشده دارید!
+          <span className="text-nowrap text-sm text-gray-500">
+            آیا میخواهید قبل از خروج تغییرات را ذخیره کنید؟
+          </span>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            className="h-10 w-full border-black p-0"
+            onClick={() => {
+              if (
+                (searchType === 'random' &&
+                  (!filters.provinces || filters.provinces.length <= 0)) ||
+                (searchType === 'baseOnInterest' &&
+                  (!filters.interest || filters.interest.length <= 0)) ||
+                (searchType === 'famous' &&
+                  (!filters.specialty || filters.specialty.length <= 0))
+              ) {
+                toast.custom(
+                  <Toast type="error">
+                    حداقل یک{' '}
+                    {searchType === 'random'
+                      ? 'استان'
+                      : searchType === 'baseOnInterest'
+                        ? 'علاقه مندی'
+                        : searchType === 'famous'
+                          ? 'تخصص'
+                          : ''}{' '}
+                    را انتخاب کنید
+                  </Toast>,
+                  { duration: 1000 },
+                );
+                setIsOpen(false);
+                return;
+              }
+              setStoreFilters(filters);
+              history.goBack();
+            }}
+          >
+            ذخیره تغییرات
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black p-0"
+            onClick={() => {
+              setIsOpen(false);
+              history.goBack();
+            }}
+          >
+            خروج
+          </Button>
+        </div>
+      </Modal>
     </Page>
   );
 };

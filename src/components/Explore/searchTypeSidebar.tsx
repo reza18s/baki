@@ -1,6 +1,5 @@
 import React from 'react';
 import Sidebar from '../base/sidebar/sidebar';
-import { IcExclamationMarkInCircle } from '../icons/IcExclamationMarkInCircle';
 import toast from 'react-hot-toast';
 import { useStore } from '@/store/useStore';
 import { SearchTypes } from '@/lib';

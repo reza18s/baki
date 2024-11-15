@@ -51,7 +51,7 @@ export const ProvincesFilter = ({
           ></input>
         </div>
 
-        <div className="flex h-[73%] flex-col overflow-y-scroll">
+        <div className="flex h-[calc(100%-170px)] flex-col overflow-y-scroll">
           {iranProvinces
             .filter((el) => el.key.toLowerCase().includes(search.toLowerCase()))
             .map((el) => (

@@ -11,7 +11,7 @@ export const IcExclamationMarkInCircle: FC<IconProps> = ({
           cx="8.00016"
           cy="8.00016"
           r="6.66667"
-          stroke="#FFCC4E"
+          stroke={stroke || '#FFCC4E'}
           strokeWidth="1.5"
         />
         <path
@@ -25,7 +25,7 @@ export const IcExclamationMarkInCircle: FC<IconProps> = ({
           cy="0.666667"
           r="0.666667"
           transform="matrix(1 0 0 -1 7.3335 6)"
-          fill="#FFCC4E"
+          fill={stroke || '#FFCC4E'}
         />
       </g>
       <defs>

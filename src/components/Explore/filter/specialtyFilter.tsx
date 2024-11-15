@@ -51,7 +51,7 @@ export const SpecialtyFilter = ({
           ></input>
         </div>
 
-        <div className="flex h-[79%] flex-col overflow-y-scroll">
+        <div className="flex max-h-[calc(100%-170px)] flex-col overflow-y-scroll">
           {SpecialtyItems.map((item) => (
             <div key={item.title} className="flex flex-col gap-y-3">
               <h2 className="text-lg font-bold text-[#1a1d1e]">{item.title}</h2>
