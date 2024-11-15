@@ -32,13 +32,6 @@ const App: React.FC = () => {
         containerStyle={{ margin: '45px' }}
         toastOptions={{
           duration: 1000,
-          success: {
-            duration: 3000,
-          },
-          error: {
-            duration: 5000,
-          },
-          className: 'mt-9',
         }}
       />
     </IonApp>

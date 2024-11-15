@@ -1,8 +1,12 @@
-import { useState } from 'react';
 import { DualRangeSlider } from './dualRangeSlider';
 
-export const AgeFilter = () => {
-  const [values, setValues] = useState([0, 100]);
+export const AgeFilter = ({
+  values = [0, 50],
+  setValues,
+}: {
+  values?: number[];
+  setValues: (val: number[]) => void;
+}) => {
   return (
     <div>
       <h2 className="my-2 text-sm text-gray-500">وضعیت:</h2>
@@ -13,7 +17,7 @@ export const AgeFilter = () => {
           value={values}
           onValueChange={setValues}
           min={0}
-          max={100}
+          max={50}
           step={1}
           className="mt-3"
         />

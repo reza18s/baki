@@ -1,7 +1,7 @@
 import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
-import React from 'react';
+import React, { useState } from 'react';
 const status = [
   'آنلاین',
   'فعال در 3 روز گذشته',
@@ -9,12 +9,13 @@ const status = [
   'فعال در بیش از 10 روز گذشته',
 ];
 export const StatusFilter = ({
-  isOpen,
-  setIsOpen,
+  value,
+  setValue,
 }: {
-  isOpen?: string;
-  setIsOpen: React.Dispatch<React.SetStateAction<string | undefined>>;
+  value?: string[];
+  setValue: (val: string) => void;
 }) => {
+  const [isOpen, setIsOpen] = useState<string>();
   return (
     <div>
       <h2 className="my-2 text-sm text-gray-500">وضعیت:</h2>
@@ -23,7 +24,11 @@ export const StatusFilter = ({
         className="flex h-10 w-full items-center justify-between bg-white px-3 py-0 font-medium"
         onClick={() => setIsOpen('Status')}
       >
-        اضافه کردن فیلتر
+        {value && value.length > 0
+          ? value.length >= 2
+            ? `${value[0]},...`
+            : `${value[0]}`
+          : 'اضافه کردن فیلتر'}
         <IcArrowLeft></IcArrowLeft>
       </Button>
       <BottomSheetModal
@@ -41,12 +46,14 @@ export const StatusFilter = ({
             <div
               key={el}
               className="flex items-center gap-2 border-t py-6 text-sm"
-              // onClick={() => {
-              //   set(el.value);
-              // }}
+              onClick={() => {
+                setValue(el);
+              }}
             >
               <input
+                checked={!!value?.includes(el)}
                 type="checkbox"
+                readOnly
                 className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
               />
               {el}

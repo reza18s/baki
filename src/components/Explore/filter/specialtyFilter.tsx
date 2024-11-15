@@ -2,10 +2,10 @@ import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { IcSearch } from '@/components/icons/IcSearch';
-import { iranProvinces } from '@/lib/constants';
+import { SpecialtyItems } from '@/lib/constants';
 import React, { useState } from 'react';
 
-export const ProvincesFilter = ({
+export const SpecialtyFilter = ({
   value,
   setValue,
 }: {
@@ -18,7 +18,7 @@ export const ProvincesFilter = ({
   return (
     <div>
       <h2 className="my-2 text-sm text-gray-500">
-        انتخاب استان: <span className="text-red-500">(الزامی)</span>
+        انتخاب تخصص: <span className="text-red-500">(الزامی)</span>
       </h2>
       <Button
         variant="outline"
@@ -36,41 +36,40 @@ export const ProvincesFilter = ({
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
         onCloseEnd={() => setIsOpen(false)}
-        className="h-[70%] overflow-hidden px-6"
+        className="h-[90%] overflow-hidden px-6"
       >
         <h1 className="my-3 text-center text-lg font-bold">
-          استان مدنظر را انتخاب کنید:
+          تخصص مدنظر را انتخاب کنید:
         </h1>
         <div className="mb-4 flex h-9 w-full items-center gap-2 rounded-xl border-2 border-brand-black bg-transparent px-2">
           <IcSearch></IcSearch>
           <input
             className="bg-transparent outline-none"
-            placeholder="جستجو برای استان..."
+            placeholder="جستجو برای تخصص..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           ></input>
         </div>
 
-        <div className="flex h-[73%] flex-col overflow-y-scroll">
-          {iranProvinces
-            .filter((el) => el.key.toLowerCase().includes(search.toLowerCase()))
-            .map((el) => (
-              <div
-                key={el.label}
-                className="flex items-center gap-2 border-t py-6 text-sm"
-                onClick={() => {
-                  setValue(el.label);
-                }}
-              >
-                <input
-                  checked={!!value?.includes(el.label)}
-                  readOnly
-                  type="checkbox"
-                  className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
-                />
-                {el.label}
+        <div className="flex h-[79%] flex-col overflow-y-scroll">
+          {SpecialtyItems.map((item) => (
+            <div key={item.title} className="flex flex-col gap-y-3">
+              <h2 className="text-lg font-bold text-[#1a1d1e]">{item.title}</h2>
+              <div className="flex flex-wrap gap-3">
+                {item.subItems.map((subItem) => (
+                  <button
+                    onClick={() => {
+                      setValue(subItem);
+                    }}
+                    key={subItem}
+                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                  >
+                    <p className="text-sm text-[#1a1d1e]">{subItem}</p>
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
         <Button
           className="h-10 w-[calc(100%)] p-0"

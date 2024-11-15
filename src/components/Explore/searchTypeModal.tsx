@@ -5,6 +5,7 @@ import Button from '../base/Button/Button';
 import { useStore } from '@/store/useStore';
 import { IcExclamationMarkInCircle } from '../icons/IcExclamationMarkInCircle';
 import toast from 'react-hot-toast';
+import { Toast } from '../base/toast/toast';
 
 export const SearchTypeModal = ({
   isOpen,
@@ -14,6 +15,7 @@ export const SearchTypeModal = ({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { searchType, setSearchType } = useStore((store) => store);
+  const SearchType = SearchTypes.find((val) => val.value === searchType);
   return (
     <BottomSheetModal
       isOpen={isOpen}
@@ -25,10 +27,9 @@ export const SearchTypeModal = ({
         setSearchType(searchType);
         toast.custom(
           () => (
-            <div className="flex h-10 flex-nowrap items-center gap-2 text-nowrap rounded-xl border-2 border-brand-yellow bg-white p-3 px-7 text-base font-bold">
-              <IcExclamationMarkInCircle className="fill-none"></IcExclamationMarkInCircle>
-              شما وارد حالت جستجوی تصادفی شدید!
-            </div>
+            <Toast type="warning">
+              شما وارد حالت جستجوی {SearchType?.label || ''} شدید!
+            </Toast>
           ),
           { duration: 1000 },
         );

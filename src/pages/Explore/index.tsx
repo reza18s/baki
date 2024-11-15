@@ -90,6 +90,7 @@ export default function Explore() {
               className="h-12 w-full p-0"
               onClick={(e) => {
                 e.stopPropagation();
+                history.push(paths.explore.filter);
               }}
               type="button"
             >
