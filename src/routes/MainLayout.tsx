@@ -15,7 +15,7 @@ function MainLayout({ children, location }: MailLayoutProps) {
   const [isProfileActive, setIsProfileActive] = React.useState(false);
 
   useEffect(() => {
-    setIsChatActive(location.pathname.startsWith('/Chat'));
+    setIsChatActive(location.pathname.startsWith('/chat'));
     setIsExploreActive(location.pathname.startsWith('/explore'));
     setIsLikesActive(location.pathname.startsWith('/explore/likes'));
     setIsProfileActive(location.pathname.startsWith('/profile/'));
@@ -27,10 +27,12 @@ function MainLayout({ children, location }: MailLayoutProps) {
       <div className="h-full w-full">{children}</div>
       {/* Footer */}
       <div className="absolute bottom-0 z-[101] flex h-14 w-full items-center justify-between bg-white px-5 py-3 shadow-[0_0_5px_#88888875]">
-        <SolarIconSet.ChatRound
-          size={30}
-          className={isChatActive ? 'text-brand-yellow' : 'text-brand-black'}
-        />
+        <Link to="/chat">
+          <SolarIconSet.ChatRound
+            size={30}
+            className={isChatActive ? 'text-brand-yellow' : 'text-brand-black'}
+          />
+        </Link>
         <SolarIconSet.Heart
           size={30}
           className={isLikesActive ? 'text-brand-yellow' : 'text-brand-black'}

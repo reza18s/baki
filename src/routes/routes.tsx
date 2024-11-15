@@ -16,6 +16,7 @@ import Explore from '../pages/Explore/index';
 import MainLayout from './MainLayout';
 import { Filter } from '@/pages/Explore/Filter';
 import { paths } from './paths';
+import Chat from '@/pages/Chat/Chat';
 
 export default function Routes() {
   return (
@@ -78,6 +79,11 @@ export default function Routes() {
                     exact
                     path={`${match.path}/complate_profile`}
                     component={ComplateProfile}
+                  />
+                  <Route
+                    exact
+                    path={`${match.path}/chat`}
+                    component={Chat}
                   />
                 </Switch>
               </MainLayout>
