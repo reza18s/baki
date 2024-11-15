@@ -64,20 +64,20 @@ export default function ComplateProfile() {
       url: "/profile/complate_profile/complate_basicinformations",
       status: !!userInfo.name,
     },
-    {
-      icon: <SolarIconSet.StickerSmileSquare size={32} />,
-      title: "آواتار",
-      description: userInfo.username ? "انتخاب شده" : "انتخاب نشده",
-      url: "/profile/complate_profile/",
-      status: !!userInfo.username,
-    },
-    {
-      icon: <SolarIconSet.Microphone size={32} />,
-      title: "پیام خوش‌آمد گویی",
-      description: "ضبط نشده", // Adjust logic as needed
-      url: "/profile/complate_profile/",
-      status: false, // Adjust logic as needed
-    },
+    // {
+    //   icon: <SolarIconSet.StickerSmileSquare size={32} />,
+    //   title: "آواتار",
+    //   description: userInfo.username ? "انتخاب شده" : "انتخاب نشده",
+    //   url: "/profile/complate_profile/",
+    //   status: !!userInfo.username,
+    // },
+    // {
+    //   icon: <SolarIconSet.Microphone size={32} />,
+    //   title: "پیام خوش‌آمد گویی",
+    //   description: "ضبط نشده", // Adjust logic as needed
+    //   url: "/profile/complate_profile/",
+    //   status: false, // Adjust logic as needed
+    // },
     {
       icon: <CiStar size={32} />,
       title: "علایق شخصی",
