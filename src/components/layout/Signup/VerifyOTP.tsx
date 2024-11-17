@@ -15,6 +15,7 @@ export default function VerifyOTP(props: {
   const [otp, setOtp] = useState('');
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const handlePrevStep = useLocalStore((store) => store.handlePrevStep);
+  const clearUserInfo = useLocalStore((store) => store.clearUserInfo);
   const step = useLocalStore((store) => store.step);
 
   const { setValue, trigger, watch } = useForm();
@@ -39,6 +40,7 @@ export default function VerifyOTP(props: {
         onCompleted: (data) => {
           localStorage.setItem('token', data.verifyOtp?.accessToken as string);
           props.onSuccess?.();
+          clearUserInfo();
           handleNextStep();
         },
       });

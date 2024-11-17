@@ -43,3 +43,10 @@ mutation UpdateUser(
     id
   }
 }
+query GetRandomUser {
+  getRandomUser {
+    id
+    name
+    phoneNumber
+  }
+}
