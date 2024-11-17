@@ -466,6 +466,7 @@ export type MutationUpdateUserArgs = {
   personalInterests?: InputMaybe<Array<Scalars['String']['input']>>;
   province?: InputMaybe<Scalars['String']['input']>;
   smokeStatus?: InputMaybe<Scalars['String']['input']>;
+  spiritStatus?: InputMaybe<Scalars['String']['input']>;
   sportsStatus?: InputMaybe<Scalars['String']['input']>;
   travelInterests?: InputMaybe<Array<Scalars['String']['input']>>;
   traveledToPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -529,6 +530,7 @@ export type QueryGetRandomUserArgs = {
   AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
   languages?: InputMaybe<Array<Language>>;
+  lastSeen?: InputMaybe<Scalars['String']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
   maritalStatus?: InputMaybe<Scalars['String']['input']>;
@@ -577,6 +579,7 @@ export type User = {
   id: Scalars['String']['output'];
   images?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   languages?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  lastSeen?: Maybe<Scalars['DateTime']['output']>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
   messages?: Maybe<Array<Maybe<Message>>>;
   mySpecialty?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -592,6 +595,7 @@ export type User = {
   role: Role;
   score?: Maybe<Scalars['Int']['output']>;
   smokeStatus?: Maybe<Scalars['String']['output']>;
+  spiritStatus?: Maybe<Scalars['String']['output']>;
   sportsStatus?: Maybe<Scalars['String']['output']>;
   travelInterests?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   traveledToPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -649,6 +653,11 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { updateUser?: { id: string } | null };
+
+export type GetRandomUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name?: string | null, phoneNumber: string } | null> | null };
 
 
 export const SignupDocument = gql`
@@ -787,3 +796,44 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const GetRandomUserDocument = gql`
+    query GetRandomUser {
+  getRandomUser {
+    id
+    name
+    phoneNumber
+  }
+}
+    `;
+
+/**
+ * __useGetRandomUserQuery__
+ *
+ * To run a query within a React component, call `useGetRandomUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRandomUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRandomUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRandomUserQuery(baseOptions?: Apollo.QueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRandomUserQuery, GetRandomUserQueryVariables>(GetRandomUserDocument, options);
+      }
+export function useGetRandomUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRandomUserQuery, GetRandomUserQueryVariables>(GetRandomUserDocument, options);
+        }
+export function useGetRandomUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRandomUserQuery, GetRandomUserQueryVariables>(GetRandomUserDocument, options);
+        }
+export type GetRandomUserQueryHookResult = ReturnType<typeof useGetRandomUserQuery>;
+export type GetRandomUserLazyQueryHookResult = ReturnType<typeof useGetRandomUserLazyQuery>;
+export type GetRandomUserSuspenseQueryHookResult = ReturnType<typeof useGetRandomUserSuspenseQuery>;
+export type GetRandomUserQueryResult = Apollo.QueryResult<GetRandomUserQuery, GetRandomUserQueryVariables>;

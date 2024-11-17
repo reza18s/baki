@@ -51,22 +51,34 @@ export const SpecialtyFilter = ({
           ></input>
         </div>
 
-        <div className="flex max-h-[calc(100%-170px)] flex-col overflow-y-scroll">
-          {SpecialtyItems.map((item) => (
+        <div className="flex h-[calc(100%-170px)] flex-col overflow-y-scroll">
+          {SpecialtyItems.filter((el) => {
+            if (
+              el.subItems.filter((el) =>
+                el.toLowerCase().includes(search.toLowerCase()),
+              ).length > 0
+            ) {
+              return true;
+            }
+          }).map((item) => (
             <div key={item.title} className="flex flex-col gap-y-3">
               <h2 className="text-lg font-bold text-[#1a1d1e]">{item.title}</h2>
               <div className="flex flex-wrap gap-3">
-                {item.subItems.map((subItem) => (
-                  <button
-                    onClick={() => {
-                      setValue(subItem);
-                    }}
-                    key={subItem}
-                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
-                  >
-                    <p className="text-sm text-[#1a1d1e]">{subItem}</p>
-                  </button>
-                ))}
+                {item.subItems
+                  .filter((el) =>
+                    el.toLowerCase().includes(search.toLowerCase()),
+                  )
+                  .map((subItem) => (
+                    <button
+                      onClick={() => {
+                        setValue(subItem);
+                      }}
+                      key={subItem}
+                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                    >
+                      <p className="text-sm text-[#1a1d1e]">{subItem}</p>
+                    </button>
+                  ))}
               </div>
             </div>
           ))}

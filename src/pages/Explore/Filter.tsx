@@ -1,20 +1,22 @@
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import toast from 'react-hot-toast';
 import Button from '@/components/base/Button/Button';
 import Modal from '@/components/base/Modal/Modal';
 import { Toast } from '@/components/base/toast/toast';
-import { AgeFilter } from '@/components/Explore/filter/ageFilter';
-import { InterestFilter } from '@/components/Explore/filter/interestFilter';
-import { LanguageFilter } from '@/components/Explore/filter/languageFilter';
-import { ProvincesFilter } from '@/components/Explore/filter/provincesFilter';
-import { SpecialtyFilter } from '@/components/Explore/filter/specialtyFilter';
-import { StatusFilter } from '@/components/Explore/filter/statusFilter';
-import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
+import {
+  AgeFilter,
+  InterestFilter,
+  LanguageFilter,
+  ProvincesFilter,
+  SpecialtyFilter,
+  StatusFilter,
+} from '@/components/Explore/filters';
+import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 import { SearchTypes } from '@/lib';
 import { IFilter, useStore } from '@/store/useStore';
-import React, { useState } from 'react';
-import toast from 'react-hot-toast';
-import { useHistory } from 'react-router';
 
 export const Filter = () => {
   const {
@@ -25,7 +27,52 @@ export const Filter = () => {
   const [filters, setFilters] = useState<IFilter>(storeFilters);
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
+
   const SearchType = SearchTypes.find((val) => val.value === searchType);
+
+  const handleFilterChange = (key: keyof IFilter, value: string) => {
+    setFilters((prev) => {
+      const currentValues = prev[key] as string[];
+      return {
+        ...prev,
+        [key]: currentValues?.includes(value)
+          ? currentValues.filter((item) => item !== value)
+          : [...(currentValues || []), value],
+      };
+    });
+  };
+
+  const validateFilters = () => {
+    if (
+      (searchType === 'random' &&
+        (!filters.provinces || filters.provinces.length === 0)) ||
+      (searchType === 'baseOnInterest' &&
+        (!filters.interest || filters.interest.length === 0)) ||
+      (searchType === 'famous' &&
+        (!filters.specialty || filters.specialty.length === 0))
+    ) {
+      const missingType =
+        searchType === 'random'
+          ? 'استان'
+          : searchType === 'baseOnInterest'
+            ? 'علاقه مندی'
+            : 'تخصص';
+      toast.custom(
+        <Toast type="error">حداقل یک {missingType} را انتخاب کنید</Toast>,
+        { duration: 1000 },
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const handleSaveFilters = () => {
+    if (validateFilters()) {
+      setStoreFilters(filters);
+      history.goBack();
+    }
+  };
+
   return (
     <Page
       contentClassName="p-6 bg-gray-100 flex gap-6 flex-col"
@@ -39,15 +86,16 @@ export const Filter = () => {
               history.goBack();
             }
           }}
-        ></AppBar>
+        />
       }
     >
+      {/* Subscription Section */}
       <div className="mt-3 flex flex-col items-center gap-2 rounded-xl border border-gray-300 bg-white p-3">
         <h1 className="flex items-center gap-1 text-sm font-bold text-black">
           <IcExclamationMarkInCircle
             className="fill-brand-yellow stroke-white"
             stroke="#fff"
-          ></IcExclamationMarkInCircle>
+          />
           {SearchType?.label}
         </h1>
         <span className="text-center text-xs text-gray-500">
@@ -56,125 +104,50 @@ export const Filter = () => {
         </span>
         <Button className="h-10 w-[90px] p-0 px-2 text-sm">تهیه اشتراک</Button>
       </div>
-      {searchType === 'random' ? (
+
+      {/* Dynamic Filters */}
+      {searchType === 'random' && (
         <ProvincesFilter
-          setValue={(val) =>
-            setFilters((prev) => {
-              if (prev.provinces?.includes(val)) {
-                return {
-                  ...prev,
-                  provinces: prev.provinces?.filter((e) => e !== val) || [],
-                };
-              } else {
-                return {
-                  ...prev,
-                  provinces: [...(prev.provinces || []), val],
-                };
-              }
-            })
-          }
           value={filters.provinces}
-        ></ProvincesFilter>
-      ) : searchType === 'famous' ? (
-        <SpecialtyFilter
-          setValue={(val) =>
-            setFilters((prev) => {
-              if (prev.specialty?.includes(val)) {
-                return {
-                  ...prev,
-                  specialty: prev.specialty?.filter((e) => e !== val) || [],
-                };
-              } else {
-                return {
-                  ...prev,
-                  specialty: [...(prev.specialty || []), val],
-                };
-              }
-            })
-          }
-          value={filters.specialty}
-        ></SpecialtyFilter>
-      ) : searchType === 'baseOnInterest' ? (
-        <InterestFilter
-          setValue={(val) =>
-            setFilters((prev) => {
-              if (prev.interest?.includes(val)) {
-                return {
-                  ...prev,
-                  interest: prev.interest?.filter((e) => e !== val) || [],
-                };
-              } else {
-                return {
-                  ...prev,
-                  interest: [...(prev.interest || []), val],
-                };
-              }
-            })
-          }
-          value={filters.interest}
-        ></InterestFilter>
-      ) : (
-        ''
+          setValue={(val) => handleFilterChange('provinces', val)}
+        />
       )}
+      {searchType === 'famous' && (
+        <SpecialtyFilter
+          value={filters.specialty}
+          setValue={(val) => handleFilterChange('specialty', val)}
+        />
+      )}
+      {searchType === 'baseOnInterest' && (
+        <InterestFilter
+          value={filters.interest}
+          setValue={(val) => handleFilterChange('interest', val)}
+        />
+      )}
+
+      {/* Static Filters */}
       <AgeFilter
-        setValues={(val) => setFilters((prev) => ({ ...prev, age: val }))}
         values={filters.age}
-      ></AgeFilter>
+        setValues={(val) => setFilters((prev) => ({ ...prev, age: val }))}
+      />
       <LanguageFilter
-        setValue={(val) => setFilters((prev) => ({ ...prev, language: val }))}
         value={filters.language}
-      ></LanguageFilter>
+        setValue={(val) => setFilters((prev) => ({ ...prev, language: val }))}
+      />
       <StatusFilter
-        setValue={(val) =>
-          setFilters((prev) => {
-            if (prev.status?.includes(val)) {
-              return {
-                ...prev,
-                status: prev.status?.filter((e) => e !== val) || [],
-              };
-            } else {
-              return {
-                ...prev,
-                status: [...(prev.status || []), val],
-              };
-            }
-          })
-        }
         value={filters.status}
-      ></StatusFilter>
+        setValue={(val) => handleFilterChange('status', val)}
+      />
+
+      {/* Save Button */}
       <Button
         className="sticky bottom-6 w-[calc(100%)]"
-        onClick={() => {
-          if (
-            (searchType === 'random' &&
-              (!filters.provinces || filters.provinces.length <= 0)) ||
-            (searchType === 'baseOnInterest' &&
-              (!filters.interest || filters.interest.length <= 0)) ||
-            (searchType === 'famous' &&
-              (!filters.specialty || filters.specialty.length <= 0))
-          ) {
-            toast.custom(
-              <Toast type="error">
-                حداقل یک{' '}
-                {searchType === 'random'
-                  ? 'استان'
-                  : searchType === 'baseOnInterest'
-                    ? 'علاقه مندی'
-                    : searchType === 'famous'
-                      ? 'تخصص'
-                      : ''}{' '}
-                را انتخاب کنید
-              </Toast>,
-              { duration: 1000 },
-            );
-            return;
-          }
-          setStoreFilters(filters);
-          history.goBack();
-        }}
+        onClick={handleSaveFilters}
       >
         ذخیره فیلترها
       </Button>
+
+      {/* Unsaved Changes Modal */}
       <Modal
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
@@ -186,7 +159,7 @@ export const Filter = () => {
             <IcExclamationMarkInCircle
               className="size-8 fill-none stroke-white"
               stroke="#fff"
-            ></IcExclamationMarkInCircle>
+            />
           </div>
         </div>
         <div className="flex flex-col items-center gap-2 text-lg font-bold">
@@ -198,45 +171,14 @@ export const Filter = () => {
         <div className="flex gap-2">
           <Button
             className="h-10 w-full border-black p-0"
-            onClick={() => {
-              if (
-                (searchType === 'random' &&
-                  (!filters.provinces || filters.provinces.length <= 0)) ||
-                (searchType === 'baseOnInterest' &&
-                  (!filters.interest || filters.interest.length <= 0)) ||
-                (searchType === 'famous' &&
-                  (!filters.specialty || filters.specialty.length <= 0))
-              ) {
-                toast.custom(
-                  <Toast type="error">
-                    حداقل یک{' '}
-                    {searchType === 'random'
-                      ? 'استان'
-                      : searchType === 'baseOnInterest'
-                        ? 'علاقه مندی'
-                        : searchType === 'famous'
-                          ? 'تخصص'
-                          : ''}{' '}
-                    را انتخاب کنید
-                  </Toast>,
-                  { duration: 1000 },
-                );
-                setIsOpen(false);
-                return;
-              }
-              setStoreFilters(filters);
-              history.goBack();
-            }}
+            onClick={handleSaveFilters}
           >
             ذخیره تغییرات
           </Button>
           <Button
             variant="outline"
             className="h-10 w-full border-black p-0"
-            onClick={() => {
-              setIsOpen(false);
-              history.goBack();
-            }}
+            onClick={() => history.goBack()}
           >
             خروج
           </Button>

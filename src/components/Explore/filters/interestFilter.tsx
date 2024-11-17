@@ -1,9 +1,11 @@
 import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
+import { Toast } from '@/components/base/toast/toast';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { IcSearch } from '@/components/icons/IcSearch';
-import { PersonalInterestsItems } from '@/lib/constants';
+import { PersonalInterestsItems, TravelInterestsItems } from '@/lib/constants';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export const InterestFilter = ({
   value,
@@ -51,30 +53,27 @@ export const InterestFilter = ({
           ></input>
         </div>
 
-        <div className="flex h-[calc(100%-170px)] flex-col overflow-y-scroll">
-          {PersonalInterestsItems.map((item) => (
-            <div key={item.title} className="flex flex-col gap-y-3">
-              <h2 className="text-lg font-bold text-[#1a1d1e]">{item.title}</h2>
-              <div className="flex flex-wrap gap-3">
-                {item.subItems.map((subItem) => (
+        <div className="flex h-[calc(100%-170px)] overflow-y-scroll">
+          <div className="flex h-fit flex-wrap gap-3">
+            {TravelInterestsItems.filter((el) =>
+              el.title.toLowerCase().includes(search.toLowerCase()),
+            ).map((item, index) => {
+              return (
+                <div className="flex items-center gap-x-2" key={item.title}>
                   <button
                     onClick={() => {
-                      setValue(subItem.title);
+                      setValue(item.title);
                     }}
-                    key={subItem.title}
-                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] ${value?.includes(subItem.title) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                    key={index}
+                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] p-[12px] ${value?.includes(item.title) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                   >
-                    <img
-                      src={subItem.icon}
-                      alt={subItem.title}
-                      className="h-5 w-5"
-                    />
-                    <p className="text-sm text-[#1a1d1e]">{subItem.title}</p>
+                    <img src={item.icon} alt={item.title} className="h-5 w-5" />
+                    <p className="text-sm text-[#1a1d1e]">{item.title}</p>
                   </button>
-                ))}
-              </div>
-            </div>
-          ))}
+                </div>
+              );
+            })}
+          </div>
         </div>
         <Button
           className="h-10 w-[calc(100%)] p-0"

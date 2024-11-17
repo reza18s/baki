@@ -12,6 +12,10 @@ import { SearchTypeSidebar } from '@/components/Explore/searchTypeSidebar';
 import { SearchTypeModal } from '@/components/Explore/searchTypeModal';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import {
+  useGetRandomUserLazyQuery,
+  useGetRandomUserQuery,
+} from '@/graphql/generated/graphql.codegen';
 
 export default function Explore() {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
@@ -20,12 +24,12 @@ export default function Explore() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [start, setStart] = useState(false);
   const history = useHistory();
+  const [getUser] = useGetRandomUserLazyQuery();
 
   const [cards, setCards] = useState([
     { id: 1, content: 'Page 54' },
     { id: 2, content: 'Page 55' },
     { id: 3, content: 'Page 56' },
-    // Add more card data as needed
   ]);
   useEffect(() => {
     if (!FirstEnter) {
@@ -33,6 +37,14 @@ export default function Explore() {
       setExploreEntered();
     }
   }, [FirstEnter]);
+  useEffect(() => {
+    console.log('llll');
+    getUser({
+      onCompleted: (data) => {
+        console.log(data);
+      },
+    });
+  }, []);
   const handleSwipe = (id: number) => {
     // Remove the card after swipe or change its state as needed
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
