@@ -89,14 +89,14 @@ export default function ExploreCard(props: {
           <div className="flex items-center justify-between">
             <div className="text-sm text-white">
               <div className="flex items-center gap-x-2">
-                <h1 className="text-lg font-black">
+                <h1 className="text-lg font-black text-white">
                   {props.name} ، {props.age}
                 </h1>
-                <MdVerified size={24} className="mt-3 text-brand-yellow" />
-              </div>
+                <MdVerified size={24} className="mt-3 !text-brand-yellow fill-current" />
+                </div>
               <div className="flex items-center gap-x-1">
-                <RiMapPin2Fill size={16} />
-                <p>{props.location}</p>
+                <RiMapPin2Fill className='text-white' size={16} />
+                <p className='text-white'>{props.location}</p>
               </div>
               <div className="flex items-center gap-x-1">
                 <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
@@ -106,7 +106,7 @@ export default function ExploreCard(props: {
                     }`}
                   />
                 </div>
-                <p>{props.isOnline ? 'آنلاین' : 'آفلاین'}</p>
+                <p className='text-white'>{props.isOnline ? 'آنلاین' : 'آفلاین'}</p>
               </div>
             </div>
             <div className="flex items-center gap-x-[8px]">
