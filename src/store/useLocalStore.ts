@@ -38,7 +38,7 @@ export type Actions = {
 export type Store = IStore & Actions;
 
 export const defaultInitState: IStore = {
-  step: 5,
+  step: 0,
   userInfo: {
     phoneNumber: '',
     name: '',
