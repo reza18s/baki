@@ -1,8 +1,8 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  // schema: 'https://api.baki.app/graphql',
   schema: 'https://api.baki.app/graphql',
+  // schema: 'http://localhost:4000/graphql',
   documents: ['src/graphql/**/*.gql'],
   generates: {
     'src/graphql/generated/graphql.codegen.ts': {
