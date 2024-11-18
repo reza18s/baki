@@ -25,10 +25,20 @@ export default function GetPhoneNumber(props: {
             render={({ field }) => (
               <input
                 {...field}
-                type="text"
+                type="tel"
                 dir="ltr"
                 placeholder="09111111111"
+                maxLength={11}
                 className="w-full border-none bg-white outline-none"
+                onKeyDown={(e) => {
+                  if (!/^\d$/.test(e.key) && e.key !== 'Backspace') {
+                    e.preventDefault(); // Prevent invalid characters
+                  }
+                }}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, ''); // Filter non-numeric input
+                  field.onChange(value);
+                }}
               />
             )}
           />
@@ -45,9 +55,8 @@ export default function GetPhoneNumber(props: {
         <button
           disabled={props.phoneNumber?.length !== 11}
           onClick={props.handleSignup}
-          className={`px-[20px] py-[16px] ${
-            props.phoneNumber?.length === 11 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-[20px] py-[16px] ${props.phoneNumber?.length === 11 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+            } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>
