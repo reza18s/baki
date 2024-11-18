@@ -13,9 +13,12 @@ import { SearchTypeModal } from '@/components/Explore/searchTypeModal';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import {
+  RandomUser,
   useGetRandomUserLazyQuery,
-  useGetRandomUserQuery,
 } from '@/graphql/generated/graphql.codegen';
+import toast from 'react-hot-toast';
+import { Toast } from '@/components/base/toast/toast';
+import { useStore } from '@/store/useStore';
 
 export default function Explore() {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
@@ -23,14 +26,11 @@ export default function Explore() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [start, setStart] = useState(false);
+  const { filters } = useStore((store) => store);
   const history = useHistory();
   const [getUser] = useGetRandomUserLazyQuery();
 
-  const [cards, setCards] = useState([
-    { id: 1, content: 'Page 54' },
-    { id: 2, content: 'Page 55' },
-    { id: 3, content: 'Page 56' },
-  ]);
+  const [cards, setCards] = useState<RandomUser[]>([]);
   useEffect(() => {
     if (!FirstEnter) {
       setIsOpen(true);
@@ -38,15 +38,24 @@ export default function Explore() {
     }
   }, [FirstEnter]);
   useEffect(() => {
-    console.log('llll');
     getUser({
+      variables: {
+        age: filters.age,
+        languages: filters.language,
+        mySpecialty: filters.specialty,
+        province: filters.provinces,
+        travelInterests: filters.interest,
+      },
       onCompleted: (data) => {
-        console.log(data);
+        console.log(data.getRandomUser);
+        setCards(data.getRandomUser);
+      },
+      onError: (err) => {
+        toast.custom(<Toast type="error">{err.message}</Toast>);
       },
     });
   }, []);
-  const handleSwipe = (id: number) => {
-    // Remove the card after swipe or change its state as needed
+  const handleSwipe = (id: string) => {
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
   return (
@@ -77,14 +86,9 @@ export default function Explore() {
             {cards.map((card, index) => (
               <ExploreCard
                 inView={index == cards.length - 1}
-                id={card.id}
                 handleSwipe={handleSwipe}
                 key={card.id}
-                image={CardImage}
-                name="سحر رضایی"
-                age={24}
-                isOnline={false}
-                location="گلستان گرگان"
+                user={card}
                 searchMethod="تصادفی"
               />
             ))}

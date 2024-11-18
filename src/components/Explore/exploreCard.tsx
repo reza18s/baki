@@ -8,6 +8,7 @@ import { Bio, Info } from './card';
 import Button from '@/components/base/Button/Button';
 import { IcX } from '@/components/icons/IcX';
 import { IcTick } from '@/components/icons/IcTick';
+import { RandomUser, User } from '@/graphql/generated/graphql.codegen';
 const profileDetails = {
   specialization: ['مهندسی صنعتی'],
   interests: ['تیراندازی', 'سنجاب', 'تبادل فرهنگی'],
@@ -25,15 +26,10 @@ const profileDetails = {
   info: ['زن', 'مجرد', 'سحر خیز', 'درون گر'],
 };
 export default function ExploreCard(props: {
-  id: number;
-  image: string;
-  name: string;
-  age: number;
-  isOnline: boolean;
-  location: string;
+  user: RandomUser;
   searchMethod: string;
   inView: boolean;
-  handleSwipe: (id: number) => void;
+  handleSwipe: (id: string) => void;
 }) {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(
     null,
@@ -54,10 +50,10 @@ export default function ExploreCard(props: {
         onDragEnd={(event, info) => {
           if (info.offset.x > 200) {
             setSwipeDirection('right');
-            props.handleSwipe(props.id); // Swipe right logic
+            props.handleSwipe(props.user.id); // Swipe right logic
           } else if (info.offset.x < -200) {
             setSwipeDirection('left');
-            props.handleSwipe(props.id); // Swipe left logic
+            props.handleSwipe(props.user.id); // Swipe left logic
           } else {
             // Reset rotation with animation when swipe is canceled
             setRotation(0);
@@ -83,35 +79,35 @@ export default function ExploreCard(props: {
           className={`flex min-h-[60dvh] flex-col justify-between rounded-t-2xl bg-cover bg-center p-4`}
           style={{ backgroundImage: `url(${CardAvatar})` }}
         >
-          <p className="max-w-fit rounded-[16px] bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
+          <p className="mr-auto max-w-fit rounded-[16px] bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
             {props.searchMethod}
           </p>
           <div className="flex items-center justify-between">
             <div className="text-sm text-white">
               <div className="flex items-center gap-x-2">
-                <h1 className="text-lg font-black">
-                  {props.name} ، {props.age}
+                <h1 className="text-lg font-black text-white">
+                  {props.user.name} ، {props.user.age}
                 </h1>
-                <MdVerified size={24} className="mt-3 text-brand-yellow" />
+                <MdVerified size={24} className="mt-3 fill-brand-yellow" />
               </div>
-              <div className="flex items-center gap-x-1">
-                <RiMapPin2Fill size={16} />
-                <p>{props.location}</p>
+              <div className="flex items-center gap-x-1 text-white">
+                <RiMapPin2Fill size={16} fill="red" />
+                {props.user.province}
               </div>
-              <div className="flex items-center gap-x-1">
+              <div className="flex items-center gap-x-1 text-white">
                 <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                   <div
                     className={`h-[8px] w-[8px] rounded-full ${
-                      props.isOnline ? 'bg-brand-green' : 'bg-red-500'
+                      props.user ? 'bg-brand-green' : 'bg-red-500'
                     }`}
                   />
                 </div>
-                <p>{props.isOnline ? 'آنلاین' : 'آفلاین'}</p>
+                {props.user ? 'آنلاین' : 'آفلاین'}
               </div>
             </div>
             <div className="flex items-center gap-x-[8px]">
               <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]">
-                <FaCirclePlay size={24} />
+                <FaCirclePlay fill="#fff" size={24} />
               </div>
               <div className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow p-1">
                 <img
@@ -124,43 +120,46 @@ export default function ExploreCard(props: {
           </div>
         </div>
         {/* body */}
-        <div className="p-4">
-          <Bio
-            bio={
-              'دختر جوون، اهل عشق و حال، رفیق باز، ولخرج، فریلنسر، آرزوم اینه که تو فرانسه مزون داشته باشم!'
-            }
-          ></Bio>
+        <div className="flex flex-col gap-4 p-4">
+          <Bio bio={props.user.bio || ''}></Bio>
           <Info
             className="bg-brand-yellow"
-            items={profileDetails.info}
+            items={[
+              props.user.gender as string,
+              props.user.smokeStatus,
+              props.user.maritalStatus,
+              props.user.smokeStatus,
+              props.user.spiritStatus,
+              props.user.sportsStatus,
+            ]}
             title="اطلاعات اولیه"
           ></Info>
-          <Button className="my-8 h-9 w-full rounded-3xl p-0">
-            ارسال پیام برای سحر
+          <Button className="my-4 h-9 w-full rounded-3xl p-0">
+            ارسال پیام برای {props.user.name}
           </Button>
           <Info
             className="bg-warning-100"
-            items={profileDetails.specialization}
+            items={props.user.mySpecialty}
             title="اطلاعات اولیه"
           ></Info>
           <Info
             className="bg-warning-100"
-            items={profileDetails.interests}
+            items={props.user.travelInterests}
             title="اطلاعات اولیه"
           ></Info>
           <Info
             className="bg-warning-100"
-            items={profileDetails.languagesKnown}
+            items={props.user.languages}
             title="اطلاعات اولیه"
           ></Info>
           <Info
             className="bg-warning-100"
-            items={profileDetails.placesVisited}
+            items={props.user.traveledToPlaces}
             title="اطلاعات اولیه"
           ></Info>
           <Info
             className="bg-warning-100"
-            items={profileDetails.placesLived}
+            items={props.user.livedInPlaces}
             title="اطلاعات اولیه"
           ></Info>
         </div>
