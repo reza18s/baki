@@ -1,24 +1,21 @@
 import BackgroundImage from '../assets/img/home/BackgroundImage.svg';
 import BakiLogo from '../assets/img/home/BakiLogo.svg';
-import { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Rules } from '@/components/layout/Signup/rules';
 import Modal from '../components/base/Modal/Modal';
 export default function Index() {
   const [showRules, setShowRules] = useState<boolean>(false);
-  const history = useHistory();
-  // useEffect(() => {
-  //   history.push('/explore');
-  // }, []);
+
   return (
     <div
       className="h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
       <div className="flex h-[90vh] w-full flex-col items-center justify-between px-[24px] pb-[6px] pt-[52px] text-white">
-        <div className="flex max-h-fit flex-col items-center justify-between">
+        <div className="flex max-h-fit flex-col items-center justify-between gap-y-[8px]">
           <img src={BakiLogo} alt="BakiLogo" />
-          <h2 className="text-sm font-bold leading-tight">
+          <h2 className="text-sm font-bold leading-tight text-white">
             راه حلی برای سفر های از دست رفته
           </h2>
         </div>
@@ -30,17 +27,17 @@ export default function Index() {
             >
               ورود / ثبت نام
             </Link>
-            <button className="w-full rounded-[12px] border border-solid border-white py-[16px]">
+            <button className="w-full rounded-[12px] border border-solid border-white py-[16px] text-white">
               ورود به صورت مهمان
             </button>
           </div>
-          <p className="px-[20px] font-bold">
+          <p className="px-[20px] font-bold text-white">
             {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{' '}
             <span
               onClick={() => setShowRules(true)}
               className="text-brand-yellow underline"
             >
-              {` قوانین و مقررات حریم خصوصی`}
+              {` قوانین و مقررات حریم خصوصی‌`}
             </span>
             می‌باشد .
           </p>
