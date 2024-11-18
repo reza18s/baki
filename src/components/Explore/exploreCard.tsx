@@ -92,7 +92,7 @@ export default function ExploreCard(props: {
                 <h1 className="text-lg font-black text-white">
                   {props.name} ، {props.age}
                 </h1>
-                <MdVerified size={24} className="mt-3 !text-brand-yellow fill-current" />
+                <MdVerified size={24} className="mt-3 text-brand-yellow fill-current" />
                 </div>
               <div className="flex items-center gap-x-1">
                 <RiMapPin2Fill className='text-white' size={16} />
