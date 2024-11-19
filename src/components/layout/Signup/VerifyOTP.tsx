@@ -21,7 +21,8 @@ export default function VerifyOTP(props: {
   const { setValue, trigger, watch } = useForm();
 
   const handleChange = (enteredOtp: string) => {
-    setOtp(enteredOtp);
+    const numericOtp = enteredOtp.replace(/\D/g, ''); // Remove non-numeric characters
+    setOtp(numericOtp);
     setValue('token', enteredOtp);
     if (enteredOtp.length === 6) {
       handleSubmit();
@@ -89,7 +90,18 @@ export default function VerifyOTP(props: {
             shouldAutoFocus
             numInputs={6}
             renderSeparator={<span className="w-1"></span>}
-            renderInput={(props: any) => <input {...props} />}
+            renderInput={(props: any) =>
+              <input
+                {...props}
+                type="tel" // Ensures numeric input
+                inputMode="numeric" // Provides numeric keyboard on mobile devices
+                pattern="[0-9]*" // Enforces numeric input
+                onKeyDown={(e) => {
+                  if (!/^\d$/.test(e.key) && e.key !== 'Backspace') {
+                    e.preventDefault(); // Block invalid input
+                  }
+                }}
+              />}
             inputStyle={{
               width: '38px',
               height: '48px',
@@ -120,9 +132,8 @@ export default function VerifyOTP(props: {
         <button
           onClick={props.resendOtp}
           disabled={timer !== 0}
-          className={`rounded-[12px] bg-slate-100 ${
-            timer === 0 ? 'bg-[#FFCC4E]' : 'text-slate-400'
-          } px-5 py-4 font-bold`}
+          className={`rounded-[12px] bg-slate-100 ${timer === 0 ? 'bg-[#FFCC4E]' : 'text-slate-400'
+            } px-5 py-4 font-bold`}
         >
           تایید
         </button>

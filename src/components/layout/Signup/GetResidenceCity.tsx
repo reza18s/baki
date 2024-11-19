@@ -50,13 +50,17 @@ export default function GetResidenceCity(props: { handleSubmit?: () => void }) {
                       onClick={() => {
                         setSelect(val.label);
                       }}
-                      className="size-full border-b border-gray-200 p-2 font-semibold"
+                      className="p-2 font-semibold"
                     >
                       {val.label}
                     </div>
                   ),
                   key: val.key,
                 })),
+              style: {
+                maxHeight: '50vh', // Limit the height of the dropdown
+                overflowY: 'auto', // Enable scrolling
+              },
             }}
             trigger={['click']}
             className="w-full"
@@ -68,8 +72,9 @@ export default function GetResidenceCity(props: { handleSubmit?: () => void }) {
               onChange={(e) => setSearch(e.target.value)}
               className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-[#1a1d1e] bg-white p-2 text-base font-bold"
               placeholder="استان محل زندگی خود را انتخاب کنید..."
-            ></input>
+            />
           </Dropdown>
+
         </div>
       </div>
       <div className="mb-5 flex w-full items-center justify-between">
@@ -82,9 +87,8 @@ export default function GetResidenceCity(props: { handleSubmit?: () => void }) {
         <button
           disabled={!select}
           onClick={handleSubmit}
-          className={`px-[20px] py-[16px] ${
-            select ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-[20px] py-[16px] ${select ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+            } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>
