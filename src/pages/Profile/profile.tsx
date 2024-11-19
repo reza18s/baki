@@ -142,14 +142,14 @@ export default function Profile() {
         </div>
         {/* Upload Picture */}
         <div className="w-full flex flex-col items-center gap-y-3 min-h-fit max-w-fit">
-          <h1 className="w-full text-end text-[#64748B] pr-3">انتخاب عکس</h1>
+          <h1 className="w-full  text-[#64748B] pr-3">انتخاب عکس</h1>
           <UploadPictures />
         </div>
         {/* About Me */}
         <div className="w-full flex flex-col items-center gap-y-3 min-h-fit">
-          <h1 className="w-full text-end text-lg font-bold">درباره من</h1>
+          <h1 className="w-full  text-lg font-bold">درباره من</h1>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">نام</h2>
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">نام</h2>
             <TextInput
               placeholder="نام"
               control={control}
@@ -159,7 +159,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               نام کاربری
             </h2>
             <TextInput
@@ -171,7 +171,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full" id="biography" ref={bioRef}>
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               بیوگرافی
             </h2>
             <TextInput
@@ -184,7 +184,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full text-brand-black">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 pb-[9px] pt-4">
               محل زندگی
             </h2>
             <ArrowButton
@@ -195,8 +195,8 @@ export default function Profile() {
           </div>
         </div>
         {/* Basic Information */}
-        <div className="w-full flex flex-col items-center gap-y-3 min-h-fit">
-          <h1 className="w-full text-end text-lg font-bold">اطلاعات اولیه</h1>
+        <div className="w-full flex flex-col items-center gap-y-3 min-h-fit pt-4">
+          <h1 className="w-full text-lg font-bold pb-1">اطلاعات اولیه</h1>
           <div className="w-full flex flex-col gap-y-2">
             <ArrowButton
               text="جنسیت"
@@ -267,12 +267,12 @@ export default function Profile() {
           </div>
         </div>
         {/* More about Me */}
-        <div className="w-full flex flex-col items-center gap-y-3 min-h-fit">
-          <h1 className="w-full text-end text-lg font-bold">
+        <div className="w-full flex flex-col items-center gap-y-3 min-h-fit pt-5">
+          <h1 className="w-full text-lg font-bold pb-2">
             موارد بیشتر درباره من
           </h1>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">تخصص</h2>
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">تخصص</h2>
             <ArrowButton
               text="اضافه کردن"
               url="/profile/complate_profile/complate_specialty"
@@ -281,7 +281,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               زبان‌هایی که میدانم
             </h2>
             <ArrowButton
@@ -291,7 +291,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               مکان‌هایی که سفر کرده‌ام
             </h2>
             <ArrowButton
@@ -301,7 +301,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               مکان‌هایی که زندگی کرده‌ام
             </h2>
             <ArrowButton
@@ -311,7 +311,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               علایق شخصی من
             </h2>
             <ArrowButton
@@ -322,7 +322,7 @@ export default function Profile() {
             />
           </div>
           <div className="w-full">
-            <h2 className="text-[#64748B] text-sm font-semibold mr-3">
+            <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               علایق عمومی من در سفر
             </h2>
             <ArrowButton
