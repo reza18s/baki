@@ -48,6 +48,7 @@ export default function Explore() {
       },
       onCompleted: (data) => {
         console.log(data.getRandomUser);
+        // @ts-expect-error the
         setCards(data.getRandomUser);
       },
       onError: (err) => {
