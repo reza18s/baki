@@ -454,7 +454,7 @@ export type MutationUpdateUserArgs = {
   AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
-  birthday?: InputMaybe<Scalars['String']['input']>;
+  birthday?: InputMaybe<Scalars['DateTime']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
   images?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -520,28 +520,22 @@ export enum PlanType {
 export type Query = {
   getCompanionRequests: Array<CompanionRequest>;
   getHostingInvitations: Array<HostingInvitation>;
-  getRandomUser?: Maybe<Array<Maybe<User>>>;
+  getRandomUser?: Maybe<Array<Maybe<RandomUser>>>;
   getUser?: Maybe<User>;
   getUsers: Array<User>;
 };
 
 
 export type QueryGetRandomUserArgs = {
-  AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
+  age?: InputMaybe<Array<Scalars['Int']['input']>>;
   gender?: InputMaybe<Gender>;
-  languages?: InputMaybe<Array<Language>>;
+  languages?: InputMaybe<Array<Scalars['String']['input']>>;
   lastSeen?: InputMaybe<Scalars['String']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
-  livedInPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
-  maritalStatus?: InputMaybe<Scalars['String']['input']>;
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']>>;
   page?: InputMaybe<Scalars['Int']['input']>;
-  personalInterests?: InputMaybe<Array<Scalars['String']['input']>>;
-  province?: InputMaybe<Scalars['String']['input']>;
-  smokeStatus?: InputMaybe<Scalars['String']['input']>;
-  sportsStatus?: InputMaybe<Scalars['String']['input']>;
+  province?: InputMaybe<Array<Scalars['String']['input']>>;
   travelInterests?: InputMaybe<Array<Scalars['String']['input']>>;
-  traveledToPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 
@@ -554,6 +548,34 @@ export type QueryGetUsersArgs = {
   count: Scalars['Int']['input'];
 };
 
+export type RandomUser = {
+  AmountOfEarlyRising: Scalars['String']['output'];
+  age?: Maybe<Scalars['Int']['output']>;
+  avatar: Scalars['String']['output'];
+  bio: Scalars['String']['output'];
+  birthday: Scalars['DateTime']['output'];
+  city: Scalars['String']['output'];
+  gender: Gender;
+  id: Scalars['String']['output'];
+  images: Array<Scalars['String']['output']>;
+  languages: Array<Scalars['String']['output']>;
+  lastSeen: Scalars['DateTime']['output'];
+  livedInPlaces: Array<Scalars['String']['output']>;
+  maritalStatus: Scalars['String']['output'];
+  mySpecialty: Array<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  personalInterests: Array<Scalars['String']['output']>;
+  phoneNumber: Scalars['String']['output'];
+  province: Scalars['String']['output'];
+  role: Role;
+  smokeStatus: Scalars['String']['output'];
+  spiritStatus: Scalars['String']['output'];
+  sportsStatus: Scalars['String']['output'];
+  travelInterests: Array<Scalars['String']['output']>;
+  traveledToPlaces: Array<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
+};
+
 export enum Role {
   Admin = 'admin',
   Guest = 'guest',
@@ -562,7 +584,7 @@ export enum Role {
 
 export type User = {
   AmountOfEarlyRising?: Maybe<Scalars['String']['output']>;
-  LivedInPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  age?: Maybe<Scalars['Int']['output']>;
   avatar?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   birthday?: Maybe<Scalars['DateTime']['output']>;
@@ -580,6 +602,7 @@ export type User = {
   images?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   languages?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   lastSeen?: Maybe<Scalars['DateTime']['output']>;
+  livedInPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
   messages?: Maybe<Array<Maybe<Message>>>;
   mySpecialty?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -632,7 +655,7 @@ export type SignupVerifyOtpMutation = { verifyOtp?: { accessToken?: string | nul
 export type UpdateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
-  birthday?: InputMaybe<Scalars['String']['input']>;
+  birthday?: InputMaybe<Scalars['DateTime']['input']>;
   province?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -654,10 +677,16 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { updateUser?: { id: string } | null };
 
-export type GetRandomUserQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetRandomUserQueryVariables = Exact<{
+  languages?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  age?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
+  province?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  travelInterests?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  mySpecialty?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+}>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name?: string | null, phoneNumber: string } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, avatar: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, lastSeen: any, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 
 export const SignupDocument = gql`
@@ -726,7 +755,7 @@ export type SignupVerifyOtpMutationHookResult = ReturnType<typeof useSignupVerif
 export type SignupVerifyOtpMutationResult = Apollo.MutationResult<SignupVerifyOtpMutation>;
 export type SignupVerifyOtpMutationOptions = Apollo.BaseMutationOptions<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($name: String, $gender: Gender, $birthday: String, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $avatar: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthday: DateTime, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $avatar: String) {
   updateUser(
     name: $name
     gender: $gender
@@ -797,11 +826,37 @@ export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutati
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const GetRandomUserDocument = gql`
-    query GetRandomUser {
-  getRandomUser {
+    query GetRandomUser($languages: [String!], $age: [Int!], $province: [String!], $travelInterests: [String!], $mySpecialty: [String!]) {
+  getRandomUser(
+    languages: $languages
+    age: $age
+    province: $province
+    travelInterests: $travelInterests
+    mySpecialty: $mySpecialty
+  ) {
     id
     name
+    username
+    avatar
     phoneNumber
+    gender
+    languages
+    birthday
+    traveledToPlaces
+    livedInPlaces
+    province
+    images
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+    age
   }
 }
     `;
@@ -818,6 +873,11 @@ export const GetRandomUserDocument = gql`
  * @example
  * const { data, loading, error } = useGetRandomUserQuery({
  *   variables: {
+ *      languages: // value for 'languages'
+ *      age: // value for 'age'
+ *      province: // value for 'province'
+ *      travelInterests: // value for 'travelInterests'
+ *      mySpecialty: // value for 'mySpecialty'
  *   },
  * });
  */

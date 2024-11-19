@@ -34,7 +34,7 @@ export const SearchTypeModal = ({
           { duration: 1000 },
         );
       }}
-      className="flex items-center justify-center p-4"
+      className="p-4"
     >
       <div className="h-full w-full px-6 pb-2">
         <h1 className="my-3 text-center text-lg font-bold">

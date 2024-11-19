@@ -1,7 +1,7 @@
 mutation UpdateUser(
   $name: String
   $gender: Gender
-  $birthday: String
+  $birthday: DateTime
   $province: String
   $city: String
   $images: [String!]
@@ -43,10 +43,42 @@ mutation UpdateUser(
     id
   }
 }
-query GetRandomUser {
-  getRandomUser {
+query GetRandomUser(
+  $languages: [String!]
+  $age: [Int!]
+  $province: [String!]
+  $travelInterests: [String!]
+  $mySpecialty: [String!]
+) {
+  getRandomUser(
+    languages: $languages
+    age: $age
+    province: $province
+    travelInterests: $travelInterests
+    mySpecialty: $mySpecialty
+  ) {
     id
     name
+    username
+    avatar
     phoneNumber
+    gender
+    languages
+    birthday
+    traveledToPlaces
+    livedInPlaces
+    province
+    images
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+    age
   }
 }
