@@ -15,6 +15,7 @@ import '@ionic/react/css/display.css';
 import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import './theme/main.css';
+import './theme/iransans.css';
 import Routes from './routes/routes';
 import { Toaster } from 'react-hot-toast';
 
