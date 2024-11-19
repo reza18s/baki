@@ -11,7 +11,7 @@ export default function ArrowButton(props: {
 }) {
   return (
     <Link
-      to={props.url || ""}
+      to={props.url || "/profile"}
       className={`flex items-center justify-between px-[16px] py-[12px] rounded-[12px] border border-slate-300 w-full text-brand-black ${props.className}`}
       onClick={props.onClick}
     >

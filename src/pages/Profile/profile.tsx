@@ -9,10 +9,14 @@ import { PiGraphLight } from "react-icons/pi";
 import { TbZodiacAries } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocalStore } from "@/store/useLocalStore";
 import { useUpdateUserMutation } from "@/graphql/generated/graphql.codegen";
 import { useLocation } from "react-router-dom";
+import BottomSheetModal from "@/components/base/Modal/BottomSheetModal";
+import { IcSearch } from "@/components/icons/IcSearch";
+import { languages } from "@/lib/constants";
+import Button from "@/components/base/Button/Button";
 
 export default function Profile() {
   const { hash } = useLocation(); // Retrieve the current hash from the URL
@@ -107,6 +111,10 @@ export default function Profile() {
   const completionPercentage = calculateCompletionPercentage();
   const backgroundClass =
     completionPercentage === 100 ? "bg-brand-green" : "bg-brand-yellow";
+
+  const [searchLanguage, setSearchLanguage] = useState<string>('');
+  const [isOpenLanguage, setIsOpenLanguage] = useState<boolean>(false);
+  const [languageValue, setLanguageValue] = useState<any>();
 
   return (
     <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto text-brand-black">
@@ -285,6 +293,7 @@ export default function Profile() {
               زبان‌هایی که میدانم
             </h2>
             <ArrowButton
+              onClick={() => setIsOpenLanguage(true)}
               text="اضافه کردن"
               className="w-full"
               icon={<SolarIconSet.Dialog size={24} />}
@@ -331,6 +340,57 @@ export default function Profile() {
               className="w-full"
               icon={<SolarIconSet.SuitcaseTag size={24} />}
             />
+            <div>
+              <BottomSheetModal
+                isOpen={isOpenLanguage}
+                onRequestClose={() => setIsOpenLanguage(false)}
+                onCloseEnd={() => setIsOpenLanguage(false)}
+                className="h-[70%] overflow-hidden px-6"
+              >
+                <h1 className="my-3 text-center text-lg font-bold">
+                  زبان مدنظر را انتخاب کنید:
+                </h1>
+                <div className="mb-4 flex h-9 w-full items-center gap-2 rounded-xl border-2 border-brand-black bg-transparent px-2">
+                  <IcSearch></IcSearch>
+                  <input
+                    className="bg-transparent outline-none"
+                    placeholder="جستجو برای استان..."
+                    value={searchLanguage}
+                    onChange={(e) => setSearchLanguage(e.target.value)}
+                  ></input>
+                </div>
+
+                <div className="flex h-[calc(100%-170px)] flex-col overflow-y-scroll">
+                  {languages
+                    .filter((el) => el.flag.toLowerCase().includes(searchLanguage.toLowerCase()))
+                    .map((el) => (
+                      <div
+                        key={el.language}
+                        className="flex items-center gap-2 border-t py-6 text-sm"
+                        onClick={() => {
+                          setLanguageValue(el.language);
+                        }}
+                      >
+                        <input
+                          checked={!!languageValue?.includes(el.language)}
+                          readOnly
+                          type="checkbox"
+                          className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
+                        />
+                        {el.language}
+                      </div>
+                    ))}
+                </div>
+                <Button
+                  className="h-10 w-[calc(100%)] p-0"
+                  onClick={() => {
+                    setIsOpenLanguage(false);
+                  }}
+                >
+                  تایید
+                </Button>
+              </BottomSheetModal>
+            </div>
           </div>
         </div>
       </div>
