@@ -1148,3 +1148,30 @@ export const iranProvinces = [
   { label: 'همدان', key: '31' },
   { label: 'یزد', key: '32' },
 ];
+export const spiritStatus = [
+  { label: 'درون‌گرا', value: 'introvert' },
+  { label: 'برون‌گرا', value: 'extroverted' },
+];
+export const sportStatus = [
+  { label: 'به طور منظم', value: 'regularly' },
+  { label: 'بعضی‌وقت‌ها', value: 'sometimes' },
+  { label: 'خیلی کم', value: 'never' },
+];
+export const MaritalStatus = [
+  { label: 'متاهل', value: 'married' },
+  { label: 'مجرد', value: 'single' },
+];
+export const gender = [
+  { label: 'زن', value: 'female' },
+  { label: 'مرد', value: 'male' },
+];
+export const AmountOfEarlyRising = [
+  { label: 'سحرخیز', value: 'wakeUpEarly' },
+  { label: 'خواب‌آلود', value: 'sleepy' },
+  { label: 'آن‌تایم', value: 'onTime' },
+];
+export const smokeStatus = [
+  { label: 'به طور منظم', value: 'regularly' },
+  { label: 'بعضی‌وقت‌ها', value: 'sometimes' },
+  { label: 'هرگز', value: 'never' },
+];

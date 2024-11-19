@@ -86,9 +86,9 @@ export default function Explore() {
           <AnimatePresence>
             {cards.map((card, index) => (
               <ExploreCard
+                key={card.id}
                 inView={index == cards.length - 1}
                 handleSwipe={handleSwipe}
-                key={card.id}
                 user={card}
                 searchMethod="تصادفی"
               />

@@ -85,7 +85,7 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
         <motion.div
           className={clsx(
             className,
-            'w-[100vw] bg-white',
+            'flex w-[100vw] flex-col bg-white',
             scroll && 'overflow-y-auto',
             fullScreen ? 'max-h-[100vh]' : 'max-h-[90vh]',
             rounded,

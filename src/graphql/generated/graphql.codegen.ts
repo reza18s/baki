@@ -688,6 +688,11 @@ export type GetRandomUserQueryVariables = Exact<{
 
 export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, avatar: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, lastSeen: any, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
+export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMeQuery = { getUser?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string | null> | null, birthday?: any | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+
 
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
@@ -897,3 +902,65 @@ export type GetRandomUserQueryHookResult = ReturnType<typeof useGetRandomUserQue
 export type GetRandomUserLazyQueryHookResult = ReturnType<typeof useGetRandomUserLazyQuery>;
 export type GetRandomUserSuspenseQueryHookResult = ReturnType<typeof useGetRandomUserSuspenseQuery>;
 export type GetRandomUserQueryResult = Apollo.QueryResult<GetRandomUserQuery, GetRandomUserQueryVariables>;
+export const GetMeDocument = gql`
+    query GetMe {
+  getUser {
+    name
+    username
+    id
+    avatar
+    phoneNumber
+    gender
+    languages
+    birthday
+    traveledToPlaces
+    livedInPlaces
+    province
+    age
+    city
+    images
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+  }
+}
+    `;
+
+/**
+ * __useGetMeQuery__
+ *
+ * To run a query within a React component, call `useGetMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMeQuery(baseOptions?: Apollo.QueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, options);
+      }
+export function useGetMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, options);
+        }
+export function useGetMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, options);
+        }
+export type GetMeQueryHookResult = ReturnType<typeof useGetMeQuery>;
+export type GetMeLazyQueryHookResult = ReturnType<typeof useGetMeLazyQuery>;
+export type GetMeSuspenseQueryHookResult = ReturnType<typeof useGetMeSuspenseQuery>;
+export type GetMeQueryResult = Apollo.QueryResult<GetMeQuery, GetMeQueryVariables>;

@@ -14,11 +14,11 @@ export function Info({
     <div>
       <h1 className={clsx('my-2 text-sm text-gray-500')}>{title}</h1>
       <div className="flex flex-wrap gap-2">
-        {items.map((val) => {
+        {items.map((val, index) => {
           const item = allIcon.find((val2) => val2.title === val);
           return (
             <div
-              key={val}
+              key={index}
               className={`${className} flex h-6 items-center gap-2 rounded-2xl px-2 text-sm font-medium text-brand-black`}
             >
               {item?.icon && (

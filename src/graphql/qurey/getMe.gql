@@ -1,0 +1,28 @@
+query GetMe {
+  getUser {
+    name
+    username
+    id
+    avatar
+    phoneNumber
+    gender
+    languages
+    birthday
+    traveledToPlaces
+    livedInPlaces
+    province
+    age
+    city
+    images
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+  }
+}

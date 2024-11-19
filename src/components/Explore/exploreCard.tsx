@@ -8,23 +8,8 @@ import { Bio, Info } from './card';
 import Button from '@/components/base/Button/Button';
 import { IcX } from '@/components/icons/IcX';
 import { IcTick } from '@/components/icons/IcTick';
-import { RandomUser, User } from '@/graphql/generated/graphql.codegen';
-const profileDetails = {
-  specialization: ['مهندسی صنعتی'],
-  interests: ['تیراندازی', 'سنجاب', 'تبادل فرهنگی'],
-  languagesKnown: ['ترکی', 'لری', 'گیلکی', 'فارسی', 'انگلیسی'],
-  placesVisited: [
-    'اسپانیا',
-    'برزیل',
-    'تبریز',
-    'گرگان',
-    'تهران',
-    'اصفهان',
-    'شیراز',
-  ],
-  placesLived: ['شیراز', 'گرگان', 'اسپانیا'],
-  info: ['زن', 'مجرد', 'سحر خیز', 'درون گر'],
-};
+import { RandomUser } from '@/graphql/generated/graphql.codegen';
+import { getBaseInfo } from '@/utils/getBaseInfo';
 export default function ExploreCard(props: {
   user: RandomUser;
   searchMethod: string;
@@ -35,7 +20,6 @@ export default function ExploreCard(props: {
     null,
   );
   const [rotation, setRotation] = useState<number>(0);
-
   return (
     <>
       <motion.div
@@ -124,14 +108,7 @@ export default function ExploreCard(props: {
           <Bio bio={props.user.bio || ''}></Bio>
           <Info
             className="bg-brand-yellow"
-            items={[
-              props.user.gender as string,
-              props.user.smokeStatus,
-              props.user.maritalStatus,
-              props.user.smokeStatus,
-              props.user.spiritStatus,
-              props.user.sportsStatus,
-            ]}
+            items={getBaseInfo(props.user)}
             title="اطلاعات اولیه"
           ></Info>
           <Button className="my-4 h-9 w-full rounded-3xl p-0">
