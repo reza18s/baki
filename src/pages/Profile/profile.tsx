@@ -288,7 +288,7 @@ export default function Profile() {
               icon={<SolarIconSet.SuitcaseTag size={24} />}
             />
           </div>
-          <div className="w-full">
+          {/* <div className="w-full">
             <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               زبان‌هایی که میدانم
             </h2>
@@ -308,7 +308,7 @@ export default function Profile() {
               className="w-full"
               icon={<SolarIconSet.Globus size={24} />}
             />
-          </div>
+          </div> */}
           <div className="w-full">
             <h2 className="text-[#64748B] text-sm font-semibold mr-3 py-[8px]">
               مکان‌هایی که زندگی کرده‌ام
