@@ -10,10 +10,12 @@
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "codegen": "graphql-codegen --verbose --watch --config codegen.ts",
+    "android": "tsc && vite build && npx cap sync android && npx cap copy android",
     "lint": "eslint"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@capacitor/android": "^6.1.2",
     "@capacitor/app": "6.0.1",
     "@capacitor/core": "6.1.2",
     "@capacitor/haptics": "6.0.1",
