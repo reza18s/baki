@@ -12,7 +12,7 @@ export default function Index() {
       className="h-screen bg-cover bg-center relative"
       style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
-      <div className="flex h-[90vh] w-full flex-col items-center justify-between px-[24px] pb-[20px] pt-[50px] text-white">
+      <div className="flex h-[94vh] w-full flex-col items-center justify-between px-[24px] pt-[40px] text-white">
         <div className="flex max-h-fit flex-col items-center justify-between gap-y-[8px]">
           <img src={BakiLogo} alt="BakiLogo" />
           <h2 className="text-sm font-bold leading-tight text-white">
