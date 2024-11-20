@@ -53,9 +53,8 @@ const HeadStep = ({
   activeStep: StepsNumber;
 }) => (
   <div
-    className={`h-[3.62px] w-[27.16px] ${
-      activeStep === stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-    } rounded-xl`}
+    className={`h-[3.62px] w-[27.16px] ${activeStep === stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+      } rounded-xl`}
   />
 );
 
@@ -133,8 +132,9 @@ export default function Signup() {
       contentClassName="h-full px-6"
       headerClassName="shadow-none"
       header={
-        <div className="flex w-full items-center justify-between gap-x-[7px] p-6">
+        <div className="flex w-full items-center justify-between gap-x-[7px] p-6 text-red-900">
           <SolarIconSet.SquareArrowRight
+            className='text-red-900'
             size={32}
             onClick={() =>
               setStep((prev) => (prev > 0 ? ((prev - 1) as StepsNumber) : prev))
@@ -149,7 +149,13 @@ export default function Signup() {
         </div>
       }
     >
-      <Suspense fallback={<div>Loading step...</div>}>{renderStep()}</Suspense>
+      <Suspense fallback={<div>Loading step...</div>}>
+        <div className='w-full h-full pt-[20px]'>
+          {
+            renderStep()
+          }
+        </div>
+      </Suspense>
       {error && <div className="mt-2 text-red-500">Error: {error.message}</div>}
       {loading && <div className="mt-2 text-blue-500">Processing...</div>}
     </Page>

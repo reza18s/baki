@@ -1,5 +1,6 @@
 import { Controller } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
+import { IoMdLock } from "react-icons/io";
 
 export default function GetPhoneNumber(props: {
   control: any;
@@ -15,7 +16,7 @@ export default function GetPhoneNumber(props: {
           محافظت می کنیم.
         </p>
         <div
-          className={`flex items-center justify-between rounded-[12px] border-[1.5px] border-black py-[16px] pl-[12px] pr-[16px] ${props.phoneNumber?.length !== 0 ? 'border-b-[4px]' : ''}`}
+          className={`flex items-center justify-between rounded-[12px] border-[1.5px] border-black h-[48px] py-[16px] pl-[12px] pr-[16px] mt-[24px] ${props.phoneNumber?.length !== 0 ? 'border-b-[4px]' : ''}`}
         >
           <SolarIconSet.Phone size={30} />
           <Controller
@@ -47,16 +48,17 @@ export default function GetPhoneNumber(props: {
       {/* Footer */}
       <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center gap-x-[8px]">
-          <SolarIconSet.LockKeyhole size={24} />
-          <p className="text-xs font-medium leading-none text-[#1a1d1e]">
+          {/* <SolarIconSet.LockKeyhole size={24} /> */}
+          <IoMdLock size={30} className='w-[24px] h-[24px]' />
+          <p className="text-xs font-medium font-['IRANSansXFaNum'] leading-none text-[#1a1d1e] pr-1 pl-9">
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>
         </div>
         <button
           disabled={props.phoneNumber?.length !== 11}
           onClick={props.handleSignup}
-          className={`px-[20px] py-[16px] ${props.phoneNumber?.length === 11 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-            } rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-[20px] py-[16px] ${props.phoneNumber?.length === 11 ? 'bg-[#ffcc4e] text-black' : 'bg-slate-100 text-slate-400'
+            } rounded-[12px] font-bold leading-none`}
         >
           بعدی
         </button>
