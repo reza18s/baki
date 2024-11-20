@@ -21,6 +21,7 @@ const config: Config = {
       borderRadius: {},
       colors: {
         brand: {
+          red: '#FE4A49',
           yellow: '#FFCC4E',
           black: '#1A1D1E',
           green: '#149A6D',

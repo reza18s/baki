@@ -11,11 +11,13 @@ export interface BottomSheetModalProps extends ModalProps {
   rounded?: string;
   fullScreen?: boolean;
   scroll?: boolean;
+  show?: boolean;
 }
 
 const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
   children,
   isOpen,
+  show = true,
   onRequestClose,
   onCloseEnd,
   rounded = 'rounded-t-3xl',
@@ -120,7 +122,9 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
             duration: animationDuration / 1000,
           }}
         >
-          <div className="mx-auto my-2 h-1 w-12 rounded-3xl bg-gray-400"></div>
+          {show && (
+            <div className="mx-auto my-2 h-1 w-12 rounded-3xl bg-gray-400"></div>
+          )}
           {children}
         </motion.div>
       </motion.div>

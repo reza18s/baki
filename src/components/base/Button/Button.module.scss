@@ -1,5 +1,5 @@
 .button {
-  @apply transition-colors duration-200 py-[16px] text-center font-bold;
+  @apply py-[16px] text-center font-bold transition-colors duration-200;
   &:disabled {
     @apply opacity-50;
   }
@@ -30,7 +30,7 @@
     }
   }
   &.premium {
-    background-image: url("../../../public/imgs/premiumBackground.png");
+    background-image: url('../../../public/imgs/premiumBackground.png');
     background-size: cover;
   }
 
@@ -41,7 +41,7 @@
     }
   }
   &.outline {
-    @apply bg-transparent border border-solid border-gray-200 text-gray-800;
+    @apply border border-solid border-gray-200 bg-transparent text-gray-800;
     &:active:not(:disabled) {
       @apply bg-gray-200;
     }
@@ -57,7 +57,7 @@
     }
   }
   &.secondaryOutline {
-    @apply bg-transparent border-[2px] border-solid border-gray-800 text-gray-800 font-bold;
+    @apply border-[2px] border-solid border-gray-800 bg-transparent font-bold text-gray-800;
     &:active:not(:disabled) {
       @apply bg-gray-200;
     }
@@ -69,9 +69,15 @@
     }
   }
   &.danger {
-    @apply bg-brand-yellow text-white;
+    @apply bg-brand-red text-white;
     &:active:not(:disabled) {
       @apply bg-[#ef725f];
+    }
+  }
+  &.danger-outline {
+    @apply border border-solid border-brand-red bg-white text-brand-red;
+    &:active:not(:disabled) {
+      @apply bg-gray-100;
     }
   }
   &.brand {

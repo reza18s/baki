@@ -27,6 +27,7 @@ export default function Explore() {
   const setExploreEntered = useLocalStore((store) => store.setExploreEntered);
   const [isOpen, setIsOpen] = useState<'searchType' | 'swipe'>();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [noResult, setNoResult] = useState(false);
   const [start, setStart] = useState(false);
   const { filters } = useStore((store) => store);
   const history = useHistory();
@@ -52,6 +53,7 @@ export default function Explore() {
         onCompleted: (data) => {
           // @ts-expect-error the
           setCards(data.getRandomUser);
+          setNoResult(data.getRandomUser?.length === 0);
         },
         onError: (err) => {
           toast.custom(<Toast type="error">{err.message}</Toast>);
@@ -95,7 +97,7 @@ export default function Explore() {
                 <CircleSpinner></CircleSpinner>همسفری پیدا نشد!
               </div>
             </div>
-          ) : cards.length === 0 ? (
+          ) : noResult ? (
             <div
               className="size-full bg-warning-50 p-4"
               onClick={() => setStart(true)}

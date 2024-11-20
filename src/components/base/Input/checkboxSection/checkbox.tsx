@@ -1,59 +1,22 @@
-import { FieldHookConfig, useField } from 'formik';
+import { clsx } from 'clsx';
 import { ClassAttributes, InputHTMLAttributes } from 'react';
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import InputLayout from '../InputLayout';
-import style from './OutlineCheckbox.module.scss';
-import clsx from 'clsx';
 
-interface OutlineCheckboxProps {
-  id?: string;
-  varient?: 'filled' | 'outline';
-  label?: string;
-  customLabel?: React.ReactNode;
-  errorEnabled?: boolean;
-  hintEnabled?: boolean;
-  hint?: string;
-}
-
-const OutlineCheckbox = ({
-  id,
-  label,
-  varient = 'outline',
-  customLabel,
-  errorEnabled = true,
-  hintEnabled = true,
-  hint = undefined,
+const Checkbox = ({
+  className,
   ...props
-}: OutlineCheckboxProps &
-  InputHTMLAttributes<HTMLInputElement> &
-  ClassAttributes<HTMLInputElement> &
-  FieldHookConfig<string>) => {
-  const [field, meta] = useField(props);
-  id ??= uuidv4();
+}: InputHTMLAttributes<HTMLInputElement> &
+  ClassAttributes<HTMLInputElement>) => {
   return (
-    <InputLayout
-      className={props.className}
-      label={label}
-      meta={meta}
-      id={id}
-      errorEnabled={errorEnabled}
-      hintEnabled={hintEnabled}
-      customLabel={customLabel}
-      orientation="horizontal"
-      hint={hint}
-    >
-      <input
-        {...field}
-        {...props}
-        id={id}
-        checked={props.checked}
-        type="checkbox"
-        className={clsx(style.checkbox, style[varient])}
-      />
-      <label htmlFor={id} className={style.label} />
-    </InputLayout>
+    <input
+      type="checkbox"
+      className={clsx(
+        'custom-checkbox h-5 w-5 appearance-none rounded border-2 border-gray-400 bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0',
+        className,
+      )}
+      {...props}
+    />
   );
 };
 
-export default OutlineCheckbox;
+export default Checkbox;

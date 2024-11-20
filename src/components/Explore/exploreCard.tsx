@@ -1,6 +1,5 @@
 import { FaCirclePlay } from 'react-icons/fa6';
 import CardImage from '../../assets/icon/image.png';
-
 import CardAvatar from '../../assets/icon/avatar.png';
 import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
@@ -12,7 +11,56 @@ import { IcX } from '@/components/icons/IcX';
 import { IcTick } from '@/components/icons/IcTick';
 import { RandomUser } from '@/graphql/generated/graphql.codegen';
 import { getBaseInfo } from '@/utils/getBaseInfo';
-import { IcSendMessage } from '../icons/IcSendMessage';
+import { IcSendMessageHeart } from '../icons/IcSendMessageHeart';
+import { SendMessageModal } from './sendMessageModal';
+import ViolationReportModal from './violationReportModal';
+import { IcFakeProfile } from '../icons/IcFakeProfile';
+import { IcImmoralContent } from '../icons/IcImmoralContent';
+import { IcAnInsult } from '../icons/IcAnInsult';
+import { IcFraud } from '../icons/IcFraud';
+import { IcAdvertisingContent } from '../icons/IcAdvertisingContent';
+const optionTexts: {
+  label: string;
+  icon?: ((select: boolean) => React.ReactNode) | React.ReactNode;
+}[] = [
+  {
+    label: 'پروفایل جعلی',
+    icon: (select) => (
+      <IcFakeProfile
+        className={select ? 'fill-brand-yellow' : ''}
+      ></IcFakeProfile>
+    ),
+  },
+  {
+    label: 'محتوای غیراخلاقی',
+    icon: (select) => (
+      <IcImmoralContent
+        className={select ? 'fill-brand-yellow' : ''}
+      ></IcImmoralContent>
+    ),
+  },
+  {
+    label: 'توهین',
+    icon: (select) => (
+      <IcAnInsult className={select ? 'fill-brand-yellow' : ''}></IcAnInsult>
+    ),
+  },
+  {
+    label: 'کلاه‌برداری',
+    icon: (select) => (
+      <IcFraud className={select ? 'fill-brand-yellow' : ''}></IcFraud>
+    ),
+  },
+  {
+    label: 'محتوای تبلیغاتی',
+    icon: (select) => (
+      <IcAdvertisingContent
+        className={select ? 'fill-brand-yellow' : ''}
+      ></IcAdvertisingContent>
+    ),
+  },
+];
+
 export default function ExploreCard(props: {
   user: RandomUser;
   searchMethod: string;
@@ -22,6 +70,7 @@ export default function ExploreCard(props: {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(
     null,
   );
+  const [isOpen, setIsOpen] = useState<'sendMessage' | 'violationReport'>();
   const [rotation, setRotation] = useState<number>(0);
   return (
     <>
@@ -72,14 +121,14 @@ export default function ExploreCard(props: {
             </p>
             <div className="flex items-center justify-between">
               <div className="text-sm text-white">
-                <div className="flex items-center gap-x-2">
+                <div className="flex items-center gap-2">
                   <h1 className="text-lg font-black text-white">
                     {props.user.name} ، {props.user.age}
                   </h1>
-                  <MdVerified size={24} className="mt-3 fill-brand-yellow" />
+                  <MdVerified size={24} className="fill-brand-yellow" />
                 </div>
                 <div className="flex items-center gap-x-1 text-white">
-                  <RiMapPin2Fill size={16} fill="red" />
+                  <RiMapPin2Fill size={16} fill="#fff" className="-mr-[2px]" />
                   {props.user.province}
                 </div>
                 <div className="flex items-center gap-x-1 text-white">
@@ -117,8 +166,12 @@ export default function ExploreCard(props: {
                 title="اطلاعات اولیه"
               ></Info>
             </div>
-            <Button className="flex h-9 w-full items-center justify-center gap-1 rounded-3xl p-0">
-              <IcSendMessage></IcSendMessage>
+            <Button
+              className="flex h-9 w-full items-center justify-center gap-1 p-0"
+              rounded="rounded-3xl"
+              onClick={() => setIsOpen('sendMessage')}
+            >
+              <IcSendMessageHeart></IcSendMessageHeart>
               ارسال پیام برای {props.user.name}
             </Button>
             <Info
@@ -154,10 +207,18 @@ export default function ExploreCard(props: {
                 <IcX></IcX>
               </div>
             </div>
-            <Button className="mx-8">ارسال پیام</Button>
+            <Button className="mx-8" onClick={() => setIsOpen('sendMessage')}>
+              ارسال پیام
+            </Button>
           </div>
         </div>
-        <Button variant="white" className="text-sm">
+        <Button
+          variant="white"
+          className="text-sm"
+          onClick={() => {
+            setIsOpen('violationReport');
+          }}
+        >
           گزارش تخلف کاربر
         </Button>
       </motion.div>
@@ -167,6 +228,23 @@ export default function ExploreCard(props: {
       >
         {rotation > 0 ? <IcTick></IcTick> : <IcX></IcX>}
       </div>
+      <SendMessageModal
+        isOpen={isOpen === 'sendMessage'}
+        name={props.user.name}
+        setClose={() => {
+          setIsOpen(undefined);
+        }}
+      ></SendMessageModal>
+      <ViolationReportModal
+        onReportSubmit={() => {}}
+        loading={false}
+        title="گزارش تخلف"
+        options={optionTexts}
+        setClose={() => {
+          setIsOpen(undefined);
+        }}
+        isOpen={isOpen === 'violationReport'}
+      ></ViolationReportModal>
     </>
   );
 }
