@@ -17,6 +17,7 @@ import MainLayout from './MainLayout';
 import { Filter } from '@/pages/Explore/Filter';
 import { paths } from './paths';
 import Chat from '@/pages/Chat/Chat';
+import { LanguageKnow } from '@/components/layout/Profile/LanguageKnow';
 
 export default function Routes() {
   return (
@@ -65,6 +66,11 @@ export default function Routes() {
             exact
             path="/profile/complate_profile/complate_basicinformations"
             component={BasicInformations}
+          />
+          <Route
+            exact
+            path="/profile/complate_profile/complate_languagesknow"
+            component={LanguageKnow}
           />
           <Route exact path={paths.explore.filter} component={Filter} />
 

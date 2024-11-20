@@ -12,7 +12,7 @@ export default function Index() {
       className="h-screen bg-cover bg-center relative"
       style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
-      <div className="flex h-[90vh] w-full flex-col items-center justify-between px-[24px] pb-[50px] pt-[65px] text-white">
+      <div className="flex h-[94vh] w-full flex-col items-center justify-between px-[24px] pt-[40px] text-white">
         <div className="flex max-h-fit flex-col items-center justify-between gap-y-[8px]">
           <img src={BakiLogo} alt="BakiLogo" />
           <h2 className="text-sm font-bold leading-tight text-white">
@@ -23,15 +23,15 @@ export default function Index() {
           <div className="flex w-full flex-col items-center justify-between gap-y-[8px] text-center">
             <Link
               to="/signup"
-              className="w-full rounded-[12px] bg-brand-yellow py-[16px] text-brand-black"
+              className="w-full rounded-[12px] bg-brand-yellow py-[16px] text-brand-black text-base font-bold"
             >
               ورود / ثبت نام
             </Link>
-            <button className="w-full rounded-[12px] border border-solid border-white py-[16px] text-white">
+            <button className="w-full rounded-[12px] border border-solid border-white py-[16px] text-white text-base font-bold">
               ورود به صورت مهمان
             </button>
           </div>
-          <p className="px-[20px] font-bold text-white">
+          <p className="px-[20px] font-bold text-sm text-center leading-tight text-white">
             {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{' '}
             <span
               onClick={() => setShowRules(true)}
