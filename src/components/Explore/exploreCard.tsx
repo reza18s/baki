@@ -117,27 +117,27 @@ export default function ExploreCard(props: {
           <Info
             className="bg-warning-100"
             items={props.user.mySpecialty}
-            title="اطلاعات اولیه"
+            title="تخصص"
           ></Info>
           <Info
             className="bg-warning-100"
-            items={props.user.travelInterests}
-            title="اطلاعات اولیه"
+            items={props.user.personalInterests}
+            title="علایق شخصی من"
           ></Info>
           <Info
             className="bg-warning-100"
             items={props.user.languages}
-            title="اطلاعات اولیه"
+            title="زبان هایی که میدانم "
           ></Info>
           <Info
             className="bg-warning-100"
             items={props.user.traveledToPlaces}
-            title="اطلاعات اولیه"
+            title="مکان‌هایی که سفر کرده‌ام"
           ></Info>
           <Info
             className="bg-warning-100"
             items={props.user.livedInPlaces}
-            title="اطلاعات اولیه"
+            title="مکان‌هایی که زندگی کرده‌ام"
           ></Info>
         </div>
       </motion.div>

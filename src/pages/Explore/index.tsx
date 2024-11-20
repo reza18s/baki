@@ -19,43 +19,47 @@ import {
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 import { useStore } from '@/store/useStore';
+import { CircleSpinner } from '@/components/base/Loader/Loader';
+import { IcFilterNotFound } from '@/components/icons/IcFilterNotFound';
+import Modal from '@/components/base/Modal/Modal';
 
 export default function Explore() {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
   const setExploreEntered = useLocalStore((store) => store.setExploreEntered);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<'searchType' | 'swipe'>();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [start, setStart] = useState(false);
   const { filters } = useStore((store) => store);
   const history = useHistory();
-  const [getUser] = useGetRandomUserLazyQuery();
+  const [getUser, { loading }] = useGetRandomUserLazyQuery();
 
   const [cards, setCards] = useState<RandomUser[]>([]);
   useEffect(() => {
     if (!FirstEnter) {
-      setIsOpen(true);
+      setIsOpen('searchType');
       setExploreEntered();
     }
   }, [FirstEnter]);
   useEffect(() => {
-    getUser({
-      variables: {
-        age: filters.age,
-        languages: filters.language,
-        mySpecialty: filters.specialty,
-        province: filters.provinces,
-        travelInterests: filters.interest,
-      },
-      onCompleted: (data) => {
-        console.log(data.getRandomUser);
-        // @ts-expect-error the
-        setCards(data.getRandomUser);
-      },
-      onError: (err) => {
-        toast.custom(<Toast type="error">{err.message}</Toast>);
-      },
-    });
-  }, []);
+    if (start) {
+      getUser({
+        variables: {
+          age: filters.age,
+          languages: filters.language,
+          mySpecialty: filters.specialty,
+          province: filters.provinces,
+          travelInterests: filters.interest,
+        },
+        onCompleted: (data) => {
+          // @ts-expect-error the
+          setCards(data.getRandomUser);
+        },
+        onError: (err) => {
+          toast.custom(<Toast type="error">{err.message}</Toast>);
+        },
+      });
+    }
+  }, [start, filters]);
   const handleSwipe = (id: string) => {
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
@@ -83,17 +87,51 @@ export default function Explore() {
     >
       <div className="relative flex h-full w-full flex-row-reverse p-2">
         {start ? (
-          <AnimatePresence>
-            {cards.map((card, index) => (
-              <ExploreCard
-                key={card.id}
-                inView={index == cards.length - 1}
-                handleSwipe={handleSwipe}
-                user={card}
-                searchMethod="تصادفی"
-              />
-            ))}
-          </AnimatePresence>
+          loading ? (
+            <div
+              className="size-full bg-warning-50 p-4"
+              onClick={() => setStart(true)}
+            >
+              <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
+                <CircleSpinner></CircleSpinner>همسفری پیدا نشد!
+              </div>
+            </div>
+          ) : cards.length === 0 ? (
+            <div
+              className="size-full bg-warning-50 p-4"
+              onClick={() => setStart(true)}
+            >
+              <div className="text flex h-[90%] flex-col items-center justify-center text-sm font-bold text-black">
+                <IcFilterNotFound className="mb-4"></IcFilterNotFound>همسفری
+                پیدا نشد!
+                <span className="mb-2 mt-8 text-[10px]">
+                  با کمتر کردن فیلترها می‌توانید همسفرهای بیشتری رو پیدا کنید!
+                </span>
+                <Button
+                  className="h-12 w-full p-0"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    history.push(paths.explore.filter);
+                  }}
+                  type="button"
+                >
+                  تغییر فیلترها
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <AnimatePresence>
+              {cards.map((card, index) => (
+                <ExploreCard
+                  key={card.id}
+                  inView={index == cards.length - 1}
+                  handleSwipe={handleSwipe}
+                  user={card}
+                  searchMethod="تصادفی"
+                />
+              ))}
+            </AnimatePresence>
+          )
         ) : (
           <div
             className="size-full bg-warning-50 p-4"
@@ -116,11 +154,45 @@ export default function Explore() {
           </div>
         )}
       </div>
-      <SearchTypeModal isOpen={isOpen} setIsOpen={setIsOpen}></SearchTypeModal>
+      <SearchTypeModal
+        isOpen={isOpen === 'searchType'}
+        setClose={() => setIsOpen(undefined)}
+      ></SearchTypeModal>
       <SearchTypeSidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       ></SearchTypeSidebar>
+      <Modal
+        isOpen={isOpen === 'swipe'}
+        onRequestClose={() => setIsOpen(undefined)}
+        onCloseEnd={() => setIsOpen(undefined)}
+        className="flex w-[70%] flex-col gap-3 rounded-3xl bg-white px-5 py-3"
+      >
+        <div className="flex flex-col gap-2 text-lg font-bold">
+          خوشتون اومد؟
+          <span className="text-sm text-gray-500">
+            کشیدن پروفایل همسفر به سمت راست به معنای علاقه به ایجاد ارتباط
+            می‌باشد.
+          </span>
+        </div>
+        <div className="mt-3 flex justify-end gap-2">
+          <Button
+            className="h-7 w-16 border-black p-0"
+            rounded="rounded-lg"
+            onClick={() => setIsOpen(undefined)}
+          >
+            درسته!
+          </Button>
+          <Button
+            variant="outline"
+            rounded="rounded-lg"
+            className="h-y w-16 rounded-lg border-red-500 p-0 text-red-500"
+            onClick={() => history.goBack()}
+          >
+            بازگشت
+          </Button>
+        </div>
+      </Modal>
     </Page>
   );
 }

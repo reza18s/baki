@@ -28,7 +28,6 @@ export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  clearUserInfo: () => void;
   updateUserInfo: (userInfo: Partial<UserInfo>) => void;
   setExploreEntered: () => void;
   addItem: (key: string, val: boolean) => void;
@@ -77,9 +76,6 @@ export const useLocalStore = create<Store>()(
           }
           return { step: step(prev.step) };
         });
-      },
-      clearUserInfo: () => {
-        set({ userInfo: defaultInitState.userInfo });
       },
       handleNextStep: () => {
         get().setSteps((prev) => (prev + 1) as StepsNumber);

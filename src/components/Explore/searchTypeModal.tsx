@@ -3,16 +3,15 @@ import BottomSheetModal from '../base/Modal/BottomSheetModal';
 import { SearchTypes } from '@/lib';
 import Button from '../base/Button/Button';
 import { useStore } from '@/store/useStore';
-import { IcExclamationMarkInCircle } from '../icons/IcExclamationMarkInCircle';
 import toast from 'react-hot-toast';
 import { Toast } from '../base/toast/toast';
 
 export const SearchTypeModal = ({
   isOpen,
-  setIsOpen,
+  setClose,
 }: {
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setClose: () => void;
 }) => {
   const { searchType, setSearchType } = useStore((store) => store);
   const SearchType = SearchTypes.find((val) => val.value === searchType);
@@ -20,10 +19,9 @@ export const SearchTypeModal = ({
     <BottomSheetModal
       isOpen={isOpen}
       onRequestClose={() => {
-        setIsOpen(false);
+        setClose();
       }}
       onCloseEnd={() => {
-        setIsOpen(false);
         setSearchType(searchType);
         toast.custom(
           () => (
@@ -33,10 +31,11 @@ export const SearchTypeModal = ({
           ),
           { duration: 1000 },
         );
+        setClose();
       }}
       className="p-4"
     >
-      <div className="h-full w-full px-6 pb-2">
+      <div className="h-full w-full px-3 pb-2">
         <h1 className="my-3 text-center text-lg font-bold">
           یکی از حالت‌های زیر را انتخاب کنید
         </h1>
@@ -59,7 +58,7 @@ export const SearchTypeModal = ({
         <Button
           className="h-10 w-full p-0"
           onClick={() => {
-            setIsOpen(false);
+            setClose();
           }}
         >
           تایید

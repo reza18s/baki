@@ -38,7 +38,6 @@ export default function FinalStep() {
               name: userInfo.name,
             },
             onCompleted: (data) => {
-              console.log(data);
               hs.push('/explore');
               setSteps(0);
             },

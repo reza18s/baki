@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import clsx from "clsx";
-import { BaseProps } from "../type/base";
+import clsx from 'clsx';
+import { BaseProps } from '../type/base';
 
 interface LoaderProps extends BaseProps {
   size?: string;
@@ -9,14 +9,14 @@ interface LoaderProps extends BaseProps {
 }
 
 export const CircleSpinner: FC<LoaderProps> = ({
-  size = "h-8 w-8",
-  thickness = "border-4",
+  size = 'h-8 w-8',
+  thickness = 'border-2',
   className,
 }) => {
   return (
     <div
       className={clsx(
-        "inline-block animate-spin rounded-full border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]",
+        'inline-block animate-spin rounded-full border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]',
         size,
         thickness,
         className,
@@ -28,40 +28,40 @@ export const CircleSpinner: FC<LoaderProps> = ({
 
 export const DotesLoading: FC<LoaderProps> = ({
   className,
-  size = "h-3 w-3",
+  size = 'h-3 w-3',
 }) => {
   return (
-    <div className={"flex gap-1 flex-row-reverse justify-center items-center"}>
+    <div className={'flex flex-row-reverse items-center justify-center gap-1'}>
       <span className="sr-only">Loading...</span>
       <div
         className={clsx(
-          "rounded-full animate-bounce even:[animation-delay:-0.3s]",
+          'animate-bounce rounded-full even:[animation-delay:-0.3s]',
           size,
           className,
         )}
       />
       <div
         className={clsx(
-          "rounded-full animate-bounce odd:[animation-delay:-0.15s]",
+          'animate-bounce rounded-full odd:[animation-delay:-0.15s]',
           size,
           className,
         )}
       />
-      <div className={clsx("rounded-full animate-bounce", size, className)} />
+      <div className={clsx('animate-bounce rounded-full', size, className)} />
     </div>
   );
 };
 
 export const RecShimmer: FC<BaseProps> = ({ className }) => {
-  return <div className={"bg-gray-200 animate-pulse " + className} />;
+  return <div className={'animate-pulse bg-gray-200 ' + className} />;
 };
 
 export const CircleShimmer: FC<BaseProps> = ({ className }) => {
   return (
     <div
       className={clsx(
-        "animate-pulse rounded-full bg-gray-200",
-        "aspect-square",
+        'animate-pulse rounded-full bg-gray-200',
+        'aspect-square',
         className,
       )}
     />
