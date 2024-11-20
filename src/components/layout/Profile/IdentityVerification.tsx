@@ -5,9 +5,8 @@ import { useState } from "react";
 import { useSignupMutation } from "../../../graphql/generated/graphql.codegen";
 import { useForm } from "react-hook-form";
 import VerifyOTP from "../Signup/VerifyOTP";
-import SweetAlertToast from "@/components/shared/Toasts/SweetAlertToast";
-
-type StepsNumber = 0 | 1;
+import toast from "react-hot-toast";
+import { Toast } from "@/components/base/toast/toast";
 
 export default function IdentityVerification() {
   const [step, setStep] = useState<0 | 1>(0);
@@ -29,10 +28,14 @@ export default function IdentityVerification() {
   };
 
   const onOTPSuccess = () => {
-    SweetAlertToast.fire({
-      title: "تایید هویت با موفقیت انجام شد",
-      icon: "success"
-  })
+  toast.custom(
+    (t) => (
+      <Toast t={t} type="success">
+        تایید هویت با موفقیت انجام شد
+      </Toast>
+    ),
+    { duration: 1500 },
+  );
    window.location.replace("/profile/complate_profile")
   };
 

@@ -4,8 +4,9 @@ import { lazy, Suspense } from 'react';
 import { useSignupMutation } from '../graphql/generated/graphql.codegen';
 import { useLocalStore } from '../store/useLocalStore';
 import { StepsNumber } from '../types';
-import SweetAlertToast from '@/components/shared/Toasts/SweetAlertToast';
 import { Page } from '@/components/layout/Page';
+import toast from 'react-hot-toast';
+import { Toast } from '@/components/base/toast/toast';
 
 const GetPhoneNumber = lazy(
   () => import('../components/layout/Signup/GetPhoneNumber'),
@@ -75,12 +76,14 @@ export default function Signup() {
       variables: { phoneNumber: watch('phoneNumber') },
       onCompleted: () => setStep(1),
       onError: (error) => {
-        console.error('Signup error:', error);
-        SweetAlertToast.fire({
-          icon: 'error',
-          title: 'خطا',
-          text: 'مشکلی پیش آمده است لطفا دوباره امتحان کنید',
-        });
+        toast.custom(
+          (t) => (
+            <Toast t={t} type="error">
+              مشکلی پیش آمده است لطفا دوباره امتحان کنید
+            </Toast>
+          ),
+          { duration: 1500 },
+        );
       },
     });
   };
