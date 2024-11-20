@@ -75,7 +75,7 @@ export const Filter = () => {
 
   return (
     <Page
-      contentClassName="p-6 bg-gray-100 flex gap-6 flex-col"
+      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col"
       header={
         <AppBar
           title="فیلتر جستجو"

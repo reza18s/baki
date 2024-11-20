@@ -68,6 +68,12 @@ import PotteryIcon from '../assets/img/signup/PotteryIcon.svg';
 import GardeningIcon from '../assets/img/signup/GardeningIcon.svg';
 import NatureTourIcon from '../assets/img/signup/NatureTourIcon.svg';
 import CulturalExchangeIcon from '../assets/img/signup/CulturalExchangeIcon.svg';
+import Spirit from '../assets/img/Explore/spirit.svg';
+import Gender from '../assets/img/Explore/gender.svg';
+import Smoke from '../assets/img/Explore/smoke.svg';
+import Sport from '../assets/img/Explore/sport.svg';
+import Marital from '../assets/img/Explore/marital.svg';
+import AmountOfEarlyRisingSvg from '../assets/img/Explore/amountOfEarlyRising.svg';
 export const TravelInterestsItems = [
   {
     title: 'قوم شناسی',
@@ -1003,6 +1009,21 @@ export const allIcon = [
     title: 'غذا و آشپزی',
     icon: FoodIcon,
   },
+  { title: 'درون‌گرا', icon: Spirit },
+  { title: 'برون‌گرا', icon: Spirit },
+  { title: 'به طور منظم', icon: Sport },
+  { title: 'بعضی‌وقت‌ها', icon: Sport },
+  { title: 'خیلی کم', icon: Sport },
+  { title: 'متاهل', icon: Marital },
+  { title: 'مجرد', icon: Marital },
+  { title: 'زن', icon: Gender },
+  { title: 'مرد', icon: Gender },
+  { title: 'سحرخیز', icon: AmountOfEarlyRisingSvg },
+  { title: 'خواب‌آلود', icon: AmountOfEarlyRisingSvg },
+  { title: 'آن‌تایم', icon: AmountOfEarlyRisingSvg },
+  { title: 'به طور منظم', icon: Smoke },
+  { title: 'بعضی‌وقت‌ها', icon: Smoke },
+  { title: 'هرگز', icon: Smoke },
 ];
 export const languages = [
   { language: 'لری', flag: '🇮🇷' },

@@ -19,10 +19,10 @@ export function Info({
           return (
             <div
               key={index}
-              className={`${className} flex h-6 items-center gap-2 rounded-2xl px-2 text-sm font-medium text-brand-black`}
+              className={`${className} flex h-6 items-center justify-center gap-1 rounded-2xl px-2 text-sm font-medium text-brand-black`}
             >
               {item?.icon && (
-                <img src={item.icon} alt={val} className="h-3 w-3" />
+                <img src={item.icon} alt={val} className="h-4 w-4" />
               )}
               {item?.flag && <span>{item?.flag}</span>}
               {val}

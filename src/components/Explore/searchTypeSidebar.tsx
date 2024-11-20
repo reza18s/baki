@@ -23,39 +23,41 @@ export const SearchTypeSidebar = ({
       onCloseEnd={() => {
         setIsSidebarOpen(false);
         toast.custom(
-          <Toast type="warning">
-            شما وارد حالت جستجوی {SearchType?.label || ''} شدید!
-          </Toast>,
-          { duration: 1000 },
+          (t) => (
+            <Toast t={t} type="warning">
+              شما وارد حالت جستجوی {SearchType?.label || ''} شدید!
+            </Toast>
+          ),
+          { duration: 1500 },
         );
       }}
       className="flex w-[80%] items-center justify-center"
     >
       <div className="h-full w-full">
-        <h1 className="my-5 text-sm">یکی از حالت‌های زیر را انتخاب کنید:</h1>
-        <div className="flex flex-col gap-5">
-          {SearchTypes.map((el) => (
+        <h1 className="my-5 text-sm">یک حالت را انتخاب کنید:</h1>
+        <div className="flex flex-col gap-2">
+          {SearchTypes.map((el, index) => (
             <div
               key={el.value}
-              className={`flex items-center justify-between gap-4 px-2 py-3 text-sm ${searchType === el.value && 'bg-warning-50'}`}
+              className={`flex items-center justify-between px-2 py-3 text-sm ${searchType === el.value && 'bg-warning-50'}`}
               onClick={() => {
                 setSearchType(el.value);
               }}
             >
-              <div className="flex w-[90%] items-center gap-2">
+              <div className="flex max-w-[calc(100%-24px)] items-center gap-2">
                 <svg
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
-                  className="size-6"
+                  className={`${index === 1 ? 'rotate-[-120deg]' : index === 2 ? 'rotate-[120deg]' : ''} size-6`}
                 >
                   <circle
                     cx="12"
                     cy="12"
                     r="9.99998"
-                    fill="#94A3B8"
-                    stroke="#94A3B8"
+                    fill={searchType === el.value ? '#ffcc4e' : '#94A3B8'}
+                    stroke={searchType === el.value ? '#ffcc4e' : '#94A3B8'}
                     strokeWidth="1.5"
                   />
                   <path
@@ -66,7 +68,7 @@ export const SearchTypeSidebar = ({
                     strokeLinejoin="round"
                   />
                 </svg>
-                <div className="w-[90%]">
+                <div className="max-w-[calc(100%-28px)]">
                   <h2 className="text-nowrap text-base font-bold">
                     {el.label}
                   </h2>
@@ -76,7 +78,7 @@ export const SearchTypeSidebar = ({
                 </div>
               </div>
               <div
-                className={`min-size-5 size-5 rounded-full ${el.value === searchType ? 'border-[6px] border-brand-yellow' : 'border-2'}`}
+                className={`size-5 rounded-full ${el.value === searchType ? 'border-[6px] border-brand-yellow' : 'border-2'}`}
               ></div>
             </div>
           ))}

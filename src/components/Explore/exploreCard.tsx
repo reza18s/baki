@@ -1,5 +1,7 @@
 import { FaCirclePlay } from 'react-icons/fa6';
-import CardAvatar from '../../assets/icon/image.png';
+import CardImage from '../../assets/icon/image.png';
+
+import CardAvatar from '../../assets/icon/avatar.png';
 import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { motion } from 'framer-motion';
@@ -10,6 +12,7 @@ import { IcX } from '@/components/icons/IcX';
 import { IcTick } from '@/components/icons/IcTick';
 import { RandomUser } from '@/graphql/generated/graphql.codegen';
 import { getBaseInfo } from '@/utils/getBaseInfo';
+import { IcSendMessage } from '../icons/IcSendMessage';
 export default function ExploreCard(props: {
   user: RandomUser;
   searchMethod: string;
@@ -23,7 +26,7 @@ export default function ExploreCard(props: {
   return (
     <>
       <motion.div
-        className="absolute flex max-h-[calc(100%-8px)] w-[calc(100%-16px)] flex-col overflow-y-scroll rounded-2xl bg-warning-50"
+        className="absolute flex max-h-[calc(100%-8px)] w-[calc(100%-16px)] flex-col overflow-y-scroll rounded-2xl"
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         onDrag={(event, info) => {
@@ -58,88 +61,105 @@ export default function ExploreCard(props: {
           transition: { duration: 0.7 }, // Different duration for exit
         }}
       >
-        {/* Image */}
-        <div
-          className={`flex min-h-[60dvh] flex-col justify-between rounded-t-2xl bg-cover bg-center p-4`}
-          style={{ backgroundImage: `url(${CardAvatar})` }}
-        >
-          <p className="mr-auto max-w-fit rounded-[16px] bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
-            {props.searchMethod}
-          </p>
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-white">
-              <div className="flex items-center gap-x-2">
-                <h1 className="text-lg font-black text-white">
-                  {props.user.name} ، {props.user.age}
-                </h1>
-                <MdVerified size={24} className="mt-3 fill-brand-yellow" />
+        <div className="flex flex-col rounded-2xl bg-warning-50">
+          {/* Image */}
+          <div
+            className={`flex min-h-[60dvh] flex-col justify-between rounded-t-2xl bg-cover bg-center p-4`}
+            style={{ backgroundImage: `url(${CardImage})` }}
+          >
+            <p className="mr-auto max-w-fit rounded-[16px] bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
+              {props.searchMethod}
+            </p>
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-white">
+                <div className="flex items-center gap-x-2">
+                  <h1 className="text-lg font-black text-white">
+                    {props.user.name} ، {props.user.age}
+                  </h1>
+                  <MdVerified size={24} className="mt-3 fill-brand-yellow" />
+                </div>
+                <div className="flex items-center gap-x-1 text-white">
+                  <RiMapPin2Fill size={16} fill="red" />
+                  {props.user.province}
+                </div>
+                <div className="flex items-center gap-x-1 text-white">
+                  <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
+                    <div
+                      className={`h-[8px] w-[8px] rounded-full ${
+                        props.user ? 'bg-brand-green' : 'bg-red-500'
+                      }`}
+                    />
+                  </div>
+                  {props.user ? 'آنلاین' : 'آفلاین'}
+                </div>
               </div>
-              <div className="flex items-center gap-x-1 text-white">
-                <RiMapPin2Fill size={16} fill="red" />
-                {props.user.province}
-              </div>
-              <div className="flex items-center gap-x-1 text-white">
-                <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
-                  <div
-                    className={`h-[8px] w-[8px] rounded-full ${
-                      props.user ? 'bg-brand-green' : 'bg-red-500'
-                    }`}
+              <div className="flex items-center gap-x-[8px]">
+                <div className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow">
+                  <img
+                    src={CardAvatar}
+                    alt="CardAvatar"
+                    className="size-10 rounded-full"
                   />
                 </div>
-                {props.user ? 'آنلاین' : 'آفلاین'}
-              </div>
-            </div>
-            <div className="flex items-center gap-x-[8px]">
-              <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]">
-                <FaCirclePlay fill="#fff" size={24} />
-              </div>
-              <div className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow p-1">
-                <img
-                  src={CardAvatar}
-                  alt="CardAvatar"
-                  className="size-7 rounded-full"
-                />
+                <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]">
+                  <FaCirclePlay fill="#000" size={24} />
+                </div>
               </div>
             </div>
           </div>
+          {/* body */}
+          <div className="flex flex-col gap-8 p-4">
+            <div className="flex flex-col gap-4">
+              <Bio bio={props.user.bio || ''}></Bio>
+              <Info
+                className="bg-brand-yellow"
+                items={getBaseInfo(props.user)}
+                title="اطلاعات اولیه"
+              ></Info>
+            </div>
+            <Button className="flex h-9 w-full items-center justify-center gap-1 rounded-3xl p-0">
+              <IcSendMessage></IcSendMessage>
+              ارسال پیام برای {props.user.name}
+            </Button>
+            <Info
+              className="bg-warning-100"
+              items={props.user.mySpecialty}
+              title="تخصص"
+            ></Info>
+            <Info
+              className="bg-warning-100"
+              items={props.user.personalInterests}
+              title="علایق شخصی من"
+            ></Info>
+            <Info
+              className="bg-warning-100"
+              items={props.user.languages}
+              title="زبان هایی که میدانم "
+            ></Info>
+            <Info
+              className="bg-warning-100"
+              items={props.user.traveledToPlaces}
+              title="مکان‌هایی که سفر کرده‌ام"
+            ></Info>
+            <Info
+              className="bg-warning-100"
+              items={props.user.livedInPlaces}
+              title="مکان‌هایی که زندگی کرده‌ام"
+            ></Info>
+            <div className="flex justify-between px-8">
+              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+                <IcTick></IcTick>
+              </div>
+              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+                <IcX></IcX>
+              </div>
+            </div>
+            <Button className="mx-8">ارسال پیام</Button>
+          </div>
         </div>
-        {/* body */}
-        <div className="flex flex-col gap-4 p-4">
-          <Bio bio={props.user.bio || ''}></Bio>
-          <Info
-            className="bg-brand-yellow"
-            items={getBaseInfo(props.user)}
-            title="اطلاعات اولیه"
-          ></Info>
-          <Button className="my-4 h-9 w-full rounded-3xl p-0">
-            ارسال پیام برای {props.user.name}
-          </Button>
-          <Info
-            className="bg-warning-100"
-            items={props.user.mySpecialty}
-            title="تخصص"
-          ></Info>
-          <Info
-            className="bg-warning-100"
-            items={props.user.personalInterests}
-            title="علایق شخصی من"
-          ></Info>
-          <Info
-            className="bg-warning-100"
-            items={props.user.languages}
-            title="زبان هایی که میدانم "
-          ></Info>
-          <Info
-            className="bg-warning-100"
-            items={props.user.traveledToPlaces}
-            title="مکان‌هایی که سفر کرده‌ام"
-          ></Info>
-          <Info
-            className="bg-warning-100"
-            items={props.user.livedInPlaces}
-            title="مکان‌هایی که زندگی کرده‌ام"
-          ></Info>
-        </div>
+        <Button variant="white" className="text-sm">
+          گزارش تخلف کاربر
+        </Button>
       </motion.div>
       <div
         className="fixed left-[calc(50vw-48px)] top-[calc(45dvh-48px)] flex size-24 items-center justify-center rounded-full bg-white text-brand-black"

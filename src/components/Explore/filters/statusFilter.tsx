@@ -45,7 +45,7 @@ export const StatusFilter = ({
           {status.map((el) => (
             <div
               key={el}
-              className="flex items-center gap-2 border-t py-6 text-sm"
+              className="flex items-center gap-2 border-t py-4 text-sm"
               onClick={() => {
                 setValue(el);
               }}

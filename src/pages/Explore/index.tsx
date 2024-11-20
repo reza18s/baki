@@ -1,5 +1,4 @@
 import ExploreCard from '../../components/Explore/exploreCard';
-import CardImage from '../../assets/img/Explore/CardImage.svg';
 import BakiLogo from '../../assets/img/Explore/BakiLogo.svg';
 import * as SolarIconSet from 'solar-icon-set';
 import { Page } from '@/components/layout/Page';

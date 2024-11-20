@@ -59,7 +59,7 @@ export const LanguageFilter = ({
             .map((el) => (
               <div
                 key={el.language}
-                className="flex items-center gap-2 border-t py-6 text-sm"
+                className="flex items-center gap-2 border-t py-3 text-sm"
                 onClick={() => {
                   setValue(el.language);
                 }}

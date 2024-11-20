@@ -4,11 +4,14 @@ import { clsx } from 'clsx';
 import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 import { IcXCircle } from '@/components/icons/IcXCircle';
 import { IcTickCircle } from '@/components/icons/IcTickCircle';
+import { Toast as IToast } from 'react-hot-toast';
 
 export const Toast = ({
+  t,
   type,
   children,
 }: {
+  t?: IToast;
   type: 'error' | 'success' | 'warning';
   children: React.ReactNode;
 }) => {
@@ -26,15 +29,15 @@ export const Toast = ({
 
   // Ensure a valid type and fall back to 'warning' if needed
   const toastTypeStyle = typeStyles[type] || typeStyles.warning;
-
   return (
     <motion.div
       initial={{ scale: 0.9, y: -20 }}
-      animate={{ scale: 1, y: 0 }}
-      exit={{ scale: 0.9, y: -20 }}
+      animate={
+        t?.visible ? { scale: 1, y: 0 } : { scale: 0.8, y: -40, opacity: 0 }
+      }
       transition={{ duration: 0.2, ease: 'easeInOut' }}
       className={clsx(
-        'flex h-10 items-center gap-2 text-nowrap rounded-xl border-2 p-3 px-7 text-sm font-bold',
+        'flex h-10 w-[90vw] min-w-[90vw] items-center gap-2 text-nowrap rounded-xl border-2 p-3 px-3 text-xs font-bold',
         toastTypeStyle,
       )}
     >

@@ -57,7 +57,7 @@ export const ProvincesFilter = ({
             .map((el) => (
               <div
                 key={el.label}
-                className="flex items-center gap-2 border-t py-6 text-sm"
+                className="flex items-center gap-2 border-t py-4 text-sm"
                 onClick={() => {
                   setValue(el.label);
                 }}
