@@ -65,10 +65,10 @@ export const InterestFilter = ({
                       setValue(item.title);
                     }}
                     key={index}
-                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] p-[12px] ${value?.includes(item.title) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                    className={`flex max-w-fit items-center gap-x-3 rounded-[32px] p-[12px] ${value?.includes(item.title) ? 'bg-brand-yellow' : 'bg-gray-100'}`}
                   >
                     <img src={item.icon} alt={item.title} className="h-5 w-5" />
-                    <p className="text-sm text-[#1a1d1e]">{item.title}</p>
+                    <p className="text-sm text-brand-black">{item.title}</p>
                   </button>
                 </div>
               );

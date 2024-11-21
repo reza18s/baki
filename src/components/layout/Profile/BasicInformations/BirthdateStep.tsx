@@ -1,55 +1,70 @@
-import { useForm } from "react-hook-form";
-import * as SolarIconSet from "solar-icon-set";
-import Button from "../../../base/Button/Button";
-import MonthPicker from "../../../shared/Inputs/MonthPicker";
-import { useLocalStore } from "@/store/useLocalStore";
-import { useEffect } from "react";
+import { useForm } from 'react-hook-form';
+import * as SolarIconSet from 'solar-icon-set';
+import Button from '../../../base/Button/Button';
+import MonthPicker from '../../../shared/Inputs/MonthPicker';
+import { useLocalStore } from '@/store/useLocalStore';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { Toast } from '@/components/base/toast/toast';
+import { months } from '@/lib/constants';
 
-export default function BirthdateStep(props: {
-  handleNextStep: () => void;
-}) {
+export default function BirthdateStep(props: { handleNextStep: () => void }) {
   const { control, watch, register, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setValue("year", userInfo.birthdate?.split("-")[0]);
+    setValue('year', userInfo.birthdate?.split('-')[0]);
+    setValue(
+      'month',
+      months.find((el) => el.key == +userInfo.birthdate?.split('-')[1]),
+    );
   }, [userInfo.birthdate]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-  
-  const handleSubmit = () => {
-    updateUserInfo({
-      birthdate: `${watch("year")}-${watch("month")?.key}`,
-    });
-    props.handleNextStep()
-  }
 
+  const handleSubmit = () => {
+    if (watch('year') && watch('month')) {
+      updateUserInfo({
+        birthdate: `${watch('year')}-${watch('month')?.key}`,
+      });
+      props.handleNextStep();
+    } else {
+      toast.custom(
+        (t) => (
+          <Toast t={t} type="error">
+            لطفا یک گزینه را انتخاب کنید
+          </Toast>
+        ),
+        { duration: 1500 },
+      );
+    }
+  };
 
   return (
-    <div className="flex flex-col gap-y-[40px] w-full mx-auto pt-10 h-[90%] justify-between">
-      <div className="flex flex-col gap-y-[60px]">
-        <div className="flex flex-col items-center">
+    <div className="flex h-full w-full flex-col justify-between">
+      <div className="flex flex-col gap-16">
+        <div className="flex flex-col items-center gap-4">
           <SolarIconSet.Calendar size={72} />
-          <div className="flex flex-col gap-y-[16px] items-center">
+          <div className="flex flex-col items-center gap-2 p-2">
             <h1 className="text-[32px] font-bold text-brand-black">تولد</h1>
-            <p className="text-sm font-medium leading-tight text-[#64748B]">
+            <p className="text-sm font-medium leading-tight text-gray-500">
               سال و ماه تولد خود را انتخاب کنید.
             </p>
           </div>
         </div>
-        <div className="w-full flex items-center justify-center gap-x-3">
+        <div className="flex w-full items-center justify-center gap-3">
           <div>
-            <h2 className="text-[##64748B] text-sm font-bold mr-1">ماه</h2>
+            <h2 className="mr-1 text-sm font-bold text-gray-500">ماه</h2>
             <MonthPicker name="month" control={control} />
           </div>
           <div>
-            <h2 className="text-[##64748B] text-sm font-bold mr-1">سال</h2>
+            <h2 className="mr-1 text-sm font-bold text-gray-500">سال</h2>
             <input
-            {...register("year")}
+              {...register('year')}
               dir="ltr"
               type="tel"
-              className="border-[1.5px] border-[#1a1d1e] rounded-[12px] text-base font-bold text-[#1a1d1e] outline-none bg-white w-[67px] h-[48px] text-center"
+              className="h-[48px] w-[67px] rounded-[12px] border-[1.5px] border-brand-black bg-white text-center text-base font-bold text-brand-black outline-none"
               maxLength={4}
               min={1320}
               placeholder="1380"

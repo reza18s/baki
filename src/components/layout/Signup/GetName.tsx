@@ -8,12 +8,13 @@ export default function GetName(props: { control: any; value: string }) {
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   return (
     <div className="flex h-[calc(100%)] w-full flex-col justify-between">
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-4 pt-10">
         <h1 className="text-[32px] font-bold text-brand-black">نام</h1>
-        <p className="mb-10 text-sm font-medium leading-tight text-[#64748B]">
+        <p className="text-sm font-medium leading-tight text-gray-500">
           شما می توانید نام خود را در آینده تغییر دهید .
         </p>
         <TextInput
+          className="mt-6"
           control={props.control}
           icon={<SolarIconSet.UserRounded size={30} />}
           name="name"
@@ -22,10 +23,10 @@ export default function GetName(props: { control: any; value: string }) {
         />
       </div>
       {/* Footer */}
-      <div className="mb-5 flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
-          <p className="text-xs font-medium leading-none text-[#1a1d1e]">
+          <p className="text-xs font-medium leading-none text-brand-black">
             این نام در پروفایل شما نمایش داده خواهد شد .
           </p>
         </div>
@@ -35,9 +36,9 @@ export default function GetName(props: { control: any; value: string }) {
             updateUserInfo({ name: props.value });
             handleNextStep();
           }}
-          className={`px-[20px] py-[16px] ${
-            props.value?.length > 1 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-5 py-4 ${
+            props.value?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'
+          } rounded-[12px] font-bold leading-none text-brand-black`}
         >
           بعدی
         </button>

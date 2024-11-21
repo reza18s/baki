@@ -18,7 +18,7 @@ import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkI
 import { SearchTypes } from '@/lib';
 import { IFilter, useStore } from '@/store/useStore';
 
-export const Filter = () => {
+export default function Filter() {
   const {
     searchType,
     filters: storeFilters,
@@ -186,4 +186,4 @@ export const Filter = () => {
       </Modal>
     </Page>
   );
-};
+}

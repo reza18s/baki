@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
-import { IoMdLock } from "react-icons/io";
+import { IoMdLock } from 'react-icons/io';
 
 export default function GetPhoneNumber(props: {
   control: any;
@@ -9,14 +9,14 @@ export default function GetPhoneNumber(props: {
 }) {
   return (
     <div className="flex h-[calc(100%)] flex-col justify-between gap-y-[40px]">
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-4 pt-10">
         <h1 className="text-[32px] font-bold text-brand-black">شماره موبایل</h1>
-        <p className="text-sm font-medium leading-tight text-[#64748B]">
+        <p className="text-sm font-medium leading-tight text-gray-500">
           ما با اطمینان از واقعی بودن همه افرادی که در باکی هستند از کاربران خود
           محافظت می کنیم.
         </p>
         <div
-          className={`flex items-center justify-between rounded-[12px] border-[1.5px] border-black h-[48px] py-[16px] pl-[12px] pr-[16px] mt-[24px] ${props.phoneNumber?.length !== 0 ? 'border-b-[4px]' : ''}`}
+          className={`mt-6 flex h-12 items-center justify-between rounded-xl border-[1.5px] border-black py-4 pl-3 pr-4 ${props.phoneNumber?.length !== 0 ? 'border-b-4' : ''}`}
         >
           <SolarIconSet.Phone size={30} />
           <Controller
@@ -46,19 +46,22 @@ export default function GetPhoneNumber(props: {
         </div>
       </div>
       {/* Footer */}
-      <div className="mb-5 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-[8px]">
           {/* <SolarIconSet.LockKeyhole size={24} /> */}
-          <IoMdLock size={30} className='w-[24px] h-[24px]' />
-          <p className="text-xs font-medium font-['IRANSansXFaNum'] leading-none text-[#1a1d1e] pr-1 pl-9">
+          <IoMdLock size={30} className="h-6 w-6" />
+          <p className="pl-9 pr-1 font-['IRANSansXFaNum'] text-xs font-medium leading-none text-brand-black">
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>
         </div>
         <button
           disabled={props.phoneNumber?.length !== 11}
           onClick={props.handleSignup}
-          className={`px-[20px] py-[16px] ${props.phoneNumber?.length === 11 ? 'bg-[#ffcc4e] text-black' : 'bg-slate-100 text-slate-400'
-            } rounded-[12px] font-bold leading-none`}
+          className={`px-5 py-4 ${
+            props.phoneNumber?.length === 11
+              ? 'bg-brand-yellow text-black'
+              : 'bg-slate-100 text-brand-black'
+          } rounded-[12px] font-bold leading-none`}
         >
           بعدی
         </button>

@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import * as SolarIconSet from "solar-icon-set";
+import * as SolarIconSet from 'solar-icon-set';
 export const Rules = ({ hideRules }: { hideRules: () => void }) => {
   return (
-    <div className="flex w-full flex-col items-center justify-center rounded-md bg-white px-[24px] py-[16px] text-sm text-brand-black">
-      <div className="w-full max-w-fit rounded-full bg-brand-yellow p-[16px]">
+    <div className="flex w-full flex-col items-center justify-center rounded-md bg-white px-6 py-4 text-sm text-brand-black">
+      <div className="w-full max-w-fit rounded-full bg-brand-yellow p-6">
         <SolarIconSet.Document size={32} />
       </div>
       <div className="h-full max-h-[80%] w-full max-w-full">
         <h1 className="text-base font-bold">قوانین و مقررات حریم خصوصی باکی</h1>
-        <p className="h-full max-h-[90%] w-full max-w-full overflow-auto text-sm font-medium leading-tight text-[#1a1d1e]">
+        <p className="h-full max-h-[90%] w-full max-w-full overflow-auto text-sm font-medium leading-tight text-brand-black">
           با کی در چارچوب قوانین اینترنتی جمهوری اسلامی ایران فعالیت می کند.
           <br />
           این اپلیکیشن بستری برای آشنایی مستقیم افرادی است که قصد سفر دارند و
@@ -97,7 +97,7 @@ export const Rules = ({ hideRules }: { hideRules: () => void }) => {
       </div>
       <button
         onClick={hideRules}
-        className="mt-[22px] w-full rounded-[12px] bg-brand-yellow py-[16px] font-bold text-brand-black"
+        className="mt-[22px] w-full rounded-[12px] bg-brand-yellow py-4 font-bold text-brand-black"
       >
         تایید و ادامه
       </button>

@@ -62,26 +62,29 @@ export default function VerifyOTP(props: {
 
   return (
     <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
-      <div className="flex flex-col items-center gap-y-[40px]">
+      <div className="mt-10 flex flex-col items-center">
         {/* Head */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <h1 className="text-[32px] font-bold text-slate-950">
             تایید شماره موبایل
           </h1>
           <p className="text-black/50">
             لطفا کدی که به شماره
-            <span className="px-1 text-[#1a1d1e]">{props.phone}</span>
+            <span className="px-1 text-brand-black">{props.phone}</span>
             ارسال کردیم را وارد کنید.
             <span
-              onClick={handlePrevStep}
-              className="cursor-pointer px-1 font-bold text-[#1a1d1e] underline"
+              onClick={() => {
+                console.log(step);
+                handlePrevStep();
+              }}
+              className="cursor-pointer px-1 font-bold text-brand-black underline"
             >
               تغییر شماره
             </span>
           </p>
         </div>
         {/* Body */}
-        <div className="mb-[5vh] flex flex-col items-center justify-center space-y-[30px] text-black">
+        <div className="mt-20 flex flex-col items-center justify-center space-y-[30px] text-black">
           <OtpInput
             value={otp}
             onChange={handleChange}
@@ -115,15 +118,15 @@ export default function VerifyOTP(props: {
         </div>
       </div>
       {/* Resend */}
-      <div className="mb-5 flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-x-3">
           <MdTimer />
           {timer === 0 ? (
-            <p className="w-[200px] text-xs font-bold text-[#1a1d1e] underline">
+            <p className="w-[200px] text-xs font-bold text-brand-black underline">
               ارسال مجدد کد تایید
             </p>
           ) : (
-            <p className="w-[200px] text-xs text-[#1a1d1e]">
+            <p className="w-[200px] text-xs text-brand-black">
               کد تایید نهایتا تا {timer} ثانیه دیگر بدست شما میرسه!
             </p>
           )}
@@ -132,7 +135,7 @@ export default function VerifyOTP(props: {
           onClick={props.resendOtp}
           disabled={timer !== 0}
           className={`rounded-[12px] bg-slate-100 ${
-            timer === 0 ? 'bg-[#FFCC4E]' : 'text-slate-400'
+            timer === 0 ? 'bg-[#FFCC4E]' : 'text-brand-black'
           } px-5 py-4 font-bold`}
         >
           تایید

@@ -1,4 +1,4 @@
-import { Controller } from "react-hook-form";
+import { Controller } from 'react-hook-form';
 
 export default function TextInput(props: {
   control: any;
@@ -8,10 +8,11 @@ export default function TextInput(props: {
   placeholder: string;
   multiline?: boolean;
   rows?: number;
+  className?: string;
 }) {
   return (
     <div
-      className={`rounded-[12px] border-[1.5px] border-black flex items-center justify-between gap-x-2 py-[16px] pr-[16px] pl-[12px] w-full ${props.value?.length > 0 ? "border-b-[4px]" : ""}`}
+      className={`flex w-full items-center justify-between gap-x-2 rounded-[12px] border-[1.5px] border-black py-4 pl-[12px] pr-4 ${props.className || ''} ${props.value?.length > 0 ? 'border-b-[4px]' : ''}`}
     >
       {props.icon}
       <Controller
@@ -24,14 +25,14 @@ export default function TextInput(props: {
               {...field}
               rows={props.rows}
               placeholder={props.placeholder}
-              className="bg-white border-none outline-none w-full"
+              className="w-full border-none bg-white outline-none"
             />
           ) : (
             <input
               {...field}
               type="text"
               placeholder={props.placeholder}
-              className="bg-white border-none outline-none w-full"
+              className="w-full border-none bg-white outline-none"
             />
           )
         }

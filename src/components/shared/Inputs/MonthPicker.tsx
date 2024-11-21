@@ -1,23 +1,9 @@
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Controller } from "react-hook-form";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Controller } from 'react-hook-form';
+import { months } from '@/lib/constants';
 
 export default function MonthPicker(props: { control: any; name: string }) {
-  const items = [
-    { label: "فروردین", key: 0 },
-    { label: "اردیبهشت", key: 1 },
-    { label: "خرداد", key: 2 },
-    { label: "تیر", key: 3 },
-    { label: "مرداد", key: 4 },
-    { label: "شهریور", key: 5 },
-    { label: "مهر", key: 6 },
-    { label: "آبان", key: 7 },
-    { label: "آذر", key: 8 },
-    { label: "دی", key: 9 },
-    { label: "بهمن", key: 10 },
-    { label: "اسفند", key: 11 },
-  ];
-
   return (
     <Controller
       control={props.control}
@@ -26,36 +12,36 @@ export default function MonthPicker(props: { control: any; name: string }) {
       render={({ field }) => (
         <Autocomplete
           {...field}
-          options={items}
+          options={months}
           getOptionLabel={(option) => option.label}
           isOptionEqualToValue={(option, value) => option.key === value?.key}
           disablePortal
           onChange={(_, selectedOption) => field.onChange(selectedOption)}
           value={field.value || null}
-          className="!text-center text-base font-bold text-[#1a1d1e] h-[48px]"
+          className="h-[48px] !text-center text-base font-bold text-brand-black"
           clearIcon={null} // حذف علامت ضربدر
           popupIcon={null} // حذف علامت فلش
           sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "12px",
-              borderWidth: "1.5px",
-              borderColor: "#1a1d1e",
-              paddingRight: "0 !important",
-              height: "48px",
-              width: "120px",
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '12px',
+              borderWidth: '1.5px',
+              borderColor: '#1a1d1e',
+              paddingRight: '0 !important',
+              height: '48px',
+              width: '120px',
             },
-            "& .MuiAutocomplete-input": {
-              textAlign: "right", // تنظیم متن به راست
+            '& .MuiAutocomplete-input': {
+              textAlign: 'right', // تنظیم متن به راست
             },
-            "& .MuiInputBase-input": {
-              padding: "8px 14px", // تنظیم پدینگ برای ظاهری بهتر
-              textAlign: "right", // تنظیم متن به راست
+            '& .MuiInputBase-input': {
+              padding: '8px 14px', // تنظیم پدینگ برای ظاهری بهتر
+              textAlign: 'right', // تنظیم متن به راست
             },
           }}
           renderInput={(params) => (
             <TextField
               {...params}
-              className="!text-center h-[48px]"
+              className="h-[48px] !text-center"
               placeholder="انتخاب کنید"
               variant="outlined"
               InputProps={{

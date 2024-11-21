@@ -12,10 +12,11 @@ export type UserInfo = {
   travelsInterests: string[];
   personalInterests: string[];
   specialty: string[];
-  maritalStatus: 'single' | 'married' | null;
-  smokeStatus: 'never' | 'sometimes' | 'regularly' | null;
-  sportsStatus: 'never' | 'sometimes' | 'regularly' | null;
-  AmountOfEarlyRising: 'wakeUpEarly' | 'sleepy' | 'onTime' | null;
+  spirit?: 'extroverted' | 'introvert';
+  maritalStatus?: 'single' | 'married';
+  smokeStatus?: 'never' | 'sometimes' | 'regularly';
+  sportsStatus?: 'never' | 'sometimes' | 'regularly';
+  AmountOfEarlyRising?: 'wakeUpEarly' | 'sleepy' | 'onTime';
   username: string;
   bio: string;
 };
@@ -47,11 +48,6 @@ export const defaultInitState: IStore = {
     travelsInterests: [],
     specialty: [],
     personalInterests: [],
-    gender: undefined,
-    maritalStatus: null,
-    smokeStatus: null,
-    sportsStatus: null,
-    AmountOfEarlyRising: null,
     username: '',
     bio: '',
   },
@@ -81,7 +77,7 @@ export const useLocalStore = create<Store>()(
         get().setSteps((prev) => (prev + 1) as StepsNumber);
       },
       handlePrevStep: () => {
-        get().setSteps((prev) => (prev + 1) as StepsNumber);
+        get().setSteps((prev) => (prev - 1) as StepsNumber);
       },
       updateUserInfo: (userInfo) => {
         set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
