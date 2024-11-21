@@ -7,10 +7,10 @@ import ComplateProfile from '../pages/Profile/ComplateProfile';
 import { Route, Switch } from 'react-router-dom';
 import IdentityVerification from '../components/layout/Profile/IdentityVerification';
 import ComplatePictures from '../components/layout/Profile/ComplatePictures';
-import ComplateGeneralInterests from '../components/layout/Profile/ComplateGeneralInterests';
+import CompleteTravelInterests from '../components/layout/Profile/ComplateTravelInterests';
 import ComplatePersonalInterests from '../components/layout/Profile/ComplatePersonalInterests';
-import ComplateResidenceCity from '../components/layout/Profile/ComplateResidenceCity';
-import ComplateSpecialty from '../components/layout/Profile/ComplateSpecialty';
+import CompleteProvinces from '../components/layout/Profile/ComplateProvinces';
+import CompleteSpecialty from '../components/layout/Profile/ComplateSpecialty';
 import BasicInformations from '../components/layout/Profile/BasicInformations/BasicInformations';
 import Explore from '../pages/Explore/index';
 import MainLayout from './MainLayout';
@@ -45,7 +45,7 @@ export default function Routes() {
           <Route
             exact
             path="/profile/complate_profile/complate_generalinterests"
-            component={ComplateGeneralInterests}
+            component={CompleteTravelInterests}
           />
           <Route
             exact
@@ -55,12 +55,12 @@ export default function Routes() {
           <Route
             exact
             path="/profile/complate_profile/complate_residencecity"
-            component={ComplateResidenceCity}
+            component={CompleteProvinces}
           />
           <Route
             exact
             path="/profile/complate_profile/complate_specialty"
-            component={ComplateSpecialty}
+            component={CompleteSpecialty}
           />
           <Route
             exact
@@ -86,11 +86,7 @@ export default function Routes() {
                     path={`${match.path}/complate_profile`}
                     component={ComplateProfile}
                   />
-                  <Route
-                    exact
-                    path={`${match.path}/chat`}
-                    component={Chat}
-                  />
+                  <Route exact path={`${match.path}/chat`} component={Chat} />
                 </Switch>
               </MainLayout>
             )}

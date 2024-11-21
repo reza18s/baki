@@ -4,6 +4,8 @@ import * as SolarIconSet from 'solar-icon-set';
 import Button from '../../../base/Button/Button';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { Toast } from '@/components/base/toast/toast';
 
 export default function GenderStep(props: { handleNextStep: () => void }) {
   const { control, watch, setValue } = useForm();
@@ -17,20 +19,31 @@ export default function GenderStep(props: { handleNextStep: () => void }) {
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const handleSubmit = () => {
-    updateUserInfo({
-      gender: watch('gender'),
-    });
-    props.handleNextStep();
+    if (watch('gender')) {
+      updateUserInfo({
+        gender: watch('gender'),
+      });
+      props.handleNextStep();
+    } else {
+      toast.custom(
+        (t) => (
+          <Toast t={t} type="error">
+            لطفا یک گزینه را انتخاب کنید
+          </Toast>
+        ),
+        { duration: 1500 },
+      );
+    }
   };
 
   return (
-    <div className="mx-auto flex h-[90%] w-full flex-col justify-between gap-y-[40px] pt-10">
-      <div className="flex flex-col gap-y-[60px]">
-        <div className="flex flex-col items-center">
+    <div className="flex h-full w-full flex-col justify-between">
+      <div className="flex flex-col gap-16">
+        <div className="flex flex-col items-center gap-4">
           <SolarIconSet.UserId size={72} />
-          <div className="flex flex-col items-center gap-y-[16px]">
+          <div className="flex flex-col items-center gap-4">
             <h1 className="text-[32px] font-bold text-brand-black">جنسیت</h1>
-            <p className="text-sm font-medium leading-tight text-[#64748B]">
+            <p className="text-sm font-medium leading-tight text-gray-500">
               یکی از گزینه‌های زیر را انتخاب کنید.
             </p>
           </div>

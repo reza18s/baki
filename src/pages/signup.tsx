@@ -18,7 +18,7 @@ const GetBirthdate = lazy(
   () => import('../components/layout/Signup/GetBirthdate'),
 );
 const GetResidenceCity = lazy(
-  () => import('../components/layout/Signup/GetResidenceCity'),
+  () => import('../components/layout/Signup/GetProvinces'),
 );
 const GetPictures = lazy(
   () => import('../components/layout/Signup/GetPictures'),
@@ -54,8 +54,9 @@ const HeadStep = ({
   activeStep: StepsNumber;
 }) => (
   <div
-    className={`h-[3.62px] w-[27.16px] ${activeStep === stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-      } rounded-xl`}
+    className={`h-[3.62px] w-[27.16px] ${
+      activeStep >= stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+    } rounded-xl`}
   />
 );
 
@@ -64,12 +65,12 @@ export default function Signup() {
   const { control, watch } = useForm<SignupForm>({
     defaultValues: {
       name: userInfo.name || '',
-      gender: userInfo.gender || '',
+      phoneNumber: '',
     },
   });
   const step = useLocalStore((store) => store.step);
   const setStep = useLocalStore((store) => store.setSteps);
-  const [signup, { loading, error }] = useSignupMutation();
+  const [signup] = useSignupMutation();
 
   const handleSignup = () => {
     signup({
@@ -109,7 +110,7 @@ export default function Signup() {
       case 2:
         return <GetName control={control} value={watch('name')} />;
       case 3:
-        return <GetGender control={control} value={watch('gender')} />;
+        return <GetGender />;
       case 4:
         return <GetBirthdate />;
       case 5:
@@ -132,12 +133,12 @@ export default function Signup() {
   return (
     <Page
       className="relative h-full max-w-[100vw] overflow-auto"
-      contentClassName="h-full px-6"
+      contentClassName="h-full p-6"
       headerClassName="shadow-none"
       header={
-        <div className="flex w-full items-center justify-between gap-x-[7px] p-6 text-red-900">
+        <div className="flex w-full items-center justify-between gap-2 p-6 pt-8">
           <SolarIconSet.SquareArrowRight
-            className='text-red-900'
+            className="text-red-900"
             size={32}
             onClick={() =>
               setStep((prev) => (prev > 0 ? ((prev - 1) as StepsNumber) : prev))
@@ -153,14 +154,8 @@ export default function Signup() {
       }
     >
       <Suspense fallback={<div>Loading step...</div>}>
-        <div className='w-full h-full pt-[20px]'>
-          {
-            renderStep()
-          }
-        </div>
+        <div className="h-full w-full">{renderStep()}</div>
       </Suspense>
-      {error && <div className="mt-2 text-red-500">Error: {error.message}</div>}
-      {loading && <div className="mt-2 text-blue-500">Processing...</div>}
     </Page>
   );
 }

@@ -62,9 +62,9 @@ export default function VerifyOTP(props: {
 
   return (
     <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
-      <div className="flex flex-col items-center gap-y-[40px]">
+      <div className="mt-10 flex flex-col items-center">
         {/* Head */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-4">
           <h1 className="text-[32px] font-bold text-slate-950">
             تایید شماره موبایل
           </h1>
@@ -73,7 +73,10 @@ export default function VerifyOTP(props: {
             <span className="px-1 text-[#1a1d1e]">{props.phone}</span>
             ارسال کردیم را وارد کنید.
             <span
-              onClick={handlePrevStep}
+              onClick={() => {
+                console.log(step);
+                handlePrevStep();
+              }}
               className="cursor-pointer px-1 font-bold text-[#1a1d1e] underline"
             >
               تغییر شماره
@@ -81,7 +84,7 @@ export default function VerifyOTP(props: {
           </p>
         </div>
         {/* Body */}
-        <div className="mb-[5vh] flex flex-col items-center justify-center space-y-[30px] text-black">
+        <div className="mt-20 flex flex-col items-center justify-center space-y-[30px] text-black">
           <OtpInput
             value={otp}
             onChange={handleChange}
@@ -115,7 +118,7 @@ export default function VerifyOTP(props: {
         </div>
       </div>
       {/* Resend */}
-      <div className="mb-5 flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-x-3">
           <MdTimer />
           {timer === 0 ? (

@@ -45,13 +45,13 @@ export default function GetTravelInterests(props: {
 
   return (
     <div
-      className={`relative flex h-[calc(100%)] w-full flex-col justify-between ${props.className}`}
+      className={`relative flex h-full max-h-full w-full flex-col justify-between ${props.className}`}
     >
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">
           علایق عمومی من در سفر
         </h1>
-        <p className="text-sm font-medium leading-tight text-[#64748B]">
+        <p className="text-sm font-medium leading-tight text-gray-500">
           حداقل ۵ و حداکثر ۱۰ مورد از علاقه‌مندی‌های خود را انتخاب کنید. این
           کمکمون میکنه افراد با علاقه‌مندی‌های مشابه رو بهتون پیشنهاد بدیم!
         </p>
@@ -112,7 +112,7 @@ export default function GetTravelInterests(props: {
         </div>
       </div>
       <div
-        className={`sticky bottom-0 flex w-full items-center justify-between bg-white py-3`}
+        className={`sticky bottom-0 flex w-full items-center justify-between bg-white ${showAll ? 'pb-6 pt-3' : ''}`}
       >
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.CheckCircle

@@ -1,13 +1,13 @@
 import { useHistory } from 'react-router-dom';
 import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
-import GetSpecialty from '../Signup/GetSpecialty';
+import GetProvinces from '../Signup/GetProvinces';
 import { useLocalStore } from '@/store/useLocalStore';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
-import { Page } from '../Page';
 import AppBar from '../Header/AppBar';
+import { Page } from '../Page';
 
-export default function CompleteSpecialty() {
+export default function CompleteProvinces() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -15,7 +15,7 @@ export default function CompleteSpecialty() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        mySpecialty: userInfo.specialty,
+        city: userInfo.residenceCity,
       },
       onCompleted: () => {
         toast.custom(
@@ -47,9 +47,9 @@ export default function CompleteSpecialty() {
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh]"
-      header={<AppBar title="تخصص"></AppBar>}
+      header={<AppBar title="علایق شخصی"></AppBar>}
     >
-      <GetSpecialty className="px-4 pt-4" handleSubmit={handleSubmit} />
+      <GetProvinces className="px-4 pt-4" handleSubmit={handleSubmit} />
     </Page>
   );
 }

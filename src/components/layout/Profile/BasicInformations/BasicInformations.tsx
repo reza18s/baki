@@ -1,28 +1,17 @@
-import * as SolarIconSet from "solar-icon-set";
-
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import GenderStep from "./GenderStep";
-import BirthdateStep from "./BirthdateStep";
-import MaritalStatusStep from "./MaritalStatusStep";
-import CigarettesStep from "./CigarettesStep";
-import SportStep from "./SportStep";
-import WakeUpEarlyStep from "./WakeUpEarlyStep";
-import SpiritStep from "./SpiritStep";
-import { useLocalStore } from "@/store/useLocalStore";
+import * as SolarIconSet from 'solar-icon-set';
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import GenderStep from './GenderStep';
+import BirthdateStep from './BirthdateStep';
+import MaritalStatusStep from './MaritalStatusStep';
+import CigarettesStep from './CigarettesStep';
+import SportStep from './SportStep';
+import WakeUpEarlyStep from './WakeUpEarlyStep';
+import SpiritStep from './SpiritStep';
+import { Page } from '../../Page';
+import AppBar from '../../Header/AppBar';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-
-interface SignupForm {
-  phoneNumber: string;
-  name: string;
-  gender: string;
-  birthdate: string;
-  residenceCity: string;
-  pictures: string[];
-}
-
 const HeadStep = ({
   stepNum,
   activeStep,
@@ -32,21 +21,16 @@ const HeadStep = ({
 }) => {
   return (
     <div
-      className={`w-[27.16px] h-[3.62px] ${activeStep === stepNum ? "bg-[#ffcc4e]" : "bg-slate-100"
-        } rounded-xl`}
+      className={`h-[3.62px] w-full ${
+        activeStep >= stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+      } rounded-xl`}
     />
   );
 };
 
 export default function BasicInformations() {
-  const { register, watch, control } = useForm<SignupForm>({});
-
   const [step, setStep] = useState<StepsNumber>(0);
-
-  const handleSignup = () => {
-  
-  };
-
+  const hs = useHistory();
   const handleNextStep = () => {
     setStep((prevStep: StepsNumber) => {
       if (prevStep < 6) {
@@ -57,66 +41,39 @@ export default function BasicInformations() {
     });
   };
 
-
   return (
-    <div
-      className="text-black p-[24px] pt-0 relative h-full max-w-[100vw] overflow-auto"
-      dir="rtl"
+    <Page
+      className="flex h-full w-full flex-col items-center"
+      contentClassName="p-6 flex flex-col gap-6 pt-24 h-[100dvh]"
+      header={
+        <AppBar
+          title="اطلاعات اولیه"
+          onBack={() => {
+            if (step === 0) {
+              hs.goBack();
+            } else {
+              setStep((prev) => (prev - 1) as StepsNumber);
+            }
+          }}
+        ></AppBar>
+      }
     >
-      {/* Head */}
-      <div className="w-full flex flex-col items-center justify-between gap-y-6">
-        <Link
-          to="/profile/complate_profile"
-          className="w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black"
-        >
-          <SolarIconSet.AltArrowRight size={24} />
-          <h1 className="text-lg font-bold my-auto">اطلاعات اولیه</h1>
-          <div></div>
-        </Link>
-        <div className="flex items-center justify-between gap-x-[7px] w-full">
-          {/* Progress bar */}
-          <div className="flex justify-around gap-x-[1.81px] w-full">
-            {/* Steps */}
-            {[...Array(7)].map((_, i) => (
-              <HeadStep key={i} stepNum={i as StepsNumber} activeStep={step} />
-            ))}
-          </div>
+      <div className="flex w-full items-center justify-between gap-x-[7px]">
+        {/* Progress bar */}
+        <div className="flex w-full justify-around gap-[1px]">
+          {/* Steps */}
+          {[...Array(7)].map((_, i) => (
+            <HeadStep key={i} stepNum={i as StepsNumber} activeStep={step} />
+          ))}
         </div>
       </div>
-      {/* Body */}
-      {step === 0 && (
-        <GenderStep
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 1 && (
-        <BirthdateStep
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 2 && (
-        <MaritalStatusStep
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 3 && (
-        <CigarettesStep
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 4 && (
-        <SportStep
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 5 && (
-        <WakeUpEarlyStep
-          handleNextStep={handleNextStep}
-        />
-      )}
-      {step === 6 && (
-        <SpiritStep />
-      )}
-    </div>
+      {step === 0 && <GenderStep handleNextStep={handleNextStep} />}
+      {step === 1 && <BirthdateStep handleNextStep={handleNextStep} />}
+      {step === 2 && <MaritalStatusStep handleNextStep={handleNextStep} />}
+      {step === 3 && <CigarettesStep handleNextStep={handleNextStep} />}
+      {step === 4 && <SportStep handleNextStep={handleNextStep} />}
+      {step === 5 && <WakeUpEarlyStep handleNextStep={handleNextStep} />}
+      {step === 6 && <SpiritStep />}
+    </Page>
   );
 }

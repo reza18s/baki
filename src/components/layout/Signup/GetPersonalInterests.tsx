@@ -2,8 +2,10 @@ import * as SolarIconSet from 'solar-icon-set';
 import { useEffect, useState } from 'react';
 import { PersonalInterestsItems } from '../../../lib/constants';
 import { useLocalStore } from '../../../store/useLocalStore';
+import Button from '@/components/base/Button/Button';
 
 export default function GetPersonalInterests(props: {
+  className?: string;
   handleSubmit?: () => void;
 }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
@@ -38,12 +40,14 @@ export default function GetPersonalInterests(props: {
   };
 
   return (
-    <div className="flex h-[calc(100%)] w-full flex-col gap-y-[40px] pb-20">
+    <div
+      className={`relative flex h-[calc(100%)] w-full flex-col justify-between ${props.className}`}
+    >
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">
           علایق شخصی من
         </h1>
-        <p className="text-sm font-medium leading-tight text-[#64748B]">
+        <p className="text-sm font-medium leading-tight text-gray-500">
           حداقل ۵ و حداکثر ۱۰ مورد از علاقه‌مندی‌های خود را انتخاب کنید.
         </p>
         <div>
@@ -73,7 +77,7 @@ export default function GetPersonalInterests(props: {
         </div>
       </div>
       <div
-        className={`sticky bottom-0 flex w-full items-center justify-between bg-white py-3`}
+        className={`sticky bottom-0 flex w-full items-center justify-between bg-white pb-6`}
       >
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.CheckCircle
@@ -84,15 +88,15 @@ export default function GetPersonalInterests(props: {
             {selectedInterests.length}/5 انتخاب شده
           </p>
         </div>
-        <button
+        <Button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
           className={`px-[20px] py-[16px] ${
             selectedInterests.length > 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          } font-bold leading-none text-brand-black`}
         >
           بعدی
-        </button>
+        </Button>
       </div>
     </div>
   );

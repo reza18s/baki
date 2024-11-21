@@ -74,6 +74,21 @@ import Smoke from '../assets/img/Explore/smoke.svg';
 import Sport from '../assets/img/Explore/sport.svg';
 import Marital from '../assets/img/Explore/marital.svg';
 import AmountOfEarlyRisingSvg from '../assets/img/Explore/amountOfEarlyRising.svg';
+export const months = [
+  { label: 'فروردین', key: 1 },
+  { label: 'اردیبهشت', key: 2 },
+  { label: 'خرداد', key: 3 },
+  { label: 'تیر', key: 4 },
+  { label: 'مرداد', key: 5 },
+  { label: 'شهریور', key: 6 },
+  { label: 'مهر', key: 7 },
+  { label: 'آبان', key: 8 },
+  { label: 'آذر', key: 9 },
+  { label: 'دی', key: 10 },
+  { label: 'بهمن', key: 11 },
+  { label: 'اسفند', key: 12 },
+];
+
 export const TravelInterestsItems = [
   {
     title: 'قوم شناسی',

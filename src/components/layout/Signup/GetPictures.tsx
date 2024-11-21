@@ -15,12 +15,12 @@ export default function GetPictures(props: { control: any; name: string }) {
     <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">تصاویر من</h1>
-        <p className="text-sm font-medium leading-tight text-[#64748B]">
+        <p className="text-sm font-medium leading-tight text-gray-500">
           در صورت تمایل تصویر دلخواه خود را اپلود کنید.
         </p>
         <UploadPictures />
       </div>
-      <div className="mb-5 flex w-full min-w-fit items-center justify-between">
+      <div className="flex w-full min-w-fit items-center justify-between">
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.Gallery size={24} />
           <div className="text-xs font-medium leading-none text-[#1a1d1e]">

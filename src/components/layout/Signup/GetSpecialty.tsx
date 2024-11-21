@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { SpecialtyItems } from '../../../lib/constants';
 import { useLocalStore } from '../../../store/useLocalStore';
 
-export default function GetSpecialty(props: { handleSubmit?: () => void }) {
+export default function GetSpecialty(props: {
+  className?: string;
+  handleSubmit?: () => void;
+}) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const [selectedSpecialty, setSelectedSpecialty] = useState<string[]>([]);
@@ -35,10 +38,12 @@ export default function GetSpecialty(props: { handleSubmit?: () => void }) {
   };
 
   return (
-    <div className="flex h-full min-h-fit w-full flex-col">
+    <div
+      className={`relative flex h-[calc(100%)] w-full flex-col justify-between ${props.className}`}
+    >
       <div className="flex flex-col gap-y-[16px]">
         <h1 className="text-[32px] font-bold text-brand-black">تخصص من</h1>
-        <p className="text-sm font-medium leading-tight text-[#64748B]">
+        <p className="text-sm font-medium leading-tight text-gray-500">
           تخصص خود را از میان موارد زیر انتخاب کنید.
         </p>
       </div>
@@ -65,7 +70,7 @@ export default function GetSpecialty(props: { handleSubmit?: () => void }) {
       </div>
       {/* Footer */}
       <div
-        className={`sticky bottom-0 flex w-full items-center justify-end bg-white py-3`}
+        className={`sticky bottom-0 flex w-full items-center justify-end bg-white pb-6 pt-3`}
       >
         <button
           disabled={selectedSpecialty.length < 0}

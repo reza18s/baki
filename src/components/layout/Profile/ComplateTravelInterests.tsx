@@ -7,8 +7,8 @@ import { useHistory } from 'react-router';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 
-export default function ComplateGeneralInterests() {
-  const [updateUser, { loading }] = useUpdateUserMutation();
+export default function CompleteTravelInterests() {
+  const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
   const userInfo = useLocalStore((store) => store.userInfo);
 
@@ -49,7 +49,7 @@ export default function ComplateGeneralInterests() {
       contentClassName="h-[100dvh]"
       header={<AppBar title="علایق عمومی"></AppBar>}
     >
-      <GetTravelInterests className="p-4" handleSubmit={handleSubmit} />
+      <GetTravelInterests className="px-4 pt-4" handleSubmit={handleSubmit} />
     </Page>
   );
 }

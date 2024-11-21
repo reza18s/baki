@@ -1,7 +1,7 @@
-import { useLocalStore } from "@/store/useLocalStore";
-import { CiStar } from "react-icons/ci";
-import { Link } from "react-router-dom";
-import * as SolarIconSet from "solar-icon-set";
+import { useLocalStore } from '@/store/useLocalStore';
+import { CiStar } from 'react-icons/ci';
+import { Link } from 'react-router-dom';
+import * as SolarIconSet from 'solar-icon-set';
 
 const CustomeCard = (props: {
   icon: any;
@@ -13,18 +13,18 @@ const CustomeCard = (props: {
   return (
     <Link
       to={props.url}
-      className="h-[180px] w-full py-6 rounded-xl border border-slate-300 flex-col justify-start items-center gap-4 inline-flex"
+      className="inline-flex h-[180px] w-full flex-col items-center justify-start gap-4 rounded-xl border border-slate-300 py-6"
     >
       <div
-        className={`p-4 rounded-[40px] justify-center items-center gap-2 inline-flex text-brand-black ${props.status ? "bg-brand-green" : "bg-brand-yellow"}`}
+        className={`inline-flex items-center justify-center gap-2 rounded-[40px] p-4 text-brand-black ${props.status ? 'bg-brand-green' : 'bg-brand-yellow'}`}
       >
         {props.icon}
       </div>
-      <div className="flex-col justify-start items-center gap-2 flex">
-        <div className="text-center text-[#1a1d1e] text-base font-bold font-['IRANSansXFaNum'] leading-normal">
+      <div className="flex flex-col items-center justify-start gap-2">
+        <div className="text-center font-['IRANSansXFaNum'] text-base font-bold leading-normal text-[#1a1d1e]">
           {props.title}
         </div>
-        <div className="text-center text-slate-400 text-sm font-medium font-['IRANSansXFaNum'] leading-tight">
+        <div className="text-center font-['IRANSansXFaNum'] text-sm font-medium leading-tight text-slate-400">
           {props.description}
         </div>
       </div>
@@ -38,30 +38,30 @@ export default function ComplateProfile() {
   const cardsData = [
     {
       icon: <SolarIconSet.PenNewSquare size={32} />,
-      title: "بیوگرافی",
-      description: userInfo.bio ? "نوشته شده" : "نوشته نشده",
-      url: "/profile#biography",
+      title: 'بیوگرافی',
+      description: userInfo.bio ? 'نوشته شده' : 'نوشته نشده',
+      url: '/profile#biography',
       status: !!userInfo.bio,
     },
     {
       icon: <SolarIconSet.VerifiedCheck size={32} />,
-      title: "تایید هویت",
-      description: userInfo.gender ? "انجام شده" : "انجام نشده",
-      url: "/profile/complate_profile/identify_verification",
+      title: 'تایید هویت',
+      description: userInfo.gender ? 'انجام شده' : 'انجام نشده',
+      url: '/profile/complate_profile/identify_verification',
       status: !!userInfo.gender,
     },
     {
       icon: <SolarIconSet.Gallery size={32} />,
-      title: "تصاویر",
+      title: 'تصاویر',
       description: `${userInfo.pictures.length} از 4 آپلود شده`,
-      url: "/profile/complate_profile/complate_pictures",
+      url: '/profile/complate_profile/complate_pictures',
       status: userInfo.pictures.length === 4,
     },
     {
       icon: <SolarIconSet.InfoCircle size={32} />,
-      title: "اطلاعات اولیه",
-      description: userInfo.name ? "1 از 7 اضافه شده" : "0 از 7 اضافه شده", // Example logic
-      url: "/profile/complate_profile/complate_basicinformations",
+      title: 'اطلاعات اولیه',
+      description: userInfo.name ? '1 از 7 اضافه شده' : '0 از 7 اضافه شده', // Example logic
+      url: '/profile/complate_profile/complate_basicinformations',
       status: !!userInfo.name,
     },
     // {
@@ -80,58 +80,57 @@ export default function ComplateProfile() {
     // },
     {
       icon: <CiStar size={32} />,
-      title: "علایق شخصی",
+      title: 'علایق شخصی',
       description: `${userInfo.personalInterests.length} از 5 اضافه شده`,
-      url: "/profile/complate_profile/complate_personalInterests",
+      url: '/profile/complate_profile/complate_personalInterests',
       status: userInfo.personalInterests.length === 5,
     },
     {
       icon: <SolarIconSet.SuitcaseTag size={32} />,
-      title: "علایق عمومی در سفر",
+      title: 'علایق عمومی در سفر',
       description: `${userInfo.travelsInterests.length} از 5 اضافه شده`,
-      url: "/profile/complate_profile/complate_generalinterests",
+      url: '/profile/complate_profile/complate_generalinterests',
       status: userInfo.travelsInterests.length === 5,
     },
     {
       icon: <SolarIconSet.Accessibility size={32} />,
-      title: "تخصص",
-      description: userInfo.specialty.length ? "انتخاب شده" : "انتخاب نشده",
-      url: "/profile/complate_profile/complate_specialty",
+      title: 'تخصص',
+      description: userInfo.specialty.length ? 'انتخاب شده' : 'انتخاب نشده',
+      url: '/profile/complate_profile/complate_specialty',
       status: !!userInfo.specialty.length,
     },
     {
       icon: <SolarIconSet.Home size={32} />,
-      title: "محل زندگی",
-      description: userInfo.residenceCity ? "انتخاب شده" : "انتخاب نشده",
-      url: "/profile/complate_profile/complate_residencecity",
+      title: 'محل زندگی',
+      description: userInfo.residenceCity ? 'انتخاب شده' : 'انتخاب نشده',
+      url: '/profile/complate_profile/complate_residencecity',
       status: !!userInfo.residenceCity,
     },
   ];
 
-
   return (
-    <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto">
+    <div className="flex h-full w-full flex-col items-center gap-y-3 overflow-y-auto pb-16">
       {/* Head */}
       <Link
         to="/profile"
-        className="w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black"
+        className="flex w-full items-center justify-between px-6 py-4 text-brand-black shadow-md shadow-zinc-50"
       >
         <SolarIconSet.AltArrowRight size={24} />
-        <h1 className="text-lg font-bold my-auto">۶۵ درصد تکمیل شده</h1>
+        <h1 className="my-auto text-lg font-bold">۶۵ درصد تکمیل شده</h1>
         <div></div>
       </Link>
       {/* Body */}
-      <div className="w-full px-6 flex flex-col items-center gap-y-3">
-        <div className="w-full flex flex-col items-center gap-y-3 text-center">
+      <div className="flex w-full flex-col items-center gap-y-3 px-6">
+        <div className="flex w-full flex-col items-center gap-y-3 text-center">
           <h1>پروفایل خودتو تکمیل کن!</h1>
-          <p className="text-sm text-[#64748B] font-medium">
+          <p className="text-sm font-medium text-gray-500">
             هر چقدر در تکمیل اطلاعات صادقتر باشید افرادی با شرایط مشابه بیشتری
             به شما معرفی خواهد شد و امکان مسافرت مناسب‌تر برا شما فراهم می‌شود.
           </p>
         </div>
         {/* Cards */}
-        <div className="w-full grid grid-cols-2 gap-5 py-4 px-2">
-        {cardsData.map((card, index) => (
+        <div className="grid w-full grid-cols-2 gap-5 px-2 py-4">
+          {cardsData.map((card, index) => (
             <CustomeCard
               key={index}
               icon={card.icon}

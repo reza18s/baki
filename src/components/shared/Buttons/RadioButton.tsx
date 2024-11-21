@@ -1,9 +1,9 @@
-import * as React from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import { Controller } from "react-hook-form";
+import * as React from 'react';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import { Controller } from 'react-hook-form';
 
 interface Item {
   value: string;
@@ -18,7 +18,7 @@ interface RadioButtonProps {
 
 export default function RadioButton(props: RadioButtonProps) {
   return (
-    <FormControl sx={{ width: "100%", padding: "8px" }}>
+    <FormControl sx={{ width: '100%' }}>
       <Controller
         name={props.name}
         control={props.control}
@@ -28,10 +28,10 @@ export default function RadioButton(props: RadioButtonProps) {
             aria-labelledby="demo-radio-buttons-group-label"
             {...field}
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              width: "100%",
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              width: '100%',
             }}
           >
             {props.items.map((item) => (
@@ -40,34 +40,34 @@ export default function RadioButton(props: RadioButtonProps) {
                 value={item.value}
                 dir="ltr"
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                   backgroundColor:
-                    field.value === item.value ? "#FEF3C7" : "#F1F5F9",
-                  borderRadius: "12px",
-                  padding: "16px",
-                  width: "calc(100% - 16px)", // تنظیم فاصله از کناره‌ها
-                  margin: "0 auto", // هم‌تراز کردن در وسط والد
+                    field.value === item.value ? '#FEF3C7' : '#F1F5F9',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  margin: '0',
+                  width: 'calc(100%)', // تنظیم فاصله از کناره‌ها
                 }}
                 control={
                   <Radio
                     sx={{
-                      color: "#64748B",
-                      "&.Mui-checked": {
-                        color: "#ffcc4e",
+                      color: '#64748B',
+                      '&.Mui-checked': {
+                        color: '#ffcc4e',
                       },
-                      width: "24px",
-                      height: "24px",
+                      width: '24px',
+                      height: '24px',
                     }}
                   />
                 }
                 label={
                   <span
                     style={{
-                      fontSize: "16px",
-                      fontWeight: "medium",
-                      color: "#64748B",
+                      fontSize: '16px',
+                      fontWeight: 'medium',
+                      color: '#64748B',
                     }}
                   >
                     {item.label}
