@@ -157,7 +157,7 @@ export default function Profile() {
             <img src={BakiBanner} alt="BakiBanner" />
           </div>
           {/* Upload Picture */}
-          <div className="flex min-h-fit w-full max-w-fit flex-col items-center gap-y-3">
+          <div className="flex min-h-fit w-full flex-col items-center gap-y-3">
             <h1 className="w-full pr-3 text-[#64748B]">انتخاب عکس</h1>
             <UploadPictures />
           </div>
