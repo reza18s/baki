@@ -64,7 +64,7 @@ export default function BirthdateStep(props: { handleNextStep: () => void }) {
               {...register('year')}
               dir="ltr"
               type="tel"
-              className="h-[48px] w-[67px] rounded-[12px] border-[1.5px] border-[#1a1d1e] bg-white text-center text-base font-bold text-[#1a1d1e] outline-none"
+              className="h-[48px] w-[67px] rounded-[12px] border-[1.5px] border-brand-black bg-white text-center text-base font-bold text-brand-black outline-none"
               maxLength={4}
               min={1320}
               placeholder="1380"

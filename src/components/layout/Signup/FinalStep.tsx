@@ -12,7 +12,7 @@ export default function FinalStep() {
 
   return (
     <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
-      <div className="flex w-full flex-col items-center gap-y-4">
+      <div className="flex w-full flex-col items-center gap-y-4 pt-10">
         <h1 className="text-[32px] font-bold text-brand-black">پایان!</h1>
         <p className="text-sm font-medium leading-tight text-gray-500">
           وارد اپلیکیشن شوید و لذتشو ببرین!
@@ -47,7 +47,7 @@ export default function FinalStep() {
             },
           });
         }}
-        className={`mb-6 w-full rounded-[12px] bg-brand-yellow px-5 py-4 font-bold text-brand-black`}
+        className={`w-full rounded-[12px] bg-brand-yellow px-5 py-4 font-bold text-brand-black`}
       >
         ورود به اپلیکیشن
       </button>

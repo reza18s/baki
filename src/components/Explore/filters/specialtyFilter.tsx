@@ -62,7 +62,9 @@ export const SpecialtyFilter = ({
             }
           }).map((item) => (
             <div key={item.title} className="flex flex-col gap-y-3">
-              <h2 className="text-lg font-bold text-[#1a1d1e]">{item.title}</h2>
+              <h2 className="text-lg font-bold text-brand-black">
+                {item.title}
+              </h2>
               <div className="flex flex-wrap gap-3">
                 {item.subItems
                   .filter((el) =>
@@ -74,9 +76,9 @@ export const SpecialtyFilter = ({
                         setValue(subItem);
                       }}
                       key={subItem}
-                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-4 ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-gray-100 p-[12px] pl-4 ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-gray-100'}`}
                     >
-                      <p className="text-sm text-[#1a1d1e]">{subItem}</p>
+                      <p className="text-sm text-brand-black">{subItem}</p>
                     </button>
                   ))}
               </div>

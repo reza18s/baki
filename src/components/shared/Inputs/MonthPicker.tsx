@@ -18,7 +18,7 @@ export default function MonthPicker(props: { control: any; name: string }) {
           disablePortal
           onChange={(_, selectedOption) => field.onChange(selectedOption)}
           value={field.value || null}
-          className="h-[48px] !text-center text-base font-bold text-[#1a1d1e]"
+          className="h-[48px] !text-center text-base font-bold text-brand-black"
           clearIcon={null} // حذف علامت ضربدر
           popupIcon={null} // حذف علامت فلش
           sx={{

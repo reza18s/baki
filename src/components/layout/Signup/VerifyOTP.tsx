@@ -70,14 +70,14 @@ export default function VerifyOTP(props: {
           </h1>
           <p className="text-black/50">
             لطفا کدی که به شماره
-            <span className="px-1 text-[#1a1d1e]">{props.phone}</span>
+            <span className="px-1 text-brand-black">{props.phone}</span>
             ارسال کردیم را وارد کنید.
             <span
               onClick={() => {
                 console.log(step);
                 handlePrevStep();
               }}
-              className="cursor-pointer px-1 font-bold text-[#1a1d1e] underline"
+              className="cursor-pointer px-1 font-bold text-brand-black underline"
             >
               تغییر شماره
             </span>
@@ -122,11 +122,11 @@ export default function VerifyOTP(props: {
         <div className="flex items-center gap-x-3">
           <MdTimer />
           {timer === 0 ? (
-            <p className="w-[200px] text-xs font-bold text-[#1a1d1e] underline">
+            <p className="w-[200px] text-xs font-bold text-brand-black underline">
               ارسال مجدد کد تایید
             </p>
           ) : (
-            <p className="w-[200px] text-xs text-[#1a1d1e]">
+            <p className="w-[200px] text-xs text-brand-black">
               کد تایید نهایتا تا {timer} ثانیه دیگر بدست شما میرسه!
             </p>
           )}
@@ -135,7 +135,7 @@ export default function VerifyOTP(props: {
           onClick={props.resendOtp}
           disabled={timer !== 0}
           className={`rounded-[12px] bg-slate-100 ${
-            timer === 0 ? 'bg-[#FFCC4E]' : 'text-slate-400'
+            timer === 0 ? 'bg-[#FFCC4E]' : 'text-brand-black'
           } px-5 py-4 font-bold`}
         >
           تایید

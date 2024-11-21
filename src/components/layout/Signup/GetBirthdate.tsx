@@ -52,7 +52,7 @@ export default function GetBirthdate() {
                   {...field}
                   dir="ltr"
                   type="tel"
-                  className="h-[48px] w-[67px] rounded-[12px] border-[1.5px] border-[#1a1d1e] bg-white text-center text-base font-bold text-[#1a1d1e] outline-none"
+                  className="h-[48px] w-[67px] rounded-[12px] border-[1.5px] border-brand-black bg-white text-center text-base font-bold text-brand-black outline-none"
                   maxLength={4}
                   min={1320}
                   placeholder="1380"
@@ -68,7 +68,7 @@ export default function GetBirthdate() {
       <div className="flex w-full items-center justify-between">
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
-          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-[#1a1d1e]">
+          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-brand-black">
             ما فقط سن شما را به کاربران نشان می دهیم و نه تاریخ تولد .
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function GetBirthdate() {
           }}
           className={`px-5 py-4 ${
             watch('year').length === 4 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          } rounded-[12px] font-bold leading-none text-brand-black`}
         >
           بعدی
         </button>

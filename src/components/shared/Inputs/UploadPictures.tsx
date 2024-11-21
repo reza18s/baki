@@ -30,8 +30,8 @@ export default function UploadPictures() {
   };
 
   return (
-    <div className="mx-auto flex max-w-fit flex-col items-center justify-center gap-y-[9px]">
-      <div className="relative rounded-2xl bg-[#F1F5F9] p-[132px]">
+    <div className="mx-auto flex w-full flex-col items-center justify-center gap-2">
+      <div className="relative h-[40dvh] w-full rounded-2xl bg-gray-100">
         <p className="absolute right-[15.83px] top-[16.15px] z-10 rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs">
           تصویر اصلی
         </p>
@@ -52,11 +52,11 @@ export default function UploadPictures() {
           )}
         </div>
       </div>
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between gap-2">
         {[4, 3, 2].map((num, index) => (
           <div
             key={index}
-            className="relative rounded-2xl bg-[#F1F5F9] p-[40px]"
+            className="relative aspect-square w-full rounded-2xl bg-gray-100"
           >
             <p className="absolute right-[15.83px] top-[16.15px] z-10 rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs">
               {num}

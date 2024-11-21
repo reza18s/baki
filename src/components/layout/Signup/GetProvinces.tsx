@@ -39,9 +39,9 @@ export default function GetProvinces(props: {
         <p className="text-sm font-medium leading-tight text-gray-500">
           با توجه به محل زندگی شما پیشنهادات بهتری دریافت خواهید کرد.
         </p>
-        <div className="mt-6 flex w-full flex-col items-center justify-center gap-3">
+        <div className="mt-6 flex w-full flex-col items-center justify-center gap-2">
           {select && (
-            <div className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-[#1a1d1e] bg-white p-2 text-base font-bold">
+            <div className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold">
               {select}
             </div>
           )}
@@ -75,7 +75,7 @@ export default function GetProvinces(props: {
               onClick={(e) => e.preventDefault()}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-[#1a1d1e] bg-white p-2 text-base font-bold"
+              className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold"
               placeholder="استان محل زندگی خود را انتخاب کنید..."
             />
           </Dropdown>
@@ -84,7 +84,7 @@ export default function GetProvinces(props: {
       <div className="flex w-full items-center justify-between">
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <SolarIconSet.LockKeyholeUnlocked size={24} />
-          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-[#1a1d1e]">
+          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-brand-black">
             شما میتوانید این بخش را در آینده تغییر دهید.
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function GetProvinces(props: {
           onClick={handleSubmit}
           className={`px-5 py-4 ${
             select ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          } rounded-[12px] font-bold leading-none text-brand-black`}
         >
           بعدی
         </button>

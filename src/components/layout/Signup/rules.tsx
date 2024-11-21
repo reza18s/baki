@@ -9,7 +9,7 @@ export const Rules = ({ hideRules }: { hideRules: () => void }) => {
       </div>
       <div className="h-full max-h-[80%] w-full max-w-full">
         <h1 className="text-base font-bold">قوانین و مقررات حریم خصوصی باکی</h1>
-        <p className="h-full max-h-[90%] w-full max-w-full overflow-auto text-sm font-medium leading-tight text-[#1a1d1e]">
+        <p className="h-full max-h-[90%] w-full max-w-full overflow-auto text-sm font-medium leading-tight text-brand-black">
           با کی در چارچوب قوانین اینترنتی جمهوری اسلامی ایران فعالیت می کند.
           <br />
           این اپلیکیشن بستری برای آشنایی مستقیم افرادی است که قصد سفر دارند و

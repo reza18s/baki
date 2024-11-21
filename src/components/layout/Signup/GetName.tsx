@@ -26,7 +26,7 @@ export default function GetName(props: { control: any; value: string }) {
       <div className="flex w-full items-center justify-between">
         <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
-          <p className="text-xs font-medium leading-none text-[#1a1d1e]">
+          <p className="text-xs font-medium leading-none text-brand-black">
             این نام در پروفایل شما نمایش داده خواهد شد .
           </p>
         </div>
@@ -38,7 +38,7 @@ export default function GetName(props: { control: any; value: string }) {
           }}
           className={`px-5 py-4 ${
             props.value?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-slate-400`}
+          } rounded-[12px] font-bold leading-none text-brand-black`}
         >
           بعدی
         </button>

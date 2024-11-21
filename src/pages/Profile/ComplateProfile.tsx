@@ -21,10 +21,10 @@ const CustomeCard = (props: {
         {props.icon}
       </div>
       <div className="flex flex-col items-center justify-start gap-2">
-        <div className="text-center font-['IRANSansXFaNum'] text-base font-bold leading-normal text-[#1a1d1e]">
+        <div className="text-center font-['IRANSansXFaNum'] text-base font-bold leading-normal text-brand-black">
           {props.title}
         </div>
-        <div className="text-center font-['IRANSansXFaNum'] text-sm font-medium leading-tight text-slate-400">
+        <div className="text-center font-['IRANSansXFaNum'] text-sm font-medium leading-tight text-brand-black">
           {props.description}
         </div>
       </div>

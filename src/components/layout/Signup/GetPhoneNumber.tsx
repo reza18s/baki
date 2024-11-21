@@ -50,7 +50,7 @@ export default function GetPhoneNumber(props: {
         <div className="flex items-center gap-x-[8px]">
           {/* <SolarIconSet.LockKeyhole size={24} /> */}
           <IoMdLock size={30} className="h-6 w-6" />
-          <p className="pl-9 pr-1 font-['IRANSansXFaNum'] text-xs font-medium leading-none text-[#1a1d1e]">
+          <p className="pl-9 pr-1 font-['IRANSansXFaNum'] text-xs font-medium leading-none text-brand-black">
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function GetPhoneNumber(props: {
           className={`px-5 py-4 ${
             props.phoneNumber?.length === 11
               ? 'bg-brand-yellow text-black'
-              : 'bg-slate-100 text-slate-400'
+              : 'bg-slate-100 text-brand-black'
           } rounded-[12px] font-bold leading-none`}
         >
           بعدی
