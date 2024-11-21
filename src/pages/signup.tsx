@@ -137,7 +137,7 @@ export default function Signup() {
       header={
         <div className="flex w-full items-center justify-between gap-x-[7px] p-6 text-red-900">
           <SolarIconSet.SquareArrowRight
-            className='text-red-900'
+            className='text-gray-500'
             size={32}
             onClick={() =>
               setStep((prev) => (prev > 0 ? ((prev - 1) as StepsNumber) : prev))
