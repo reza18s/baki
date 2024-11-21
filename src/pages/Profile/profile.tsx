@@ -139,7 +139,7 @@ export default function Profile() {
               تکمیل پروفایل:
             </h2>
             <ArrowButton
-              url="/profile/complate_profile"
+              url="/profile/complete_profile"
               text={`${completionPercentage} درصد کامل شده`}
               className={backgroundClass}
             />
@@ -149,7 +149,7 @@ export default function Profile() {
               تایید هویت
             </h2>
             <ArrowButton
-              url="/profile/complate_profile/identify_verification"
+              url="/profile/complete_profile/identify_verification"
               text="تایید شماره موبایل"
             />
           </div>
@@ -206,7 +206,7 @@ export default function Profile() {
                 محل زندگی
               </h2>
               <ArrowButton
-                url="/profile/complate_profile/complate_residencecity"
+                url="/profile/complete_profile/complete_residencecity"
                 text="محل زندگی کنونی خود را وارد کنید"
                 icon={<SolarIconSet.Home size={24} />}
               />
@@ -218,49 +218,49 @@ export default function Profile() {
             <div className="flex w-full flex-col gap-y-2">
               <ArrowButton
                 text="جنسیت"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<SolarIconSet.UserId size={24} />}
               />
               <ArrowButton
                 text="سال و ماه تولد"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<SolarIconSet.Calendar size={24} />}
               />
               <ArrowButton
                 text="وضعیت تاهل"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<SolarIconSet.Heart size={24} />}
               />
               <ArrowButton
                 text="سیگار"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<LiaSmokingSolid size={24} />}
               />
               <ArrowButton
                 text="ورزش"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<SolarIconSet.DumbbellSmall size={24} />}
               />
               <ArrowButton
                 text="میزان سحرخیزی"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<SolarIconSet.SunFog size={24} />}
               />
               <ArrowButton
                 text="روحیه"
-                url="/profile/complate_profile/complate_basicinformations"
+                url="/profile/complete_profile/complete_basicinformations"
                 arrowText="افزودن"
                 className="w-full"
                 icon={<SolarIconSet.MaskHapply size={24} />}
@@ -295,7 +295,7 @@ export default function Profile() {
               </h2>
               <ArrowButton
                 text="اضافه کردن"
-                url="/profile/complate_profile/complate_specialty"
+                url="/profile/complete_profile/complete_specialty"
                 className="w-full"
                 icon={<SolarIconSet.SuitcaseTag size={24} />}
               />
@@ -337,7 +337,7 @@ export default function Profile() {
               </h2>
               <ArrowButton
                 text="اضافه کردن"
-                url="/profile/complate_profile/complate_personalInterests"
+                url="/profile/complete_profile/complete_personalInterests"
                 className="w-full"
                 icon={<CiStar size={24} />}
               />
@@ -348,7 +348,7 @@ export default function Profile() {
               </h2>
               <ArrowButton
                 text="اضافه کردن"
-                url="/profile/complate_profile/complate_generalinterests"
+                url="/profile/complete_profile/complete_generalinterests"
                 className="w-full"
                 icon={<SolarIconSet.SuitcaseTag size={24} />}
               />
