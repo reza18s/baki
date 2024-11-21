@@ -1,3 +1,4 @@
+import { Page } from "@/components/layout/Page";
 import { useLocalStore } from "@/store/useLocalStore";
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -110,39 +111,44 @@ export default function ComplateProfile() {
 
 
   return (
-    <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto">
-      {/* Head */}
-      <Link
-        to="/profile"
-        className="w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black"
-      >
-        <SolarIconSet.AltArrowRight size={24} />
-        <h1 className="text-lg font-bold my-auto">۶۵ درصد تکمیل شده</h1>
-        <div></div>
-      </Link>
-      {/* Body */}
-      <div className="w-full px-6 flex flex-col items-center gap-y-3">
-        <div className="w-full flex flex-col items-center gap-y-3 text-center">
-          <h1>پروفایل خودتو تکمیل کن!</h1>
-          <p className="text-sm text-[#64748B] font-medium">
-            هر چقدر در تکمیل اطلاعات صادقتر باشید افرادی با شرایط مشابه بیشتری
-            به شما معرفی خواهد شد و امکان مسافرت مناسب‌تر برا شما فراهم می‌شود.
-          </p>
-        </div>
-        {/* Cards */}
-        <div className="w-full grid grid-cols-2 gap-5 py-4 px-2">
-        {cardsData.map((card, index) => (
-            <CustomeCard
-              key={index}
-              icon={card.icon}
-              title={card.title}
-              description={card.description}
-              url={card.url}
-              status={card.status}
-            />
-          ))}
+    <Page
+      className="flex h-full w-full flex-col items-center"
+      contentClassName="h-[100dvh]"
+    >
+      <div className="w-full flex flex-col items-center gap-y-3 h-full pb-16 overflow-y-auto">
+        {/* Head */}
+        <Link
+          to="/profile"
+          className="w-full flex items-center py-4 px-6 justify-between shadow-md shadow-zinc-50 text-brand-black"
+        >
+          <SolarIconSet.AltArrowRight size={24} />
+          <h1 className="text-lg font-bold my-auto">۶۵ درصد تکمیل شده</h1>
+          <div></div>
+        </Link>
+        {/* Body */}
+        <div className="w-full px-6 flex flex-col items-center gap-y-3">
+          <div className="w-full flex flex-col items-center gap-y-3 text-center">
+            <h1>پروفایل خودتو تکمیل کن!</h1>
+            <p className="text-sm text-[#64748B] font-medium">
+              هر چقدر در تکمیل اطلاعات صادقتر باشید افرادی با شرایط مشابه بیشتری
+              به شما معرفی خواهد شد و امکان مسافرت مناسب‌تر برا شما فراهم می‌شود.
+            </p>
+          </div>
+          {/* Cards */}
+          <div className="w-full grid grid-cols-2 gap-5 py-4 px-2">
+            {cardsData.map((card, index) => (
+              <CustomeCard
+                key={index}
+                icon={card.icon}
+                title={card.title}
+                description={card.description}
+                url={card.url}
+                status={card.status}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </Page>
   );
 }

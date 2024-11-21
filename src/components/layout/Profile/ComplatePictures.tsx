@@ -6,6 +6,7 @@ import { useSignupMutation } from "../../../graphql/generated/graphql.codegen";
 import { useForm } from "react-hook-form";
 import VerifyOTP from "../Signup/VerifyOTP";
 import GetPictures from "../Signup/GetPictures";
+import { Page } from "../Page";
 
 export default function ComplatePictures() {
   const { control, watch } = useForm();
@@ -35,6 +36,10 @@ export default function ComplatePictures() {
   };
 
   return (
+    <Page
+    className="flex h-full w-full flex-col items-center"
+    contentClassName="h-[100dvh]"
+  >
     <div className="flex h-full w-full flex-col items-center gap-y-3 overflow-y-auto pb-16">
       {/* Head */}
       <Link
@@ -53,5 +58,6 @@ export default function ComplatePictures() {
         <GetPictures control={control} name={watch("name")} />
       </div>
     </div>
+    </Page>
   );
 }
