@@ -1,13 +1,13 @@
+import { useHistory } from 'react-router-dom';
 import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
-import GetTravelInterests from '../Signup/GetTravelInterests';
+import GetSpecialty from '../Signup/GetSpecialty';
 import { useLocalStore } from '@/store/useLocalStore';
-import { Page } from '../Page';
-import AppBar from '../Header/AppBar';
-import { useHistory } from 'react-router';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
+import { Page } from '../Page';
+import AppBar from '../Header/AppBar';
 
-export default function CompleteTravelInterests() {
+export default function CompleteSpecialty() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -15,7 +15,7 @@ export default function CompleteTravelInterests() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        travelInterests: userInfo.travelsInterests,
+        mySpecialty: userInfo.specialty,
       },
       onCompleted: () => {
         toast.custom(
@@ -27,7 +27,7 @@ export default function CompleteTravelInterests() {
           { duration: 1500 },
         );
         setTimeout(() => {
-          hs.push('/profile/complate_profile');
+          hs.push('/profile/complete_profile');
         }, 1000);
       },
       onError: () => {
@@ -45,11 +45,10 @@ export default function CompleteTravelInterests() {
 
   return (
     <Page
-      className="flex h-full w-full flex-col items-center"
-      contentClassName="h-[100dvh]"
-      header={<AppBar title="علایق عمومی"></AppBar>}
+      contentClassName="h-[100dvh]  p-6"
+      header={<AppBar title="تخصص"></AppBar>}
     >
-      <GetTravelInterests className="px-4 pt-4" handleSubmit={handleSubmit} />
+      <GetSpecialty handleSubmit={handleSubmit} />
     </Page>
   );
 }

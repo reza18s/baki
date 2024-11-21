@@ -38,7 +38,7 @@ export default function SpiritStep() {
           { duration: 1500 },
         );
         setTimeout(() => {
-          hs.push('/profile/complate_profile');
+          hs.push('/profile/complete_profile');
         }, 1000);
       },
       onError: (err) => {

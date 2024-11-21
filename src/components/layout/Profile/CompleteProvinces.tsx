@@ -27,7 +27,7 @@ export default function CompleteProvinces() {
           { duration: 1500 },
         );
         setTimeout(() => {
-          hs.push('/profile/complate_profile');
+          hs.push('/profile/complete_profile');
         }, 1000);
       },
       onError: () => {
@@ -46,10 +46,10 @@ export default function CompleteProvinces() {
   return (
     <Page
       className="flex h-full w-full flex-col items-center"
-      contentClassName="h-[100dvh]"
+      contentClassName="h-[100dvh] p-6"
       header={<AppBar title="علایق شخصی"></AppBar>}
     >
-      <GetProvinces className="px-4 pt-4" handleSubmit={handleSubmit} />
+      <GetProvinces handleSubmit={handleSubmit} />
     </Page>
   );
 }

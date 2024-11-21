@@ -5,13 +5,13 @@ import { IcSearch } from '@/components/icons/IcSearch';
 import { languages } from '@/lib/constants';
 import React, { useState } from 'react';
 
-export const LanguageKnow = ({
+export default function LanguageKnow({
   value,
   setValue,
 }: {
   value?: string[];
   setValue: (val: string) => void;
-}) => {
+}) {
   const [search, setSearch] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -53,7 +53,9 @@ export const LanguageKnow = ({
 
         <div className="flex h-[calc(100%-170px)] flex-col overflow-y-scroll">
           {languages
-            .filter((el) => el.flag.toLowerCase().includes(search.toLowerCase()))
+            .filter((el) =>
+              el.flag.toLowerCase().includes(search.toLowerCase()),
+            )
             .map((el) => (
               <div
                 key={el.language}
@@ -83,4 +85,4 @@ export const LanguageKnow = ({
       </BottomSheetModal>
     </div>
   );
-};
+}

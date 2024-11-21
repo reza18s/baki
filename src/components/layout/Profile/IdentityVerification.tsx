@@ -36,7 +36,7 @@ export default function IdentityVerification() {
       ),
       { duration: 1500 },
     );
-    window.location.replace('/profile/complate_profile');
+    window.location.replace('/profile/complete_profile');
   };
 
   return (
@@ -45,10 +45,7 @@ export default function IdentityVerification() {
       contentClassName="h-[100dvh]"
       header={<AppBar title="تایید هویت"></AppBar>}
     >
-      <div
-        className="relative h-full max-w-[100vw] overflow-auto p-6 text-black"
-        dir="rtl"
-      >
+      <div className="relative h-full max-w-[100vw] overflow-auto p-6 text-black">
         {step === 0 && (
           <GetPhoneNumber
             control={control}
