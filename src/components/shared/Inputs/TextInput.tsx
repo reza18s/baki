@@ -12,7 +12,7 @@ export default function TextInput(props: {
 }) {
   return (
     <div
-      className={`flex w-full items-center justify-between gap-x-2 rounded-[12px] border-[1.5px] border-black py-[16px] pl-[12px] pr-[16px] ${props.className || ''} ${props.value?.length > 0 ? 'border-b-[4px]' : ''}`}
+      className={`flex w-full items-center justify-between gap-x-2 rounded-[12px] border-[1.5px] border-black py-4 pl-[12px] pr-4 ${props.className || ''} ${props.value?.length > 0 ? 'border-b-[4px]' : ''}`}
     >
       {props.icon}
       <Controller

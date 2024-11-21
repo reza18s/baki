@@ -55,7 +55,7 @@ export default function GetProvinces(props: {
                       onClick={() => {
                         setSelect(val.label);
                       }}
-                      className="p-2 font-semibold"
+                      className="w-full border-b p-2 font-semibold"
                     >
                       {val.label}
                     </div>
@@ -91,8 +91,8 @@ export default function GetProvinces(props: {
         <button
           disabled={!select}
           onClick={handleSubmit}
-          className={`px-[20px] py-[16px] ${
-            select ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            select ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

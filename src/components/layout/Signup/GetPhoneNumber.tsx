@@ -49,7 +49,7 @@ export default function GetPhoneNumber(props: {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-[8px]">
           {/* <SolarIconSet.LockKeyhole size={24} /> */}
-          <IoMdLock size={30} className="h-[24px] w-[24px]" />
+          <IoMdLock size={30} className="h-6 w-6" />
           <p className="pl-9 pr-1 font-['IRANSansXFaNum'] text-xs font-medium leading-none text-[#1a1d1e]">
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>
@@ -57,9 +57,9 @@ export default function GetPhoneNumber(props: {
         <button
           disabled={props.phoneNumber?.length !== 11}
           onClick={props.handleSignup}
-          className={`px-[20px] py-[16px] ${
+          className={`px-5 py-4 ${
             props.phoneNumber?.length === 11
-              ? 'bg-[#ffcc4e] text-black'
+              ? 'bg-brand-yellow text-black'
               : 'bg-slate-100 text-slate-400'
           } rounded-[12px] font-bold leading-none`}
         >

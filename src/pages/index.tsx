@@ -9,29 +9,29 @@ export default function Index() {
 
   return (
     <div
-      className="h-screen bg-cover bg-center relative"
+      className="relative h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
-      <div className="flex h-[94vh] w-full flex-col items-center justify-between px-[24px] pt-[40px] text-white">
+      <div className="flex h-[94vh] w-full flex-col items-center justify-between px-6 pt-[40px] text-white">
         <div className="flex max-h-fit flex-col items-center justify-between gap-y-[8px]">
           <img src={BakiLogo} alt="BakiLogo" />
           <h2 className="text-sm font-bold leading-tight text-white">
             راه حلی برای سفر های از دست رفته
           </h2>
         </div>
-        <div className="flex w-full flex-col items-center justify-between gap-y-[16px] z-10">
+        <div className="z-10 flex w-full flex-col items-center justify-between gap-y-4">
           <div className="flex w-full flex-col items-center justify-between gap-y-[8px] text-center">
             <Link
               to="/signup"
-              className="w-full rounded-[12px] bg-brand-yellow py-[16px] text-brand-black text-base font-bold"
+              className="w-full rounded-[12px] bg-brand-yellow py-4 text-base font-bold text-brand-black"
             >
               ورود / ثبت نام
             </Link>
-            <button className="w-full rounded-[12px] border border-solid border-white py-[16px] text-white text-base font-bold">
+            <button className="w-full rounded-[12px] border border-solid border-white py-4 text-base font-bold text-white">
               ورود به صورت مهمان
             </button>
           </div>
-          <p className="px-[20px] font-bold text-sm text-center leading-tight text-white">
+          <p className="px-5 text-center text-sm font-bold leading-tight text-white">
             {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{' '}
             <span
               onClick={() => setShowRules(true)}
@@ -53,7 +53,7 @@ export default function Index() {
         )}
       </div>
       {/* gradient div */}
-      <div className='absolute w-full h-[40vh] bottom-0 bg-gradient-to-t from-[#9a9692]' />
+      <div className="absolute bottom-0 h-[40vh] w-full bg-gradient-to-t from-[#9a9692]" />
     </div>
   );
 }

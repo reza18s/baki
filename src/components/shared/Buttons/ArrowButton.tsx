@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import * as SolarIconSet from "solar-icon-set";
+import { Link } from 'react-router-dom';
+import * as SolarIconSet from 'solar-icon-set';
 
 export default function ArrowButton(props: {
   text: any;
@@ -11,8 +11,8 @@ export default function ArrowButton(props: {
 }) {
   return (
     <Link
-      to={props.url || "/profile"}
-      className={`flex items-center justify-between px-[16px] py-[12px] rounded-[12px] border border-slate-300 w-full text-brand-black ${props.className}`}
+      to={props.url || '/profile'}
+      className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-6 py-[12px] text-brand-black ${props.className}`}
       onClick={props.onClick}
     >
       <div className="flex items-center gap-x-2">

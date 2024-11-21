@@ -55,8 +55,8 @@ export default function GetGender() {
               );
             }
           }}
-          className={`px-[20px] py-[16px] ${
-            watch('gender')?.length > 0 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            watch('gender')?.length > 0 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

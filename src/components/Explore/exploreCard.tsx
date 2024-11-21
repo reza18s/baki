@@ -116,7 +116,7 @@ export default function ExploreCard(props: {
             className={`flex min-h-[60dvh] flex-col justify-between rounded-t-2xl bg-cover bg-center p-4`}
             style={{ backgroundImage: `url(${CardImage})` }}
           >
-            <p className="mr-auto max-w-fit rounded-[16px] bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
+            <p className="mr-auto max-w-fit rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
               {props.searchMethod}
             </p>
             <div className="flex items-center justify-between">

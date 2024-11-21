@@ -1,5 +1,5 @@
-import { useState } from "react";
-import * as SolarIconSet from "solar-icon-set";
+import { useState } from 'react';
+import * as SolarIconSet from 'solar-icon-set';
 
 export default function UploadPictures() {
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
@@ -9,13 +9,13 @@ export default function UploadPictures() {
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    index: number | "main",
+    index: number | 'main',
   ) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (index === "main") {
+        if (index === 'main') {
           setMainImagePreview(reader.result as string);
         } else {
           setSecondaryImagePreviews((prev) => {
@@ -30,48 +30,48 @@ export default function UploadPictures() {
   };
 
   return (
-    <div className="max-w-fit flex flex-col items-center justify-center mx-auto gap-y-[9px]">
-      <div className="bg-[#F1F5F9] p-[132px] rounded-[16px] relative">
-        <p className="bg-brand-yellow px-[8px] py-[4px] rounded-[16px] text-xs absolute top-[16.15px] right-[15.83px] z-10">
+    <div className="mx-auto flex max-w-fit flex-col items-center justify-center gap-y-[9px]">
+      <div className="relative rounded-2xl bg-[#F1F5F9] p-[132px]">
+        <p className="absolute right-[15.83px] top-[16.15px] z-10 rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs">
           تصویر اصلی
         </p>
         <input
           type="file"
-          onChange={(e) => handleFileChange(e, "main")}
-          className="absolute inset-0 opacity-0 cursor-pointer z-20"
+          onChange={(e) => handleFileChange(e, 'main')}
+          className="absolute inset-0 z-20 cursor-pointer opacity-0"
         />
         <div className="absolute inset-0 flex items-center justify-center">
           {mainImagePreview ? (
             <img
               src={mainImagePreview}
               alt="Main Preview"
-              className="w-full h-full object-cover rounded-[16px]"
+              className="h-full w-full rounded-2xl object-cover"
             />
           ) : (
             <SolarIconSet.AddCircle size={64} />
           )}
         </div>
       </div>
-      <div className="w-full flex items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         {[4, 3, 2].map((num, index) => (
           <div
             key={index}
-            className="bg-[#F1F5F9] p-[40px] rounded-[16px] relative"
+            className="relative rounded-2xl bg-[#F1F5F9] p-[40px]"
           >
-            <p className="bg-brand-yellow px-[8px] py-[4px] rounded-[16px] text-xs absolute top-[16.15px] right-[15.83px] z-10">
+            <p className="absolute right-[15.83px] top-[16.15px] z-10 rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs">
               {num}
             </p>
             <input
               type="file"
               onChange={(e) => handleFileChange(e, index)}
-              className="absolute inset-0 opacity-0 cursor-pointer z-20"
+              className="absolute inset-0 z-20 cursor-pointer opacity-0"
             />
             <div className="absolute inset-0 flex items-center justify-center">
               {secondaryImagePreviews[index] ? (
                 <img
-                  src={secondaryImagePreviews[index] || ""}
+                  src={secondaryImagePreviews[index] || ''}
                   alt={`Preview ${num}`}
-                  className="w-full h-full object-cover rounded-[16px]"
+                  className="h-full w-full rounded-2xl object-cover"
                 />
               ) : (
                 <SolarIconSet.AddCircle size={24} />

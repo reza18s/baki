@@ -41,7 +41,7 @@ export default function GetSpecialty(props: {
     <div
       className={`relative flex h-[calc(100%)] w-full flex-col justify-between ${props.className}`}
     >
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-y-4">
         <h1 className="text-[32px] font-bold text-brand-black">تخصص من</h1>
         <p className="text-sm font-medium leading-tight text-gray-500">
           تخصص خود را از میان موارد زیر انتخاب کنید.
@@ -59,7 +59,7 @@ export default function GetSpecialty(props: {
                     handleClickInterests(subItem);
                   }}
                   key={subItem}
-                  className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${selectedSpecialty.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                  className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-4 ${selectedSpecialty.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                 >
                   <p className="text-sm text-[#1a1d1e]">{subItem}</p>
                 </button>
@@ -75,8 +75,8 @@ export default function GetSpecialty(props: {
         <button
           disabled={selectedSpecialty.length < 0}
           onClick={handleSubmit}
-          className={`px-[20px] py-[16px] ${
-            selectedSpecialty.length > 0 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            selectedSpecialty.length > 0 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

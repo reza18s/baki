@@ -12,7 +12,7 @@ export default function FinalStep() {
 
   return (
     <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
-      <div className="flex w-full flex-col items-center gap-y-[16px]">
+      <div className="flex w-full flex-col items-center gap-y-4">
         <h1 className="text-[32px] font-bold text-brand-black">پایان!</h1>
         <p className="text-sm font-medium leading-tight text-gray-500">
           وارد اپلیکیشن شوید و لذتشو ببرین!

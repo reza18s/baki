@@ -261,7 +261,7 @@ export default function Profile() {
               icon={<SolarIconSet.MaskHapply size={24} />}
             />
             <div>
-              <div className="flex w-full items-center justify-between rounded-[12px] bg-[#F1F5F9] px-[16px] py-[12px]">
+              <div className="flex w-full items-center justify-between rounded-[12px] bg-[#F1F5F9] px-6 py-[12px]">
                 <div className="flex items-center gap-x-2">
                   <PiGraphLight size={24} />
                   <p className="text-sm font-medium text-[#94A3B8]">

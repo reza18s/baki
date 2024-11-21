@@ -1,5 +1,5 @@
 .button {
-  @apply py-[16px] text-center font-bold transition-colors duration-200;
+  @apply py-4 text-center font-bold transition-colors duration-200;
   &:disabled {
     @apply opacity-50;
   }

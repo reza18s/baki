@@ -47,7 +47,7 @@ export default function GetTravelInterests(props: {
     <div
       className={`relative flex h-full max-h-full w-full flex-col justify-between ${props.className}`}
     >
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-y-4">
         <h1 className="text-[32px] font-bold text-brand-black">
           علایق عمومی من در سفر
         </h1>
@@ -126,8 +126,8 @@ export default function GetTravelInterests(props: {
         <button
           disabled={selectedInterests.length < 4}
           onClick={handleSubmit}
-          className={`px-[20px] py-[16px] ${
-            selectedInterests.length > 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            selectedInterests.length > 4 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] border-0 font-bold leading-none text-slate-400`}
         >
           بعدی

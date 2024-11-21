@@ -13,7 +13,7 @@ export default function GetPictures(props: { control: any; name: string }) {
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   return (
     <div className="flex h-[calc(100%)] w-full flex-col justify-between">
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-y-4">
         <h1 className="text-[32px] font-bold text-brand-black">تصاویر من</h1>
         <p className="text-sm font-medium leading-tight text-gray-500">
           در صورت تمایل تصویر دلخواه خود را اپلود کنید.
@@ -41,17 +41,17 @@ export default function GetPictures(props: { control: any; name: string }) {
             // updateUserInfo({ residenceCity: select });
             handleNextStep();
           }}
-          className={`px-[20px] py-[16px] ${props.name?.length > 1 ? 'bg-[#ffcc4e]' : 'bg-slate-100'} rounded-[12px] font-bold leading-none text-slate-400`}
+          className={`px-5 py-4 ${props.name?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'} rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی
         </button>
       </div>
       {/* Help */}
       {showHelp && (
-        <div className="absolute left-0 right-0 top-0 z-50 mx-auto flex h-[94vh] w-[100vw] items-end justify-center overflow-hidden bg-black bg-opacity-70 px-[24px] pb-5">
-          <div className="flex min-h-fit w-full flex-col items-center justify-center rounded-[24px] bg-white px-[24px] py-3 text-sm text-brand-black">
+        <div className="absolute left-0 right-0 top-0 z-50 mx-auto flex h-[94vh] w-[100vw] items-end justify-center overflow-hidden bg-black bg-opacity-70 px-6 pb-5">
+          <div className="rounded-6 flex min-h-fit w-full flex-col items-center justify-center bg-white px-6 py-3 text-sm text-brand-black">
             {/* Head */}
-            <div className="w-full max-w-fit rounded-full p-[16px] text-brand-yellow">
+            <div className="w-full max-w-fit rounded-full p-6 text-brand-yellow">
               <SolarIconSet.GalleryCheck size={64} />
             </div>
             {/* Body */}
@@ -85,7 +85,7 @@ export default function GetPictures(props: { control: any; name: string }) {
             </div>
             <button
               onClick={hideHelp}
-              className="mt-[22px] w-full rounded-[12px] bg-brand-yellow py-[16px] font-bold text-brand-black"
+              className="mt-[22px] w-full rounded-[12px] bg-brand-yellow py-4 font-bold text-brand-black"
             >
               فهمیدم !
             </button>

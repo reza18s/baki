@@ -41,7 +41,7 @@ export default function CigarettesStep(props: { handleNextStep: () => void }) {
       <div className="flex flex-col gap-16">
         <div className="flex flex-col items-center">
           <LiaSmokingSolid className="rotate-12" size={72} />
-          <div className="flex flex-col items-center gap-y-[16px]">
+          <div className="flex flex-col items-center gap-y-4">
             <h1 className="text-[32px] font-bold text-brand-black">سیگار</h1>
             <p className="text-sm font-medium leading-tight text-gray-500">
               یکی از گزینه‌های زیر را انتخاب کنید.

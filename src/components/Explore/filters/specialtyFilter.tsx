@@ -74,7 +74,7 @@ export const SpecialtyFilter = ({
                         setValue(subItem);
                       }}
                       key={subItem}
-                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-[16px] ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
+                      className={`flex max-w-fit items-center gap-x-3 rounded-[32px] bg-[#F1F5F9] p-[12px] pl-4 ${value?.includes(subItem) ? 'bg-brand-yellow' : 'bg-[#F1F5F9]'}`}
                     >
                       <p className="text-sm text-[#1a1d1e]">{subItem}</p>
                     </button>

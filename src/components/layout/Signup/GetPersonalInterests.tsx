@@ -43,7 +43,7 @@ export default function GetPersonalInterests(props: {
     <div
       className={`relative flex h-[calc(100%)] w-full flex-col justify-between ${props.className}`}
     >
-      <div className="flex flex-col gap-y-[16px]">
+      <div className="flex flex-col gap-y-4">
         <h1 className="text-[32px] font-bold text-brand-black">
           علایق شخصی من
         </h1>
@@ -91,8 +91,8 @@ export default function GetPersonalInterests(props: {
         <Button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
-          className={`px-[20px] py-[16px] ${
-            selectedInterests.length > 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            selectedInterests.length > 4 ? 'bg-brand-yellow' : 'bg-slate-100'
           } font-bold leading-none text-brand-black`}
         >
           بعدی

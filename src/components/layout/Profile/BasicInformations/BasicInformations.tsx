@@ -22,7 +22,7 @@ const HeadStep = ({
   return (
     <div
       className={`h-[3.62px] w-full ${
-        activeStep >= stepNum ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+        activeStep >= stepNum ? 'bg-brand-yellow' : 'bg-slate-100'
       } rounded-xl`}
     />
   );

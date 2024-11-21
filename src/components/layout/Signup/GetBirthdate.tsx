@@ -91,8 +91,8 @@ export default function GetBirthdate() {
               );
             }
           }}
-          className={`px-[20px] py-[16px] ${
-            watch('year').length === 4 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            watch('year').length === 4 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

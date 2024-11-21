@@ -36,8 +36,8 @@ export default function GetName(props: { control: any; value: string }) {
             updateUserInfo({ name: props.value });
             handleNextStep();
           }}
-          className={`px-[20px] py-[16px] ${
-            props.value?.length > 1 ? 'bg-[#ffcc4e]' : 'bg-slate-100'
+          className={`px-5 py-4 ${
+            props.value?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-slate-400`}
         >
           بعدی

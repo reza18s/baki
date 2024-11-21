@@ -46,7 +46,7 @@ export default function IdentityVerification() {
       header={<AppBar title="تایید هویت"></AppBar>}
     >
       <div
-        className="relative h-full max-w-[100vw] overflow-auto p-[24px] text-black"
+        className="relative h-full max-w-[100vw] overflow-auto p-6 text-black"
         dir="rtl"
       >
         {step === 0 && (
