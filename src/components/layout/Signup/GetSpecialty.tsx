@@ -45,8 +45,8 @@ export default function GetSpecialty(props: { handleSubmit?: () => void }) {
       {/* Body */}
       <div>
         {SpecialtyItems.map((item) => (
-          <div key={item.title} className="flex flex-col gap-y-3">
-            <h2 className="text-lg font-bold text-[#1a1d1e]">{item.title}</h2>
+          <div key={item.title} className="flex flex-col gap-y-3 pt-[30px]">
+            <h2 className="text-lg font-bold text-[#1a1d1e] pb-[10px]">{item.title}</h2>
             <div className="flex flex-wrap gap-3">
               {item.subItems.map((subItem) => (
                 <button
