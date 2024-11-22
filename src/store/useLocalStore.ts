@@ -7,6 +7,7 @@ export type UserInfo = {
   name: string;
   gender?: Gender;
   birthdate: string;
+  languages: string[];
   province: string;
   images: string[];
   travelInterests: string[];
@@ -30,7 +31,9 @@ export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  updateUserInfo: (userInfo: Partial<UserInfo>) => void;
+  updateUserInfo: (
+    userInfo: ((prev: UserInfo) => Partial<UserInfo>) | Partial<UserInfo>,
+  ) => void;
   setExploreEntered: () => void;
   addItem: (key: string, val: boolean) => void;
   getItem: (key: string) => boolean;
@@ -41,6 +44,7 @@ export type Store = IStore & Actions;
 export const defaultInitState: IStore = {
   step: 0,
   userInfo: {
+    languages: [],
     verified: false,
     phoneNumber: '',
     name: '',
@@ -82,7 +86,13 @@ export const useLocalStore = create<Store>()(
         get().setSteps((prev) => (prev - 1) as StepsNumber);
       },
       updateUserInfo: (userInfo) => {
-        set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
+        if (typeof userInfo === 'function') {
+          set((prev) => ({
+            userInfo: { ...prev.userInfo, ...userInfo(prev.userInfo) },
+          }));
+        } else {
+          set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
+        }
       },
       setExploreEntered() {
         set({ ExploreEntered: true });
