@@ -56,7 +56,16 @@ export default function Explore() {
           setNoResult(data.getRandomUser?.length === 0);
         },
         onError: (err) => {
-          toast.custom(<Toast type="error">{err.message}</Toast>);
+          toast.custom(
+            (t) => (
+              <Toast t={t} type="error">
+                {err.message}
+              </Toast>
+            ),
+            {
+              duration: 1500,
+            },
+          );
         },
       });
     }
