@@ -15,7 +15,7 @@ export default function CompleteTravelInterests() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        travelInterests: userInfo.travelsInterests,
+        travelInterests: userInfo.travelInterests,
       },
       onCompleted: () => {
         toast.custom(

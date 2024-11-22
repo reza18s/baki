@@ -7,18 +7,22 @@ export type UserInfo = {
   name: string;
   gender?: Gender;
   birthdate: string;
-  residenceCity: string;
-  pictures: string[];
-  travelsInterests: string[];
+  traveledToPlaces: string[];
+  languages: string[];
+  province: string;
+  images: string[];
+  travelInterests: string[];
   personalInterests: string[];
-  specialty: string[];
-  spirit?: 'extroverted' | 'introvert';
+  mySpecialty: string[];
+  livedInPlaces: string[];
+  spiritStatus?: 'extroverted' | 'introvert';
   maritalStatus?: 'single' | 'married';
   smokeStatus?: 'never' | 'sometimes' | 'regularly';
   sportsStatus?: 'never' | 'sometimes' | 'regularly';
   AmountOfEarlyRising?: 'wakeUpEarly' | 'sleepy' | 'onTime';
   username: string;
   bio: string;
+  verified: boolean;
 };
 interface IStore {
   step: StepsNumber;
@@ -29,7 +33,9 @@ export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
-  updateUserInfo: (userInfo: Partial<UserInfo>) => void;
+  updateUserInfo: (
+    userInfo: ((prev: UserInfo) => Partial<UserInfo>) | Partial<UserInfo>,
+  ) => void;
   setExploreEntered: () => void;
   addItem: (key: string, val: boolean) => void;
   getItem: (key: string) => boolean;
@@ -40,13 +46,17 @@ export type Store = IStore & Actions;
 export const defaultInitState: IStore = {
   step: 0,
   userInfo: {
+    traveledToPlaces: [],
+    livedInPlaces: [],
+    languages: [],
+    verified: false,
     phoneNumber: '',
     name: '',
     birthdate: '',
-    pictures: [],
-    residenceCity: '',
-    travelsInterests: [],
-    specialty: [],
+    images: [],
+    province: '',
+    travelInterests: [],
+    mySpecialty: [],
     personalInterests: [],
     username: '',
     bio: '',
@@ -80,7 +90,13 @@ export const useLocalStore = create<Store>()(
         get().setSteps((prev) => (prev - 1) as StepsNumber);
       },
       updateUserInfo: (userInfo) => {
-        set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
+        if (typeof userInfo === 'function') {
+          set((prev) => ({
+            userInfo: { ...prev.userInfo, ...userInfo(prev.userInfo) },
+          }));
+        } else {
+          set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
+        }
       },
       setExploreEntered() {
         set({ ExploreEntered: true });

@@ -46,17 +46,27 @@ export default function Explore() {
         variables: {
           age: filters.age,
           languages: filters.language,
-          mySpecialty: filters.specialty,
+          mySpecialty: filters.mySpecialty,
           province: filters.provinces,
           travelInterests: filters.interest,
         },
         onCompleted: (data) => {
+          console.log('start');
           // @ts-expect-error the
           setCards(data.getRandomUser);
           setNoResult(data.getRandomUser?.length === 0);
         },
         onError: (err) => {
-          toast.custom(<Toast type="error">{err.message}</Toast>);
+          toast.custom(
+            (t) => (
+              <Toast t={t} type="error">
+                {err.message}
+              </Toast>
+            ),
+            {
+              duration: 1500,
+            },
+          );
         },
       });
     }

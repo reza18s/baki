@@ -16,6 +16,7 @@ export default function VerifyOTP(props: {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const handlePrevStep = useLocalStore((store) => store.handlePrevStep);
   const step = useLocalStore((store) => store.step);
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const { setValue, trigger, watch } = useForm();
 
@@ -39,6 +40,7 @@ export default function VerifyOTP(props: {
         },
         onCompleted: (data) => {
           localStorage.setItem('token', data.verifyOtp?.accessToken as string);
+          updateUserInfo({ verified: true });
           props.onSuccess?.();
           handleNextStep();
         },
@@ -62,7 +64,7 @@ export default function VerifyOTP(props: {
 
   return (
     <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
-      <div className="mt-10 flex flex-col items-center">
+      <div className="mt-10 flex flex-col items-center gap-4">
         {/* Head */}
         <div className="flex flex-col gap-4">
           <h1 className="text-[32px] font-bold text-slate-950">
@@ -84,7 +86,7 @@ export default function VerifyOTP(props: {
           </p>
         </div>
         {/* Body */}
-        <div className="mt-20 flex flex-col items-center justify-center space-y-[30px] text-black">
+        <div className="mt-6 flex flex-col items-center justify-center space-y-[30px] text-black">
           <OtpInput
             value={otp}
             onChange={handleChange}

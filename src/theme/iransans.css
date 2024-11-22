@@ -3,8 +3,8 @@
   font-style: normal;
   font-weight: 100;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Thin.woff") format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Thin.woff2") format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Thin.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Thin.woff2') format('woff2');
 }
 
 @font-face {
@@ -12,10 +12,8 @@
   font-style: normal;
   font-weight: 200;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-UltraLight.woff")
-      format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-UltraLight.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-UltraLight.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-UltraLight.woff2') format('woff2');
 }
 
 @font-face {
@@ -23,9 +21,8 @@
   font-style: normal;
   font-weight: 300;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Light.woff") format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Light.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Light.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Light.woff2') format('woff2');
 }
 
 @font-face {
@@ -33,9 +30,8 @@
   font-style: normal;
   font-weight: 500;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Medium.woff") format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Medium.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Medium.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Medium.woff2') format('woff2');
 }
 
 @font-face {
@@ -43,10 +39,8 @@
   font-style: normal;
   font-weight: 600;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-DemiBold.woff")
-      format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-DemiBold.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-DemiBold.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-DemiBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -54,10 +48,8 @@
   font-style: normal;
   font-weight: 800;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-ExtraBold.woff")
-      format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-ExtraBold.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-ExtraBold.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-ExtraBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -65,9 +57,8 @@
   font-style: normal;
   font-weight: 900;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Black.woff") format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Black.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Black.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Black.woff2') format('woff2');
 }
 
 @font-face {
@@ -75,10 +66,8 @@
   font-style: normal;
   font-weight: 950;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-ExtraBlack.woff")
-      format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-ExtraBlack.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-ExtraBlack.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-ExtraBlack.woff2') format('woff2');
 }
 
 @font-face {
@@ -86,9 +75,8 @@
   font-style: normal;
   font-weight: 1000;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Heavy.woff") format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Heavy.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Heavy.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Heavy.woff2') format('woff2');
 }
 
 @font-face {
@@ -96,8 +84,8 @@
   font-style: normal;
   font-weight: bold;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Bold.woff") format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Bold.woff2") format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Bold.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Bold.woff2') format('woff2');
 }
 
 @font-face {
@@ -105,8 +93,6 @@
   font-style: normal;
   font-weight: normal;
   src:
-    url("../../public/fonts/iransans/IRANSansXFaNum-Regular.woff")
-      format("woff"),
-    url("../../public/fonts/iransans/IRANSansXFaNum-Regular.woff2")
-      format("woff2");
+    url('/fonts/iransans/IRANSansXFaNum-Regular.woff') format('woff'),
+    url('/fonts/iransans/IRANSansXFaNum-Regular.woff2') format('woff2');
 }

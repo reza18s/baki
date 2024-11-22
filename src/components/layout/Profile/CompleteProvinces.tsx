@@ -15,7 +15,7 @@ export default function CompleteProvinces() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        city: userInfo.residenceCity,
+        city: userInfo.province,
       },
       onCompleted: () => {
         toast.custom(

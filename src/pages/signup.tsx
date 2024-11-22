@@ -39,9 +39,9 @@ interface SignupForm {
   name: string;
   gender: string;
   birthdate: string;
-  residenceCity: string;
-  pictures: string[];
-  specialty: string[];
+  province: string;
+  images: string[];
+  mySpecialty: string[];
   generalInterests: string[];
   personalInterests: string[];
 }

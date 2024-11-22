@@ -3,7 +3,7 @@ export type ISeachType = 'random' | 'baseOnInterest' | 'famous';
 export type IFilter = {
   provinces?: string[];
   age?: number[];
-  specialty?: string[];
+  mySpecialty?: string[];
   interest?: string[];
   language?: string;
   status?: string[];

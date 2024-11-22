@@ -49,7 +49,7 @@ export default function Filter() {
       (searchType === 'baseOnInterest' &&
         (!filters.interest || filters.interest.length === 0)) ||
       (searchType === 'famous' &&
-        (!filters.specialty || filters.specialty.length === 0))
+        (!filters.mySpecialty || filters.mySpecialty.length === 0))
     ) {
       const missingType =
         searchType === 'random'
@@ -75,7 +75,7 @@ export default function Filter() {
 
   return (
     <Page
-      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col"
+      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col h-full"
       header={
         <AppBar
           title="فیلتر جستجو"
@@ -114,8 +114,8 @@ export default function Filter() {
       )}
       {searchType === 'famous' && (
         <SpecialtyFilter
-          value={filters.specialty}
-          setValue={(val) => handleFilterChange('specialty', val)}
+          value={filters.mySpecialty}
+          setValue={(val) => handleFilterChange('mySpecialty', val)}
         />
       )}
       {searchType === 'baseOnInterest' && (

@@ -16,12 +16,12 @@ export default function GetProvinces(props: {
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setSelect(userInfo.residenceCity);
-  }, [userInfo.residenceCity]);
+    setSelect(userInfo.province);
+  }, [userInfo.province]);
 
   const handleSubmit = () => {
     updateUserInfo({
-      residenceCity: select,
+      province: select,
     });
     if (props?.handleSubmit) {
       props.handleSubmit();

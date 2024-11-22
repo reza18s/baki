@@ -3,66 +3,125 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
+  Observable,
 } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 
-let authorizationHeader = (() => {
+// Utility to safely retrieve the token from localStorage
+const getToken = () => {
   try {
-    return localStorage.getItem('token') || '';
+    return localStorage.getItem('token');
   } catch (error) {
-    console.error('Error accessing localStorage:', error);
-    return '';
-  }
-})();
-
-const saveAuthHeaderAsync = async () => {
-  try {
-    localStorage.setItem('token', authorizationHeader);
-  } catch (error) {
-    console.error('Error saving auth header to localStorage:', error);
+    console.error('Could not access localStorage:', error);
+    return null;
   }
 };
 
-export const clientLogout = () => {
-  authorizationHeader = '';
+// Utility to save tokens
+const saveToken = (token: string) => {
   try {
-    localStorage.removeItem('token');
+    localStorage.setItem('token', token);
   } catch (error) {
-    console.error('Error removing auth header from localStorage:', error);
+    console.error('Could not save token:', error);
   }
 };
 
-const middlewareAuthLink = new ApolloLink((operation, forward) => {
+// Function to refresh the access token
+const refreshAccessToken = async () => {
+  try {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!refreshToken) {
+      throw new Error('No refresh token available');
+    }
+
+    // Call the refresh token endpoint
+    const response = await fetch('http://localhost:3000/refresh-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to refresh token');
+    }
+
+    // Save the new token and return it
+    saveToken(data.accessToken);
+    return data.accessToken;
+  } catch (error) {
+    console.error('Failed to refresh access token:', error);
+    return null;
+  }
+};
+
+// Middleware to set the Authorization header
+const authLink = new ApolloLink((operation, forward) => {
+  const token = getToken();
+
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: authorizationHeader ? `Bearer ${authorizationHeader}` : '',
+      authorization: token ? `Bearer ${token}` : '',
     },
   }));
+
   return forward(operation);
 });
 
-const responseMiddleware = new ApolloLink((operation, forward) => {
-  return forward(operation).map((response) => {
-    const headers = operation.getContext().response?.headers;
-    const authHeader = headers?.get('authorization');
-    if (authHeader) {
-      authorizationHeader = authHeader;
-      saveAuthHeaderAsync();
-    }
-    return response;
-  });
-});
+// Error handling link to detect 401 errors and refresh the token
+const errorLink = onError(
+  ({ graphQLErrors, networkError, operation, forward }) => {
+    if (graphQLErrors) {
+      for (const err of graphQLErrors) {
+        if (err.extensions?.code === 'UNAUTHENTICATED') {
+          // Token is expired or invalid
+          return new Observable((observer) => {
+            refreshAccessToken()
+              .then((newToken) => {
+                if (newToken) {
+                  // Update the operation with the new token
+                  operation.setContext(({ headers = {} }) => ({
+                    headers: {
+                      ...headers,
+                      authorization: `Bearer ${newToken}`,
+                    },
+                  }));
 
+                  // Retry the request
+                  forward(operation).subscribe({
+                    next: observer.next.bind(observer),
+                    error: observer.error.bind(observer),
+                    complete: observer.complete.bind(observer),
+                  });
+                } else {
+                  observer.error(new Error('Could not refresh token'));
+                }
+              })
+              .catch((err) => {
+                observer.error(err);
+              });
+          });
+        }
+      }
+    }
+
+    if (networkError) {
+      console.error(`[Network error]: ${networkError}`);
+    }
+  },
+);
+
+// HttpLink for the GraphQL endpoint
 const httpLink = new HttpLink({
   uri: import.meta.env.VITE_APP_BASE_URL || 'http://localhost:3000/graphql',
 });
 
-const link = ApolloLink.from([
-  middlewareAuthLink,
-  responseMiddleware,
-  httpLink,
-]);
+// Combine the links
+const link = ApolloLink.from([errorLink, authLink, httpLink]);
 
+// Initialize Apollo Client with the combined link
 export const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
