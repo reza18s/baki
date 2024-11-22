@@ -7,12 +7,14 @@ export type UserInfo = {
   name: string;
   gender?: Gender;
   birthdate: string;
+  traveledToPlaces: string[];
   languages: string[];
   province: string;
   images: string[];
   travelInterests: string[];
   personalInterests: string[];
   mySpecialty: string[];
+  livedInPlaces: string[];
   spiritStatus?: 'extroverted' | 'introvert';
   maritalStatus?: 'single' | 'married';
   smokeStatus?: 'never' | 'sometimes' | 'regularly';
@@ -44,6 +46,8 @@ export type Store = IStore & Actions;
 export const defaultInitState: IStore = {
   step: 0,
   userInfo: {
+    traveledToPlaces: [],
+    livedInPlaces: [],
     languages: [],
     verified: false,
     phoneNumber: '',

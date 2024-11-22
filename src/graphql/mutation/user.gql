@@ -17,7 +17,7 @@ mutation UpdateUser(
   $languages: [String!]
   $traveledToPlaces: [String!]
   $livedInPlaces: [String!]
-  $avatar: String
+  $spiritStatus: String
 ) {
   updateUser(
     name: $name
@@ -38,7 +38,7 @@ mutation UpdateUser(
     languages: $languages
     traveledToPlaces: $traveledToPlaces
     livedInPlaces: $livedInPlaces
-    avatar: $avatar
+    spiritStatus: $spiritStatus
   ) {
     id
   }
@@ -60,7 +60,6 @@ query GetRandomUser(
     id
     name
     username
-    avatar
     phoneNumber
     gender
     languages
@@ -77,7 +76,6 @@ query GetRandomUser(
     smokeStatus
     spiritStatus
     sportsStatus
-    lastSeen
     AmountOfEarlyRising
     age
   }

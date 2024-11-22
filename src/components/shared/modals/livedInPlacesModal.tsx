@@ -2,10 +2,10 @@ import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcXCircle } from '@/components/icons/IcXCircle';
-import { allIcon, languages } from '@/lib/constants';
+import { allIcon, countries } from '@/lib/constants';
 import React, { useState } from 'react';
 
-export const LanguageModal = ({
+export const LivedInPlacesModal = ({
   value,
   setValue,
   isOpen,
@@ -13,7 +13,7 @@ export const LanguageModal = ({
   handleClick,
 }: {
   value?: string | string[];
-  setValue: (val?: string) => void;
+  setValue: (val: string) => void;
   isOpen: boolean;
   setClose: () => void;
   handleClick?: () => void;
@@ -27,7 +27,7 @@ export const LanguageModal = ({
       className="h-[70%] overflow-hidden px-6"
     >
       <h1 className="my-3 text-center text-lg font-bold">
-        زبان مدنظر را انتخاب کنید:
+        مکان مدنظر را انتخاب کنید:
       </h1>
       <div className="flex">
         <div className="mb-4 flex h-9 w-full items-center gap-2 rounded-xl border-2 border-brand-black bg-transparent px-2">
@@ -57,11 +57,7 @@ export const LanguageModal = ({
                   key={val}
                   className="flex h-8 items-center gap-1 rounded-[36px] bg-warning-100 px-3 text-sm"
                   onClick={() => {
-                    if (typeof value === 'object') {
-                      setValue(val);
-                    } else {
-                      setValue(undefined);
-                    }
+                    setValue(val);
                   }}
                 >
                   {item?.icon && (
@@ -75,29 +71,29 @@ export const LanguageModal = ({
             })}
         </div>
         <div className="flex flex-1 flex-col overflow-y-scroll">
-          {languages
+          {countries
             .filter((el) =>
-              el.language.toLowerCase().includes(search.toLowerCase()),
+              el.country.toLowerCase().includes(search.toLowerCase()),
             )
             .map((el) => (
               <div
-                key={el.language}
+                key={el.country}
                 className="flex items-center gap-2 border-t py-3 text-sm"
                 onClick={() => {
-                  setValue(el.language);
+                  setValue(el.country);
                 }}
               >
                 <input
                   checked={
                     typeof value === 'object'
-                      ? value.includes(el.language)
-                      : value === el.language
+                      ? value.includes(el.country)
+                      : value === el.country
                   }
                   type="checkbox"
                   readOnly
                   className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
                 />
-                {el.language}
+                {el.country}
               </div>
             ))}
         </div>

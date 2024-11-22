@@ -51,6 +51,7 @@ export default function Explore() {
           travelInterests: filters.interest,
         },
         onCompleted: (data) => {
+          console.log('start');
           // @ts-expect-error the
           setCards(data.getRandomUser);
           setNoResult(data.getRandomUser?.length === 0);

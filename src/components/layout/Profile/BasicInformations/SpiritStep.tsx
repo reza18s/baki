@@ -11,14 +11,16 @@ import { useEffect } from 'react';
 import { convertJalaliToGregorian } from '@/utils/datetime';
 
 export default function SpiritStep() {
-  const { control, setValue } = useForm();
+  const { control, setValue, watch } = useForm();
   const [updateUser] = useUpdateUserMutation();
   const userInfo = useLocalStore((store) => store.userInfo);
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   useEffect(() => {
     setValue('spiritStatus', userInfo.spiritStatus);
   }, [userInfo.spiritStatus]);
   const hs = useHistory();
   const handleSubmit = () => {
+    updateUserInfo({ spiritStatus: watch('spiritStatus') });
     updateUser({
       variables: {
         gender: userInfo.gender,
@@ -26,6 +28,7 @@ export default function SpiritStep() {
         birthday: convertJalaliToGregorian(userInfo.birthdate),
         smokeStatus: userInfo.smokeStatus,
         sportsStatus: userInfo.sportsStatus,
+        spiritStatus: watch('spiritStatus'),
         amountOfEarlyRising: userInfo.AmountOfEarlyRising,
       },
       onCompleted: () => {

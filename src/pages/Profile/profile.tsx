@@ -18,9 +18,13 @@ import { paths } from '@/routes/paths';
 import { LanguageModal } from '@/components/shared/modals/languageModal';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
+import { LivedInPlacesModal } from '@/components/shared/modals/livedInPlacesModal';
+import { TraveledToPlacesModal } from '@/components/shared/modals/traveledToPlacesModal';
 
 export default function Profile() {
-  const [isOpen, setIsOpen] = useState<'language'>();
+  const [isOpen, setIsOpen] = useState<
+    'language' | 'livedInPlaces' | 'traveledToPlaces'
+  >();
   const { hash } = useLocation(); // Retrieve the current hash from the URL
   const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
   const { control, watch, setValue } = useForm();
@@ -302,6 +306,7 @@ export default function Profile() {
             مکان‌هایی که سفر کرده‌ام
           </h2>
           <ArrowButton
+            onClick={() => setIsOpen('traveledToPlaces')}
             text="اضافه کردن"
             className="w-full"
             icon={<SolarIconSet.Globus size={24} />}
@@ -312,8 +317,8 @@ export default function Profile() {
             مکان‌هایی که زندگی کرده‌ام
           </h2>
           <ArrowButton
+            onClick={() => setIsOpen('livedInPlaces')}
             text="اضافه کردن"
-            url={paths.profile.languagesKnow}
             className="w-full"
             icon={<SolarIconSet.Globus size={24} />}
           />
@@ -344,7 +349,7 @@ export default function Profile() {
       <LanguageModal
         value={userInfo.languages}
         setValue={(val) => {
-          handleFilterChange('languages', val);
+          handleFilterChange('languages', val as string);
         }}
         setClose={() => setIsOpen(undefined)}
         isOpen={isOpen === 'language'}
@@ -376,6 +381,76 @@ export default function Profile() {
           });
         }}
       ></LanguageModal>
+      <LivedInPlacesModal
+        value={userInfo.livedInPlaces}
+        setValue={(val) => {
+          handleFilterChange('livedInPlaces', val);
+        }}
+        setClose={() => setIsOpen(undefined)}
+        isOpen={isOpen === 'livedInPlaces'}
+        handleClick={() => {
+          updateUser({
+            variables: {
+              livedInPlaces: userInfo.livedInPlaces,
+            },
+            onCompleted: () => {
+              toast.custom(
+                (t) => (
+                  <Toast t={t} type="success">
+                    اطلاعات شما با موفقیت ثبت شد
+                  </Toast>
+                ),
+                { duration: 1500 },
+              );
+            },
+            onError: () => {
+              toast.custom(
+                (t) => (
+                  <Toast t={t} type="error">
+                    مشکلی پیش آمده است لطفا دوباره امتحان کنید
+                  </Toast>
+                ),
+                { duration: 1500 },
+              );
+            },
+          });
+        }}
+      ></LivedInPlacesModal>
+      <TraveledToPlacesModal
+        value={userInfo.traveledToPlaces}
+        setValue={(val) => {
+          handleFilterChange('traveledToPlaces', val);
+        }}
+        setClose={() => setIsOpen(undefined)}
+        isOpen={isOpen === 'traveledToPlaces'}
+        handleClick={() => {
+          updateUser({
+            variables: {
+              traveledToPlaces: userInfo.traveledToPlaces,
+            },
+            onCompleted: () => {
+              toast.custom(
+                (t) => (
+                  <Toast t={t} type="success">
+                    اطلاعات شما با موفقیت ثبت شد
+                  </Toast>
+                ),
+                { duration: 1500 },
+              );
+            },
+            onError: () => {
+              toast.custom(
+                (t) => (
+                  <Toast t={t} type="error">
+                    مشکلی پیش آمده است لطفا دوباره امتحان کنید
+                  </Toast>
+                ),
+                { duration: 1500 },
+              );
+            },
+          });
+        }}
+      ></TraveledToPlacesModal>
     </Page>
   );
 }

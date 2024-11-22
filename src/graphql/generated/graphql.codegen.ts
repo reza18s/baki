@@ -671,7 +671,7 @@ export type UpdateUserMutationVariables = Exact<{
   languages?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   traveledToPlaces?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
-  avatar?: InputMaybe<Scalars['String']['input']>;
+  spiritStatus?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -686,7 +686,7 @@ export type GetRandomUserQueryVariables = Exact<{
 }>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, avatar: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, lastSeen: any, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -760,7 +760,7 @@ export type SignupVerifyOtpMutationHookResult = ReturnType<typeof useSignupVerif
 export type SignupVerifyOtpMutationResult = Apollo.MutationResult<SignupVerifyOtpMutation>;
 export type SignupVerifyOtpMutationOptions = Apollo.BaseMutationOptions<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($name: String, $gender: Gender, $birthday: DateTime, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $avatar: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthday: DateTime, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
   updateUser(
     name: $name
     gender: $gender
@@ -780,7 +780,7 @@ export const UpdateUserDocument = gql`
     languages: $languages
     traveledToPlaces: $traveledToPlaces
     livedInPlaces: $livedInPlaces
-    avatar: $avatar
+    spiritStatus: $spiritStatus
   ) {
     id
   }
@@ -819,7 +819,7 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *      languages: // value for 'languages'
  *      traveledToPlaces: // value for 'traveledToPlaces'
  *      livedInPlaces: // value for 'livedInPlaces'
- *      avatar: // value for 'avatar'
+ *      spiritStatus: // value for 'spiritStatus'
  *   },
  * });
  */
@@ -842,7 +842,6 @@ export const GetRandomUserDocument = gql`
     id
     name
     username
-    avatar
     phoneNumber
     gender
     languages
@@ -859,7 +858,6 @@ export const GetRandomUserDocument = gql`
     smokeStatus
     spiritStatus
     sportsStatus
-    lastSeen
     AmountOfEarlyRising
     age
   }
