@@ -35,7 +35,7 @@ const middlewareAuthLink = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: authorizationHeader ? `Bearer ${authorizationHeader}` : '',
+      Authorization: authorizationHeader ? `Bearer ${authorizationHeader}` : '',
     },
   }));
   return forward(operation);
@@ -54,7 +54,7 @@ const responseMiddleware = new ApolloLink((operation, forward) => {
 });
 
 const httpLink = new HttpLink({
-  uri: import.meta.env.VITE_APP_BASE_URL || 'http://localhost:3000/graphql',
+  uri: import.meta.env.VITE_APP_BASE_URL || 'https://api.baki.app/graphql',
 });
 
 const link = ApolloLink.from([

@@ -19,6 +19,7 @@ import { languages } from '@/lib/constants';
 import Button from '@/components/base/Button/Button';
 import { Page } from '@/components/layout/Page';
 import AppBar from '@/components/layout/Header/AppBar';
+import { paths } from '@/routes/paths';
 
 export default function Profile() {
   const { hash } = useLocation(); // Retrieve the current hash from the URL
@@ -312,6 +313,7 @@ export default function Profile() {
           </h2>
           <ArrowButton
             text="اضافه کردن"
+            url={paths.profile.languagesKnow}
             className="w-full"
             icon={<SolarIconSet.Globus size={24} />}
           />

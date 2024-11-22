@@ -75,7 +75,7 @@ export default function Filter() {
 
   return (
     <Page
-      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col"
+      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col h-full"
       header={
         <AppBar
           title="فیلتر جستجو"

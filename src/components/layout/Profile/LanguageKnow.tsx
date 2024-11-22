@@ -20,6 +20,7 @@ export default function LanguageKnow({
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh]"
+      header
     >
       <div>
         <h2 className="my-2 text-sm text-gray-500">
