@@ -27,9 +27,18 @@ export const getCardsData = (userInfo: UserInfo) => [
   {
     icon: <SolarIconSet.InfoCircle size={32} />,
     title: 'اطلاعات اولیه',
-    description: `${[userInfo?.gender].length} از 7 اضافه شده`,
+    description: `${[userInfo?.gender, userInfo?.spiritStatus, userInfo?.maritalStatus, userInfo?.birthdate, userInfo.smokeStatus, userInfo.sportsStatus, userInfo.AmountOfEarlyRising].filter((e) => e).length} از 7 اضافه شده`,
     url: '/profile/complete_profile/complete_basicinformations',
-    status: !!userInfo.name,
+    status:
+      [
+        userInfo?.gender,
+        userInfo?.spiritStatus,
+        userInfo?.maritalStatus,
+        userInfo?.birthdate,
+        userInfo?.smokeStatus,
+        userInfo?.sportsStatus,
+        userInfo?.AmountOfEarlyRising,
+      ].filter((e) => e).length === 7,
   },
   {
     icon: <CiStar size={32} />,

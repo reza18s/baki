@@ -15,8 +15,8 @@ export default function SpiritStep() {
   const [updateUser] = useUpdateUserMutation();
   const userInfo = useLocalStore((store) => store.userInfo);
   useEffect(() => {
-    setValue('spirit', userInfo.spirit);
-  }, [userInfo.spirit]);
+    setValue('spiritStatus', userInfo.spiritStatus);
+  }, [userInfo.spiritStatus]);
   const hs = useHistory();
   const handleSubmit = () => {
     updateUser({
@@ -73,7 +73,7 @@ export default function SpiritStep() {
             { label: 'درون‌گرا', value: 'introvert' },
             { label: 'برون‌گرا', value: 'extroverted' },
           ]}
-          name="spirit"
+          name="spiritStatus"
         />
       </div>
       <Button onClick={handleSubmit}>پایان</Button>

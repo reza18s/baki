@@ -12,7 +12,7 @@ export type UserInfo = {
   travelInterests: string[];
   personalInterests: string[];
   mySpecialty: string[];
-  spirit?: 'extroverted' | 'introvert';
+  spiritStatus?: 'extroverted' | 'introvert';
   maritalStatus?: 'single' | 'married';
   smokeStatus?: 'never' | 'sometimes' | 'regularly';
   sportsStatus?: 'never' | 'sometimes' | 'regularly';
