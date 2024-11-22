@@ -20,8 +20,8 @@ export default function GetTravelInterests(props: {
 
   // Update selected interests from user info on component mount
   useEffect(() => {
-    setSelectedInterests(userInfo.travelsInterests || []);
-  }, [userInfo.travelsInterests]);
+    setSelectedInterests(userInfo.travelInterests || []);
+  }, [userInfo.travelInterests]);
 
   const handleClickInterests = (selected: string) => {
     if (selectedInterests.includes(selected)) {
@@ -43,7 +43,7 @@ export default function GetTravelInterests(props: {
   };
 
   const handleSubmit = () => {
-    updateUserInfo({ travelsInterests: selectedInterests });
+    updateUserInfo({ travelInterests: selectedInterests });
     if (props?.handleSubmit) {
       props.handleSubmit();
     } else {

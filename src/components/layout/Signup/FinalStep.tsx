@@ -31,10 +31,10 @@ export default function FinalStep() {
           updateUser({
             variables: {
               birthday: convertJalaliToGregorian(userInfo.birthdate),
-              travelInterests: userInfo.travelsInterests,
+              travelInterests: userInfo.travelInterests,
               gender: userInfo.gender,
-              province: userInfo.residenceCity,
-              mySpecialty: userInfo.specialty,
+              province: userInfo.province,
+              mySpecialty: userInfo.mySpecialty,
               personalInterests: userInfo.personalInterests,
               name: userInfo.name,
             },

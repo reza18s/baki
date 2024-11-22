@@ -99,12 +99,12 @@ export default function Profile() {
       userInfo.name,
       userInfo.username,
       userInfo.bio,
-      userInfo.residenceCity,
+      userInfo.province,
       userInfo.gender,
-      userInfo.pictures.length >= 4,
+      userInfo.images.length >= 4,
       userInfo.personalInterests.length >= 5,
-      userInfo.travelsInterests.length >= 5,
-      userInfo.specialty.length > 0,
+      userInfo.travelInterests.length >= 5,
+      userInfo.mySpecialty.length > 0,
     ];
     const completedFields = fields.filter(Boolean).length;
     return Math.round((completedFields / fields.length) * 100);

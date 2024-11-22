@@ -15,7 +15,7 @@ export default function CompleteSpecialty() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        mySpecialty: userInfo.specialty,
+        mySpecialty: userInfo.mySpecialty,
       },
       onCompleted: () => {
         toast.custom(

@@ -18,14 +18,14 @@ export default function GetSpecialty(props: {
   };
 
   useEffect(() => {
-    if (userInfo.specialty) {
-      setSelectedSpecialty(userInfo.specialty);
+    if (userInfo.mySpecialty) {
+      setSelectedSpecialty(userInfo.mySpecialty);
     }
-  }, [userInfo.specialty]);
+  }, [userInfo.mySpecialty]);
 
   const handleSubmit = () => {
     updateUserInfo({
-      specialty: selectedSpecialty,
+      mySpecialty: selectedSpecialty,
     });
     if (props?.handleSubmit) {
       props.handleSubmit();

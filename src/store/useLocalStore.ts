@@ -7,11 +7,11 @@ export type UserInfo = {
   name: string;
   gender?: Gender;
   birthdate: string;
-  residenceCity: string;
-  pictures: string[];
-  travelsInterests: string[];
+  province: string;
+  images: string[];
+  travelInterests: string[];
   personalInterests: string[];
-  specialty: string[];
+  mySpecialty: string[];
   spirit?: 'extroverted' | 'introvert';
   maritalStatus?: 'single' | 'married';
   smokeStatus?: 'never' | 'sometimes' | 'regularly';
@@ -19,6 +19,7 @@ export type UserInfo = {
   AmountOfEarlyRising?: 'wakeUpEarly' | 'sleepy' | 'onTime';
   username: string;
   bio: string;
+  verified: boolean;
 };
 interface IStore {
   step: StepsNumber;
@@ -40,13 +41,14 @@ export type Store = IStore & Actions;
 export const defaultInitState: IStore = {
   step: 0,
   userInfo: {
+    verified: false,
     phoneNumber: '',
     name: '',
     birthdate: '',
-    pictures: [],
-    residenceCity: '',
-    travelsInterests: [],
-    specialty: [],
+    images: [],
+    province: '',
+    travelInterests: [],
+    mySpecialty: [],
     personalInterests: [],
     username: '',
     bio: '',

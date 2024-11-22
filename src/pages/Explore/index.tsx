@@ -46,7 +46,7 @@ export default function Explore() {
         variables: {
           age: filters.age,
           languages: filters.language,
-          mySpecialty: filters.specialty,
+          mySpecialty: filters.mySpecialty,
           province: filters.provinces,
           travelInterests: filters.interest,
         },

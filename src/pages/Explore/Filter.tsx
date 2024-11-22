@@ -49,7 +49,7 @@ export default function Filter() {
       (searchType === 'baseOnInterest' &&
         (!filters.interest || filters.interest.length === 0)) ||
       (searchType === 'famous' &&
-        (!filters.specialty || filters.specialty.length === 0))
+        (!filters.mySpecialty || filters.mySpecialty.length === 0))
     ) {
       const missingType =
         searchType === 'random'
@@ -114,8 +114,8 @@ export default function Filter() {
       )}
       {searchType === 'famous' && (
         <SpecialtyFilter
-          value={filters.specialty}
-          setValue={(val) => handleFilterChange('specialty', val)}
+          value={filters.mySpecialty}
+          setValue={(val) => handleFilterChange('mySpecialty', val)}
         />
       )}
       {searchType === 'baseOnInterest' && (

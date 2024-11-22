@@ -39,7 +39,7 @@ export default function GetPictures(props: { control: any; name: string }) {
         <button
           disabled={props.name?.length < 1}
           onClick={() => {
-            // updateUserInfo({ residenceCity: select });
+            // updateUserInfo({ province: select });
             handleNextStep();
           }}
           className={`px-5 py-4 ${props.name?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'} rounded-[12px] font-bold leading-none text-brand-black`}
