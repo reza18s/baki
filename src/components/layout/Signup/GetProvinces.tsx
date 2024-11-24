@@ -55,7 +55,7 @@ export default function GetProvinces(props: {
                       onClick={() => {
                         setSelect(val.label);
                       }}
-                      className="w-full border-b p-2 font-semibold"
+                      className="w-full border-b p-2 font-semibold font-iransans"
                     >
                       {val.label}
                     </div>
