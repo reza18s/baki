@@ -1,18 +1,25 @@
 import BackgroundImage from '../assets/img/home/BackgroundImage.svg';
 import BakiLogo from '../assets/img/home/BakiLogo.svg';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Rules } from '@/components/layout/Signup/rules';
 import Modal from '../components/base/Modal/Modal';
 import { Page } from '@/components/layout/Page';
-export default function Index() {
+import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';
+import { paths } from '@/routes/paths';
+export default function Welcome() {
   const [showRules, setShowRules] = useState<boolean>(false);
-
+  const hs = useHistory();
+  const { data } = useGetMeQuery();
+  useEffect(() => {
+    if (data?.getUser) {
+      hs.push(paths.explore.main);
+    }
+  }, [data]);
   return (
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh]"
-      // header={<AppBar title="علایق عمومی"></AppBar>}
     >
       <div
         className="relative h-screen bg-cover bg-center"
@@ -52,7 +59,7 @@ export default function Index() {
             <Modal
               isOpen={showRules}
               onRequestClose={() => setShowRules(false)}
-              className="w-4/5 rounded-xl"
+              className="w-[90%] rounded-xl"
             >
               <Rules hideRules={() => setShowRules(false)}></Rules>
             </Modal>

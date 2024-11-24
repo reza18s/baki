@@ -31,10 +31,10 @@ export default function GetGender() {
         />
       </div>
       {/* Footer */}
-      <div className="flex w-full items-center justify-between">
-        <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
-          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-brand-black">
+          <p className="text-xs font-medium leading-none text-brand-black">
             این نام در پروفایل شما نمایش داده خواهد شد .
           </p>
         </div>

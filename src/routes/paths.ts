@@ -1,6 +1,6 @@
 export const paths = {
-  home: {
-    main: '/', // Homepage
+  welcome: {
+    main: '/welcome', // Homepage
   },
   signup: {
     main: '/signup', // Signup page
@@ -20,9 +20,13 @@ export const paths = {
     languagesKnow: '/profile/complete_profile/complete_languagesknow', // Language skills
   },
   explore: {
-    main: '/explore', // Explore page
+    main: '/', // Explore page
     filter: '/explore/filters', // Explore filters
+  },
+  main: {
+    main: '/',
+    explore: '/',
     completeProfile: '/explore/complete_profile', // Complete profile within Explore
-    chat: '/explore/chat', // Chat page in Explore
+    chat: '/chat', // Chat page in Explore
   },
 };

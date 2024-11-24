@@ -1,9 +1,0 @@
-mutation Signup($phoneNumber: String!) {
-  Signin(phoneNumber: $phoneNumber)
-}
-
-mutation SignupVerifyOtp($phoneNumber: String!, $otp: String!) {
-  verifyOtp(phoneNumber: $phoneNumber, otp: $otp) {
-    accessToken
-  }
-}

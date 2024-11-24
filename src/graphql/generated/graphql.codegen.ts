@@ -644,13 +644,13 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { Signin?: string | null };
 
-export type SignupVerifyOtpMutationVariables = Exact<{
+export type VerifyOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
   otp: Scalars['String']['input'];
 }>;
 
 
-export type SignupVerifyOtpMutation = { verifyOtp?: { accessToken?: string | null } | null };
+export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, images?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, personalInterests?: Array<string | null> | null, travelInterests?: Array<string | null> | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -725,40 +725,65 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
-export const SignupVerifyOtpDocument = gql`
-    mutation SignupVerifyOtp($phoneNumber: String!, $otp: String!) {
+export const VerifyOtpDocument = gql`
+    mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
   verifyOtp(phoneNumber: $phoneNumber, otp: $otp) {
+    user {
+      name
+      gender
+      birthday
+      province
+      images
+      mySpecialty
+      personalInterests
+      travelInterests
+    }
     accessToken
+    guest {
+      id
+      name
+      gender
+      birthday
+      province
+      city
+      images
+      travelInterests
+      personalInterests
+      mySpecialty
+      createdAt
+      updatedAt
+      deletedAt
+    }
   }
 }
     `;
-export type SignupVerifyOtpMutationFn = Apollo.MutationFunction<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>;
+export type VerifyOtpMutationFn = Apollo.MutationFunction<VerifyOtpMutation, VerifyOtpMutationVariables>;
 
 /**
- * __useSignupVerifyOtpMutation__
+ * __useVerifyOtpMutation__
  *
- * To run a mutation, you first call `useSignupVerifyOtpMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignupVerifyOtpMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useVerifyOtpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyOtpMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [signupVerifyOtpMutation, { data, loading, error }] = useSignupVerifyOtpMutation({
+ * const [verifyOtpMutation, { data, loading, error }] = useVerifyOtpMutation({
  *   variables: {
  *      phoneNumber: // value for 'phoneNumber'
  *      otp: // value for 'otp'
  *   },
  * });
  */
-export function useSignupVerifyOtpMutation(baseOptions?: Apollo.MutationHookOptions<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>) {
+export function useVerifyOtpMutation(baseOptions?: Apollo.MutationHookOptions<VerifyOtpMutation, VerifyOtpMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>(SignupVerifyOtpDocument, options);
+        return Apollo.useMutation<VerifyOtpMutation, VerifyOtpMutationVariables>(VerifyOtpDocument, options);
       }
-export type SignupVerifyOtpMutationHookResult = ReturnType<typeof useSignupVerifyOtpMutation>;
-export type SignupVerifyOtpMutationResult = Apollo.MutationResult<SignupVerifyOtpMutation>;
-export type SignupVerifyOtpMutationOptions = Apollo.BaseMutationOptions<SignupVerifyOtpMutation, SignupVerifyOtpMutationVariables>;
+export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation>;
+export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
+export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($name: String, $gender: Gender, $birthday: DateTime, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
   updateUser(

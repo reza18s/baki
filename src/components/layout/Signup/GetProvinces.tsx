@@ -81,10 +81,10 @@ export default function GetProvinces(props: {
           </Dropdown>
         </div>
       </div>
-      <div className="flex w-full items-center justify-between">
-        <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-x-[8px]">
           <SolarIconSet.LockKeyholeUnlocked size={24} />
-          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-brand-black">
+          <p className="pl-[29px] text-xs font-medium leading-none text-brand-black">
             شما میتوانید این بخش را در آینده تغییر دهید.
           </p>
         </div>

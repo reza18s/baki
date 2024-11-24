@@ -6,12 +6,8 @@ import Modal from '@/components/base/Modal/Modal';
 
 export default function GetPictures(props: { control: any; name: string }) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
-  const hideHelp = () => {
-    setShowHelp(false);
-  };
 
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   return (
     <div className="flex h-[calc(100%)] w-full flex-col justify-between">
       <div className="flex flex-col gap-4 pt-10">
@@ -21,8 +17,8 @@ export default function GetPictures(props: { control: any; name: string }) {
         </p>
         <UploadPictures />
       </div>
-      <div className="flex w-full min-w-fit items-center justify-between">
-        <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-x-[8px]">
           <SolarIconSet.Gallery size={24} />
           <div className="text-xs font-medium leading-none text-brand-black">
             <p className="font-bold">
@@ -39,7 +35,6 @@ export default function GetPictures(props: { control: any; name: string }) {
         <button
           disabled={props.name?.length < 1}
           onClick={() => {
-            // updateUserInfo({ province: select });
             handleNextStep();
           }}
           className={`px-5 py-4 ${props.name?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'} rounded-[12px] font-bold leading-none text-brand-black`}

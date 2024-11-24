@@ -1,0 +1,34 @@
+mutation Signup($phoneNumber: String!) {
+  Signin(phoneNumber: $phoneNumber)
+}
+
+mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
+  verifyOtp(phoneNumber: $phoneNumber, otp: $otp) {
+    user {
+      name
+      gender
+      birthday
+      province
+      images
+      mySpecialty
+      personalInterests
+      travelInterests
+    }
+    accessToken
+    guest {
+      id
+      name
+      gender
+      birthday
+      province
+      city
+      images
+      travelInterests
+      personalInterests
+      mySpecialty
+      createdAt
+      updatedAt
+      deletedAt
+    }
+  }
+}

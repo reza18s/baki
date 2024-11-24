@@ -2,11 +2,12 @@ import OtpInput from 'react-otp-input';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { MdTimer } from 'react-icons/md';
-import { useSignupVerifyOtpMutation } from '../../../graphql/generated/graphql.codegen';
-import { useLocalStore } from '../../../store/useLocalStore';
+import { useLocalStore, UserInfo } from '../../../store/useLocalStore';
+import { useVerifyOtpMutation } from '@/graphql/generated/graphql.codegen';
 
 export default function VerifyOTP(props: {
-  control: any;
+  path: 'signup' | 'profile';
+  editPhone: () => void;
   phone: string;
   resendOtp(): void;
   onSuccess?(): void;
@@ -17,9 +18,7 @@ export default function VerifyOTP(props: {
   const handlePrevStep = useLocalStore((store) => store.handlePrevStep);
   const step = useLocalStore((store) => store.step);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const { setValue, trigger, watch } = useForm();
-
   const handleChange = (enteredOtp: string) => {
     const numericOtp = enteredOtp.replace(/\D/g, ''); // Remove non-numeric characters
     setOtp(numericOtp);
@@ -29,7 +28,7 @@ export default function VerifyOTP(props: {
     }
   };
 
-  const [verifyOtp] = useSignupVerifyOtpMutation();
+  const [verifyOtp] = useVerifyOtpMutation();
   const handleSubmit = async () => {
     const validate = await trigger('token');
     if (validate) {
@@ -39,8 +38,11 @@ export default function VerifyOTP(props: {
           otp: watch('token'),
         },
         onCompleted: (data) => {
+          updateUserInfo({
+            ...(data.verifyOtp?.user as UserInfo),
+            verified: true,
+          });
           localStorage.setItem('token', data.verifyOtp?.accessToken as string);
-          updateUserInfo({ verified: true });
           props.onSuccess?.();
           handleNextStep();
         },
@@ -76,8 +78,7 @@ export default function VerifyOTP(props: {
             ارسال کردیم را وارد کنید.
             <span
               onClick={() => {
-                console.log(step);
-                handlePrevStep();
+                props.editPhone();
               }}
               className="cursor-pointer px-1 font-bold text-brand-black underline"
             >
@@ -124,11 +125,11 @@ export default function VerifyOTP(props: {
         <div className="flex items-center gap-x-3">
           <MdTimer />
           {timer === 0 ? (
-            <p className="w-[200px] text-xs font-bold text-brand-black underline">
+            <p className="text-xs font-bold text-brand-black underline">
               ارسال مجدد کد تایید
             </p>
           ) : (
-            <p className="w-[200px] text-xs text-brand-black">
+            <p className="text-xs text-brand-black">
               کد تایید نهایتا تا {timer} ثانیه دیگر بدست شما میرسه!
             </p>
           )}

@@ -93,9 +93,9 @@ export default function GetPersonalInterests(props: {
         </div>
       </div>
       <div className="sticky bottom-0 flex w-full items-center justify-between bg-white pb-6">
-        <div className="flex min-w-fit items-center justify-between gap-x-[8px]">
+        <div className="flex items-center justify-between gap-x-[8px]">
           <IcTickCircle className="size-6 fill-black stroke-white" />
-          <p className="w-[200px] pl-[29px] text-xs font-medium leading-none text-brand-black">
+          <p className="pl-[29px] text-xs font-medium leading-none text-brand-black">
             {selectedInterests.length}/10 انتخاب شده
           </p>
         </div>

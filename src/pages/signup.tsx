@@ -102,7 +102,8 @@ export default function Signup() {
       case 1:
         return (
           <VerifyOTP
-            control={control}
+            path="signup"
+            editPhone={() => setStep((prev) => (prev - 1) as StepsNumber)}
             phone={watch('phoneNumber')}
             resendOtp={handleSignup}
           />

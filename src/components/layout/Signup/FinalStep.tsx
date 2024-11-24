@@ -3,6 +3,7 @@ import BakiLogo from '../../../assets/img/signup/BakiLogo.svg';
 import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
 import { useLocalStore } from '../../../store/useLocalStore';
 import { convertJalaliToGregorian } from '@/utils/datetime';
+import { paths } from '@/routes/paths';
 
 export default function FinalStep() {
   const [updateUser, { loading }] = useUpdateUserMutation();
@@ -39,7 +40,7 @@ export default function FinalStep() {
               name: userInfo.name,
             },
             onCompleted: (data) => {
-              hs.push('/explore');
+              hs.push(paths.main.explore);
               setSteps(0);
             },
             onError: (err) => {
