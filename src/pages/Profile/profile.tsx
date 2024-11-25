@@ -14,7 +14,6 @@ import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { useLocation } from 'react-router-dom';
 import { Page } from '@/components/layout/Page';
 import AppBar from '@/components/layout/Header/AppBar';
-import { paths } from '@/routes/paths';
 import { LanguageModal } from '@/components/shared/modals/languageModal';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
@@ -27,10 +26,20 @@ export default function Profile() {
   >();
   const { hash } = useLocation(); // Retrieve the current hash from the URL
   const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
-  const { control, watch, setValue } = useForm();
+  const userInfo = useLocalStore((store) => store.userInfo);
+  const { control, watch, setValue } = useForm<{
+    name: string;
+    username: string;
+    bio: string;
+  }>({
+    defaultValues: {
+      username: userInfo.username,
+      name: userInfo.name,
+      bio: userInfo.bio,
+    },
+  });
 
   const [updateUser, { loading }] = useUpdateUserMutation();
-  const userInfo = useLocalStore((store) => store.userInfo);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const bio = watch('bio');
@@ -43,11 +52,6 @@ export default function Profile() {
       bioRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [hash]); // Trigger when the hash changes
-  useEffect(() => {
-    setValue('name', userInfo.name);
-    setValue('username', userInfo.username);
-    setValue('bio', userInfo.bio);
-  }, []);
   useEffect(() => {
     // Clear any existing timer
     if (timeoutRef.current !== null) {
@@ -127,6 +131,7 @@ export default function Profile() {
     <Page
       header={<AppBar title="ویرایش پروفایل"></AppBar>}
       contentClassName="flex w-full flex-col items-center gap-2 p-6 pt-20 pb-20"
+      scrollY
     >
       <div className="w-full text-brand-black">
         <h2 className="mr-3 text-sm font-semibold text-gray-500">

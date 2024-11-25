@@ -33,9 +33,9 @@ function MainLayout({ children }: MainLayoutProps) {
     }
   }, [pathname]);
   return (
-    <div className="relative flex h-dvh w-full flex-col items-center justify-between">
+    <div className="relative flex h-[100dvh] w-full flex-col items-center justify-between">
       <div className="h-full w-full">{children}</div>
-      <div className="absolute bottom-0 z-[101] flex h-14 w-full items-center justify-between bg-white px-5 py-3 shadow-[0_0_5px_#88888875]">
+      <div className="fixed bottom-0 z-[101] flex h-14 w-full items-center justify-between bg-white px-5 py-3 shadow-[0_0_5px_#88888875]">
         <Link to={paths.main.chat}>
           <IcChatTap
             className={activeTab === 'chat' ? 'fill-brand-yellow' : ''}

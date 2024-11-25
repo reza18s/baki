@@ -1,7 +1,7 @@
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
-import { getCardsData } from '@/components/layout/Profile/cardsData';
-import CustomCard from '@/components/layout/Profile/customCard';
+import { getCardsData } from '@/components/Profile/cardsData';
+import CustomCard from '@/components/Profile/customCard';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useMemo } from 'react';
 

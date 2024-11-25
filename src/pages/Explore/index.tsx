@@ -104,7 +104,7 @@ export default function Explore() {
               onClick={() => setStart(true)}
             >
               <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
-                <CircleSpinner></CircleSpinner>همسفری پیدا نشد!
+                <CircleSpinner></CircleSpinner>در حال پیدا کردن همسفر...
               </div>
             </div>
           ) : noResult ? (
