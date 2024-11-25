@@ -1,14 +1,13 @@
 import { useHistory } from 'react-router-dom';
-
-import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
-import GetPersonalInterests from '../Signup/GetPersonalInterests';
 import { useLocalStore } from '@/store/useLocalStore';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
-import { Page } from '../Page';
-import AppBar from '../Header/AppBar';
+import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
+import { Page } from '../layout/Page';
+import AppBar from '../layout/Header/AppBar';
+import GetSpecialty from '../Signup/GetSpecialty';
 
-export default function CompletePersonalInterests() {
+export default function CompleteSpecialty() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -16,7 +15,7 @@ export default function CompletePersonalInterests() {
   const handleSubmit = () => {
     updateUser({
       variables: {
-        personalInterests: userInfo.personalInterests,
+        mySpecialty: userInfo.mySpecialty,
       },
       onCompleted: () => {
         toast.custom(
@@ -46,10 +45,10 @@ export default function CompletePersonalInterests() {
 
   return (
     <Page
-      contentClassName="h-[100dvh] p-6"
-      header={<AppBar title="علایق شخصی"></AppBar>}
+      contentClassName="h-[100dvh]  p-6"
+      header={<AppBar title="تخصص"></AppBar>}
     >
-      <GetPersonalInterests handleSubmit={handleSubmit} />
+      <GetSpecialty handleSubmit={handleSubmit} />
     </Page>
   );
 }

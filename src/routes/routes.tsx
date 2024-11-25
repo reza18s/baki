@@ -12,18 +12,18 @@ import Explore from '@/pages/Explore';
 import Welcome from '@/pages/welcome';
 import Signup from '@/pages/signup';
 import Profile from '@/pages/Profile/profile';
-import IdentityVerification from '@/components/layout/Profile/IdentityVerification';
-import CompletePictures from '@/components/layout/Profile/CompletePictures';
-import CompleteTravelInterests from '@/components/layout/Profile/CompleteTravelInterests';
-import CompletePersonalInterests from '@/components/layout/Profile/CompletePersonalInterests';
-import CompleteProvinces from '@/components/layout/Profile/CompleteProvinces';
-import CompleteSpecialty from '@/components/layout/Profile/CompleteSpecialty';
-import BasicInformations from '@/components/layout/Profile/BasicInformations/BasicInformations';
-import LanguageKnow from '@/components/layout/Profile/LanguageKnow';
 import Filter from '@/pages/Explore/Filter';
 import Chat from '@/pages/Chat/Chat';
 import CompleteProfile from '@/pages/Profile/ComplateProfile';
 import AppGuard from './AppGaurd';
+import { Notifications } from '@/pages/notifications/notifications';
+import IdentityVerification from '@/components/Profile/IdentityVerification';
+import CompletePictures from '@/components/Profile/CompletePictures';
+import CompleteTravelInterests from '@/components/Profile/CompleteTravelInterests';
+import CompletePersonalInterests from '@/components/Profile/CompletePersonalInterests';
+import CompleteProvinces from '@/components/Profile/CompleteProvinces';
+import CompleteSpecialty from '@/components/Profile/CompleteSpecialty';
+import BasicInformations from '@/components/Profile/BasicInformations/BasicInformations';
 const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -123,11 +123,6 @@ export default function Routes() {
                 path={paths.profile.basicInformations}
                 component={BasicInformations}
               />
-              <Route
-                exact
-                path={paths.profile.languagesKnow}
-                component={LanguageKnow}
-              />
               <Route exact path={paths.explore.filter} component={Filter} />
               <Route
                 path={paths.main.main}
@@ -139,6 +134,11 @@ export default function Routes() {
                         exact
                         path={paths.profile.main}
                         component={Profile}
+                      />
+                      <Route
+                        exact
+                        path={paths.main.notifications}
+                        component={Notifications}
                       />
                       <Route exact path={paths.main.chat} component={Chat} />
                     </Switch>

@@ -1,6 +1,5 @@
-import * as SolarIconSet from 'solar-icon-set';
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import GenderStep from './GenderStep';
 import BirthdateStep from './BirthdateStep';
 import MaritalStatusStep from './MaritalStatusStep';
@@ -8,8 +7,8 @@ import CigarettesStep from './CigarettesStep';
 import SportStep from './SportStep';
 import WakeUpEarlyStep from './WakeUpEarlyStep';
 import SpiritStep from './SpiritStep';
-import { Page } from '../../Page';
-import AppBar from '../../Header/AppBar';
+import { Page } from '@/components/layout/Page';
+import AppBar from '@/components/layout/Header/AppBar';
 
 type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 const HeadStep = ({

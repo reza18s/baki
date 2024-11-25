@@ -9,30 +9,24 @@ import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 
 const GetPhoneNumber = lazy(
-  () => import('../components/layout/Signup/GetPhoneNumber'),
+  () => import('../components/Signup/GetPhoneNumber'),
 );
-const VerifyOTP = lazy(() => import('../components/layout/Signup/VerifyOTP'));
-const GetName = lazy(() => import('../components/layout/Signup/GetName'));
-const GetGender = lazy(() => import('../components/layout/Signup/GetGender'));
-const GetBirthdate = lazy(
-  () => import('../components/layout/Signup/GetBirthdate'),
-);
+const VerifyOTP = lazy(() => import('../components/Signup/VerifyOTP'));
+const GetName = lazy(() => import('../components/Signup/GetName'));
+const GetGender = lazy(() => import('../components/Signup/GetGender'));
+const GetBirthdate = lazy(() => import('../components/Signup/GetBirthdate'));
 const GetResidenceCity = lazy(
-  () => import('../components/layout/Signup/GetProvinces'),
+  () => import('../components/Signup/GetProvinces'),
 );
-const GetPictures = lazy(
-  () => import('../components/layout/Signup/GetPictures'),
-);
+const GetPictures = lazy(() => import('../components/Signup/GetPictures'));
 const GetGeneralInterests = lazy(
-  () => import('../components/layout/Signup/GetTravelInterests'),
+  () => import('../components/Signup/GetTravelInterests'),
 );
 const GetPersonalInterests = lazy(
-  () => import('../components/layout/Signup/GetPersonalInterests'),
+  () => import('../components/Signup/GetPersonalInterests'),
 );
-const GetSpecialty = lazy(
-  () => import('../components/layout/Signup/GetSpecialty'),
-);
-const FinalStep = lazy(() => import('../components/layout/Signup/FinalStep'));
+const GetSpecialty = lazy(() => import('../components/Signup/GetSpecialty'));
+const FinalStep = lazy(() => import('../components/Signup/FinalStep'));
 
 interface SignupForm {
   phoneNumber: string;

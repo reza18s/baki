@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router';
 import BakiLogo from '../../../assets/img/signup/BakiLogo.svg';
-import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
-import { useLocalStore } from '../../../store/useLocalStore';
+import { useUpdateUserMutation } from '../../graphql/generated/graphql.codegen';
+import { useLocalStore } from '../../store/useLocalStore';
 import { convertJalaliToGregorian } from '@/utils/datetime';
 import { paths } from '@/routes/paths';
 

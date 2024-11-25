@@ -126,7 +126,7 @@ export default function Profile() {
   return (
     <Page
       header={<AppBar title="ویرایش پروفایل"></AppBar>}
-      contentClassName="flex w-full flex-col items-center gap-2 p-6 pt-20"
+      contentClassName="flex w-full flex-col items-center gap-2 p-6 pt-20 pb-20"
     >
       <div className="w-full text-brand-black">
         <h2 className="mr-3 text-sm font-semibold text-gray-500">

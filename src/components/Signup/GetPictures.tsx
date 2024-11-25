@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as SolarIconSet from 'solar-icon-set';
-import UploadPictures from '../../shared/Inputs/UploadPictures';
-import { useLocalStore } from '../../../store/useLocalStore';
+import UploadPictures from '../shared/Inputs/UploadPictures';
+import { useLocalStore } from '../../store/useLocalStore';
 import Modal from '@/components/base/Modal/Modal';
 
 export default function GetPictures(props: { control: any; name: string }) {

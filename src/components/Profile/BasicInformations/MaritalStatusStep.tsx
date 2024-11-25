@@ -1,27 +1,29 @@
 import { useForm } from 'react-hook-form';
-import RadioButton from '../../../shared/Buttons/RadioButton';
-import Button from '../../../base/Button/Button';
-import { LiaSmokingSolid } from 'react-icons/lia';
+import RadioButton from '@/components/shared/Buttons/RadioButton';
+import * as SolarIconSet from 'solar-icon-set';
+import Button from '@/components/base/Button/Button';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 
-export default function CigarettesStep(props: { handleNextStep: () => void }) {
+export default function MaritalStatusStep(props: {
+  handleNextStep: () => void;
+}) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setValue('smokeStatus', userInfo.smokeStatus);
-  }, [userInfo.smokeStatus]);
+    setValue('maritalStatus', userInfo.maritalStatus);
+  }, [userInfo.maritalStatus]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const handleSubmit = () => {
-    if (watch('smokeStatus')) {
+    if (watch('maritalStatus')) {
       updateUserInfo({
-        smokeStatus: watch('smokeStatus'),
+        maritalStatus: watch('maritalStatus'),
       });
       props.handleNextStep();
     } else {
@@ -40,9 +42,11 @@ export default function CigarettesStep(props: { handleNextStep: () => void }) {
     <div className="flex h-full w-full flex-col justify-between">
       <div className="flex flex-col gap-16">
         <div className="flex flex-col items-center">
-          <LiaSmokingSolid className="rotate-12" size={72} />
-          <div className="flex flex-col items-center gap-y-4">
-            <h1 className="text-[32px] font-bold text-brand-black">سیگار</h1>
+          <SolarIconSet.Heart size={72} />
+          <div className="flex flex-col items-center gap-4">
+            <h1 className="text-[32px] font-bold text-brand-black">
+              وضعیت تاهل
+            </h1>
             <p className="text-sm font-medium leading-tight text-gray-500">
               یکی از گزینه‌های زیر را انتخاب کنید.
             </p>
@@ -51,13 +55,13 @@ export default function CigarettesStep(props: { handleNextStep: () => void }) {
         <RadioButton
           control={control}
           items={[
-            { label: 'به طور منظم', value: 'regularly' },
-            { label: 'بعضی‌وقت‌ها', value: 'sometimes' },
-            { label: 'هرگز', value: 'never' },
+            { label: 'متاهل', value: 'married' },
+            { label: 'مجرد', value: 'single' },
           ]}
-          name="smokeStatus"
+          name="maritalStatus"
         />
       </div>
+      {/* Footer */}
       <Button onClick={handleSubmit}>بعدی</Button>
     </div>
   );

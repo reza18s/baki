@@ -1,7 +1,7 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { IoEye } from 'react-icons/io5';
-import TextInput from '../../shared/Inputs/TextInput';
-import { useLocalStore } from '../../../store/useLocalStore';
+import TextInput from '../shared/Inputs/TextInput';
+import { useLocalStore } from '../../store/useLocalStore';
 
 export default function GetName(props: { control: any; value: string }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);

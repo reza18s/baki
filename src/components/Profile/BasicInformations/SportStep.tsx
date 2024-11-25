@@ -1,27 +1,27 @@
 import { useForm } from 'react-hook-form';
-import RadioButton from '../../../shared/Buttons/RadioButton';
+import RadioButton from '@/components/shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
-import Button from '../../../base/Button/Button';
+import Button from '@/components/base/Button/Button';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 
-export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
+export default function SportStep(props: { handleNextStep: () => void }) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setValue('AmountOfEarlyRising', userInfo.AmountOfEarlyRising);
-  }, [userInfo.AmountOfEarlyRising]);
+    setValue('sportsStatus', userInfo.sportsStatus);
+  }, [userInfo.sportsStatus]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const handleSubmit = () => {
-    if (watch('AmountOfEarlyRising')) {
+    if (watch('sportsStatus')) {
       updateUserInfo({
-        AmountOfEarlyRising: watch('AmountOfEarlyRising'),
+        sportsStatus: watch('sportsStatus'),
       });
       props.handleNextStep();
     } else {
@@ -40,9 +40,9 @@ export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
     <div className="flex h-full w-full flex-col justify-between">
       <div className="flex flex-col gap-16">
         <div className="flex flex-col items-center">
-          <SolarIconSet.SunFog size={72} />
-          <div className="flex flex-col items-center gap-4">
-            <h1 className="text-[32px] font-bold text-brand-black">سحرخیزی</h1>
+          <SolarIconSet.DumbbellSmall size={72} />
+          <div className="flex flex-col items-center gap-y-4">
+            <h1 className="text-[32px] font-bold text-brand-black">ورزش</h1>
             <p className="text-sm font-medium leading-tight text-gray-500">
               یکی از گزینه‌های زیر را انتخاب کنید.
             </p>
@@ -51,11 +51,11 @@ export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
         <RadioButton
           control={control}
           items={[
-            { label: 'سحرخیز', value: 'wakeUpEarly' },
-            { label: 'خواب‌آلود', value: 'sleepy' },
-            { label: 'آن‌تایم', value: 'onTime' },
+            { label: 'به طور منظم', value: 'regularly' },
+            { label: 'بعضی‌وقت‌ها', value: 'sometimes' },
+            { label: 'خیلی کم', value: 'never' },
           ]}
-          name="AmountOfEarlyRising"
+          name="sportsStatus"
         />
       </div>
       {/* Footer */}

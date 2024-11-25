@@ -2,7 +2,7 @@ import OtpInput from 'react-otp-input';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { MdTimer } from 'react-icons/md';
-import { useLocalStore, UserInfo } from '../../../store/useLocalStore';
+import { useLocalStore, UserInfo } from '../../store/useLocalStore';
 import {
   useVerifyOtpMutation,
   VerifyOtpMutation,

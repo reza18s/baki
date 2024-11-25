@@ -2,7 +2,7 @@ import BackgroundImage from '../assets/img/home/BackgroundImage.svg';
 import BakiLogo from '../assets/img/home/BakiLogo.svg';
 import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Rules } from '@/components/layout/Signup/rules';
+import { Rules } from '@/components/Signup/rules';
 import Modal from '../components/base/Modal/Modal';
 import { Page } from '@/components/layout/Page';
 import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';

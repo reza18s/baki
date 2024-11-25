@@ -1,6 +1,4 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import * as SolarIconSet from 'solar-icon-set';
-import { MdOutlineTravelExplore } from 'react-icons/md';
 import {
   Link,
   RouteComponentProps,
@@ -8,6 +6,10 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { paths } from './paths';
+import { IcProfileTap } from '@/components/icons/IcProfileTap';
+import { IcExploreTap } from '@/components/icons/IcExploreTap';
+import { IcHeardTap } from '@/components/icons/IcHeardTap';
+import { IcChatTap } from '@/components/icons/IcChatTap';
 
 interface MainLayoutProps extends RouteComponentProps {
   children: ReactNode;
@@ -15,8 +17,8 @@ interface MainLayoutProps extends RouteComponentProps {
 
 function MainLayout({ children }: MainLayoutProps) {
   const [activeTab, setActiveTab] = useState<
-    'chat' | 'explore' | 'profile' | ''
-  >('');
+    'chat' | 'explore' | 'profile' | 'notifications'
+  >();
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -26,8 +28,8 @@ function MainLayout({ children }: MainLayoutProps) {
       setActiveTab('chat');
     } else if (pathname.startsWith(paths.main.profile)) {
       setActiveTab('profile');
-    } else {
-      setActiveTab('');
+    } else if (pathname.startsWith(paths.main.notifications)) {
+      setActiveTab('notifications');
     }
   }, [pathname]);
   return (
@@ -35,33 +37,23 @@ function MainLayout({ children }: MainLayoutProps) {
       <div className="h-full w-full">{children}</div>
       <div className="absolute bottom-0 z-[101] flex h-14 w-full items-center justify-between bg-white px-5 py-3 shadow-[0_0_5px_#88888875]">
         <Link to={paths.main.chat}>
-          <SolarIconSet.ChatRound
-            size={30}
-            className={
-              activeTab === 'chat' ? 'fill-brand-yellow' : 'fill-brand-black'
-            }
+          <IcChatTap
+            className={activeTab === 'chat' ? 'fill-brand-yellow' : ''}
+          ></IcChatTap>
+        </Link>
+        <Link to={paths.main.notifications}>
+          <IcHeardTap
+            className={`${activeTab === 'notifications' ? 'fill-brand-yellow' : ''} `}
           />
         </Link>
-        <SolarIconSet.Heart
-          size={30}
-          className={
-            activeTab === '' ? 'fill-brand-yellow' : 'fill-brand-black'
-          }
-        />
         <Link to={paths.main.explore}>
-          <SolarIconSet.Heart
-            size={30}
-            color={
-              activeTab === 'explore' ? 'fill-brand-yellow' : 'fill-brand-black'
-            }
+          <IcExploreTap
+            className={activeTab === 'explore' ? 'fill-brand-yellow' : ''}
           />
         </Link>
         <Link to={paths.main.profile}>
-          <SolarIconSet.UserRounded
-            size={30}
-            className={
-              activeTab === 'profile' ? 'fill-brand-yellow' : 'fill-brand-black'
-            }
+          <IcProfileTap
+            className={activeTab === 'profile' ? 'fill-brand-yellow' : ''}
           />
         </Link>
       </div>

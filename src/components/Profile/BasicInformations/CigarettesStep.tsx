@@ -1,27 +1,27 @@
 import { useForm } from 'react-hook-form';
-import RadioButton from '../../../shared/Buttons/RadioButton';
-import * as SolarIconSet from 'solar-icon-set';
-import Button from '../../../base/Button/Button';
+import RadioButton from '@/components/shared/Buttons/RadioButton';
+import Button from '@/components/base/Button/Button';
+import { LiaSmokingSolid } from 'react-icons/lia';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 
-export default function SportStep(props: { handleNextStep: () => void }) {
+export default function CigarettesStep(props: { handleNextStep: () => void }) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setValue('sportsStatus', userInfo.sportsStatus);
-  }, [userInfo.sportsStatus]);
+    setValue('smokeStatus', userInfo.smokeStatus);
+  }, [userInfo.smokeStatus]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const handleSubmit = () => {
-    if (watch('sportsStatus')) {
+    if (watch('smokeStatus')) {
       updateUserInfo({
-        sportsStatus: watch('sportsStatus'),
+        smokeStatus: watch('smokeStatus'),
       });
       props.handleNextStep();
     } else {
@@ -40,9 +40,9 @@ export default function SportStep(props: { handleNextStep: () => void }) {
     <div className="flex h-full w-full flex-col justify-between">
       <div className="flex flex-col gap-16">
         <div className="flex flex-col items-center">
-          <SolarIconSet.DumbbellSmall size={72} />
+          <LiaSmokingSolid className="rotate-12" size={72} />
           <div className="flex flex-col items-center gap-y-4">
-            <h1 className="text-[32px] font-bold text-brand-black">ورزش</h1>
+            <h1 className="text-[32px] font-bold text-brand-black">سیگار</h1>
             <p className="text-sm font-medium leading-tight text-gray-500">
               یکی از گزینه‌های زیر را انتخاب کنید.
             </p>
@@ -53,12 +53,11 @@ export default function SportStep(props: { handleNextStep: () => void }) {
           items={[
             { label: 'به طور منظم', value: 'regularly' },
             { label: 'بعضی‌وقت‌ها', value: 'sometimes' },
-            { label: 'خیلی کم', value: 'never' },
+            { label: 'هرگز', value: 'never' },
           ]}
-          name="sportsStatus"
+          name="smokeStatus"
         />
       </div>
-      {/* Footer */}
       <Button onClick={handleSubmit}>بعدی</Button>
     </div>
   );

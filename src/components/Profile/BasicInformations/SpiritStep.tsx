@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
-import RadioButton from '../../../shared/Buttons/RadioButton';
+import RadioButton from '@/components/shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
-import Button from '../../../base/Button/Button';
+import Button from '@/components/base/Button/Button';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useHistory } from 'react-router';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';

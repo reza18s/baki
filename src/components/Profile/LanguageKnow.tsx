@@ -4,7 +4,7 @@ import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { languages } from '@/lib/constants';
 import React, { useState } from 'react';
-import { Page } from '../Page';
+import { Page } from '../layout/Page';
 
 export default function LanguageKnow({
   value,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { SpecialtyItems } from '../../../lib/constants';
-import { useLocalStore } from '../../../store/useLocalStore';
+import { SpecialtyItems } from '../../lib/constants';
+import { useLocalStore } from '../../store/useLocalStore';
 
 export default function GetSpecialty(props: {
   className?: string;

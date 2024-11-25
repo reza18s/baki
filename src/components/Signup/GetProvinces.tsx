@@ -1,7 +1,7 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { Dropdown } from 'antd';
 import { useEffect, useState } from 'react';
-import { useLocalStore } from '../../../store/useLocalStore';
+import { useLocalStore } from '../../store/useLocalStore';
 import { iranProvinces } from '@/lib/constants';
 
 export default function GetProvinces(props: {
@@ -55,7 +55,7 @@ export default function GetProvinces(props: {
                       onClick={() => {
                         setSelect(val.label);
                       }}
-                      className="w-full border-b p-2 font-semibold font-iransans"
+                      className="w-full border-b p-2 font-iransans font-semibold"
                     >
                       {val.label}
                     </div>

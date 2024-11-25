@@ -1,7 +1,7 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { useEffect, useState } from 'react';
-import { PersonalInterestsItems } from '../../../lib/constants';
-import { useLocalStore } from '../../../store/useLocalStore';
+import { PersonalInterestsItems } from '../../lib/constants';
+import { useLocalStore } from '../../store/useLocalStore';
 import Button from '@/components/base/Button/Button';
 import { IcTickCircle } from '@/components/icons/IcTickCircle';
 import toast from 'react-hot-toast';

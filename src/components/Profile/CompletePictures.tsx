@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
+import { Page } from '../layout/Page';
+import AppBar from '../layout/Header/AppBar';
 import GetPictures from '../Signup/GetPictures';
-import { Page } from '../Page';
-import AppBar from '../Header/AppBar';
 
 export default function CompletePictures() {
   const { control, watch } = useForm();

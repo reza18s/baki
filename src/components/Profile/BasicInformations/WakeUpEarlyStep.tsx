@@ -1,29 +1,27 @@
 import { useForm } from 'react-hook-form';
-import RadioButton from '../../../shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
-import Button from '../../../base/Button/Button';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
+import Button from '@/components/base/Button/Button';
+import RadioButton from '@/components/shared/Buttons/RadioButton';
 
-export default function MaritalStatusStep(props: {
-  handleNextStep: () => void;
-}) {
+export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setValue('maritalStatus', userInfo.maritalStatus);
-  }, [userInfo.maritalStatus]);
+    setValue('AmountOfEarlyRising', userInfo.AmountOfEarlyRising);
+  }, [userInfo.AmountOfEarlyRising]);
 
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
   const handleSubmit = () => {
-    if (watch('maritalStatus')) {
+    if (watch('AmountOfEarlyRising')) {
       updateUserInfo({
-        maritalStatus: watch('maritalStatus'),
+        AmountOfEarlyRising: watch('AmountOfEarlyRising'),
       });
       props.handleNextStep();
     } else {
@@ -42,11 +40,9 @@ export default function MaritalStatusStep(props: {
     <div className="flex h-full w-full flex-col justify-between">
       <div className="flex flex-col gap-16">
         <div className="flex flex-col items-center">
-          <SolarIconSet.Heart size={72} />
+          <SolarIconSet.SunFog size={72} />
           <div className="flex flex-col items-center gap-4">
-            <h1 className="text-[32px] font-bold text-brand-black">
-              وضعیت تاهل
-            </h1>
+            <h1 className="text-[32px] font-bold text-brand-black">سحرخیزی</h1>
             <p className="text-sm font-medium leading-tight text-gray-500">
               یکی از گزینه‌های زیر را انتخاب کنید.
             </p>
@@ -55,10 +51,11 @@ export default function MaritalStatusStep(props: {
         <RadioButton
           control={control}
           items={[
-            { label: 'متاهل', value: 'married' },
-            { label: 'مجرد', value: 'single' },
+            { label: 'سحرخیز', value: 'wakeUpEarly' },
+            { label: 'خواب‌آلود', value: 'sleepy' },
+            { label: 'آن‌تایم', value: 'onTime' },
           ]}
-          name="maritalStatus"
+          name="AmountOfEarlyRising"
         />
       </div>
       {/* Footer */}

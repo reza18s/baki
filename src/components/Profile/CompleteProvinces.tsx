@@ -1,11 +1,11 @@
 import { useHistory } from 'react-router-dom';
-import { useUpdateUserMutation } from '../../../graphql/generated/graphql.codegen';
-import GetProvinces from '../Signup/GetProvinces';
 import { useLocalStore } from '@/store/useLocalStore';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
-import AppBar from '../Header/AppBar';
-import { Page } from '../Page';
+import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
+import AppBar from '../layout/Header/AppBar';
+import { Page } from '../layout/Page';
+import GetProvinces from '../Signup/GetProvinces';
 
 export default function CompleteProvinces() {
   const [updateUser] = useUpdateUserMutation();

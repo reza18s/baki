@@ -1,6 +1,6 @@
 import { IoEye } from 'react-icons/io5';
-import RadioButton from '../../shared/Buttons/RadioButton';
-import { useLocalStore } from '../../../store/useLocalStore';
+import RadioButton from '../shared/Buttons/RadioButton';
+import { useLocalStore } from '../../store/useLocalStore';
 import { Gender } from '@/graphql/generated/graphql.codegen';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';

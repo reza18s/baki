@@ -5,6 +5,9 @@ export const paths = {
   signup: {
     main: '/signup', // Signup page
   },
+  notifications: {
+    main: '/notifications',
+  },
   profile: {
     main: '/profile', // User profile page
     completeProfile: '/profile/complete_profile', // Complete profile page
@@ -28,5 +31,7 @@ export const paths = {
     explore: '/',
     profile: '/profile', // Complete profile within Explore
     chat: '/chat', // Chat page in Explore
+
+    notifications: '/notifications',
   },
 };

@@ -1,12 +1,12 @@
-import GetPhoneNumber from '../Signup/GetPhoneNumber';
 import { useState } from 'react';
-import { useSignupMutation } from '../../../graphql/generated/graphql.codegen';
 import { useForm } from 'react-hook-form';
-import VerifyOTP from '../Signup/VerifyOTP';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
-import { Page } from '../Page';
-import AppBar from '../Header/AppBar';
+import { useSignupMutation } from '@/graphql/generated/graphql.codegen';
+import AppBar from '../layout/Header/AppBar';
+import GetPhoneNumber from '../Signup/GetPhoneNumber';
+import VerifyOTP from '../Signup/VerifyOTP';
+import { Page } from '../layout/Page';
 
 export default function IdentityVerification() {
   const [step, setStep] = useState<0 | 1>(0);
