@@ -26,7 +26,7 @@ export const paths = {
   main: {
     main: '/',
     explore: '/',
-    completeProfile: '/explore/complete_profile', // Complete profile within Explore
+    profile: '/profile', // Complete profile within Explore
     chat: '/chat', // Chat page in Explore
   },
 };

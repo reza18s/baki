@@ -55,7 +55,8 @@ export default function IdentityVerification() {
         )}
         {step === 1 && (
           <VerifyOTP
-            control={control}
+            path="profile"
+            editPhone={() => setStep((prev) => (prev - 1) as 0 | 1)}
             phone={watch('phoneNumber')}
             resendOtp={handleSignup}
             onSuccess={onOTPSuccess}

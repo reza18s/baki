@@ -13,6 +13,21 @@ mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
       mySpecialty
       personalInterests
       travelInterests
+      username
+      avatar
+      phoneNumber
+      languages
+      traveledToPlaces
+      livedInPlaces
+      age
+      bio
+      maritalStatus
+      smokeStatus
+      spiritStatus
+      sportsStatus
+      lastSeen
+      city
+      AmountOfEarlyRising
     }
     accessToken
     guest {

@@ -83,7 +83,6 @@ export default function Routes() {
             <Switch>
               <Route exact path={paths.welcome.main} component={Welcome} />
               <Route exact path={paths.signup.main} component={Signup} />
-              <Route exact path={paths.profile.main} component={Profile} />
               <Route
                 exact
                 path={paths.profile.completeProfile}
@@ -138,8 +137,8 @@ export default function Routes() {
                       <Route exact path={match.path} component={Explore} />
                       <Route
                         exact
-                        path={paths.main.completeProfile}
-                        component={CompleteProfile}
+                        path={paths.profile.main}
+                        component={Profile}
                       />
                       <Route exact path={paths.main.chat} component={Chat} />
                     </Switch>

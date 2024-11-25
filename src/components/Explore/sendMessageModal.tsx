@@ -4,7 +4,7 @@ import Button from '../base/Button/Button';
 import { IcCase } from '../icons/IcCase';
 import { IcChair } from '../icons/IcChair';
 import { IcSendMessage } from '../icons/IcSendMessage';
-import CardImage from '../../assets/icon/image.png';
+import CardImage from '../../assets/images/image.png';
 
 export const SendMessageModal = ({
   name,

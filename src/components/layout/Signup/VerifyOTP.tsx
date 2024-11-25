@@ -3,8 +3,12 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { MdTimer } from 'react-icons/md';
 import { useLocalStore, UserInfo } from '../../../store/useLocalStore';
-import { useVerifyOtpMutation } from '@/graphql/generated/graphql.codegen';
-
+import {
+  useVerifyOtpMutation,
+  VerifyOtpMutation,
+} from '@/graphql/generated/graphql.codegen';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
 export default function VerifyOTP(props: {
   path: 'signup' | 'profile';
   editPhone: () => void;
@@ -14,8 +18,8 @@ export default function VerifyOTP(props: {
 }) {
   const [timer, setTimer] = useState(60);
   const [otp, setOtp] = useState('');
+  const hs = useHistory();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
-  const handlePrevStep = useLocalStore((store) => store.handlePrevStep);
   const step = useLocalStore((store) => store.step);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const { setValue, trigger, watch } = useForm();
@@ -44,7 +48,13 @@ export default function VerifyOTP(props: {
           });
           localStorage.setItem('token', data.verifyOtp?.accessToken as string);
           props.onSuccess?.();
-          handleNextStep();
+          if (props.path === 'signup') {
+            if (checkUserInfo(data.verifyOtp)) {
+              hs.push(paths.main.explore);
+            } else {
+              handleNextStep();
+            }
+          }
         },
       });
     }
@@ -147,3 +157,14 @@ export default function VerifyOTP(props: {
     </div>
   );
 }
+const checkUserInfo = (VerifyOtp: VerifyOtpMutation['verifyOtp']) => {
+  return (
+    VerifyOtp?.user?.name &&
+    VerifyOtp?.user?.gender &&
+    VerifyOtp?.user.birthday &&
+    VerifyOtp?.user.province &&
+    (VerifyOtp?.user.travelInterests?.length || 0) >= 5 &&
+    (VerifyOtp?.user.personalInterests?.length || 0) >= 5 &&
+    (VerifyOtp?.user.mySpecialty?.length || 0) >= 1
+  );
+};

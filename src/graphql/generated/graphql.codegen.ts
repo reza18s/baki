@@ -650,7 +650,7 @@ export type VerifyOtpMutationVariables = Exact<{
 }>;
 
 
-export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, images?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, personalInterests?: Array<string | null> | null, travelInterests?: Array<string | null> | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
+export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, images?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, personalInterests?: Array<string | null> | null, travelInterests?: Array<string | null> | null, username?: string | null, avatar?: string | null, phoneNumber: string, languages?: Array<string | null> | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, age?: number | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, city?: string | null, AmountOfEarlyRising?: string | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -737,6 +737,21 @@ export const VerifyOtpDocument = gql`
       mySpecialty
       personalInterests
       travelInterests
+      username
+      avatar
+      phoneNumber
+      languages
+      traveledToPlaces
+      livedInPlaces
+      age
+      bio
+      maritalStatus
+      smokeStatus
+      spiritStatus
+      sportsStatus
+      lastSeen
+      city
+      AmountOfEarlyRising
     }
     accessToken
     guest {

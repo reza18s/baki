@@ -48,13 +48,15 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-const fullInfo = (getMeData: GetMeQuery['getUser']) => {
+const checkUserInfo = (getMeData: GetMeQuery['getUser']) => {
   return (
     getMeData?.name &&
     getMeData?.gender &&
     getMeData.birthday &&
     getMeData.province &&
-    (getMeData.travelInterests?.length || 0) > 5
+    (getMeData.travelInterests?.length || 0) >= 5 &&
+    (getMeData.personalInterests?.length || 0) >= 5 &&
+    (getMeData.mySpecialty?.length || 0) >= 1
   );
 };
 

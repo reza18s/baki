@@ -64,7 +64,7 @@ body {
 
 .custom-checkbox:checked::after {
   appearance: none;
-  content: url('../assets/icon/tick.svg');
+  content: url('../assets/images/tick.svg');
   position: absolute;
   top: 50%;
   left: 50%;
