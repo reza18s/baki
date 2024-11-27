@@ -19,6 +19,7 @@ import { IcImmoralContent } from '../icons/IcImmoralContent';
 import { IcAnInsult } from '../icons/IcAnInsult';
 import { IcFraud } from '../icons/IcFraud';
 import { IcAdvertisingContent } from '../icons/IcAdvertisingContent';
+import { clsx } from 'clsx';
 const optionTexts: {
   label: string;
   icon?: ((select: boolean) => React.ReactNode) | React.ReactNode;
@@ -64,8 +65,9 @@ const optionTexts: {
 export default function ExploreCard(props: {
   user: RandomUser;
   searchMethod: string;
+  className?: string;
   inView: boolean;
-  handleSwipe: (id: string) => void;
+  handleSwipe: (id: string, direction: 'left' | 'right') => void;
 }) {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(
     null,
@@ -75,7 +77,10 @@ export default function ExploreCard(props: {
   return (
     <>
       <motion.div
-        className="absolute flex max-h-[calc(100%-8px)] w-[calc(100%-16px)] flex-col overflow-y-scroll rounded-2xl"
+        className={clsx(
+          'absolute flex max-h-[calc(100%-8px)] w-[calc(100%-16px)] flex-col overflow-y-scroll rounded-2xl',
+          props.className,
+        )}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         onDrag={(event, info) => {
@@ -86,10 +91,10 @@ export default function ExploreCard(props: {
         onDragEnd={(event, info) => {
           if (info.offset.x > 200) {
             setSwipeDirection('right');
-            props.handleSwipe(props.user.id); // Swipe right logic
+            props.handleSwipe(props.user.id, 'right'); // Swipe right logic
           } else if (info.offset.x < -200) {
             setSwipeDirection('left');
-            props.handleSwipe(props.user.id); // Swipe left logic
+            props.handleSwipe(props.user.id, 'left'); // Swipe left logic
           } else {
             // Reset rotation with animation when swipe is canceled
             setRotation(0);
@@ -113,8 +118,13 @@ export default function ExploreCard(props: {
         <div className="flex flex-col rounded-2xl bg-warning-50">
           {/* Image */}
           <div
-            className={`flex min-h-[60dvh] flex-col justify-between rounded-t-2xl bg-cover bg-center p-4`}
-            style={{ backgroundImage: `url(${CardImage})` }}
+            className={`flex min-h-[60dvh] flex-col justify-between bg-cover bg-center p-4`}
+            style={{
+              backgroundImage: `url(${CardImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
           >
             <p className="mr-auto max-w-fit rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
               {props.searchMethod}
@@ -230,7 +240,7 @@ export default function ExploreCard(props: {
       </div>
       <SendMessageModal
         isOpen={isOpen === 'sendMessage'}
-        name={props.user.name}
+        user={props.user}
         setClose={() => {
           setIsOpen(undefined);
         }}

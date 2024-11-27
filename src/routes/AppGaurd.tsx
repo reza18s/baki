@@ -22,8 +22,8 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
   });
 
   useEffect(() => {
-    if (data?.getUser) {
-      const getMe = data.getUser;
+    if (data?.getMe) {
+      const getMe = data.getMe;
       updateUserInfo(getMe);
       setState('normal');
     }
@@ -48,7 +48,7 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-const checkUserInfo = (getMeData: GetMeQuery['getUser']) => {
+const checkUserInfo = (getMeData: GetMeQuery['getMe']) => {
   return (
     getMeData?.name &&
     getMeData?.gender &&

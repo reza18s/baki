@@ -1,0 +1,11 @@
+query GetNotifications {
+  getNotifications {
+    id
+    content
+    actionId
+    type
+    searchType
+    createdAt
+    read
+  }
+}

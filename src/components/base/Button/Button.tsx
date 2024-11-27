@@ -13,6 +13,7 @@ const Button = forwardRef(function Button(
     children,
     rounded = 'rounded-xl',
     className,
+    loaderClassName,
     ...rest
   } = props;
 
@@ -22,7 +23,14 @@ const Button = forwardRef(function Button(
       className={clsx(style.button, style[variant], rounded, className)}
       {...rest}
     >
-      {props.loading ? <ButtonLoader /> : children}
+      {props.loading ? (
+        <DotesLoading
+          className={clsx('bg-black', loaderClassName)}
+          size="w-2 h-2"
+        />
+      ) : (
+        children
+      )}
     </button>
   );
 });
@@ -44,10 +52,6 @@ export const LargeButton: React.FC<ButtonProps> = ({
       {children}
     </Button>
   );
-};
-
-const ButtonLoader = () => {
-  return <DotesLoading className="bg-white" size="w-2 h-2" />;
 };
 
 export default Button;

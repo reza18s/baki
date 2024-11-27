@@ -13,14 +13,14 @@ import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import {
   RandomUser,
+  useAddToFavoriteMutation,
   useGetRandomUserLazyQuery,
 } from '@/graphql/generated/graphql.codegen';
-import toast from 'react-hot-toast';
-import { Toast } from '@/components/base/toast/toast';
 import { useStore } from '@/store/useStore';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import { IcFilterNotFound } from '@/components/icons/IcFilterNotFound';
 import Modal from '@/components/base/Modal/Modal';
+import { customToast } from '@/components/base/toast';
 
 export default function Explore() {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
@@ -29,9 +29,10 @@ export default function Explore() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [noResult, setNoResult] = useState(false);
   const [start, setStart] = useState(false);
-  const { filters } = useStore((store) => store);
+  const { filters, searchType } = useStore((store) => store);
   const history = useHistory();
   const [getUser, { loading }] = useGetRandomUserLazyQuery();
+  const [addToFavorite] = useAddToFavoriteMutation();
 
   const [cards, setCards] = useState<RandomUser[]>([]);
   useEffect(() => {
@@ -51,27 +52,20 @@ export default function Explore() {
           travelInterests: filters.interest,
         },
         onCompleted: (data) => {
-          console.log('start');
           // @ts-expect-error the
           setCards(data.getRandomUser);
           setNoResult(data.getRandomUser?.length === 0);
         },
-        onError: (err) => {
-          toast.custom(
-            (t) => (
-              <Toast t={t} type="error">
-                {err.message}
-              </Toast>
-            ),
-            {
-              duration: 1500,
-            },
-          );
+        onError: () => {
+          customToast('کاربر موجود نیست', 'error');
         },
       });
     }
   }, [start, filters]);
-  const handleSwipe = (id: string) => {
+  const handleSwipe = (id: string, direction: 'left' | 'right') => {
+    if (direction === 'right') {
+      addToFavorite({ variables: { favoriteId: id, searchType: searchType } });
+    }
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
   return (

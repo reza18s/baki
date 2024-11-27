@@ -47,6 +47,7 @@ export type CompanionRequest = {
   receiver?: Maybe<User>;
   receiverId: Scalars['String']['output'];
   requester?: Maybe<User>;
+  requesterId: Scalars['String']['output'];
   status: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -385,18 +386,19 @@ export type MutationAddToBlackListArgs = {
 
 export type MutationAddToFavoriteArgs = {
   favoriteId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
 };
 
 
 export type MutationCreateCompanionRequestArgs = {
   receiverId: Scalars['String']['input'];
-  status: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
 };
 
 
 export type MutationCreateHostingInvitationArgs = {
   guestId: Scalars['String']['input'];
-  status: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
 };
 
 
@@ -460,6 +462,7 @@ export type MutationUpdateUserArgs = {
   images?: InputMaybe<Array<Scalars['String']['input']>>;
   languages?: InputMaybe<Array<Scalars['String']['input']>>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
+  mainImages?: InputMaybe<Scalars['String']['input']>;
   maritalStatus?: InputMaybe<Scalars['String']['input']>;
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -491,16 +494,10 @@ export type Notification = {
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['String']['output'];
   read: Scalars['Boolean']['output'];
-  type: NotificationType;
-  user: User;
+  searchType: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  user?: Maybe<User>;
 };
-
-export enum NotificationType {
-  Alert = 'ALERT',
-  FriendRequest = 'FRIEND_REQUEST',
-  Invitation = 'INVITATION',
-  Message = 'MESSAGE'
-}
 
 export type Plan = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -520,9 +517,16 @@ export enum PlanType {
 export type Query = {
   getCompanionRequests: Array<CompanionRequest>;
   getHostingInvitations: Array<HostingInvitation>;
+  getMe?: Maybe<User>;
+  getNotifications: Array<Notification>;
   getRandomUser?: Maybe<Array<Maybe<RandomUser>>>;
   getUser?: Maybe<User>;
   getUsers: Array<User>;
+};
+
+
+export type QueryGetMeArgs = {
+  include?: InputMaybe<Includes>;
 };
 
 
@@ -540,6 +544,7 @@ export type QueryGetRandomUserArgs = {
 
 
 export type QueryGetUserArgs = {
+  id: Scalars['String']['input'];
   include?: InputMaybe<Includes>;
 };
 
@@ -603,6 +608,7 @@ export type User = {
   languages?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   lastSeen?: Maybe<Scalars['DateTime']['output']>;
   livedInPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  mainImages?: Maybe<Scalars['String']['output']>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
   messages?: Maybe<Array<Maybe<Message>>>;
   mySpecialty?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -636,6 +642,30 @@ export type ViolationReport = {
   reporterId: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
+
+export type CreateCompanionRequestMutationVariables = Exact<{
+  receiverId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
+}>;
+
+
+export type CreateCompanionRequestMutation = { createCompanionRequest?: { id: string, receiverId: string, status: string } | null };
+
+export type AddToFavoriteMutationVariables = Exact<{
+  favoriteId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
+}>;
+
+
+export type AddToFavoriteMutation = { addToFavorite?: { id: string } | null };
+
+export type CreateHostingInvitationMutationVariables = Exact<{
+  guestId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
+}>;
+
+
+export type CreateHostingInvitationMutation = { createHostingInvitation?: { id: string, hostId: string, guestId: string, status: string } | null };
 
 export type SignupMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
@@ -691,9 +721,128 @@ export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: str
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getUser?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string | null> | null, birthday?: any | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string | null> | null, birthday?: any | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+
+export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
+export type GetNotificationsQuery = { getNotifications: Array<{ id: string, content: string, actionId: string, type: string, searchType: string, createdAt: any, read: boolean }> };
+
+export type GetUserQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string | null> | null, birthday?: any | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+
+
+export const CreateCompanionRequestDocument = gql`
+    mutation CreateCompanionRequest($receiverId: String!, $searchType: String!) {
+  createCompanionRequest(receiverId: $receiverId, searchType: $searchType) {
+    id
+    receiverId
+    status
+  }
+}
+    `;
+export type CreateCompanionRequestMutationFn = Apollo.MutationFunction<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>;
+
+/**
+ * __useCreateCompanionRequestMutation__
+ *
+ * To run a mutation, you first call `useCreateCompanionRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCompanionRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCompanionRequestMutation, { data, loading, error }] = useCreateCompanionRequestMutation({
+ *   variables: {
+ *      receiverId: // value for 'receiverId'
+ *      searchType: // value for 'searchType'
+ *   },
+ * });
+ */
+export function useCreateCompanionRequestMutation(baseOptions?: Apollo.MutationHookOptions<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>(CreateCompanionRequestDocument, options);
+      }
+export type CreateCompanionRequestMutationHookResult = ReturnType<typeof useCreateCompanionRequestMutation>;
+export type CreateCompanionRequestMutationResult = Apollo.MutationResult<CreateCompanionRequestMutation>;
+export type CreateCompanionRequestMutationOptions = Apollo.BaseMutationOptions<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>;
+export const AddToFavoriteDocument = gql`
+    mutation AddToFavorite($favoriteId: String!, $searchType: String!) {
+  addToFavorite(favoriteId: $favoriteId, searchType: $searchType) {
+    id
+  }
+}
+    `;
+export type AddToFavoriteMutationFn = Apollo.MutationFunction<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
+
+/**
+ * __useAddToFavoriteMutation__
+ *
+ * To run a mutation, you first call `useAddToFavoriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToFavoriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToFavoriteMutation, { data, loading, error }] = useAddToFavoriteMutation({
+ *   variables: {
+ *      favoriteId: // value for 'favoriteId'
+ *      searchType: // value for 'searchType'
+ *   },
+ * });
+ */
+export function useAddToFavoriteMutation(baseOptions?: Apollo.MutationHookOptions<AddToFavoriteMutation, AddToFavoriteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToFavoriteMutation, AddToFavoriteMutationVariables>(AddToFavoriteDocument, options);
+      }
+export type AddToFavoriteMutationHookResult = ReturnType<typeof useAddToFavoriteMutation>;
+export type AddToFavoriteMutationResult = Apollo.MutationResult<AddToFavoriteMutation>;
+export type AddToFavoriteMutationOptions = Apollo.BaseMutationOptions<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
+export const CreateHostingInvitationDocument = gql`
+    mutation CreateHostingInvitation($guestId: String!, $searchType: String!) {
+  createHostingInvitation(guestId: $guestId, searchType: $searchType) {
+    id
+    hostId
+    guestId
+    status
+  }
+}
+    `;
+export type CreateHostingInvitationMutationFn = Apollo.MutationFunction<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>;
+
+/**
+ * __useCreateHostingInvitationMutation__
+ *
+ * To run a mutation, you first call `useCreateHostingInvitationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateHostingInvitationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createHostingInvitationMutation, { data, loading, error }] = useCreateHostingInvitationMutation({
+ *   variables: {
+ *      guestId: // value for 'guestId'
+ *      searchType: // value for 'searchType'
+ *   },
+ * });
+ */
+export function useCreateHostingInvitationMutation(baseOptions?: Apollo.MutationHookOptions<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>(CreateHostingInvitationDocument, options);
+      }
+export type CreateHostingInvitationMutationHookResult = ReturnType<typeof useCreateHostingInvitationMutation>;
+export type CreateHostingInvitationMutationResult = Apollo.MutationResult<CreateHostingInvitationMutation>;
+export type CreateHostingInvitationMutationOptions = Apollo.BaseMutationOptions<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>;
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
   Signin(phoneNumber: $phoneNumber)
@@ -942,7 +1091,7 @@ export type GetRandomUserSuspenseQueryHookResult = ReturnType<typeof useGetRando
 export type GetRandomUserQueryResult = Apollo.QueryResult<GetRandomUserQuery, GetRandomUserQueryVariables>;
 export const GetMeDocument = gql`
     query GetMe {
-  getUser {
+  getMe {
     name
     username
     id
@@ -1002,3 +1151,112 @@ export type GetMeQueryHookResult = ReturnType<typeof useGetMeQuery>;
 export type GetMeLazyQueryHookResult = ReturnType<typeof useGetMeLazyQuery>;
 export type GetMeSuspenseQueryHookResult = ReturnType<typeof useGetMeSuspenseQuery>;
 export type GetMeQueryResult = Apollo.QueryResult<GetMeQuery, GetMeQueryVariables>;
+export const GetNotificationsDocument = gql`
+    query GetNotifications {
+  getNotifications {
+    id
+    content
+    actionId
+    type
+    searchType
+    createdAt
+    read
+  }
+}
+    `;
+
+/**
+ * __useGetNotificationsQuery__
+ *
+ * To run a query within a React component, call `useGetNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetNotificationsQuery(baseOptions?: Apollo.QueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+      }
+export function useGetNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+        }
+export function useGetNotificationsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetNotificationsQuery, GetNotificationsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNotificationsQuery, GetNotificationsQueryVariables>(GetNotificationsDocument, options);
+        }
+export type GetNotificationsQueryHookResult = ReturnType<typeof useGetNotificationsQuery>;
+export type GetNotificationsLazyQueryHookResult = ReturnType<typeof useGetNotificationsLazyQuery>;
+export type GetNotificationsSuspenseQueryHookResult = ReturnType<typeof useGetNotificationsSuspenseQuery>;
+export type GetNotificationsQueryResult = Apollo.QueryResult<GetNotificationsQuery, GetNotificationsQueryVariables>;
+export const GetUserDocument = gql`
+    query GetUser($id: String!) {
+  getUser(id: $id) {
+    id
+    name
+    username
+    avatar
+    phoneNumber
+    gender
+    languages
+    birthday
+    traveledToPlaces
+    livedInPlaces
+    province
+    age
+    city
+    images
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables> & ({ variables: GetUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export function useGetUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;

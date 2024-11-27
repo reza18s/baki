@@ -12,7 +12,7 @@ export default function Welcome() {
   const hs = useHistory();
   const { data } = useGetMeQuery();
   useEffect(() => {
-    if (data?.getUser) {
+    if (data?.getMe) {
       hs.push(paths.explore.main);
     }
   }, [data]);

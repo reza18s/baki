@@ -38,22 +38,22 @@ function MainLayout({ children }: MainLayoutProps) {
       <div className="fixed bottom-0 z-[101] flex h-14 w-full items-center justify-between bg-white px-5 py-3 shadow-[0_0_5px_#88888875]">
         <Link to={paths.main.chat}>
           <IcChatTap
-            className={activeTab === 'chat' ? 'fill-brand-yellow' : ''}
+            className={`${activeTab === 'chat' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
           ></IcChatTap>
         </Link>
         <Link to={paths.main.notifications}>
           <IcHeardTap
-            className={`${activeTab === 'notifications' ? 'fill-brand-yellow' : ''} `}
+            className={`${activeTab === 'notifications' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
           />
         </Link>
         <Link to={paths.main.explore}>
           <IcExploreTap
-            className={activeTab === 'explore' ? 'fill-brand-yellow' : ''}
+            className={`${activeTab === 'explore' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
           />
         </Link>
         <Link to={paths.main.profile}>
           <IcProfileTap
-            className={activeTab === 'profile' ? 'fill-brand-yellow' : ''}
+            className={`${activeTab === 'profile' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
           />
         </Link>
       </div>

@@ -5,16 +5,29 @@ import { IcCase } from '../icons/IcCase';
 import { IcChair } from '../icons/IcChair';
 import { IcSendMessage } from '../icons/IcSendMessage';
 import CardImage from '../../assets/images/image.png';
+import {
+  RandomUser,
+  useCreateCompanionRequestMutation,
+  useCreateHostingInvitationMutation,
+} from '@/graphql/generated/graphql.codegen';
+import { useStore } from '@/store/useStore';
+import { customToast } from '../base/toast';
+import { CircleSpinner } from '../base/Loader/Loader';
 
 export const SendMessageModal = ({
-  name,
+  user,
   isOpen,
   setClose,
 }: {
-  name: string;
+  user: RandomUser;
   isOpen: boolean;
   setClose: () => void;
 }) => {
+  const [createHostingInvitation, { loading: HostingLoading }] =
+    useCreateHostingInvitationMutation();
+  const [createCompanionRequest, { loading: companionLoading }] =
+    useCreateCompanionRequestMutation();
+  const { searchType } = useStore((store) => store);
   return (
     <BottomSheetModal
       show={false}
@@ -27,11 +40,23 @@ export const SendMessageModal = ({
         <img src={CardImage} className="rounded-full"></img>
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-4">
-        <h2 className="text-lg font-bold">دوست داری به {name} چی بگی؟</h2>
+        <h2 className="text-lg font-bold">دوست داری به {user.name} چی بگی؟</h2>
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <Button
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
+            onClick={() => {
+              createCompanionRequest({
+                variables: { receiverId: user.id, searchType: searchType },
+                onCompleted: () => {
+                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                },
+                onError: () => {
+                  customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
+                },
+              });
+            }}
+            loading={companionLoading}
           >
             <IcCase></IcCase>
             ارسال درخواست همسفری
@@ -39,6 +64,18 @@ export const SendMessageModal = ({
           <Button
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
+            onClick={() => {
+              createHostingInvitation({
+                variables: { guestId: user.id, searchType: searchType },
+                onCompleted: () => {
+                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                },
+                onError: () => {
+                  customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
+                },
+              });
+            }}
+            loading={HostingLoading}
           >
             <IcChair></IcChair>ارسال دعوت میزبانی
           </Button>
