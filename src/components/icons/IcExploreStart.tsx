@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
-export const IcExploreStart: FC<IconProps> = ({ className }) => {
+export const IcExploreStart: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="41"
@@ -8,6 +8,7 @@ export const IcExploreStart: FC<IconProps> = ({ className }) => {
       viewBox="0 0 41 40"
       fill="none"
       className={className}
+      {...props}
     >
       <g clipPath="url(#clip0_2823_27013)">
         <path

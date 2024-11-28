@@ -12,7 +12,7 @@ export default function ArrowButton(props: {
   return (
     <Link
       to={props.url || '/profile'}
-      className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-6 py-[12px] text-brand-black ${props.className}`}
+      className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black ${props.className}`}
       onClick={props.onClick}
     >
       <div className="flex items-center gap-x-2">

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
-export const IcFakeProfile: FC<IconProps> = ({ className }) => {
+export const IcFakeProfile: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="20"
@@ -8,6 +8,7 @@ export const IcFakeProfile: FC<IconProps> = ({ className }) => {
       viewBox="0 0 20 20"
       fill="#FE4A49"
       className={className}
+      {...props}
     >
       <circle cx="10" cy="4.99999" r="3.33333" />
       <path d="M12.8456 11.2562C12.0039 10.9869 11.0333 10.8333 10 10.8333C6.77834 10.8333 4.16667 12.3257 4.16667 14.1667C4.16667 15.9505 6.61871 17.407 9.70179 17.4957C9.67915 17.3905 9.66169 17.286 9.64789 17.1834C9.58316 16.702 9.58325 16.1138 9.58335 15.4883V15.345C9.58325 14.7196 9.58316 14.1314 9.64789 13.6499C9.71992 13.1142 9.89208 12.5278 10.3766 12.0433C10.8611 11.5587 11.4475 11.3866 11.9833 11.3145C12.2432 11.2796 12.5343 11.2635 12.8456 11.2562Z" />

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
-export const IcTickCircle: FC<IconProps> = ({ className }) => {
+export const IcTickCircle: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="16"
@@ -9,6 +9,7 @@ export const IcTickCircle: FC<IconProps> = ({ className }) => {
       fill="none"
       stroke="#149A6D"
       className={className}
+      {...props}
     >
       <g clipPath="url(#clip0_789_42903)">
         <circle cx="8.00016" cy="7.99992" r="6.66667" strokeWidth="1.5" />

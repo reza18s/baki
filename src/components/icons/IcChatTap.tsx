@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
 
-export const IcChatTap: FC<IconProps> = ({ className }) => {
+export const IcChatTap: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="30"
@@ -9,6 +9,7 @@ export const IcChatTap: FC<IconProps> = ({ className }) => {
       viewBox="0 0 30 30"
       fill="#94A3B8"
       className={className}
+      {...props}
     >
       <path
         fillRule="evenodd"

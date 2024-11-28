@@ -1,13 +1,14 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
 
-export const IcAnInsult: FC<IconProps> = ({ className }) => {
+export const IcAnInsult: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="20"
       height="20"
       viewBox="0 0 20 20"
       className={className}
+      {...props}
       fill="#FE4A49"
     >
       <path d="M11.7433 8.95834L11.1183 11.0417H8.25669L8.88169 8.95834H11.7433Z" />

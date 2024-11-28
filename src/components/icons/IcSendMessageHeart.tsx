@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
-export const IcSendMessageHeart: FC<IconProps> = ({ className }) => {
+export const IcSendMessageHeart: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="17"
@@ -8,6 +8,7 @@ export const IcSendMessageHeart: FC<IconProps> = ({ className }) => {
       viewBox="0 0 17 18"
       fill="none"
       className={className}
+      {...props}
     >
       <path
         fillRule="evenodd"

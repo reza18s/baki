@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
-export const IcFilterNotFound: FC<IconProps> = ({ className }) => {
+export const IcFilterNotFound: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="37"
@@ -8,6 +8,7 @@ export const IcFilterNotFound: FC<IconProps> = ({ className }) => {
       viewBox="0 0 37 36"
       fill="none"
       className={className}
+      {...props}
     >
       <path
         d="M20 24C20 24.8284 19.3284 25.5 18.5 25.5C17.6716 25.5 17 24.8284 17 24C17 23.1716 17.6716 22.5 18.5 22.5C19.3284 22.5 20 23.1716 20 24Z"

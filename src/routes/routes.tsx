@@ -11,7 +11,7 @@ import { paths } from './paths';
 import Explore from '@/pages/Explore';
 import Welcome from '@/pages/welcome';
 import Signup from '@/pages/signup';
-import Profile from '@/pages/Profile/profile';
+import EditProfile from '@/pages/Profile/editProfile';
 import Filter from '@/pages/Explore/Filter';
 import Chat from '@/pages/Chat/Chat';
 import CompleteProfile from '@/pages/Profile/ComplateProfile';
@@ -24,6 +24,7 @@ import CompletePersonalInterests from '@/components/Profile/CompletePersonalInte
 import CompleteProvinces from '@/components/Profile/CompleteProvinces';
 import CompleteSpecialty from '@/components/Profile/CompleteSpecialty';
 import BasicInformations from '@/components/Profile/BasicInformations/BasicInformations';
+import { Profile } from '@/pages/Profile/profile';
 const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -85,6 +86,11 @@ export default function Routes() {
               <Route exact path={paths.signup.main} component={Signup} />
               <Route
                 exact
+                path={paths.profile.editProfile}
+                component={EditProfile}
+              />
+              <Route
+                exact
                 path={paths.profile.completeProfile}
                 component={CompleteProfile}
               />
@@ -100,7 +106,7 @@ export default function Routes() {
               />
               <Route
                 exact
-                path={paths.profile.completeGeneralInterests}
+                path={paths.profile.completeTravelInterests}
                 component={CompleteTravelInterests}
               />
               <Route
@@ -110,7 +116,7 @@ export default function Routes() {
               />
               <Route
                 exact
-                path={paths.profile.completeResidenceCity}
+                path={paths.profile.completeProvinces}
                 component={CompleteProvinces}
               />
               <Route
@@ -132,7 +138,7 @@ export default function Routes() {
                       <Route exact path={match.path} component={Explore} />
                       <Route
                         exact
-                        path={paths.profile.main}
+                        path={paths.main.profile}
                         component={Profile}
                       />
                       <Route

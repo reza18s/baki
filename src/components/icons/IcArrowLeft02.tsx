@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
 
-const IcArrowLeft02: FC<IconProps> = ({ className }) => {
+const IcArrowLeft02: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="16"
@@ -9,6 +9,7 @@ const IcArrowLeft02: FC<IconProps> = ({ className }) => {
       viewBox="0 0 16 16"
       fill="none"
       className={className}
+      {...props}
       stroke="currentColor"
     >
       <path

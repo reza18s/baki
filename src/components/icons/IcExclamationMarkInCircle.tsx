@@ -5,7 +5,13 @@ export const IcExclamationMarkInCircle: FC<IconProps> = ({
   stroke,
 }) => {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" className={className}>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      className={className}
+      {...props}
+    >
       <g clipPath="url(#clip0_5071_15412)">
         <circle
           cx="8.00016"

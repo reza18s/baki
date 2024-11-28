@@ -33,6 +33,7 @@ export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
   handlePrevStep: () => void;
   handleNextStep: () => void;
+  calculateCompletionPercentage: () => number;
   updateUserInfo: (
     userInfo: ((prev: UserInfo) => Partial<UserInfo>) | Partial<UserInfo>,
   ) => void;
@@ -82,6 +83,29 @@ export const useLocalStore = create<Store>()(
           }
           return { step: step(prev.step) };
         });
+      },
+      calculateCompletionPercentage: () => {
+        const userInfo = get().userInfo;
+        const fields = [
+          userInfo.name,
+          userInfo.username,
+          userInfo.bio,
+          userInfo.province,
+          userInfo.gender,
+          userInfo.images.length >= 4,
+          userInfo.personalInterests.length >= 5,
+          userInfo.travelInterests.length >= 5,
+          userInfo.mySpecialty.length > 0,
+          userInfo.maritalStatus,
+          userInfo.AmountOfEarlyRising,
+          userInfo.smokeStatus,
+          userInfo.spiritStatus,
+          userInfo.sportsStatus,
+          userInfo.username,
+          userInfo.verified,
+        ];
+        const completedFields = fields.filter(Boolean).length;
+        return Math.round((completedFields / fields.length) * 100);
       },
       handleNextStep: () => {
         get().setSteps((prev) => (prev + 1) as StepsNumber);

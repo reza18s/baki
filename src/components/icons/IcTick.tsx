@@ -1,8 +1,14 @@
 import React from 'react';
 
-export const IcTick = ({ className }: { className?: string }) => {
+export const IcTick = ({ className, ...props }: { className?: string }) => {
   return (
-    <svg width="34" height="26" viewBox="0 0 34 26" className={className}>
+    <svg
+      width="34"
+      height="26"
+      viewBox="0 0 34 26"
+      className={className}
+      {...props}
+    >
       <path
         d="M33.1213 0.87868C34.2929 2.05025 34.2929 3.94975 33.1213 5.12132L13.1213 25.1213C11.9497 26.2929 10.0503 26.2929 8.87868 25.1213L0.87868 17.1213C-0.292893 15.9497 -0.292893 14.0503 0.87868 12.8787C2.05025 11.7071 3.94975 11.7071 5.12132 12.8787L11 18.7574L19.9393 9.81802L28.8787 0.87868C30.0503 -0.292893 31.9497 -0.292893 33.1213 0.87868Z"
         fill="#1A1D1E"

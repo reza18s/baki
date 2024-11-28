@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { IconProps } from './icons.types';
-export const IcChatPage: FC<IconProps> = ({ className }) => {
+export const IcChatPage: FC<IconProps> = ({ className, ...props }) => {
   return (
     <svg
       width="65"
@@ -8,6 +8,7 @@ export const IcChatPage: FC<IconProps> = ({ className }) => {
       viewBox="0 0 65 64"
       fill="none"
       className={className}
+      {...props}
     >
       <rect x="0.5" width="64" height="64" rx="32" fill="#FFCC4E" />
       <path

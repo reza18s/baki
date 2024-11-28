@@ -10,14 +10,15 @@ export const paths = {
   },
   profile: {
     main: '/profile', // User profile page
+    editProfile: '/profile/edit_profile',
     completeProfile: '/profile/complete_profile', // Complete profile page
     identityVerification: '/profile/complete_profile/identify_verification', // Identity verification
     completePictures: '/profile/complete_profile/complete_pictures', // Complete pictures
-    completeGeneralInterests:
+    completeTravelInterests:
       '/profile/complete_profile/complete_generalinterests', // General interests
     completePersonalInterests:
       '/profile/complete_profile/complete_personalInterests', // Personal interests
-    completeResidenceCity: '/profile/complete_profile/complete_residencecity', // Residence city
+    completeProvinces: '/profile/complete_profile/complete_provinces', // Residence city
     completeSpecialty: '/profile/complete_profile/complete_specialty', // Specialty
     basicInformations: '/profile/complete_profile/complete_basicinformations', // Basic information
     languagesKnow: '/profile/complete_profile/complete_languagesknow', // Language skills
@@ -31,7 +32,6 @@ export const paths = {
     explore: '/',
     profile: '/profile', // Complete profile within Explore
     chat: '/chat', // Chat page in Explore
-
     notifications: '/notifications',
   },
 };

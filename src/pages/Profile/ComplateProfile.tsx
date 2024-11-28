@@ -7,6 +7,9 @@ import { useMemo } from 'react';
 
 export default function CompleteProfile() {
   const userInfo = useLocalStore((store) => store.userInfo);
+  const calculateCompletionPercentage = useLocalStore(
+    (store) => store.calculateCompletionPercentage,
+  );
 
   // Memoized cards data to avoid unnecessary re-renders
   const cardsData = useMemo(() => getCardsData(userInfo), [userInfo]);
@@ -14,7 +17,11 @@ export default function CompleteProfile() {
   return (
     <Page
       contentClassName="flex h-full w-full flex-col items-center p-6 pt-20"
-      header={<AppBar title={'65 درصد تکمیل شده'}></AppBar>}
+      header={
+        <AppBar
+          title={`${calculateCompletionPercentage()} درصد تکمیل شده`}
+        ></AppBar>
+      }
     >
       {/* Page Header */}
       <div className="flex w-full flex-col items-center gap-y-3 text-center">
