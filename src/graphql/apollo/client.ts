@@ -1,11 +1,21 @@
+import { customToast } from '@/components/base/toast';
 import {
   ApolloClient,
   ApolloLink,
+  gql,
   HttpLink,
   InMemoryCache,
   Observable,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
+
+const REFRESH_TOKEN_MUTATION = gql`
+  mutation RefreshAccessToken {
+    refreshAccessToken {
+      accessToken
+    }
+  }
+`;
 
 // Utility to safely retrieve the token from localStorage
 const getToken = () => {
@@ -27,29 +37,29 @@ const saveToken = (token: string) => {
 };
 
 // Function to refresh the access token
-const refreshAccessToken = async () => {
+const refreshAccessToken = async (client: ApolloClient<any>) => {
   try {
     const refreshToken = localStorage.getItem('refreshToken');
     if (!refreshToken) {
       throw new Error('No refresh token available');
     }
 
-    // Call the refresh token endpoint
-    const response = await fetch('http://localhost:3000/refresh-token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken }),
+    const { data } = await client.mutate({
+      mutation: REFRESH_TOKEN_MUTATION,
+      variables: { refreshToken },
+      context: {
+        headers: {
+          authorization: `Bearer ${refreshToken}`,
+        },
+      },
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to refresh token');
+    if (!data || !data.refreshAccessToken) {
+      throw new Error('Failed to refresh token');
     }
 
-    // Save the new token and return it
-    saveToken(data.accessToken);
-    return data.accessToken;
+    saveToken(data.refreshAccessToken.accessToken);
+    return data.refreshAccessToken.accessToken;
   } catch (error) {
     console.error('Failed to refresh access token:', error);
     return null;
@@ -59,29 +69,26 @@ const refreshAccessToken = async () => {
 // Middleware to set the Authorization header
 const authLink = new ApolloLink((operation, forward) => {
   const token = getToken();
-
   operation.setContext(({ headers = {} }) => ({
     headers: {
-      ...headers,
       authorization: token ? `Bearer ${token}` : '',
+      ...headers,
     },
   }));
 
   return forward(operation);
 });
 
-// Error handling link to detect 401 errors and refresh the token
+// Error handling link
 const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
-        if (err.extensions?.code === 'UNAUTHENTICATED') {
-          // Token is expired or invalid
+        if (err.code === 'INVALID_TOKEN') {
           return new Observable((observer) => {
-            refreshAccessToken()
+            refreshAccessToken(client) // Pass client as argument
               .then((newToken) => {
                 if (newToken) {
-                  // Update the operation with the new token
                   operation.setContext(({ headers = {} }) => ({
                     headers: {
                       ...headers,
@@ -89,7 +96,6 @@ const errorLink = onError(
                     },
                   }));
 
-                  // Retry the request
                   forward(operation).subscribe({
                     next: observer.next.bind(observer),
                     error: observer.error.bind(observer),
@@ -99,29 +105,60 @@ const errorLink = onError(
                   observer.error(new Error('Could not refresh token'));
                 }
               })
-              .catch((err) => {
-                observer.error(err);
-              });
+              .catch((err) => observer.error(err));
           });
         }
       }
     }
 
     if (networkError) {
-      console.error(`[Network error]: ${networkError}`);
+      handleNetworkError(networkError);
     }
   },
 );
 
+// Utility function for network errors
+const handleNetworkError = (networkError: any) => {
+  if (networkError.message === 'Failed to fetch') {
+    customToast('لطفا انترنت خود را چک کنید', 'error');
+  } else if (networkError.message.includes('timeout')) {
+    customToast('اتصال به سرور تایم‌اوت شده است، دوباره تلاش کنید', 'error');
+  } else {
+    customToast(`خطای شبکه: ${networkError.message}`, 'error');
+  }
+};
+
 // HttpLink for the GraphQL endpoint
 const httpLink = new HttpLink({
-  uri: import.meta.env.VITE_APP_BASE_URL || 'http://localhost:3000/graphql',
+  uri: '/graphql',
+  credentials: 'include',
+  fetchOptions: {
+    timeout: 5000,
+  },
 });
 
-// Combine the links
-const link = ApolloLink.from([errorLink, authLink, httpLink]);
+// Response middleware to handle refresh token storage
+const responseMiddleware = new ApolloLink((operation, forward) => {
+  return forward(operation).map((response) => {
+    const headers = operation.getContext().response.headers;
+    const authHeader = headers.get('x-refresh-token');
+    if (authHeader) {
+      localStorage.setItem('refreshToken', authHeader);
+    }
 
-// Initialize Apollo Client with the combined link
+    return response;
+  });
+});
+
+// Combine all ApolloLinks
+const link = ApolloLink.from([
+  errorLink,
+  authLink,
+  responseMiddleware,
+  httpLink,
+]);
+
+// Initialize Apollo Client
 export const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),

@@ -1,4 +1,4 @@
-import { RandomUser } from '@/graphql/generated/graphql.codegen';
+import { RandomUser, User } from '@/graphql/generated/graphql.codegen';
 import {
   AmountOfEarlyRising,
   gender,
@@ -8,7 +8,7 @@ import {
   sportStatus,
 } from '@/lib/constants';
 
-export const getBaseInfo = (user: RandomUser) => {
+export const getBaseInfo = (user: RandomUser | User) => {
   return [
     gender.find((val) => val.value === user.gender)!.label,
     spiritStatus.find((val) => val.value === user.spiritStatus)!.label,

@@ -7,14 +7,14 @@ export function Info({
   items,
 }: {
   title: string;
-  items: string[];
+  items?: string[];
   className?: string;
 }) {
   return (
     <div>
       <h1 className={clsx('my-2 text-sm text-gray-500')}>{title}</h1>
       <div className="flex flex-wrap gap-2">
-        {items.map((val, index) => {
+        {items?.map((val, index) => {
           const item = allIcon.find((val2) => val2.title === val);
           return (
             <div

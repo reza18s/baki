@@ -9,8 +9,8 @@ import {
   useGetUserQuery,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
-import { getSearchTypeLabel } from '@/utils';
 import { CircleSpinner } from '../base/Loader/Loader';
+import { getSearchTypeLabel } from '@/utils';
 
 export const LikeModal = ({
   isOpen,

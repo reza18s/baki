@@ -9,17 +9,17 @@ import {
   RandomUser,
   useCreateCompanionRequestMutation,
   useCreateHostingInvitationMutation,
+  User,
 } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { customToast } from '../base/toast';
-import { CircleSpinner } from '../base/Loader/Loader';
 
 export const SendMessageModal = ({
   user,
   isOpen,
   setClose,
 }: {
-  user: RandomUser;
+  user: RandomUser | User;
   isOpen: boolean;
   setClose: () => void;
 }) => {

@@ -12,5 +12,5 @@ export const customToast = (
         {content}
       </Toast>
     ),
-    option,
+    { ...option },
   );

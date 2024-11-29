@@ -2,6 +2,6 @@ mutation CreateCompanionRequest($receiverId: String!, $searchType: String!) {
   createCompanionRequest(receiverId: $receiverId, searchType: $searchType) {
     id
     receiverId
-    status
+    requesterId
   }
 }

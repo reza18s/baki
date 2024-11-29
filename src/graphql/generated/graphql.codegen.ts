@@ -604,18 +604,18 @@ export type User = {
   guestInvitations?: Maybe<Array<Maybe<HostingInvitation>>>;
   hostingInvitations?: Maybe<Array<Maybe<HostingInvitation>>>;
   id: Scalars['String']['output'];
-  images?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  languages?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  images?: Maybe<Array<Scalars['String']['output']>>;
+  languages?: Maybe<Array<Scalars['String']['output']>>;
   lastSeen?: Maybe<Scalars['DateTime']['output']>;
-  livedInPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  livedInPlaces?: Maybe<Array<Scalars['String']['output']>>;
   mainImages?: Maybe<Scalars['String']['output']>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
   messages?: Maybe<Array<Maybe<Message>>>;
-  mySpecialty?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  mySpecialty?: Maybe<Array<Scalars['String']['output']>>;
   name?: Maybe<Scalars['String']['output']>;
   otp?: Maybe<Scalars['String']['output']>;
   otpExpiresAt?: Maybe<Scalars['DateTime']['output']>;
-  personalInterests?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  personalInterests?: Maybe<Array<Scalars['String']['output']>>;
   phoneNumber: Scalars['String']['output'];
   plans?: Maybe<Array<Maybe<Plan>>>;
   province?: Maybe<Scalars['String']['output']>;
@@ -626,8 +626,8 @@ export type User = {
   smokeStatus?: Maybe<Scalars['String']['output']>;
   spiritStatus?: Maybe<Scalars['String']['output']>;
   sportsStatus?: Maybe<Scalars['String']['output']>;
-  travelInterests?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  traveledToPlaces?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  travelInterests?: Maybe<Array<Scalars['String']['output']>>;
+  traveledToPlaces?: Maybe<Array<Scalars['String']['output']>>;
   updatedAt: Scalars['DateTime']['output'];
   username?: Maybe<Scalars['String']['output']>;
   verified: Scalars['Boolean']['output'];
@@ -649,7 +649,7 @@ export type CreateCompanionRequestMutationVariables = Exact<{
 }>;
 
 
-export type CreateCompanionRequestMutation = { createCompanionRequest?: { id: string, receiverId: string, status: string } | null };
+export type CreateCompanionRequestMutation = { createCompanionRequest?: { id: string, receiverId: string, requesterId: string } | null };
 
 export type AddToFavoriteMutationVariables = Exact<{
   favoriteId: Scalars['String']['input'];
@@ -667,6 +667,11 @@ export type CreateHostingInvitationMutationVariables = Exact<{
 
 export type CreateHostingInvitationMutation = { createHostingInvitation?: { id: string, hostId: string, guestId: string, status: string } | null };
 
+export type RefreshAccessTokenMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshAccessTokenMutation = { refreshAccessToken?: { accessToken?: string | null } | null };
+
 export type SignupMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
 }>;
@@ -680,7 +685,7 @@ export type VerifyOtpMutationVariables = Exact<{
 }>;
 
 
-export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, images?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, personalInterests?: Array<string | null> | null, travelInterests?: Array<string | null> | null, username?: string | null, avatar?: string | null, phoneNumber: string, languages?: Array<string | null> | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, age?: number | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, city?: string | null, AmountOfEarlyRising?: string | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
+export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, images?: Array<string> | null, mySpecialty?: Array<string> | null, personalInterests?: Array<string> | null, travelInterests?: Array<string> | null, username?: string | null, avatar?: string | null, phoneNumber: string, languages?: Array<string> | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, age?: number | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, city?: string | null, AmountOfEarlyRising?: string | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -721,7 +726,7 @@ export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: str
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string | null> | null, birthday?: any | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -733,7 +738,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string | null> | null, birthday?: any | null, traveledToPlaces?: Array<string | null> | null, livedInPlaces?: Array<string | null> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 
 export const CreateCompanionRequestDocument = gql`
@@ -741,7 +746,7 @@ export const CreateCompanionRequestDocument = gql`
   createCompanionRequest(receiverId: $receiverId, searchType: $searchType) {
     id
     receiverId
-    status
+    requesterId
   }
 }
     `;
@@ -843,6 +848,38 @@ export function useCreateHostingInvitationMutation(baseOptions?: Apollo.Mutation
 export type CreateHostingInvitationMutationHookResult = ReturnType<typeof useCreateHostingInvitationMutation>;
 export type CreateHostingInvitationMutationResult = Apollo.MutationResult<CreateHostingInvitationMutation>;
 export type CreateHostingInvitationMutationOptions = Apollo.BaseMutationOptions<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>;
+export const RefreshAccessTokenDocument = gql`
+    mutation RefreshAccessToken {
+  refreshAccessToken {
+    accessToken
+  }
+}
+    `;
+export type RefreshAccessTokenMutationFn = Apollo.MutationFunction<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>;
+
+/**
+ * __useRefreshAccessTokenMutation__
+ *
+ * To run a mutation, you first call `useRefreshAccessTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefreshAccessTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refreshAccessTokenMutation, { data, loading, error }] = useRefreshAccessTokenMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRefreshAccessTokenMutation(baseOptions?: Apollo.MutationHookOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>(RefreshAccessTokenDocument, options);
+      }
+export type RefreshAccessTokenMutationHookResult = ReturnType<typeof useRefreshAccessTokenMutation>;
+export type RefreshAccessTokenMutationResult = Apollo.MutationResult<RefreshAccessTokenMutation>;
+export type RefreshAccessTokenMutationOptions = Apollo.BaseMutationOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>;
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
   Signin(phoneNumber: $phoneNumber)

@@ -11,7 +11,6 @@ import { CiStar } from 'react-icons/ci';
 import { useEffect, useRef, useState } from 'react';
 import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
-import { useLocation } from 'react-router-dom';
 import { Page } from '@/components/layout/Page';
 import AppBar from '@/components/layout/Header/AppBar';
 import { LanguageModal } from '@/components/shared/modals/languageModal';
@@ -25,7 +24,6 @@ export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
     'language' | 'livedInPlaces' | 'traveledToPlaces'
   >();
-  const { hash } = useLocation(); // Retrieve the current hash from the URL
   const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
   const userInfo = useLocalStore((store) => store.userInfo);
   const calculateCompletionPercentage = useLocalStore(
@@ -53,11 +51,6 @@ export default function EditProfile() {
   ];
 
   const timeoutRef = useRef<number | null>(null); // Specify the type here
-  useEffect(() => {
-    if (hash === '#biography' && bioRef.current) {
-      bioRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [hash]); // Trigger when the hash changes
   useEffect(() => {
     // Clear any existing timer
     if (timeoutRef.current !== null) {
@@ -176,7 +169,7 @@ export default function EditProfile() {
             value={watch('username')}
           />
         </div>
-        <div className="w-full" id="biography" ref={bioRef}>
+        <div className="w-full" id="biography">
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
             بیوگرافی
           </h2>

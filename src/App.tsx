@@ -30,7 +30,7 @@ const App: React.FC = () => {
       <Toaster
         position="top-center"
         gutter={12}
-        containerStyle={{ margin: '45px' }}
+        containerStyle={{ margin: '20px' }}
         toastOptions={{
           duration: 1000,
         }}

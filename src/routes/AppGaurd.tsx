@@ -4,6 +4,7 @@ import { DotesLoading } from '@/components/base/Loader/Loader';
 import { GetMeQuery, useGetMeQuery } from '@/graphql/generated/graphql.codegen';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useHistory } from 'react-router';
+import { customToast } from '@/components/base/toast';
 
 type GuardState = 'normal' | 'loading';
 
@@ -14,7 +15,10 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
   const setSteps = useLocalStore((s) => s.setSteps);
 
   const { data } = useGetMeQuery({
-    onError() {
+    onError(err) {
+      if (err.message == 'Failed to fetch') {
+        return;
+      }
       setSteps(0);
       history.push(paths.welcome.main);
       setState('normal');
