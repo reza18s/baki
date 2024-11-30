@@ -32,7 +32,7 @@ const App: React.FC = () => {
         gutter={12}
         containerStyle={{ margin: '20px' }}
         toastOptions={{
-          duration: 1000,
+          duration: 1500,
         }}
       />
     </IonApp>

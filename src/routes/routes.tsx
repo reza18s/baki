@@ -25,7 +25,7 @@ import CompleteProvinces from '@/components/Profile/CompleteProvinces';
 import CompleteSpecialty from '@/components/Profile/CompleteSpecialty';
 import BasicInformations from '@/components/Profile/BasicInformations/BasicInformations';
 import { Profile } from '@/pages/Profile/profile';
-const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
+export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
     .fromTo('transform', 'scale(0.9)', 'scale(1)')
@@ -75,12 +75,8 @@ export default function Routes() {
           )
         }
       >
-        <AppGuard>
-          <IonRouterOutlet
-            animated={true}
-            animation={zoomInAnimation}
-            mode="md"
-          >
+        <IonRouterOutlet animated={true} animation={zoomInAnimation} mode="md">
+          <AppGuard>
             <Switch>
               <Route exact path={paths.welcome.main} component={Welcome} />
               <Route exact path={paths.signup.main} component={Signup} />
@@ -152,8 +148,8 @@ export default function Routes() {
                 )}
               />
             </Switch>
-          </IonRouterOutlet>
-        </AppGuard>
+          </AppGuard>
+        </IonRouterOutlet>
       </Suspense>
     </IonReactRouter>
   );

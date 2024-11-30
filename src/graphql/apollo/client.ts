@@ -124,14 +124,13 @@ const handleNetworkError = (networkError: any) => {
   } else if (networkError.message.includes('timeout')) {
     customToast('اتصال به سرور تایم‌اوت شده است، دوباره تلاش کنید', 'error');
   } else {
-    customToast(`خطای شبکه: ${networkError.message}`, 'error');
+    customToast(`مشکلی در سرور پیش امد لطفا دوباره امتحان کنیید`, 'error');
   }
 };
 
 // HttpLink for the GraphQL endpoint
 const httpLink = new HttpLink({
-  uri: '/graphql',
-  credentials: 'include',
+  uri: import.meta.env.VITE_APP_BASE_URL,
   fetchOptions: {
     timeout: 5000,
   },
