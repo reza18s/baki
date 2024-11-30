@@ -3,6 +3,7 @@ import { IconProps } from './icons.types';
 export const IcExclamationMarkInCircle: FC<IconProps> = ({
   className,
   stroke,
+  ...props
 }) => {
   return (
     <svg

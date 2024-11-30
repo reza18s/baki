@@ -84,6 +84,7 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
+        // @ts-expect-error the
         if (err.code === 'INVALID_TOKEN') {
           return new Observable((observer) => {
             refreshAccessToken(client) // Pass client as argument

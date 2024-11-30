@@ -18,7 +18,7 @@ import { clsx } from 'clsx';
 import { optionTexts } from '@/utils';
 export default function ExploreCard({
   user,
-  drag,
+  drag = true,
   handleSwipe,
   inView,
   searchMethod,
@@ -28,7 +28,7 @@ export default function ExploreCard({
   searchMethod: string;
   className?: string;
   inView: boolean;
-  drag: boolean;
+  drag?: boolean;
   handleSwipe: (id: string, direction: 'left' | 'right') => void;
 }) {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(

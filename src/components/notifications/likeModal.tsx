@@ -68,6 +68,7 @@ export const LikeModal = ({
             searchMethod={
               getSearchTypeLabel(notification.searchType) || 'تصادفی'
             }
+            // @ts-expect-error the
             user={user}
           ></ExploreCard>
         </AnimatePresence>

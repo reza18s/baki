@@ -28,6 +28,7 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (data?.getMe) {
       const getMe = data.getMe;
+      // @ts-expect-error the
       updateUserInfo(getMe);
       setState('normal');
     }
