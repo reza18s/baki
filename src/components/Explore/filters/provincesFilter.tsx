@@ -26,11 +26,13 @@ export const ProvincesFilter = ({
         className="flex h-10 w-full items-center justify-between bg-white px-3 py-0 font-medium"
         onClick={() => setIsOpen(true)}
       >
-        {value && value.length > 0
-          ? value.length >= 2
-            ? `${value[0]},...`
-            : `${value[0]}`
-          : 'اضافه کردن فیلتر'}
+        <div className="flex-1 overflow-hidden text-nowrap text-start">
+          {value && value.length > 0
+            ? value.length > 4
+              ? `${value[0]},${value[1]},${value[2]},...`
+              : `${value[0]}${value[1] ? ',' + value[1] : ''} ${value[2] ? ',' + value[2] : ''}`
+            : 'اضافه کردن فیلتر'}
+        </div>
         <IcArrowLeft></IcArrowLeft>
       </Button>
       <BottomSheetModal

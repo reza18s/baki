@@ -1,8 +1,6 @@
 import { IcHeardTap } from '@/components/icons/IcHeardTap';
 import { Page } from '@/components/layout/Page';
 import React, { useState } from 'react';
-import CardImage from '../../assets/images/image.png';
-import Button from '@/components/base/Button/Button';
 import { IcChatPage } from '@/components/icons/IcChatPage';
 import {
   Notification as INotification,
@@ -39,7 +37,7 @@ export const Notifications = () => {
       header={
         <div className="flex w-full flex-col justify-center gap-3">
           <h1 className="w-full text-center text-lg font-bold">اعلان ها</h1>
-          <div className="scrollbar-hide flex items-center gap-2 overflow-scroll">
+          <div className="scrollbar-hide flex items-center gap-2 overflow-scroll pl-2">
             {items.map((val, i) => (
               <div
                 key={i}
@@ -53,6 +51,7 @@ export const Notifications = () => {
           </div>
         </div>
       }
+      scrollY
     >
       {(data?.getNotifications.filter(
         (val) =>

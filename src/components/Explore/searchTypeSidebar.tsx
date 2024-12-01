@@ -39,7 +39,7 @@ export const SearchTypeSidebar = ({
           {SearchTypes.map((el, index) => (
             <div
               key={el.value}
-              className={`flex items-center justify-between px-2 py-3 text-sm ${searchType === el.value && 'bg-warning-50'}`}
+              className={`flex items-center justify-between rounded-xl px-2 py-3 text-sm ${searchType === el.value && 'bg-warning-50'}`}
               onClick={() => {
                 setSearchType(el.value);
               }}
