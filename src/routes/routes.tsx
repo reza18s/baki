@@ -25,6 +25,7 @@ import CompleteProvinces from '@/components/Profile/CompleteProvinces';
 import CompleteSpecialty from '@/components/Profile/CompleteSpecialty';
 import BasicInformations from '@/components/Profile/BasicInformations/BasicInformations';
 import { Profile } from '@/pages/Profile/profile';
+import { Settings } from '@/pages/settings/settings';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -120,6 +121,7 @@ export default function Routes() {
                 path={paths.profile.completeSpecialty}
                 component={CompleteSpecialty}
               />
+              <Route exact path={paths.settings.main} component={Settings} />
               <Route
                 exact
                 path={paths.profile.basicInformations}

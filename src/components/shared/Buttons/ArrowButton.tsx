@@ -15,9 +15,9 @@ export default function ArrowButton(props: {
       className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black ${props.className}`}
       onClick={props.onClick}
     >
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center gap-x-2 text-sm">
         {props.icon}
-        <p className="text-sm font-medium">{props.text}</p>
+        <p className="flex items-center text-sm font-medium">{props.text}</p>
       </div>
       <div className="flex items-center gap-x-2">
         <p className="text-sm font-bold text-[#94A3B8]">{props.arrowText}</p>

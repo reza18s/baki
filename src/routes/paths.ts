@@ -8,6 +8,7 @@ export const paths = {
   notifications: {
     main: '/notifications',
   },
+  settings: { main: '/settings' },
   profile: {
     main: '/profile', // User profile page
     editProfile: '/profile/edit_profile',

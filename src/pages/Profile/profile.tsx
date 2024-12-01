@@ -25,7 +25,9 @@ export const Profile = () => {
             {me?.username}
             <span className="font-semibold">@</span>
           </h1>
-          <IcSetting></IcSetting>
+          <Link to={paths.settings.main}>
+            <IcSetting></IcSetting>
+          </Link>
         </div>
       }
     >
