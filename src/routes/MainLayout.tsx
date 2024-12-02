@@ -41,7 +41,7 @@ function MainLayout({ children }: MainLayoutProps) {
           <BottomNavItem
             Icon={
               <IcChatTap
-                className={`${activeTab === 'chat' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
+                className={`${activeTab === 'chat' ? 'fill-brand-yellow stroke-brand-yellow stroke-2' : 'fill-none stroke-gray-500 stroke-2'} transition-colors duration-100 ease-in-out`}
               ></IcChatTap>
             }
             isActive={activeTab === 'chat'}
@@ -51,7 +51,7 @@ function MainLayout({ children }: MainLayoutProps) {
           <BottomNavItem
             Icon={
               <IcHeardTap
-                className={`${activeTab === 'notifications' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
+                className={`${activeTab === 'notifications' ? 'fill-brand-yellow stroke-brand-yellow stroke-2' : 'fill-none stroke-gray-500 stroke-2'} transition-colors duration-100 ease-in-out`}
               />
             }
             isActive={activeTab === 'notifications'}
@@ -61,7 +61,7 @@ function MainLayout({ children }: MainLayoutProps) {
           <BottomNavItem
             Icon={
               <IcExploreTap
-                className={`${activeTab === 'explore' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
+                className={`${activeTab === 'explore' ? 'fill-brand-yellow' : ''} transition-colors duration-100 ease-in-out`}
               />
             }
             isActive={activeTab === 'explore'}
@@ -71,7 +71,7 @@ function MainLayout({ children }: MainLayoutProps) {
           <BottomNavItem
             Icon={
               <IcProfileTap
-                className={`${activeTab === 'profile' ? 'fill-brand-yellow' : ''} transition-all duration-300 ease-in-out`}
+                className={`${activeTab === 'profile' ? 'fill-brand-yellow stroke-brand-yellow stroke-2' : 'fill-none stroke-gray-500 stroke-2'} transition-colors duration-100 ease-in-out`}
               />
             }
             isActive={activeTab === 'profile'}

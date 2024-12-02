@@ -15,7 +15,7 @@ export const Profile = () => {
   const me = data?.getMe;
   return (
     <Page
-      contentClassName="pt-20 p-6 flex flex-col gap-8 pb-20"
+      contentClassName="pt-20 p-4 flex flex-col gap-8 pb-20"
       header={
         <div className="flex w-full items-center justify-between px-6 py-3">
           <Link to={paths.profile.editProfile}>

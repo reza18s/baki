@@ -40,7 +40,7 @@ export default function ExploreCard({
     <>
       <motion.div
         className={clsx(
-          'absolute flex max-h-[calc(100%-8px)] w-[calc(100%-16px)] flex-col overflow-y-scroll rounded-2xl',
+          'absolute flex max-h-[calc(100%-16px)] w-[calc(100%-32px)] flex-col overflow-y-scroll rounded-2xl',
           className,
         )}
         drag={drag && 'x'}

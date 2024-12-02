@@ -72,6 +72,7 @@ export default function Explore() {
     <Page
       className="pb-14"
       contentClassName="h-[calc(100%)]"
+      scrollY={false}
       header={
         <div className="flex h-12 w-full items-center justify-between p-3">
           <SolarIconSet.HamburgerMenu
@@ -90,7 +91,7 @@ export default function Explore() {
         </div>
       }
     >
-      <div className="relative flex h-full w-full flex-row-reverse p-2">
+      <div className="relative flex h-full w-full flex-row-reverse p-4">
         {start ? (
           loading ? (
             <div
