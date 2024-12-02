@@ -2,7 +2,7 @@ import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcXCircle } from '@/components/icons/IcXCircle';
-import { allIcon, countries } from '@/lib/constants';
+import { allIcon, countries } from '@/constants';
 import React, { useState } from 'react';
 
 export const LivedInPlacesModal = ({

@@ -66,7 +66,7 @@ export const CommunicationModal = ({
         <div className="flex w-full items-center justify-between">
           <IcXCircle className="size-5 stroke-black"></IcXCircle>
           <div className="flex items-center justify-center">
-            <IcExclamationMarkInCircle className="size-5 fill-black"></IcExclamationMarkInCircle>
+            <IcExclamationMarkInCircle></IcExclamationMarkInCircle>
             راهنما
           </div>
         </div>

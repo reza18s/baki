@@ -10,16 +10,17 @@ import { IcUserBlackList } from '@/components/icons/IcUserBlackList';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import ArrowButton from '@/components/shared/Buttons/ArrowButton';
-import React from 'react';
-
+import { paths } from '@/routes/paths';
+import { shareRecipe } from '@/utils/share';
 export const Settings = () => {
   return (
     <Page
-      contentClassName="pt-20 p-6 flex flex-col gap-2 h-full justify-between pb-2"
+      contentClassName="pt-20 p-6 flex flex-col gap-2 h-full justify-between pb-2 bg-gray-50"
       header={<AppBar title="تنظیمات"></AppBar>}
     >
       <div className="flex flex-col gap-2">
         <ArrowButton
+          // url={'/'}
           className="bg-brand-yellow"
           text={
             <>
@@ -30,37 +31,40 @@ export const Settings = () => {
           icon={<IcCrownStar></IcCrownStar>}
         ></ArrowButton>{' '}
         <ArrowButton
-          className=""
+          className="bg-white"
           text={'اشتراک رایگان'}
           icon={<IcGift></IcGift>}
         ></ArrowButton>
         <ArrowButton
-          className=""
+          className="bg-white"
+          onClick={() => shareRecipe()}
           text="دعوت از دوستان"
           icon={<IcShear></IcShear>}
         ></ArrowButton>
         <ArrowButton
-          className=""
+          className="bg-white"
           text="لیست علاقه‌مندی‌ها"
           icon={<IcStar></IcStar>}
         ></ArrowButton>
         <ArrowButton
-          className=""
+          className="bg-white"
           text="لیست سیاه"
           icon={<IcUserBlackList></IcUserBlackList>}
         ></ArrowButton>
         <ArrowButton
-          className=""
+          className="bg-white"
+          url={paths.settings.bills}
           text="سوابق پرداختی"
           icon={<IcBillListr></IcBillListr>}
         ></ArrowButton>
         <ArrowButton
-          className=""
+          className="bg-white"
+          url={paths.settings.support}
           text="پشتیبانی و اطلاع‌رسانی"
           icon={<IcHelp></IcHelp>}
         ></ArrowButton>
         <ArrowButton
-          className=""
+          className="bg-white"
           text="قوانین و مقررات"
           icon={<IcDocument></IcDocument>}
         ></ArrowButton>

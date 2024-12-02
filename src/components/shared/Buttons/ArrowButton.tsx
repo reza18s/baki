@@ -1,28 +1,70 @@
+import Button from '@/components/base/Button/Button';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import * as SolarIconSet from 'solar-icon-set';
 
-export default function ArrowButton(props: {
+export default function ArrowButton({
+  text,
+  arrowText,
+  isArrowText = false,
+  className,
+  icon,
+  onClick,
+  url,
+}: {
   text: any;
   onClick?: () => void;
   className?: string;
   icon?: any;
   arrowText?: string;
+  isArrowText?: boolean;
   url?: string;
 }) {
-  return (
+  return url ? (
     <Link
-      to={props.url || '/profile'}
-      className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black ${props.className}`}
-      onClick={props.onClick}
+      to={url || '/profile'}
+      className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black ${className}`}
     >
       <div className="flex items-center gap-x-2 text-sm">
-        {props.icon}
-        <p className="flex items-center text-sm font-medium">{props.text}</p>
+        {icon}
+        <p className="flex items-center text-sm font-medium">{text}</p>
       </div>
       <div className="flex items-center gap-x-2">
-        <p className="text-sm font-bold text-[#94A3B8]">{props.arrowText}</p>
+        <p
+          className={clsx(
+            'text-sm font-bold',
+            arrowText ? 'text-brand-black' : 'text-gray-500',
+          )}
+        >
+          {isArrowText && (arrowText ? arrowText : 'افزودن')}
+        </p>
         <SolarIconSet.AltArrowLeft size={24} />
       </div>
     </Link>
+  ) : (
+    <Button
+      variant="outline"
+      className={clsx(
+        'flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black',
+        className,
+      )}
+      onClick={onClick}
+    >
+      <div className="flex items-center gap-x-2 text-sm">
+        {icon}
+        <p className="flex items-center text-sm font-medium">{text}</p>
+      </div>
+      <div className="flex items-center gap-x-2">
+        <p
+          className={clsx(
+            'text-sm font-bold',
+            arrowText ? 'text-brand-black' : 'text-gray-500',
+          )}
+        >
+          {isArrowText && (arrowText ? arrowText : 'افزودن')}
+        </p>
+        <SolarIconSet.AltArrowLeft size={24} />
+      </div>
+    </Button>
   );
 }

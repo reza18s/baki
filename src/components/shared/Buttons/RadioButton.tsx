@@ -64,11 +64,7 @@ export default function RadioButton(props: RadioButtonProps) {
                 }
                 label={
                   <span
-                    style={{
-                      fontSize: '16px',
-                      fontWeight: 'medium',
-                      color: '#64748B',
-                    }}
+                    className='text-sm font-semibold'
                   >
                     {item.label}
                   </span>

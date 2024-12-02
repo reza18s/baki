@@ -8,7 +8,12 @@ export const paths = {
   notifications: {
     main: '/notifications',
   },
-  settings: { main: '/settings' },
+  settings: {
+    main: '/settings',
+    support: '/settings/support',
+    bills: '/settings/bills',
+    questions: '/settings/questions',
+  },
   profile: {
     main: '/profile', // User profile page
     editProfile: '/profile/edit_profile',

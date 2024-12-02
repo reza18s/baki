@@ -26,6 +26,9 @@ import CompleteSpecialty from '@/components/Profile/CompleteSpecialty';
 import BasicInformations from '@/components/Profile/BasicInformations/BasicInformations';
 import { Profile } from '@/pages/Profile/profile';
 import { Settings } from '@/pages/settings/settings';
+import { Support } from '@/pages/settings/support';
+import { Bills } from '@/pages/settings/bills';
+import { Questions } from '@/pages/settings/questions';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -79,8 +82,15 @@ export default function Routes() {
         <IonRouterOutlet animated={true} animation={zoomInAnimation} mode="md">
           <AppGuard>
             <Switch>
+              {/* Login */}
               <Route exact path={paths.welcome.main} component={Welcome} />
               <Route exact path={paths.signup.main} component={Signup} />
+              {/* profile */}
+              <Route
+                exact
+                path={paths.profile.basicInformations}
+                component={BasicInformations}
+              />
               <Route
                 exact
                 path={paths.profile.editProfile}
@@ -121,12 +131,16 @@ export default function Routes() {
                 path={paths.profile.completeSpecialty}
                 component={CompleteSpecialty}
               />
+              {/* settings */}
               <Route exact path={paths.settings.main} component={Settings} />
+              <Route exact path={paths.settings.support} component={Support} />
+              <Route exact path={paths.settings.bills} component={Bills} />
               <Route
                 exact
-                path={paths.profile.basicInformations}
-                component={BasicInformations}
+                path={paths.settings.questions}
+                component={Questions}
               />
+              {/* explore */}
               <Route exact path={paths.explore.filter} component={Filter} />
               <Route
                 path={paths.main.main}

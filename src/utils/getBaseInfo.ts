@@ -6,7 +6,7 @@ import {
   smokeStatus,
   spiritStatus,
   sportStatus,
-} from '@/lib/constants';
+} from '@/constants';
 
 export const getBaseInfo = (user: RandomUser | User) => {
   return [

@@ -1,4 +1,4 @@
-import { allIcon } from '@/lib/constants';
+import { allIcon } from '@/constants';
 import { clsx } from 'clsx';
 
 export function Info({

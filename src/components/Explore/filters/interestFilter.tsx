@@ -8,7 +8,7 @@ import {
   allIcon,
   PersonalInterestsItems,
   TravelInterestsItems,
-} from '@/lib/constants';
+} from '@/constants';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 

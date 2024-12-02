@@ -5,10 +5,9 @@ import Button from '@/components/base/Button/Button';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useHistory } from 'react-router';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
-import toast from 'react-hot-toast';
-import { Toast } from '@/components/base/toast/toast';
 import { useEffect } from 'react';
 import { convertJalaliToGregorian } from '@/utils/datetime';
+import { customToast } from '@/components/base/toast';
 
 export default function SpiritStep() {
   const { control, setValue, watch } = useForm();
@@ -20,42 +19,31 @@ export default function SpiritStep() {
   }, [userInfo.spiritStatus]);
   const hs = useHistory();
   const handleSubmit = () => {
-    updateUserInfo({ spiritStatus: watch('spiritStatus') });
-    updateUser({
-      variables: {
-        gender: userInfo.gender,
-        maritalStatus: userInfo.maritalStatus,
-        birthday: convertJalaliToGregorian(userInfo.birthdate),
-        smokeStatus: userInfo.smokeStatus,
-        sportsStatus: userInfo.sportsStatus,
-        spiritStatus: watch('spiritStatus'),
-        amountOfEarlyRising: userInfo.AmountOfEarlyRising,
-      },
-      onCompleted: () => {
-        toast.custom(
-          (t) => (
-            <Toast t={t} type="success">
-              اطلاعات شما با موفقیت ثبت شد
-            </Toast>
-          ),
-          { duration: 1500 },
-        );
-        setTimeout(() => {
-          hs.push('/profile/complete_profile');
-        }, 1000);
-      },
-      onError: (err) => {
-        console.log(err);
-        toast.custom(
-          (t) => (
-            <Toast t={t} type="error">
-              مشکلی پیش آمده است لطفا دوباره امتحان کنید
-            </Toast>
-          ),
-          { duration: 1500 },
-        );
-      },
-    });
+    if (watch('spiritStatus')) {
+      updateUserInfo({ spiritStatus: watch('spiritStatus') });
+      updateUser({
+        variables: {
+          gender: userInfo.gender,
+          maritalStatus: userInfo.maritalStatus,
+          birthday: convertJalaliToGregorian(userInfo.birthdate),
+          smokeStatus: userInfo.smokeStatus,
+          sportsStatus: userInfo.sportsStatus,
+          spiritStatus: watch('spiritStatus'),
+          amountOfEarlyRising: userInfo.AmountOfEarlyRising,
+        },
+        onCompleted: () => {
+          customToast('اطلاعات شما با موفقیت ثبت شد', 'success');
+          setTimeout(() => {
+            hs.goBack();
+          }, 1000);
+        },
+        onError: () => {
+          customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
+        },
+      });
+    } else {
+      customToast('لطفا یک گزینه را انتخاب کنید', 'error');
+    }
   };
 
   return (

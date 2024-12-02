@@ -2,7 +2,7 @@ import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcXCircle } from '@/components/icons/IcXCircle';
-import { allIcon, languages } from '@/lib/constants';
+import { allIcon, languages } from '@/constants';
 import React, { useState } from 'react';
 
 export const LanguageModal = ({

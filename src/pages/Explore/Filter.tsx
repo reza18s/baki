@@ -17,6 +17,7 @@ import {
 import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 import { SearchTypes } from '@/lib';
 import { IFilter, useStore } from '@/store/useStore';
+import { IcExclamationMarkInCircleFill } from '@/components/icons/IcExclamationMarkInCircleFill';
 
 export default function Filter() {
   const {
@@ -92,10 +93,7 @@ export default function Filter() {
       {/* Subscription Section */}
       <div className="mt-3 flex flex-col items-center gap-2 rounded-xl border border-gray-300 bg-white p-3">
         <h1 className="flex items-center gap-1 text-sm font-bold text-black">
-          <IcExclamationMarkInCircle
-            className="fill-brand-yellow stroke-white"
-            stroke="#fff"
-          />
+          <IcExclamationMarkInCircleFill className="rounded-full fill-brand-yellow" />
           {SearchType?.label}
         </h1>
         <span className="text-center text-xs text-gray-500">
@@ -156,10 +154,7 @@ export default function Filter() {
       >
         <div className="flex items-center justify-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-red-500">
-            <IcExclamationMarkInCircle
-              className="size-8 fill-none stroke-white"
-              stroke="#fff"
-            />
+            <IcExclamationMarkInCircle className="size-8 fill-white" />
           </div>
         </div>
         <div className="flex flex-col items-center gap-2 text-lg font-bold">

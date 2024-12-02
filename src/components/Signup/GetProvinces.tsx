@@ -2,7 +2,7 @@ import * as SolarIconSet from 'solar-icon-set';
 import { Dropdown } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocalStore } from '../../store/useLocalStore';
-import { iranProvinces } from '@/lib/constants';
+import { iranProvinces } from '@/constants';
 
 export default function GetProvinces(props: {
   className?: string;

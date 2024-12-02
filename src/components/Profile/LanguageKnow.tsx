@@ -2,7 +2,7 @@ import Button from '@/components/base/Button/Button';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { IcSearch } from '@/components/icons/IcSearch';
-import { languages } from '@/lib/constants';
+import { languages } from '@/constants';
 import React, { useState } from 'react';
 import { Page } from '../layout/Page';
 

@@ -3,7 +3,7 @@ import MonthPicker from '../shared/Inputs/MonthPicker';
 import { useLocalStore } from '../../store/useLocalStore';
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
-import { months } from '@/lib/constants';
+import { months } from '@/constants';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 

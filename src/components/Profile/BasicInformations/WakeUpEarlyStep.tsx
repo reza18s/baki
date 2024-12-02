@@ -2,10 +2,9 @@ import { useForm } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useEffect } from 'react';
-import toast from 'react-hot-toast';
-import { Toast } from '@/components/base/toast/toast';
 import Button from '@/components/base/Button/Button';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
+import { customToast } from '@/components/base/toast';
 
 export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
   const { control, watch, setValue } = useForm();
@@ -25,14 +24,7 @@ export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
       });
       props.handleNextStep();
     } else {
-      toast.custom(
-        (t) => (
-          <Toast t={t} type="error">
-            لطفا یک گزینه را انتخاب کنید
-          </Toast>
-        ),
-        { duration: 1500 },
-      );
+      customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }
   };
 

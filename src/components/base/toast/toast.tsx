@@ -22,7 +22,7 @@ export const Toast = ({
     success: 'border-green-500 bg-green-100 text-green-600',
   };
   const typeIcon = {
-    warning: <IcExclamationMarkInCircle className="fill-none" />,
+    warning: <IcExclamationMarkInCircle />,
     error: <IcXCircle></IcXCircle>,
     success: <IcTickCircle></IcTickCircle>,
   };

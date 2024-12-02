@@ -3,7 +3,7 @@ import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcXCircle } from '@/components/icons/IcXCircle';
-import { SpecialtyItems } from '@/lib/constants';
+import { SpecialtyItems } from '@/constants';
 import React, { useState } from 'react';
 
 export const SpecialtyFilter = ({

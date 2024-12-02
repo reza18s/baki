@@ -19,6 +19,15 @@ import { TraveledToPlacesModal } from '@/components/shared/modals/traveledToPlac
 import { customToast } from '@/components/base/toast';
 import { paths } from '@/routes/paths';
 import { IcVerifiedCheck } from '@/components/icons/IcVerifiedCheck';
+import {
+  getAmountOfEarlyRisingLabel,
+  getGenderLabel,
+  getMaritalStatusLabel,
+  getMonthLabel,
+  getSmokeStatusLabel,
+  getSpiritStatusLabel,
+  getSportStatusLabel,
+} from '@/constants';
 
 export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
@@ -200,49 +209,58 @@ export default function EditProfile() {
           <ArrowButton
             text="جنسیت"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getGenderLabel(userInfo.gender)}
+            isArrowText
             className="w-full"
             icon={<SolarIconSet.UserId size={24} />}
           />
           <ArrowButton
             text="سال و ماه تولد"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getMonthLabel(userInfo.birthdate)}
+            isArrowText
             className="w-full"
             icon={<SolarIconSet.Calendar size={24} />}
           />
           <ArrowButton
             text="وضعیت تاهل"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getMaritalStatusLabel(userInfo.maritalStatus)}
+            isArrowText
             className="w-full"
             icon={<SolarIconSet.Heart size={24} />}
           />
           <ArrowButton
             text="سیگار"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getSmokeStatusLabel(userInfo.smokeStatus)}
+            isArrowText
             className="w-full"
             icon={<LiaSmokingSolid size={24} />}
           />
           <ArrowButton
             text="ورزش"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getSportStatusLabel(userInfo.sportsStatus)}
+            isArrowText
             className="w-full"
             icon={<SolarIconSet.DumbbellSmall size={24} />}
           />
           <ArrowButton
             text="میزان سحرخیزی"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getAmountOfEarlyRisingLabel(
+              userInfo.AmountOfEarlyRising,
+            )}
+            isArrowText
             className="w-full"
             icon={<SolarIconSet.SunFog size={24} />}
           />
           <ArrowButton
             text="روحیه"
             url={paths.profile.basicInformations}
-            arrowText="افزودن"
+            arrowText={getSpiritStatusLabel(userInfo.spiritStatus)}
+            isArrowText
             className="w-full"
             icon={<SolarIconSet.MaskHapply size={24} />}
           />
