@@ -27,8 +27,8 @@ export default function GetProvinces(props: {
   }, [userInfo.province]);
 
   const handleSubmit = () => {
-    if (select || searchCity) {
-      customToast('لطفا استان و شهر خود را انتخاب کنید', 'error');
+    if (!select || !searchCity) {
+      return customToast('لطفا استان و شهر خود را انتخاب کنید', 'error');
     }
     updateUserInfo({
       province: select,

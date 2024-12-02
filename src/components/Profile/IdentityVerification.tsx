@@ -7,13 +7,14 @@ import AppBar from '../layout/Header/AppBar';
 import GetPhoneNumber from '../Signup/GetPhoneNumber';
 import VerifyOTP from '../Signup/VerifyOTP';
 import { Page } from '../layout/Page';
+import { customToast } from '../base/toast';
 
 export default function IdentityVerification() {
   const [step, setStep] = useState<0 | 1>(0);
 
   const { control, watch } = useForm();
 
-  const [signup] = useSignupMutation();
+  const [signup, { loading }] = useSignupMutation();
 
   const handleSignup = () => {
     signup({
@@ -22,7 +23,7 @@ export default function IdentityVerification() {
         setStep(1);
       },
       onError(error) {
-        //
+        customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
       },
     });
   };
@@ -48,6 +49,7 @@ export default function IdentityVerification() {
       <div className="relative h-full max-w-[100vw] overflow-auto p-6 text-black">
         {step === 0 && (
           <GetPhoneNumber
+            loading={loading}
             control={control}
             handleSignup={handleSignup}
             phoneNumber={watch('phoneNumber')}

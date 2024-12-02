@@ -64,7 +64,7 @@ export default function Signup() {
   });
   const step = useLocalStore((store) => store.step);
   const setStep = useLocalStore((store) => store.setSteps);
-  const [signup] = useSignupMutation();
+  const [signup, { loading }] = useSignupMutation();
 
   const handleSignup = () => {
     signup({
@@ -88,6 +88,7 @@ export default function Signup() {
       case 0:
         return (
           <GetPhoneNumber
+            loading={loading}
             control={control}
             handleSignup={handleSignup}
             phoneNumber={watch('phoneNumber')}

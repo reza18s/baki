@@ -1,11 +1,13 @@
 import { Controller } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
 import { IoMdLock } from 'react-icons/io';
+import Button from '../base/Button/Button';
 
 export default function GetPhoneNumber(props: {
   control: any;
   phoneNumber: string;
   handleSignup: () => void;
+  loading: boolean;
 }) {
   return (
     <div className="flex h-[calc(100%)] flex-col justify-between gap-y-[40px]">
@@ -54,7 +56,8 @@ export default function GetPhoneNumber(props: {
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>
         </div>
-        <button
+        <Button
+          loading={props.loading}
           disabled={props.phoneNumber?.length !== 11}
           onClick={props.handleSignup}
           className={`px-5 py-4 ${
@@ -64,7 +67,7 @@ export default function GetPhoneNumber(props: {
           } rounded-[12px] font-bold leading-none`}
         >
           بعدی
-        </button>
+        </Button>
       </div>
     </div>
   );

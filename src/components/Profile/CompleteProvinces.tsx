@@ -6,6 +6,7 @@ import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import AppBar from '../layout/Header/AppBar';
 import { Page } from '../layout/Page';
 import GetProvinces from '../Signup/GetProvinces';
+import { customToast } from '../base/toast';
 
 export default function CompleteProvinces() {
   const [updateUser] = useUpdateUserMutation();
@@ -18,27 +19,13 @@ export default function CompleteProvinces() {
         city: userInfo.province,
       },
       onCompleted: () => {
-        toast.custom(
-          (t) => (
-            <Toast t={t} type="success">
-              اطلاعات شما با موفقیت ثبت شد
-            </Toast>
-          ),
-          { duration: 1500 },
-        );
+        customToast(' اطلاعات شما با موفقیت ثبت شد', 'success');
         setTimeout(() => {
-          hs.push('/profile/complete_profile');
-        }, 1000);
+          hs.goBack();
+        }, 1500);
       },
       onError: () => {
-        toast.custom(
-          (t) => (
-            <Toast t={t} type="error">
-              مشکلی پیش آمده است لطفا دوباره امتحان کنید
-            </Toast>
-          ),
-          { duration: 1500 },
-        );
+        customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
       },
     });
   };

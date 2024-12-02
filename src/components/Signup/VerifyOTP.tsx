@@ -9,6 +9,7 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import Button from '../base/Button/Button';
 export default function VerifyOTP(props: {
   path: 'signup' | 'profile';
   editPhone: () => void;
@@ -32,7 +33,7 @@ export default function VerifyOTP(props: {
     }
   };
 
-  const [verifyOtp] = useVerifyOtpMutation();
+  const [verifyOtp, { loading }] = useVerifyOtpMutation();
   const handleSubmit = async () => {
     const validate = await trigger('token');
     if (validate) {
@@ -144,7 +145,8 @@ export default function VerifyOTP(props: {
             </p>
           )}
         </div>
-        <button
+        <Button
+          loading={loading}
           onClick={props.resendOtp}
           disabled={timer !== 0}
           className={`rounded-[12px] bg-slate-100 ${
@@ -152,7 +154,7 @@ export default function VerifyOTP(props: {
           } px-5 py-4 font-bold`}
         >
           تایید
-        </button>
+        </Button>
       </div>
     </div>
   );
