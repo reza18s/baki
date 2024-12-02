@@ -3,13 +3,17 @@ import { Dropdown } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocalStore } from '../../store/useLocalStore';
 import { iranProvinces } from '@/constants';
+import { customToast } from '../base/toast';
+import { cities } from '@/constants/iranProvinces';
 
 export default function GetProvinces(props: {
   className?: string;
   handleSubmit?: () => void;
 }) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string | undefined>();
   const [select, setSelect] = useState<string>();
+  const [selectCity, setSelectCity] = useState<string>();
+  const [searchCity, setSearchCity] = useState<string | undefined>();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
 
@@ -17,11 +21,18 @@ export default function GetProvinces(props: {
 
   useEffect(() => {
     setSelect(userInfo.province);
+    setSelectCity(userInfo.city);
+    setSearch(userInfo.province);
+    setSearchCity(userInfo.city);
   }, [userInfo.province]);
 
   const handleSubmit = () => {
+    if (select || searchCity) {
+      customToast('لطفا استان و شهر خود را انتخاب کنید', 'error');
+    }
     updateUserInfo({
       province: select,
+      city: selectCity,
     });
     if (props?.handleSubmit) {
       props.handleSubmit();
@@ -40,20 +51,16 @@ export default function GetProvinces(props: {
           با توجه به محل زندگی شما پیشنهادات بهتری دریافت خواهید کرد.
         </p>
         <div className="mt-6 flex w-full flex-col items-center justify-center gap-2">
-          {select && (
-            <div className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold">
-              {select}
-            </div>
-          )}
           <Dropdown
             menu={{
               items: iranProvinces
-                .filter((e) => e.label.includes(search))
+                .filter((e) => e.label.includes(search || ''))
                 .map((val) => ({
                   label: (
                     <div
                       onClick={() => {
                         setSelect(val.label);
+                        setSearch(val.label);
                       }}
                       className="w-full border-b p-2 font-iransans font-semibold"
                     >
@@ -79,6 +86,48 @@ export default function GetProvinces(props: {
               placeholder="استان محل زندگی خود را انتخاب کنید..."
             />
           </Dropdown>
+          {select && (
+            <Dropdown
+              menu={{
+                items: cities
+                  .filter(
+                    (e) =>
+                      e.province_id ===
+                      +iranProvinces.find((el) => el.label === select)!.key,
+                  )
+                  .filter((e) => e.name.includes(searchCity || ''))
+                  .map((val) => ({
+                    label: (
+                      <div
+                        onClick={() => {
+                          setSelectCity(val.name);
+                          setSearchCity(val.name);
+                        }}
+                        className="w-full border-b p-2 font-iransans font-semibold"
+                      >
+                        {val.name}
+                      </div>
+                    ),
+                    key: val.name,
+                  })),
+                style: {
+                  maxHeight: '30vh', // Limit the height of the dropdown
+                  overflowY: 'auto', // Enable scrolling
+                },
+              }}
+              trigger={['click']}
+              className="w-full"
+              rootClassName="border-2 rounded-lg border-black"
+            >
+              <input
+                onClick={(e) => e.preventDefault()}
+                value={searchCity}
+                onChange={(e) => setSearchCity(e.target.value)}
+                className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold"
+                placeholder="شهر محل زندگی خود را انتخاب کنید..."
+              />
+            </Dropdown>
+          )}
         </div>
       </div>
       <div className="flex w-full items-center justify-between gap-2">

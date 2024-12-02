@@ -29,6 +29,7 @@ import { Settings } from '@/pages/settings/settings';
 import { Support } from '@/pages/settings/support';
 import { Bills } from '@/pages/settings/bills';
 import { Questions } from '@/pages/settings/questions';
+import { LoaderPage } from '@/components/base/Loader/LoaderPage';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -64,19 +65,7 @@ export default function Routes() {
     <IonReactRouter>
       <Suspense
         fallback={
-          isReload ? (
-            <div className="flex h-screen items-center justify-center">
-              <p className="text-lg font-bold">
-                Loading the app, please wait...
-              </p>
-            </div>
-          ) : (
-            <div className="flex h-screen items-center justify-center">
-              <p className="text-lg font-bold">
-                Navigating to the next page...
-              </p>
-            </div>
-          )
+          isReload ? <LoaderPage></LoaderPage> : <LoaderPage></LoaderPage>
         }
       >
         <IonRouterOutlet animated={true} animation={zoomInAnimation} mode="md">

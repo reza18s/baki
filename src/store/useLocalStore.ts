@@ -7,9 +7,10 @@ export type UserInfo = {
   name: string;
   gender?: Gender;
   birthdate: string;
+  city?: string;
   traveledToPlaces: string[];
   languages: string[];
-  province: string;
+  province?: string;
   images: string[];
   travelInterests: string[];
   personalInterests: string[];
@@ -55,7 +56,6 @@ export const defaultInitState: IStore = {
     name: '',
     birthdate: '',
     images: [],
-    province: '',
     travelInterests: [],
     mySpecialty: [],
     personalInterests: [],

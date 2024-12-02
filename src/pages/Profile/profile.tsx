@@ -9,13 +9,14 @@ import Button from '@/components/base/Button/Button';
 import { Link } from 'react-router-dom';
 import { paths } from '@/routes/paths';
 import { ProfileCard } from '@/components/Profile/profileCard';
+import { CircleSpinner } from '@/components/base/Loader/Loader';
 
 export const Profile = () => {
-  const { data } = useGetMeQuery();
+  const { data, loading } = useGetMeQuery();
   const me = data?.getMe;
   return (
     <Page
-      contentClassName="pt-20 p-4 flex flex-col gap-8 pb-20"
+      contentClassName="pt-20 p-4 flex flex-col gap-8 pb-20 items-center"
       header={
         <div className="flex w-full items-center justify-between px-6 py-3">
           <Link to={paths.profile.editProfile}>
@@ -31,23 +32,33 @@ export const Profile = () => {
         </div>
       }
     >
-      <div className="flex w-full flex-col items-center gap-2">
-        <div className="size-[88px] overflow-hidden rounded-full">
-          <img src={CardImage}></img>
-        </div>
-        <div className="flex items-center gap-1">
-          <h1 className="flex items-center text-sm font-black">
-            {me?.name} ، {me?.age}
-          </h1>
-          <MdVerified size={16} className="fill-brand-yellow" />
-        </div>
-        <div className="flex items-center gap-x-1 text-xs">{me?.province}</div>
-        <span className="text-xs text-gray-400">آخرین بازدید 2 ساعت پیش</span>
-        <Link to={paths.profile.editProfile} className="w-full">
-          <Button className="w-full"> تکمیل پروفایل</Button>
-        </Link>
-      </div>
-      <ProfileCard user={me as User}></ProfileCard>
+      {loading ? (
+        <CircleSpinner></CircleSpinner>
+      ) : (
+        <>
+          <div className="flex w-full flex-col items-center gap-2">
+            <div className="size-[88px] overflow-hidden rounded-full">
+              <img src={CardImage}></img>
+            </div>
+            <div className="flex items-center gap-1">
+              <h1 className="flex items-center text-sm font-black">
+                {me?.name} ، {me?.age}
+              </h1>
+              <MdVerified size={16} className="fill-brand-yellow" />
+            </div>
+            <div className="flex items-center gap-x-1 text-xs">
+              {me?.province}
+            </div>
+            <span className="text-xs text-gray-400">
+              آخرین بازدید 2 ساعت پیش
+            </span>
+            <Link to={paths.profile.editProfile} className="w-full">
+              <Button className="w-full"> تکمیل پروفایل</Button>
+            </Link>
+          </div>
+          <ProfileCard user={me as User}></ProfileCard>
+        </>
+      )}
     </Page>
   );
 };
