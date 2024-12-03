@@ -32,7 +32,7 @@ const Accordion: React.FC<AccordionProps> = ({
           className={clsx(
             arrowClassName,
             'flex-shrink-0 transition-transform duration-500',
-            open ? '-rotate-90' : 'rotate-90',
+            open ? 'rotate-[270deg]' : 'rotate-90',
           )}
         />
       </div>

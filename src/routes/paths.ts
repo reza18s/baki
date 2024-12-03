@@ -13,6 +13,11 @@ export const paths = {
     support: '/settings/support',
     bills: '/settings/bills',
     questions: '/settings/questions',
+    contactSupport: '/settings/contact-support',
+    aboutUs: '/settings/about-us',
+    guide: '/settings/guide',
+    searchTypeGuide: '/settings/guide/search-type',
+    communicationGuide: '/settings/guide/communication',
   },
   profile: {
     main: '/profile', // User profile page

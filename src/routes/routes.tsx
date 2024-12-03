@@ -30,6 +30,11 @@ import { Support } from '@/pages/settings/support';
 import { Bills } from '@/pages/settings/bills';
 import { Questions } from '@/pages/settings/questions';
 import { LoaderPage } from '@/components/base/Loader/LoaderPage';
+import { ContactSupport } from '@/pages/settings/contactSupport';
+import { AboutUs } from '@/pages/settings/aboutUs';
+import { Guide } from '@/pages/settings/guide';
+import { SearchTypeGuide } from '@/pages/settings/SearchTypeGuide';
+import { CommunicationGuide } from '@/pages/settings/communicationGuide';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -128,6 +133,23 @@ export default function Routes() {
                 exact
                 path={paths.settings.questions}
                 component={Questions}
+              />
+              <Route
+                exact
+                path={paths.settings.contactSupport}
+                component={ContactSupport}
+              />
+              <Route exact path={paths.settings.aboutUs} component={AboutUs} />
+              <Route exact path={paths.settings.guide} component={Guide} />
+              <Route
+                exact
+                path={paths.settings.searchTypeGuide}
+                component={SearchTypeGuide}
+              />
+              <Route
+                exact
+                path={paths.settings.communicationGuide}
+                component={CommunicationGuide}
               />
               {/* explore */}
               <Route exact path={paths.explore.filter} component={Filter} />

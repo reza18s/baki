@@ -23,6 +23,7 @@ export const Support = () => {
           icon={<IcQuestionCircle></IcQuestionCircle>}
         ></ArrowButton>{' '}
         <ArrowButton
+          url={paths.settings.guide}
           className="bg-white"
           text="راهنما"
           icon={
@@ -30,6 +31,7 @@ export const Support = () => {
           }
         ></ArrowButton>
         <ArrowButton
+          url={paths.settings.contactSupport}
           className="bg-white"
           text="ارتباط با پشتیبانی"
           icon={<IcHeadphones></IcHeadphones>}
@@ -40,6 +42,7 @@ export const Support = () => {
           icon={<IcPenRound></IcPenRound>}
         ></ArrowButton>
         <ArrowButton
+          url={paths.settings.aboutUs}
           className="bg-white"
           text="درباره ما"
           icon={<IcStars className="stroke-black"></IcStars>}
