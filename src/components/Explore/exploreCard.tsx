@@ -134,7 +134,7 @@ export default function ExploreCard({
               <Bio bio={user.bio || ''}></Bio>
               <Info
                 className="bg-brand-yellow"
-                items={getBaseInfo(user)}
+                items={getBaseInfo(user) as string[]}
                 title="اطلاعات اولیه"
               ></Info>
             </div>

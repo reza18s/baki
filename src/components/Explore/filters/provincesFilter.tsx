@@ -81,7 +81,7 @@ export const ProvincesFilter = ({
           <div className="flex flex-1 flex-col overflow-y-scroll">
             {iranProvinces
               .filter((el) =>
-                el.key.toLowerCase().includes(search.toLowerCase()),
+                el.label.toLowerCase().includes(search.toLowerCase()),
               )
               .map((el) => (
                 <div
