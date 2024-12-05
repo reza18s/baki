@@ -15,7 +15,10 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
   DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
+  PositiveFloat: { input: any; output: any; }
 };
 
 export type AuthPayload = {
@@ -106,239 +109,6 @@ export type Includes = {
   reportsMade?: Scalars['Boolean']['input'];
 };
 
-export enum Language {
-  Abkhaz = 'ABKHAZ',
-  Acehnese = 'ACEHNESE',
-  Acholi = 'ACHOLI',
-  Afar = 'AFAR',
-  Afrikaans = 'AFRIKAANS',
-  Akan = 'AKAN',
-  Albanian = 'ALBANIAN',
-  Alur = 'ALUR',
-  Amharic = 'AMHARIC',
-  Arabic = 'ARABIC',
-  Armenian = 'ARMENIAN',
-  Assamese = 'ASSAMESE',
-  Avar = 'AVAR',
-  Awadhi = 'AWADHI',
-  Aymara = 'AYMARA',
-  Azerbaijani = 'AZERBAIJANI',
-  Balinese = 'BALINESE',
-  Baluchi = 'BALUCHI',
-  Bambara = 'BAMBARA',
-  Baoule = 'BAOULE',
-  Bashkir = 'BASHKIR',
-  Basque = 'BASQUE',
-  BatakKaro = 'BATAK_KARO',
-  BatakSimalungun = 'BATAK_SIMALUNGUN',
-  BatakToba = 'BATAK_TOBA',
-  Belarusian = 'BELARUSIAN',
-  Bemba = 'BEMBA',
-  Bengali = 'BENGALI',
-  Betawi = 'BETAWI',
-  Bhojpuri = 'BHOJPURI',
-  Bikol = 'BIKOL',
-  Bislama = 'BISLAMA',
-  Bosnian = 'BOSNIAN',
-  Breton = 'BRETON',
-  Bulgarian = 'BULGARIAN',
-  Burmese = 'BURMESE',
-  Cantonese = 'CANTONESE',
-  Catalan = 'CATALAN',
-  Cebuano = 'CEBUANO',
-  Chamorro = 'CHAMORRO',
-  Chechen = 'CHECHEN',
-  Chichewa = 'CHICHEWA',
-  ChineseSimplified = 'CHINESE_SIMPLIFIED',
-  ChineseTraditional = 'CHINESE_TRADITIONAL',
-  Chuukes = 'CHUUKES',
-  Chuvash = 'CHUVASH',
-  Corsican = 'CORSICAN',
-  CrimeanTatar = 'CRIMEAN_TATAR',
-  Croatian = 'CROATIAN',
-  Czech = 'CZECH',
-  Danish = 'DANISH',
-  Dari = 'DARI',
-  Dinka = 'DINKA',
-  Divehi = 'DIVEHI',
-  Dombe = 'DOMBE',
-  Dutch = 'DUTCH',
-  Dyula = 'DYULA',
-  Dzongkha = 'DZONGKHA',
-  English = 'ENGLISH',
-  Esperanto = 'ESPERANTO',
-  Estonian = 'ESTONIAN',
-  Ewe = 'EWE',
-  Faroese = 'FAROESE',
-  Fijian = 'FIJIAN',
-  Filipino = 'FILIPINO',
-  Finnish = 'FINNISH',
-  Fon = 'FON',
-  French = 'FRENCH',
-  Frisian = 'FRISIAN',
-  Friulian = 'FRIULIAN',
-  Fulani = 'FULANI',
-  Ga = 'GA',
-  Galician = 'GALICIAN',
-  Georgian = 'GEORGIAN',
-  German = 'GERMAN',
-  Greek = 'GREEK',
-  Guarani = 'GUARANI',
-  Gujarati = 'GUJARATI',
-  HaitianCreole = 'HAITIAN_CREOLE',
-  HakhaChin = 'HAKHA_CHIN',
-  Hausa = 'HAUSA',
-  Hawaiian = 'HAWAIIAN',
-  Hebrew = 'HEBREW',
-  Hiligaynon = 'HILIGAYNON',
-  Hindi = 'HINDI',
-  Hmong = 'HMONG',
-  Hungarian = 'HUNGARIAN',
-  Hunsrik = 'HUNSRIK',
-  Iban = 'IBAN',
-  Icelandic = 'ICELANDIC',
-  Igbo = 'IGBO',
-  Ilocano = 'ILOCANO',
-  Indonesian = 'INDONESIAN',
-  Irish = 'IRISH',
-  Italian = 'ITALIAN',
-  JamaicanPatois = 'JAMAICAN_PATOIS',
-  Japanese = 'JAPANESE',
-  Javanese = 'JAVANESE',
-  Jingpo = 'JINGPO',
-  Kalaallisut = 'KALAALLISUT',
-  Kannada = 'KANNADA',
-  Kanuri = 'KANURI',
-  Kapampangan = 'KAPAMPANGAN',
-  Kazakh = 'KAZAKH',
-  Khasi = 'KHASI',
-  Khmer = 'KHMER',
-  Kiga = 'KIGA',
-  Kikongo = 'KIKONGO',
-  Kinyarwanda = 'KINYARWANDA',
-  Kirundi = 'KIRUNDI',
-  Kituba = 'KITUBA',
-  Kokborok = 'KOKBOROK',
-  Komi = 'KOMI',
-  Korean = 'KOREAN',
-  KurdishKurmanji = 'KURDISH_KURMANJI',
-  KurdishSorani = 'KURDISH_SORANI',
-  Kyrgyz = 'KYRGYZ',
-  Lao = 'LAO',
-  Latgalian = 'LATGALIAN',
-  Latin = 'LATIN',
-  Latvian = 'LATVIAN',
-  Ligurian = 'LIGURIAN',
-  Limburgish = 'LIMBURGISH',
-  Lingala = 'LINGALA',
-  Lithuanian = 'LITHUANIAN',
-  Lombard = 'LOMBARD',
-  Luo = 'LUO',
-  Luxembourgish = 'LUXEMBOURGISH',
-  Macedonian = 'MACEDONIAN',
-  Madurese = 'MADURESE',
-  Makassar = 'MAKASSAR',
-  Malagasy = 'MALAGASY',
-  Malay = 'MALAY',
-  Malayalam = 'MALAYALAM',
-  MalayJawi = 'MALAY_JAWI',
-  Maltese = 'MALTESE',
-  Manx = 'MANX',
-  Maori = 'MAORI',
-  Marathi = 'MARATHI',
-  Marshallese = 'MARSHALLESE',
-  Marwadi = 'MARWADI',
-  MauritianCreole = 'MAURITIAN_CREOLE',
-  MeadowMari = 'MEADOW_MARI',
-  Minang = 'MINANG',
-  Mongolian = 'MONGOLIAN',
-  Nahuatl = 'NAHUATL',
-  Ndau = 'NDAU',
-  NdebeleSouth = 'NDEBELE_SOUTH',
-  NepalbhasaNewari = 'NEPALBHASA_NEWARI',
-  Nepali = 'NEPALI',
-  Nko = 'NKO',
-  Norwegian = 'NORWEGIAN',
-  Nuer = 'NUER',
-  Nyanja = 'NYANJA',
-  Occitan = 'OCCITAN',
-  Odia = 'ODIA',
-  Ossetian = 'OSSETIAN',
-  Pangasinan = 'PANGASINAN',
-  Papiamento = 'PAPIAMENTO',
-  Pashto = 'PASHTO',
-  Persian = 'PERSIAN',
-  Polish = 'POLISH',
-  Portuguese = 'PORTUGUESE',
-  PunjabiGurmukhi = 'PUNJABI_GURMUKHI',
-  PunjabiShahmukhi = 'PUNJABI_SHAHMUKHI',
-  Quechua = 'QUECHUA',
-  QEqchi = 'Q_EQCHI',
-  Romani = 'ROMANI',
-  Romanian = 'ROMANIAN',
-  Russian = 'RUSSIAN',
-  SamiNorth = 'SAMI_NORTH',
-  Samoan = 'SAMOAN',
-  Sango = 'SANGO',
-  Santali = 'SANTALI',
-  ScotsGaelic = 'SCOTS_GAELIC',
-  Serbian = 'SERBIAN',
-  Sesotho = 'SESOTHO',
-  SeychelloisCreole = 'SEYCHELLOIS_CREOLE',
-  Shan = 'SHAN',
-  Shona = 'SHONA',
-  Sicilian = 'SICILIAN',
-  Silesian = 'SILESIAN',
-  Sindhi = 'SINDHI',
-  Sinhala = 'SINHALA',
-  Slovak = 'SLOVAK',
-  Slovenian = 'SLOVENIAN',
-  Somali = 'SOMALI',
-  Spanish = 'SPANISH',
-  Sundanese = 'SUNDANESE',
-  Susu = 'SUSU',
-  Swahili = 'SWAHILI',
-  Swati = 'SWATI',
-  Swedish = 'SWEDISH',
-  Tahitian = 'TAHITIAN',
-  Tajik = 'TAJIK',
-  Tamazight = 'TAMAZIGHT',
-  Tamil = 'TAMIL',
-  Tatar = 'TATAR',
-  Telugu = 'TELUGU',
-  Tetum = 'TETUM',
-  Thai = 'THAI',
-  Tibetan = 'TIBETAN',
-  Tigrinya = 'TIGRINYA',
-  Tiv = 'TIV',
-  TokPisin = 'TOK_PISIN',
-  Tongan = 'TONGAN',
-  Tswana = 'TSWANA',
-  Tulu = 'TULU',
-  Tumbuka = 'TUMBUKA',
-  Turkish = 'TURKISH',
-  Turkmen = 'TURKMEN',
-  Tuvan = 'TUVAN',
-  Udmurt = 'UDMURT',
-  Ukrainian = 'UKRAINIAN',
-  Urdu = 'URDU',
-  Uyghur = 'UYGHUR',
-  Uzbek = 'UZBEK',
-  Venda = 'VENDA',
-  Venetian = 'VENETIAN',
-  Vietnamese = 'VIETNAMESE',
-  Waray = 'WARAY',
-  Welsh = 'WELSH',
-  Wolof = 'WOLOF',
-  Xhosa = 'XHOSA',
-  Yakut = 'YAKUT',
-  Yiddish = 'YIDDISH',
-  Yoruba = 'YORUBA',
-  YucatecMaya = 'YUCATEC_MAYA',
-  Zapotec = 'ZAPOTEC',
-  Zulu = 'ZULU'
-}
-
 export type Message = {
   chat?: Maybe<Chat>;
   content: Scalars['String']['output'];
@@ -349,12 +119,11 @@ export type Message = {
 
 export type Mutation = {
   Signin?: Maybe<Scalars['String']['output']>;
-  Signup?: Maybe<Scalars['String']['output']>;
+  activePlan?: Maybe<User>;
   addToBlackList?: Maybe<Blacklist>;
   addToFavorite?: Maybe<FavoriteList>;
   createCompanionRequest?: Maybe<CompanionRequest>;
   createHostingInvitation?: Maybe<HostingInvitation>;
-  createPayment?: Maybe<Scalars['String']['output']>;
   createReport?: Maybe<ViolationReport>;
   logInAsGuest?: Maybe<AuthPayload>;
   refreshAccessToken?: Maybe<AuthPayload>;
@@ -363,9 +132,9 @@ export type Mutation = {
   removeFromFavorite?: Maybe<FavoriteList>;
   removeHostingInvitation?: Maybe<HostingInvitation>;
   removeReport?: Maybe<ViolationReport>;
+  requestPay: Scalars['JSON']['output'];
   updateUser?: Maybe<User>;
   verifyOtp?: Maybe<AuthPayload>;
-  verifyPayment?: Maybe<Plan>;
 };
 
 
@@ -374,8 +143,12 @@ export type MutationSigninArgs = {
 };
 
 
-export type MutationSignupArgs = {
-  phoneNumber: Scalars['String']['input'];
+export type MutationActivePlanArgs = {
+  authority?: InputMaybe<Scalars['String']['input']>;
+  bazarPurchaseToken?: InputMaybe<Scalars['String']['input']>;
+  planId: Scalars['Int']['input'];
+  transactionsId?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -399,11 +172,6 @@ export type MutationCreateCompanionRequestArgs = {
 export type MutationCreateHostingInvitationArgs = {
   guestId: Scalars['String']['input'];
   searchType: Scalars['String']['input'];
-};
-
-
-export type MutationCreatePaymentArgs = {
-  type: PlanType;
 };
 
 
@@ -452,6 +220,12 @@ export type MutationRemoveReportArgs = {
 };
 
 
+export type MutationRequestPayArgs = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  planId: Scalars['Int']['input'];
+};
+
+
 export type MutationUpdateUserArgs = {
   AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
@@ -482,12 +256,6 @@ export type MutationVerifyOtpArgs = {
   phoneNumber: Scalars['String']['input'];
 };
 
-
-export type MutationVerifyPaymentArgs = {
-  refId: Scalars['String']['input'];
-  type: PlanType;
-};
-
 export type Notification = {
   actionId: Scalars['String']['output'];
   content: Scalars['String']['output'];
@@ -500,25 +268,29 @@ export type Notification = {
 };
 
 export type Plan = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  expireAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  price?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<PlanType>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  expireAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   user?: Maybe<User>;
 };
 
-export enum PlanType {
-  Free = 'free',
-  Premium = 'premium'
-}
+export type PricePlan = {
+  bazarId: Scalars['String']['output'];
+  discount: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  months: Scalars['Int']['output'];
+  price: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+};
 
 export type Query = {
   getCompanionRequests: Array<CompanionRequest>;
   getHostingInvitations: Array<HostingInvitation>;
   getMe?: Maybe<User>;
   getNotifications: Array<Notification>;
+  getPricePlan: Array<PricePlan>;
   getRandomUser?: Maybe<Array<Maybe<RandomUser>>>;
   getUser?: Maybe<User>;
   getUsers: Array<User>;
@@ -587,6 +359,14 @@ export enum Role {
   User = 'user'
 }
 
+export type Transaction = {
+  amount: Scalars['Float']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  details: Scalars['JSON']['output'];
+  id: Scalars['ID']['output'];
+  successful: Scalars['Boolean']['output'];
+};
+
 export type User = {
   AmountOfEarlyRising?: Maybe<Scalars['String']['output']>;
   age?: Maybe<Scalars['Int']['output']>;
@@ -617,7 +397,7 @@ export type User = {
   otpExpiresAt?: Maybe<Scalars['DateTime']['output']>;
   personalInterests?: Maybe<Array<Scalars['String']['output']>>;
   phoneNumber: Scalars['String']['output'];
-  plans?: Maybe<Array<Maybe<Plan>>>;
+  plan?: Maybe<Plan>;
   province?: Maybe<Scalars['String']['output']>;
   receivedRequests?: Maybe<Array<Maybe<CompanionRequest>>>;
   reportsMade?: Maybe<Array<Maybe<ViolationReport>>>;
@@ -626,6 +406,7 @@ export type User = {
   smokeStatus?: Maybe<Scalars['String']['output']>;
   spiritStatus?: Maybe<Scalars['String']['output']>;
   sportsStatus?: Maybe<Scalars['String']['output']>;
+  transactions?: Maybe<Transaction>;
   travelInterests?: Maybe<Array<Scalars['String']['output']>>;
   traveledToPlaces?: Maybe<Array<Scalars['String']['output']>>;
   updatedAt: Scalars['DateTime']['output'];
@@ -721,7 +502,7 @@ export type GetRandomUserQueryVariables = Exact<{
 }>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, city: string, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -732,6 +513,11 @@ export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetNotificationsQuery = { getNotifications: Array<{ id: string, content: string, actionId: string, type: string, searchType: string, createdAt: any, read: boolean }> };
+
+export type GetPricePlanQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPricePlanQuery = { getPricePlan: Array<{ id: number, title: string, price: number, discount: number, months: number, bazarId: string }> };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -1076,6 +862,7 @@ export const GetRandomUserDocument = gql`
     livedInPlaces
     province
     images
+    city
     travelInterests
     personalInterests
     mySpecialty
@@ -1233,6 +1020,50 @@ export type GetNotificationsQueryHookResult = ReturnType<typeof useGetNotificati
 export type GetNotificationsLazyQueryHookResult = ReturnType<typeof useGetNotificationsLazyQuery>;
 export type GetNotificationsSuspenseQueryHookResult = ReturnType<typeof useGetNotificationsSuspenseQuery>;
 export type GetNotificationsQueryResult = Apollo.QueryResult<GetNotificationsQuery, GetNotificationsQueryVariables>;
+export const GetPricePlanDocument = gql`
+    query GetPricePlan {
+  getPricePlan {
+    id
+    title
+    price
+    discount
+    months
+    bazarId
+  }
+}
+    `;
+
+/**
+ * __useGetPricePlanQuery__
+ *
+ * To run a query within a React component, call `useGetPricePlanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPricePlanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPricePlanQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPricePlanQuery(baseOptions?: Apollo.QueryHookOptions<GetPricePlanQuery, GetPricePlanQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPricePlanQuery, GetPricePlanQueryVariables>(GetPricePlanDocument, options);
+      }
+export function useGetPricePlanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPricePlanQuery, GetPricePlanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPricePlanQuery, GetPricePlanQueryVariables>(GetPricePlanDocument, options);
+        }
+export function useGetPricePlanSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetPricePlanQuery, GetPricePlanQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPricePlanQuery, GetPricePlanQueryVariables>(GetPricePlanDocument, options);
+        }
+export type GetPricePlanQueryHookResult = ReturnType<typeof useGetPricePlanQuery>;
+export type GetPricePlanLazyQueryHookResult = ReturnType<typeof useGetPricePlanLazyQuery>;
+export type GetPricePlanSuspenseQueryHookResult = ReturnType<typeof useGetPricePlanSuspenseQuery>;
+export type GetPricePlanQueryResult = Apollo.QueryResult<GetPricePlanQuery, GetPricePlanQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser($id: String!) {
   getUser(id: $id) {

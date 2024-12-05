@@ -2,48 +2,47 @@ import { Page } from '@/components/layout/Page';
 import PlanBg from '../../assets/images/plan-bg.png';
 import React, { useState } from 'react';
 import { IcXCircle } from '@/components/icons/IcXCircle';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import { cn } from '@/lib/utils';
-import { IcX } from '@/components/icons/IcX';
-const Items = [
+import {
+  PricePlan,
+  useGetPricePlanQuery,
+} from '@/graphql/generated/graphql.codegen';
+import Button from '@/components/base/Button/Button';
+import Modal from '@/components/base/Modal/Modal';
+import { UseConditions } from '@/components/plan/useConditions';
+import { Features } from '../../components/plan/features';
+import { FeaturesCarousel } from '@/components/plan/featuresCarousel';
+import { PlanCard } from '@/components/plan/planCard';
+import Accordion from '@/components/accordion/Accordion';
+const faq: { question: string; answer: string }[] = [
   {
-    icon: '',
-    title: 'سریع و دقیق',
-    description: 'درصد تطبیق پروفایل شما با مخاطب در اولین مشاهده مشخص می‌شود.',
+    question: 'چرا باید اشتراک تهیه کنم؟',
+    answer:
+      'با تهیه اشتراک باکی به تمامی امکانات جستجوی همسفر، پیام رسانی نامحدود، درصد تطابق شما با مخاطب، مشاهده لایک کنندگان، نبود محدودیت مدت زمان پاسخگویی دسترسی خواهید داشت.',
   },
   {
-    icon: '',
-    title: 'همسفر برتر',
-    description:
-      'به مدت 24 ساعت یکی از پروفایل های برتر کشور خواهید بود. این باعث می‌شود که بیشتر دیده شوید!',
+    question: 'اگر اشتراك نخرم چه می شود؟',
+    answer:
+      'شما هنوز هم قادر خواهید بود از بسیاری از خدمات اپلیکیشن استفاده کنید',
   },
   {
-    icon: '',
-    title: 'مشاهده علاقه‌مندان',
-    description:
-      'دریافت نوتیفیکیشن هنگام لایک شدن و مشاهده لیست افرادی که شما را لایک کرده اند!',
+    question: 'چرا پس از خرید اشتراک برایم فعال نشده است؟',
+    answer:
+      'به احتمال خیلی زیاد شما با یک شماره تماس دیگر اقدام به خرید اشتراک کرده و در حال حاضر با شماره دیگری وارد اپلیکیشن شده اید برای رفع سریع مشکل و دریافت راهنمایی حتما از طریق صفحه ارتباط با پشتیبانی با ما ارتباط برقرار کنید.',
   },
   {
-    icon: '',
-    title: 'چت بدون محدودیت',
-    description: 'محدودیتی در پاسخگویی به درخواست‌های گفتگو و چت وجود ندارد.',
-  },
-  {
-    icon: '',
-    title: 'رفع محدودیت زمانی',
-    description: 'محدودیت زمانی در پاسخگویی به درخواست‌ها وجود ندارد.',
-  },
-  {
-    icon: '',
-    title: 'قابلیت عقب‌گرد',
-    description: 'با گزینه عقب‌گرد می‌تونی همسفر قبلی رو دوباره ببینی!',
+    question:
+      'آیا اپلیکیشن فرآیندهای قدردانی و تشویق به کاربران ارائه می نماید؟',
+    answer:
+      'بله، سازوکار نحوه تشویق کاربران فعال در حال تدوین می باشد به محض نهایی شدن در اپلیکیشن اعمال خواهد شد',
   },
 ];
 export const Plans = () => {
-  const [select, setSelect] = useState();
+  const [showConditions, setShowConditions] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<string | undefined>();
+  const [select, setSelect] = useState<PricePlan>();
+  const { data: plans } = useGetPricePlanQuery();
   return (
-    <Page contentClassName="bg-gray-50 h-full">
+    <Page contentClassName="min-h-full bg-gray-50 pb-20" scrollY>
       <div
         className="relative -mt-11 flex h-[240px] w-full flex-col items-center justify-center gap-4"
         style={{
@@ -59,69 +58,82 @@ export const Plans = () => {
         <h1 className="mt-10 text-[32px] font-bold">باکی</h1>
         <h2 className="text-lg font-medium">راه‌حلی برای سفرهای از دست رفته</h2>
       </div>
-      <div className="flex flex-col gap-8 p-6">
-        <div>
-          <Swiper
-            pagination={{
-              clickable: true,
-            }}
-            spaceBetween={8}
-            modules={[Pagination]}
-            dir="rtl"
-          >
-            {Items.map((val) => (
-              <SwiperSlide
-                className="flex h-auto flex-col items-center justify-center gap-4 rounded-2xl border border-gray-300 bg-white p-4 pb-8"
-                key={val.title}
-              >
-                <div className="flex size-16 items-center justify-center rounded-full bg-brand-yellow">
-                  lll
-                </div>
-                <div className="flex flex-col items-center justify-center gap-2">
-                  <h1 className="text-base font-bold">{val.title}</h1>
-                  <span className="text-center text-sm font-medium text-gray-500">
-                    {val.description}
-                  </span>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+      <div className="flex flex-col gap-8 bg-gray-50 p-6 pb-3">
+        <FeaturesCarousel></FeaturesCarousel>
+        <div className="flex w-full flex-col-reverse items-center gap-2">
+          {plans?.getPricePlan?.map((plan) => (
+            <PlanCard
+              key={plan.id}
+              plan={plan}
+              select={select}
+              onClick={() => setSelect(plan)}
+            ></PlanCard>
+          ))}
         </div>
-        <div className="flex w-full flex-col items-center">
-          <div
-            className={cn(
-              'flex w-full justify-between rounded-2xl border border-gray-300 bg-white px-6 py-4',
-              true &&
-                'border-[1.5px] border-b-[3.5px] border-brand-black bg-brand-yellow',
-            )}
-          >
-            <div className="flex flex-col">
-              <h1 className="text-lg font-bold">
-                <span className="font-Yekan text-[32px]">12</span> ماهه
-              </h1>
-              <div
-                className={cn(
-                  'flex h-6 items-center justify-center rounded-2xl bg-brand-yellow px-3 text-xs font-bold',
-                  true && 'bg-white',
-                )}
-              >
-                %47 تخفیف
-              </div>
+        <Features></Features>
+        <div className="flex flex-col gap-2">
+          <h2 className="px-4 text-sm font-bold text-gray-500">
+            نظرات کاربران
+          </h2>
+          <div className="scrollbar-hide flex items-center gap-2 overflow-x-scroll pl-2">
+            <div className="flex min-w-[90%] flex-col gap-2 rounded-2xl border border-gray-300 bg-white p-3">
+              <h2 className="text-sm font-bold">سحر رضایی</h2>
+              <p className="text-xs text-gray-500">
+                آقا چقد اپ خفنیه!!تا قبل از این حتی نمیدونستم یه همچین چیزی هم
+                هست و همیشه لنگ همسفر بودم، ولی الآن دیگه خیالم راحته!
+              </p>
             </div>
-            <div className="font-Yekan flex items-center justify-center">
-              <div className="font-Yekan flex h-6 items-center justify-center gap-1 text-base font-bold">
-                190000
-                <span className="font-iransans text-[10px] font-normal">
-                  تومان
-                </span>
-              </div>
-              <IcX className="size-7"></IcX>
-              <div className="font-Yekan flex h-6 w-5 items-center justify-center rounded-sm border-[1px] border-brand-black text-base font-bold">
-                12
-              </div>
+            <div className="flex min-w-[90%] flex-col gap-2 rounded-2xl border border-gray-300 bg-white p-3">
+              <h2 className="text-sm font-bold">سحر رضایی</h2>
+              <p className="text-xs text-gray-500">
+                آقا چقد اپ خفنیه!!تا قبل از این حتی نمیدونستم یه همچین چیزی هم
+                هست و همیشه لنگ همسفر بودم، ولی الآن دیگه خیالم راحته!
+              </p>
             </div>
           </div>
         </div>
+        <div className="flex flex-col gap-2">
+          <h2 className="px-4 text-sm font-bold text-gray-500">
+            سوالات متداول
+          </h2>
+          <div className="flex flex-col gap-2">
+            {Object.values(faq).map((val) => (
+              <Accordion
+                key={val.question}
+                content={val.answer}
+                title={val.question}
+                onToggle={() => {
+                  setIsOpen((prev) =>
+                    prev === val.question ? undefined : val.question,
+                  );
+                }}
+                open={val.question === isOpen}
+              ></Accordion>
+            ))}
+          </div>
+        </div>
+        <div
+          className="w-full text-center text-xs font-bold"
+          onClick={() => setShowConditions(true)}
+        >
+          شرایط استفاده | ارتباط با پشتیبانی
+        </div>
+
+        <Modal
+          isOpen={showConditions}
+          onRequestClose={() => setShowConditions(false)}
+          className="w-[90%] rounded-3xl"
+        >
+          <UseConditions
+            hideRules={() => setShowConditions(false)}
+          ></UseConditions>
+        </Modal>
+
+        {select && (
+          <Button className="fixed bottom-6 flex h-12 w-[calc(100%-48px)] items-center justify-center bg-brand-green">
+            تهیه اشتراک {select.months} ماهه
+          </Button>
+        )}
       </div>
     </Page>
   );

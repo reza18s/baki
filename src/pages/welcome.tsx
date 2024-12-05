@@ -55,15 +55,13 @@ export default function Welcome() {
               می‌باشد .
             </p>
           </div>
-          {showRules && (
-            <Modal
-              isOpen={showRules}
-              onRequestClose={() => setShowRules(false)}
-              className="w-[90%] rounded-xl"
-            >
-              <Rules hideRules={() => setShowRules(false)}></Rules>
-            </Modal>
-          )}
+          <Modal
+            isOpen={showRules}
+            onRequestClose={() => setShowRules(false)}
+            className="w-[90%] rounded-3xl"
+          >
+            <Rules hideRules={() => setShowRules(false)}></Rules>
+          </Modal>
         </div>
         {/* gradient div */}
         <div className="absolute bottom-0 h-[40vh] w-full bg-gradient-to-t from-[#9a9692]" />

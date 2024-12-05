@@ -1,0 +1,10 @@
+query GetPricePlan {
+  getPricePlan {
+    id
+    title
+    price
+    discount
+    months
+    bazarId
+  }
+}
