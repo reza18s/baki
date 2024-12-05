@@ -18,6 +18,7 @@ const config: Config = {
       fontFamily: {
         iransans: ['IRANSansX', 'sans'],
         vazir: ['vazir', 'sans'],
+        Yekan: ['YekanBakhFaNum', 'IRANSansX'],
       },
       borderRadius: {
         lg: 'var(--radius)',

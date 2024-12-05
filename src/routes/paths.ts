@@ -10,11 +10,11 @@ export const paths = {
   },
   settings: {
     main: '/settings',
-    support: '/settings/support',
     bills: '/settings/bills',
-    questions: '/settings/questions',
-    contactSupport: '/settings/contact-support',
-    aboutUs: '/settings/about-us',
+    support: '/settings/support',
+    questions: '/settings/support/questions',
+    contactSupport: '/settings/support/contact-support',
+    aboutUs: '/settings/support/about-us',
     guide: '/settings/guide',
     searchTypeGuide: '/settings/guide/search-type',
     communicationGuide: '/settings/guide/communication',
@@ -33,6 +33,9 @@ export const paths = {
     completeSpecialty: '/profile/complete_profile/complete_specialty', // Specialty
     basicInformations: '/profile/complete_profile/complete_basicinformations', // Basic information
     languagesKnow: '/profile/complete_profile/complete_languagesknow', // Language skills
+  },
+  plans: {
+    main: '/plans',
   },
   explore: {
     main: '/', // Explore page

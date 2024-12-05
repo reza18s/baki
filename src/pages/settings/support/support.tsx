@@ -18,13 +18,11 @@ export const Support = () => {
       <div className="flex flex-col gap-2">
         <ArrowButton
           url={paths.settings.questions}
-          className="bg-white"
           text={'سوالات متداول'}
           icon={<IcQuestionCircle></IcQuestionCircle>}
         ></ArrowButton>{' '}
         <ArrowButton
           url={paths.settings.guide}
-          className="bg-white"
           text="راهنما"
           icon={
             <IcExclamationMarkInCircle className="size-5 fill-brand-black"></IcExclamationMarkInCircle>
@@ -32,7 +30,6 @@ export const Support = () => {
         ></ArrowButton>
         <ArrowButton
           url={paths.settings.contactSupport}
-          className="bg-white"
           text="ارتباط با پشتیبانی"
           icon={<IcHeadphones></IcHeadphones>}
         ></ArrowButton>
@@ -43,7 +40,6 @@ export const Support = () => {
         ></ArrowButton>
         <ArrowButton
           url={paths.settings.aboutUs}
-          className="bg-white"
           text="درباره ما"
           icon={<IcStars className="stroke-black"></IcStars>}
         ></ArrowButton>
