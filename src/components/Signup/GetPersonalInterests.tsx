@@ -1,15 +1,13 @@
-import * as SolarIconSet from 'solar-icon-set';
 import { useEffect, useState } from 'react';
 import { PersonalInterestsItems } from '../../constants';
 import { useLocalStore } from '../../store/useLocalStore';
 import Button from '@/components/base/Button/Button';
 import { IcTickCircle } from '@/components/icons/IcTickCircle';
-import toast from 'react-hot-toast';
-import { Toast } from '@/components/base/toast/toast';
+import { customToast } from '../base/toast';
 
 export default function GetPersonalInterests(props: {
   className?: string;
-  handleSubmit?: () => void;
+  handleSubmit?: (data: { personalInterests?: string[] }) => void;
 }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
@@ -29,14 +27,7 @@ export default function GetPersonalInterests(props: {
     } else if (selectedInterests.length < 10) {
       setSelectedInterests((prevInterests) => [...prevInterests, selected]);
     } else {
-      toast.custom(
-        (t) => (
-          <Toast t={t} type="error">
-            شما نمی‌توانید بیشتر از 10 مورد انتخاب کنید!
-          </Toast>
-        ),
-        { duration: 1500 },
-      );
+      customToast('شما نمی‌توانید بیشتر از 10 مورد انتخاب کنید!', 'error');
     }
   };
 
@@ -45,7 +36,9 @@ export default function GetPersonalInterests(props: {
       personalInterests: selectedInterests,
     });
     if (props?.handleSubmit) {
-      props.handleSubmit();
+      props.handleSubmit({
+        personalInterests: selectedInterests,
+      });
     } else {
       handleNextStep();
     }

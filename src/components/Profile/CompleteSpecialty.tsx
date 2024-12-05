@@ -1,5 +1,4 @@
 import { useHistory } from 'react-router-dom';
-import { useLocalStore } from '@/store/useLocalStore';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { Page } from '../layout/Page';
 import AppBar from '../layout/Header/AppBar';
@@ -9,12 +8,11 @@ import { customToast } from '../base/toast';
 export default function CompleteSpecialty() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
-  const userInfo = useLocalStore((store) => store.userInfo);
 
-  const handleSubmit = () => {
+  const handleSubmit = (data: { mySpecialty?: string[] }) => {
     updateUser({
       variables: {
-        mySpecialty: userInfo.mySpecialty,
+        ...data,
       },
       onCompleted: () => {
         customToast(' اطلاعات شما با موفقیت ثبت شد', 'success');

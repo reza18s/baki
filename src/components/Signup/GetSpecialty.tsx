@@ -4,7 +4,7 @@ import { useLocalStore } from '../../store/useLocalStore';
 
 export default function GetSpecialty(props: {
   className?: string;
-  handleSubmit?: () => void;
+  handleSubmit?: (data: { mySpecialty?: string[] }) => void;
 }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
@@ -28,7 +28,9 @@ export default function GetSpecialty(props: {
       mySpecialty: selectedSpecialty,
     });
     if (props?.handleSubmit) {
-      props.handleSubmit();
+      props.handleSubmit({
+        mySpecialty: selectedSpecialty,
+      });
     } else {
       handleNextStep();
     }

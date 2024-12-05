@@ -8,7 +8,7 @@ import { cities } from '@/constants/iranProvinces';
 
 export default function GetProvinces(props: {
   className?: string;
-  handleSubmit?: () => void;
+  handleSubmit?: (data: { city?: string; province?: string }) => void;
 }) {
   const [search, setSearch] = useState<string | undefined>();
   const [select, setSelect] = useState<string>();
@@ -35,7 +35,10 @@ export default function GetProvinces(props: {
       city: selectCity,
     });
     if (props?.handleSubmit) {
-      props.handleSubmit();
+      props.handleSubmit({
+        province: select,
+        city: selectCity,
+      });
     } else {
       handleNextStep();
     }

@@ -1,4 +1,3 @@
-import { useLocalStore } from '@/store/useLocalStore';
 import { useHistory } from 'react-router';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { Page } from '../layout/Page';
@@ -9,12 +8,10 @@ import { customToast } from '../base/toast';
 export default function CompleteTravelInterests() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
-  const userInfo = useLocalStore((store) => store.userInfo);
-
-  const handleSubmit = () => {
+  const handleSubmit = (data: { travelInterests?: string[] }) => {
     updateUser({
       variables: {
-        travelInterests: userInfo.travelInterests,
+        ...data,
       },
       onCompleted: () => {
         customToast(' اطلاعات شما با موفقیت ثبت شد', 'success');

@@ -28,7 +28,7 @@ export default function VerifyOTP(props: {
     const numericOtp = enteredOtp.replace(/\D/g, ''); // Remove non-numeric characters
     setOtp(numericOtp);
     setValue('token', enteredOtp);
-    if (enteredOtp.length === 6) {
+    if (enteredOtp.length === 4) {
       handleSubmit();
     }
   };
@@ -103,7 +103,7 @@ export default function VerifyOTP(props: {
             value={otp}
             onChange={handleChange}
             shouldAutoFocus
-            numInputs={6}
+            numInputs={4}
             renderSeparator={<span className="w-1"></span>}
             renderInput={(props: any) => (
               <input
