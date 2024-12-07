@@ -31,7 +31,7 @@ export default function CompleteSpecialty() {
       contentClassName="h-[100dvh]  p-6"
       header={<AppBar title="تخصص"></AppBar>}
     >
-      <GetSpecialty handleSubmit={handleSubmit} />
+      <GetSpecialty handleSubmit={handleSubmit} textAction="ذخیره و بستن" />
     </Page>
   );
 }

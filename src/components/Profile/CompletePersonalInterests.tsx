@@ -30,7 +30,10 @@ export default function CompletePersonalInterests() {
       contentClassName="h-[100dvh] p-6"
       header={<AppBar title="علایق شخصی"></AppBar>}
     >
-      <GetPersonalInterests handleSubmit={handleSubmit} />
+      <GetPersonalInterests
+        handleSubmit={handleSubmit}
+        textAction="ذخیره و بستن"
+      />
     </Page>
   );
 }

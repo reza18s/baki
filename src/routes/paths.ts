@@ -36,6 +36,10 @@ export const paths = {
   },
   plans: {
     main: '/plans',
+    confirm: {
+      main: '/plans/confirm/:id',
+      exactPath: (id: number) => `/plans/confirm/${id}`,
+    },
   },
   explore: {
     main: '/', // Explore page

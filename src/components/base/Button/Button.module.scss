@@ -86,4 +86,10 @@
       @apply bg-[#2ECC71];
     }
   }
+  &.success {
+    @apply bg-brand-green text-white;
+    &:active:not(:disabled) {
+      @apply bg-[#2ECC71];
+    }
+  }
 }

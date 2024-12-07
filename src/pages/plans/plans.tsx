@@ -13,6 +13,8 @@ import { Features } from '../../components/plan/features';
 import { FeaturesCarousel } from '@/components/plan/featuresCarousel';
 import { PlanCard } from '@/components/plan/planCard';
 import Accordion from '@/components/accordion/Accordion';
+import { Link } from 'react-router-dom';
+import { paths } from '@/routes/paths';
 const faq: { question: string; answer: string }[] = [
   {
     question: 'چرا باید اشتراک تهیه کنم؟',
@@ -130,9 +132,11 @@ export const Plans = () => {
         </Modal>
 
         {select && (
-          <Button className="fixed bottom-6 flex h-12 w-[calc(100%-48px)] items-center justify-center bg-brand-green">
-            تهیه اشتراک {select.months} ماهه
-          </Button>
+          <Link to={paths.plans.confirm.exactPath(select.id)}>
+            <Button className="fixed bottom-6 flex h-12 w-[calc(100%-48px)] items-center justify-center bg-brand-green">
+              تهیه اشتراک {select.months} ماهه
+            </Button>
+          </Link>
         )}
       </div>
     </Page>

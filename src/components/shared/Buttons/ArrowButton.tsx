@@ -28,6 +28,7 @@ export default function ArrowButton({
         'flex w-full items-center justify-between rounded-[12px] border border-slate-300 bg-white px-4 py-[12px] text-brand-black',
         className,
       )}
+      onClick={onClick}
     >
       <div className="flex items-center gap-x-2 text-sm">
         {icon}

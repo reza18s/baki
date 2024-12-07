@@ -8,7 +8,9 @@ export const Rules = ({ hideRules }: { hideRules: () => void }) => {
         <SolarIconSet.Document size={32} />
       </div>
       <div className="flex h-full w-full max-w-full flex-col gap-4">
-        <h1 className="text-base font-bold">قوانین و مقررات حریم خصوصی باکی</h1>
+        <h1 className="text-center text-base font-bold">
+          قوانین و مقررات حریم خصوصی باکی
+        </h1>
         <p className="h-full max-h-[90%] w-full max-w-full text-sm font-medium leading-tight text-brand-black">
           با کی در چارچوب قوانین اینترنتی جمهوری اسلامی ایران فعالیت می کند.
           <br />

@@ -97,8 +97,9 @@ export default function Filter() {
           {SearchType?.label}
         </h1>
         <span className="text-center text-xs text-gray-500">
-          در حالت رایگان هر 24 ساعت می‌توانید یکبار از “همسفر مشهور” استفاده
-          کنید.
+          در حالت رایگان هر 24 ساعت می‌توانید{' '}
+          {SearchType?.value === 'random' ? '3 بار' : 'یکبار'} از “
+          {SearchType?.label}” استفاده کنید.
         </span>
         <Button className="h-10 w-[90px] p-0 px-2 text-sm">تهیه اشتراک</Button>
       </div>

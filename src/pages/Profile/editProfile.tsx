@@ -28,12 +28,12 @@ import {
   getSpiritStatusLabel,
   getSportStatusLabel,
 } from '@/constants';
+import { useStore } from '@/store/useStore';
 
 export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
     'language' | 'livedInPlaces' | 'traveledToPlaces'
   >();
-  const bioRef = useRef<HTMLDivElement | null>(null); // Ref for the biography section
   const userInfo = useLocalStore((store) => store.userInfo);
   const calculateCompletionPercentage = useLocalStore(
     (store) => store.calculateCompletionPercentage,
@@ -52,6 +52,7 @@ export default function EditProfile() {
 
   const [updateUser] = useUpdateUserMutation();
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
+  const setBasicInformationsStep = useStore((s) => s.setBasicInformationsStep);
 
   const [bio, username, name] = [
     watch('bio'),
@@ -208,6 +209,7 @@ export default function EditProfile() {
         <div className="flex w-full flex-col gap-y-2">
           <ArrowButton
             text="جنسیت"
+            onClick={() => setBasicInformationsStep(0)}
             url={paths.profile.basicInformations}
             arrowText={getGenderLabel(userInfo.gender)}
             isArrowText
@@ -216,6 +218,7 @@ export default function EditProfile() {
           />
           <ArrowButton
             text="سال و ماه تولد"
+            onClick={() => setBasicInformationsStep(1)}
             url={paths.profile.basicInformations}
             arrowText={getMonthLabel(userInfo.birthdate)}
             isArrowText
@@ -225,6 +228,7 @@ export default function EditProfile() {
           <ArrowButton
             text="وضعیت تاهل"
             url={paths.profile.basicInformations}
+            onClick={() => setBasicInformationsStep(2)}
             arrowText={getMaritalStatusLabel(userInfo.maritalStatus)}
             isArrowText
             className="w-full"
@@ -233,6 +237,7 @@ export default function EditProfile() {
           <ArrowButton
             text="سیگار"
             url={paths.profile.basicInformations}
+            onClick={() => setBasicInformationsStep(3)}
             arrowText={getSmokeStatusLabel(userInfo.smokeStatus)}
             isArrowText
             className="w-full"
@@ -241,6 +246,7 @@ export default function EditProfile() {
           <ArrowButton
             text="ورزش"
             url={paths.profile.basicInformations}
+            onClick={() => setBasicInformationsStep(4)}
             arrowText={getSportStatusLabel(userInfo.sportsStatus)}
             isArrowText
             className="w-full"
@@ -249,6 +255,7 @@ export default function EditProfile() {
           <ArrowButton
             text="میزان سحرخیزی"
             url={paths.profile.basicInformations}
+            onClick={() => setBasicInformationsStep(5)}
             arrowText={getAmountOfEarlyRisingLabel(
               userInfo.AmountOfEarlyRising,
             )}
@@ -259,6 +266,7 @@ export default function EditProfile() {
           <ArrowButton
             text="روحیه"
             url={paths.profile.basicInformations}
+            onClick={() => setBasicInformationsStep(6)}
             arrowText={getSpiritStatusLabel(userInfo.spiritStatus)}
             isArrowText
             className="w-full"

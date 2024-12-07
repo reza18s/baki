@@ -7,6 +7,7 @@ import Button from '@/components/base/Button/Button';
 import { customToast } from '../base/toast';
 
 export default function GetTravelInterests(props: {
+  textAction?: string;
   className?: string;
   handleSubmit?: (data: { travelInterests?: string[] }) => void;
 }) {
@@ -101,11 +102,9 @@ export default function GetTravelInterests(props: {
         <Button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
-          className={`px-5 py-4 ${
-            selectedInterests.length >= 5 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] border-0 font-bold leading-none text-brand-black`}
+          className={`text-nowrap rounded-[12px] border-0 px-5 py-4 font-bold leading-none text-brand-black`}
         >
-          بعدی
+          {props.textAction || 'بعدی'}
         </Button>
       </div>
     </div>

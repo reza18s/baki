@@ -6,6 +6,7 @@ import { IcTickCircle } from '@/components/icons/IcTickCircle';
 import { customToast } from '../base/toast';
 
 export default function GetPersonalInterests(props: {
+  textAction?: string;
   className?: string;
   handleSubmit?: (data: { personalInterests?: string[] }) => void;
 }) {
@@ -95,11 +96,9 @@ export default function GetPersonalInterests(props: {
         <Button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
-          className={`px-5 py-4 ${
-            selectedInterests.length >= 5 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } font-bold leading-none text-brand-black`}
+          className={`text-nowrap px-5 py-4 font-bold leading-none text-brand-black`}
         >
-          بعدی
+          {props.textAction || 'بعدی'}
         </Button>
       </div>
     </div>

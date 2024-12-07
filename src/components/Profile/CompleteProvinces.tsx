@@ -30,9 +30,9 @@ export default function CompleteProvinces() {
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh] p-6"
-      header={<AppBar title="علایق شخصی"></AppBar>}
+      header={<AppBar title="محل زندگی"></AppBar>}
     >
-      <GetProvinces handleSubmit={handleSubmit} />
+      <GetProvinces handleSubmit={handleSubmit} textAction="ذخیره و بستن" />
     </Page>
   );
 }

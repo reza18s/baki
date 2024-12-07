@@ -36,6 +36,7 @@ import { Guide } from '@/pages/settings/guide/guide';
 import { SearchTypeGuide } from '@/pages/settings/guide/SearchTypeGuide';
 import { CommunicationGuide } from '@/pages/settings/guide/communicationGuide';
 import { Plans } from '@/pages/plans/plans';
+import { Confirm } from '@/pages/plans/confirm';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -152,7 +153,13 @@ export default function Routes() {
                 path={paths.settings.communicationGuide}
                 component={CommunicationGuide}
               />
+              {/* plan */}
               <Route exact path={paths.plans.main} component={Plans} />
+              <Route
+                exact
+                path={paths.plans.confirm.main}
+                component={Confirm}
+              />
               {/* explore */}
               <Route exact path={paths.explore.filter} component={Filter} />
               <Route

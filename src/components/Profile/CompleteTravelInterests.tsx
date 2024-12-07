@@ -31,7 +31,10 @@ export default function CompleteTravelInterests() {
       contentClassName="h-[100dvh] p-6"
       header={<AppBar title="علایق عمومی"></AppBar>}
     >
-      <GetTravelInterests handleSubmit={handleSubmit} />
+      <GetTravelInterests
+        handleSubmit={handleSubmit}
+        textAction="ذخیره و بستن"
+      />
     </Page>
   );
 }

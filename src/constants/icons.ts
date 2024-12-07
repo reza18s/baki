@@ -39,7 +39,7 @@ export { default as HorseIcon } from '../assets/img/signup/HorseIcon.svg';
 export { default as BackgammonIcon } from '../assets/img/signup/BackgammonIcon.svg';
 export { default as SquashIcon } from '../assets/img/signup/SquashIcon.svg';
 export { default as RabbitIcon } from '../assets/img/signup/RabbitIcon.svg';
-export { default as LionIcon } from '../assets/img/signup/SkiingIcon.svg';
+export { default as LionIcon } from '../assets/img/signup/LionIcon.svg';
 export { default as DogIcon } from '../assets/img/signup/DogIcon.svg';
 export { default as SquirrelIcon } from '../assets/img/signup/SquirrelIcon.svg';
 export { default as HamsterIcon } from '../assets/img/signup/HamsterIcon.svg';
