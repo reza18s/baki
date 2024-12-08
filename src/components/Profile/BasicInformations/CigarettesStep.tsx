@@ -2,11 +2,13 @@ import { useForm } from 'react-hook-form';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
 import Button from '@/components/base/Button/Button';
 import { LiaSmokingSolid } from 'react-icons/lia';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import { customToast } from '@/components/base/toast';
 
-export default function CigarettesStep(props: { handleNextStep: () => void }) {
+export default function CigarettesStep(props: {
+  handleNextStep: (user?: Partial<UserInfo>) => void;
+}) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -14,15 +16,11 @@ export default function CigarettesStep(props: { handleNextStep: () => void }) {
   useEffect(() => {
     setValue('smokeStatus', userInfo.smokeStatus);
   }, [userInfo.smokeStatus]);
-
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const handleSubmit = () => {
     if (watch('smokeStatus')) {
-      updateUserInfo({
+      props.handleNextStep({
         smokeStatus: watch('smokeStatus'),
       });
-      props.handleNextStep();
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

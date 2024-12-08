@@ -230,7 +230,7 @@ export type MutationUpdateUserArgs = {
   AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
-  birthday?: InputMaybe<Scalars['DateTime']['input']>;
+  birthday?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
   images?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -338,6 +338,7 @@ export type RandomUser = {
   languages: Array<Scalars['String']['output']>;
   lastSeen: Scalars['DateTime']['output'];
   livedInPlaces: Array<Scalars['String']['output']>;
+  mainImages?: Maybe<Scalars['String']['output']>;
   maritalStatus: Scalars['String']['output'];
   mySpecialty: Array<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -351,6 +352,7 @@ export type RandomUser = {
   travelInterests: Array<Scalars['String']['output']>;
   traveledToPlaces: Array<Scalars['String']['output']>;
   username: Scalars['String']['output'];
+  zodiacSign?: Maybe<Scalars['Int']['output']>;
 };
 
 export enum Role {
@@ -412,6 +414,7 @@ export type User = {
   updatedAt: Scalars['DateTime']['output'];
   username?: Maybe<Scalars['String']['output']>;
   verified: Scalars['Boolean']['output'];
+  zodiacSign?: Maybe<Scalars['String']['output']>;
 };
 
 export type ViolationReport = {
@@ -471,7 +474,7 @@ export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, use
 export type UpdateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
-  birthday?: InputMaybe<Scalars['DateTime']['input']>;
+  birthday?: InputMaybe<Scalars['String']['input']>;
   province?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -502,12 +505,12 @@ export type GetRandomUserQueryVariables = Exact<{
 }>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, images: Array<string>, city: string, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: number | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -524,7 +527,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 
 export const CreateCompanionRequestDocument = gql`
@@ -772,7 +775,7 @@ export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation
 export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
 export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($name: String, $gender: Gender, $birthday: DateTime, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthday: String, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
   updateUser(
     name: $name
     gender: $gender
@@ -861,8 +864,10 @@ export const GetRandomUserDocument = gql`
     traveledToPlaces
     livedInPlaces
     province
+    mainImages
     images
     city
+    zodiacSign
     travelInterests
     personalInterests
     mySpecialty
@@ -924,6 +929,7 @@ export const GetMeDocument = gql`
     gender
     languages
     birthday
+    zodiacSign
     traveledToPlaces
     livedInPlaces
     province
@@ -1075,6 +1081,7 @@ export const GetUserDocument = gql`
     gender
     languages
     birthday
+    zodiacSign
     traveledToPlaces
     livedInPlaces
     province

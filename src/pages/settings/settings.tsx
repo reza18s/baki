@@ -31,6 +31,7 @@ export const Settings = () => {
           icon={<IcCrownStar></IcCrownStar>}
         ></ArrowButton>{' '}
         <ArrowButton
+          url={paths.plans.freePlan}
           text={'اشتراک رایگان'}
           icon={<IcGift></IcGift>}
         ></ArrowButton>

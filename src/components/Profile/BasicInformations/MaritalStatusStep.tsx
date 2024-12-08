@@ -2,12 +2,12 @@ import { useForm } from 'react-hook-form';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from '@/components/base/Button/Button';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import { customToast } from '@/components/base/toast';
 
 export default function MaritalStatusStep(props: {
-  handleNextStep: () => void;
+  handleNextStep: (user?: Partial<UserInfo>) => void;
 }) {
   const { control, watch, setValue } = useForm();
 
@@ -17,14 +17,9 @@ export default function MaritalStatusStep(props: {
     setValue('maritalStatus', userInfo.maritalStatus);
   }, [userInfo.maritalStatus]);
 
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const handleSubmit = () => {
     if (watch('maritalStatus')) {
-      updateUserInfo({
-        maritalStatus: watch('maritalStatus'),
-      });
-      props.handleNextStep();
+      props.handleNextStep({ maritalStatus: watch('maritalStatus') });
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

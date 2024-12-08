@@ -8,6 +8,7 @@ query GetMe {
     gender
     languages
     birthday
+    zodiacSign
     traveledToPlaces
     livedInPlaces
     province

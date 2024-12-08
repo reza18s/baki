@@ -10,6 +10,9 @@ import SpiritStep from './SpiritStep';
 import { Page } from '@/components/layout/Page';
 import AppBar from '@/components/layout/Header/AppBar';
 import { IBasicInformationsStep, useStore } from '@/store/useStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
+import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
+import { customToast } from '@/components/base/toast';
 
 const HeadStep = ({
   stepNum,
@@ -31,8 +34,22 @@ export default function BasicInformations() {
   const { setBasicInformationsStep, basicInformationsStep } = useStore(
     (s) => s,
   );
+  const [updateUser] = useUpdateUserMutation();
+  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const hs = useHistory();
-  const handleNextStep = () => {
+  const handleNextStep = (user?: Partial<UserInfo>) => {
+    updateUserInfo({ ...user });
+    updateUser({
+      variables: {
+        ...user,
+      },
+      onCompleted: () => {
+        customToast('اطلاعات شما با موفقیت ثبت شد', 'success');
+      },
+      onError: () => {
+        customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
+      },
+    });
     setBasicInformationsStep((prevStep: IBasicInformationsStep) => {
       if (prevStep < 6) {
         return (prevStep + 1) as IBasicInformationsStep;
@@ -92,7 +109,9 @@ export default function BasicInformations() {
       {basicInformationsStep === 5 && (
         <WakeUpEarlyStep handleNextStep={handleNextStep} />
       )}
-      {basicInformationsStep === 6 && <SpiritStep />}
+      {basicInformationsStep === 6 && (
+        <SpiritStep handleNextStep={handleNextStep} />
+      )}
     </Page>
   );
 }

@@ -36,6 +36,7 @@ export const paths = {
   },
   plans: {
     main: '/plans',
+    freePlan: '/free-plan',
     confirm: {
       main: '/plans/confirm/:id',
       exactPath: (id: number) => `/plans/confirm/${id}`,

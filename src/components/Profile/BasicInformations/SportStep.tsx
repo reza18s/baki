@@ -2,11 +2,13 @@ import { useForm } from 'react-hook-form';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from '@/components/base/Button/Button';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import { customToast } from '@/components/base/toast';
 
-export default function SportStep(props: { handleNextStep: () => void }) {
+export default function SportStep(props: {
+  handleNextStep: (user?: Partial<UserInfo>) => void;
+}) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -14,15 +16,9 @@ export default function SportStep(props: { handleNextStep: () => void }) {
   useEffect(() => {
     setValue('sportsStatus', userInfo.sportsStatus);
   }, [userInfo.sportsStatus]);
-
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const handleSubmit = () => {
     if (watch('sportsStatus')) {
-      updateUserInfo({
-        sportsStatus: watch('sportsStatus'),
-      });
-      props.handleNextStep();
+      props.handleNextStep({ sportsStatus: watch('sportsStatus') });
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }
