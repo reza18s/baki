@@ -35,6 +35,7 @@ export default function FinalStep() {
               travelInterests: userInfo.travelInterests,
               gender: userInfo.gender,
               province: userInfo.province,
+              city: userInfo.city,
               mySpecialty: userInfo.mySpecialty,
               personalInterests: userInfo.personalInterests,
               name: userInfo.name,
@@ -44,7 +45,7 @@ export default function FinalStep() {
               setSteps(0);
             },
             onError: (err) => {
-              console.log(err);
+              console.log(err.message);
             },
           });
         }}

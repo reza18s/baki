@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { SpecialtyItems } from '../../constants';
 import { useLocalStore } from '../../store/useLocalStore';
+import Button from '../base/Button/Button';
 
 export default function GetSpecialty(props: {
+  textAction?: string;
   className?: string;
-  handleSubmit?: () => void;
+  handleSubmit?: (data: { mySpecialty?: string[] }) => void;
 }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
@@ -28,7 +30,9 @@ export default function GetSpecialty(props: {
       mySpecialty: selectedSpecialty,
     });
     if (props?.handleSubmit) {
-      props.handleSubmit();
+      props.handleSubmit({
+        mySpecialty: selectedSpecialty,
+      });
     } else {
       handleNextStep();
     }
@@ -71,15 +75,13 @@ export default function GetSpecialty(props: {
 
       {/* Footer */}
       <div className="sticky bottom-0 flex w-full items-center justify-end bg-white pb-6">
-        <button
+        <Button
           disabled={selectedSpecialty.length === 0}
           onClick={handleSubmit}
-          className={`px-5 py-4 ${
-            selectedSpecialty.length > 0 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-brand-black`}
+          className={`text-nowrap rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >
-          بعدی
-        </button>
+          {props.textAction || 'بعدی'}
+        </Button>
       </div>
     </div>
   );

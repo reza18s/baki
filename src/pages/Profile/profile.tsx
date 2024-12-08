@@ -47,7 +47,7 @@ export const Profile = () => {
               <MdVerified size={16} className="fill-brand-yellow" />
             </div>
             <div className="flex items-center gap-x-1 text-xs">
-              {me?.province}
+              {me?.province}, {me?.city}
             </div>
             <span className="text-xs text-gray-400">
               آخرین بازدید 2 ساعت پیش

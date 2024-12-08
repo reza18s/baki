@@ -1,7 +1,7 @@
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
-import SearchGuide from '../../assets/images/SearchGuide.png';
-import GuideImg from '../../assets/images/guide.png';
+import SearchGuide from '../../../assets/images/SearchGuide.png';
+import GuideImg from '../../../assets/images/guide.png';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { paths } from '@/routes/paths';

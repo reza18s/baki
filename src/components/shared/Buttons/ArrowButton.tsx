@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import { cn } from '@/lib/utils';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import * as SolarIconSet from 'solar-icon-set';
@@ -23,7 +24,11 @@ export default function ArrowButton({
   return url ? (
     <Link
       to={url || '/profile'}
-      className={`flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black ${className}`}
+      className={cn(
+        'flex w-full items-center justify-between rounded-[12px] border border-slate-300 bg-white px-4 py-[12px] text-brand-black',
+        className,
+      )}
+      onClick={onClick}
     >
       <div className="flex items-center gap-x-2 text-sm">
         {icon}
@@ -31,7 +36,7 @@ export default function ArrowButton({
       </div>
       <div className="flex items-center gap-x-2">
         <p
-          className={clsx(
+          className={cn(
             'text-sm font-bold',
             arrowText ? 'text-brand-black' : 'text-gray-500',
           )}
@@ -44,8 +49,8 @@ export default function ArrowButton({
   ) : (
     <Button
       variant="outline"
-      className={clsx(
-        'flex w-full items-center justify-between rounded-[12px] border border-slate-300 px-4 py-[12px] text-brand-black',
+      className={cn(
+        'flex w-full items-center justify-between rounded-[12px] border border-slate-300 bg-white px-4 py-[12px] text-brand-black',
         className,
       )}
       onClick={onClick}

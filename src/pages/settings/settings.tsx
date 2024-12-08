@@ -20,7 +20,7 @@ export const Settings = () => {
     >
       <div className="flex flex-col gap-2">
         <ArrowButton
-          // url={'/'}
+          url={paths.plans.main}
           className="bg-brand-yellow"
           text={
             <>
@@ -31,40 +31,33 @@ export const Settings = () => {
           icon={<IcCrownStar></IcCrownStar>}
         ></ArrowButton>{' '}
         <ArrowButton
-          className="bg-white"
           text={'اشتراک رایگان'}
           icon={<IcGift></IcGift>}
         ></ArrowButton>
         <ArrowButton
-          className="bg-white"
           onClick={() => shareRecipe()}
           text="دعوت از دوستان"
           icon={<IcShear></IcShear>}
         ></ArrowButton>
         <ArrowButton
-          className="bg-white"
           text="لیست علاقه‌مندی‌ها"
           icon={<IcStar></IcStar>}
         ></ArrowButton>
         <ArrowButton
-          className="bg-white"
           text="لیست سیاه"
           icon={<IcUserBlackList></IcUserBlackList>}
         ></ArrowButton>
         <ArrowButton
-          className="bg-white"
           url={paths.settings.bills}
           text="سوابق پرداختی"
           icon={<IcBillListr></IcBillListr>}
         ></ArrowButton>
         <ArrowButton
-          className="bg-white"
           url={paths.settings.support}
           text="پشتیبانی و اطلاع‌رسانی"
           icon={<IcHelp></IcHelp>}
         ></ArrowButton>
         <ArrowButton
-          className="bg-white"
           text="قوانین و مقررات"
           icon={<IcDocument></IcDocument>}
         ></ArrowButton>

@@ -1,7 +1,4 @@
 import { useHistory } from 'react-router-dom';
-import { useLocalStore } from '@/store/useLocalStore';
-import toast from 'react-hot-toast';
-import { Toast } from '@/components/base/toast/toast';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import AppBar from '../layout/Header/AppBar';
 import { Page } from '../layout/Page';
@@ -11,12 +8,11 @@ import { customToast } from '../base/toast';
 export default function CompleteProvinces() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
-  const userInfo = useLocalStore((store) => store.userInfo);
 
-  const handleSubmit = () => {
+  const handleSubmit = (data: { city?: string; province?: string }) => {
     updateUser({
       variables: {
-        city: userInfo.province,
+        ...data,
       },
       onCompleted: () => {
         customToast(' اطلاعات شما با موفقیت ثبت شد', 'success');
@@ -34,9 +30,9 @@ export default function CompleteProvinces() {
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh] p-6"
-      header={<AppBar title="علایق شخصی"></AppBar>}
+      header={<AppBar title="محل زندگی"></AppBar>}
     >
-      <GetProvinces handleSubmit={handleSubmit} />
+      <GetProvinces handleSubmit={handleSubmit} textAction="ذخیره و بستن" />
     </Page>
   );
 }

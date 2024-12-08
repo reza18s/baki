@@ -101,7 +101,7 @@ export default function ExploreCard({
                 </div>
                 <div className="flex items-center gap-x-1 text-white">
                   <RiMapPin2Fill size={16} fill="#fff" className="-mr-[2px]" />
-                  {user.province}
+                  {user.province}, {user.city}
                 </div>
                 <div className="flex items-center gap-x-1 text-white">
                   <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">

@@ -3,12 +3,14 @@ import React from 'react';
 import * as SolarIconSet from 'solar-icon-set';
 export const Rules = ({ hideRules }: { hideRules: () => void }) => {
   return (
-    <div className="flex w-full flex-col items-center justify-center rounded-md bg-white px-6 py-4 text-sm text-brand-black">
+    <div className="flex w-full flex-col items-center justify-center gap-4 rounded-3xl bg-white px-6 py-4 text-sm text-brand-black">
       <div className="w-full max-w-fit rounded-full bg-brand-yellow p-6">
         <SolarIconSet.Document size={32} />
       </div>
-      <div className="h-full w-full max-w-full">
-        <h1 className="text-base font-bold">قوانین و مقررات حریم خصوصی باکی</h1>
+      <div className="flex h-full w-full max-w-full flex-col gap-4">
+        <h1 className="text-center text-base font-bold">
+          قوانین و مقررات حریم خصوصی باکی
+        </h1>
         <p className="h-full max-h-[90%] w-full max-w-full text-sm font-medium leading-tight text-brand-black">
           با کی در چارچوب قوانین اینترنتی جمهوری اسلامی ایران فعالیت می کند.
           <br />
@@ -39,7 +41,7 @@ export const Rules = ({ hideRules }: { hideRules: () => void }) => {
           افراد مجاز به انتشار اطلاعات محرمانه مملکتی،اطلاعات محرمانه اشخاص
           ثالث، دراین نرم افزار نمی باشند.
           <br />
-          ثبت نام افراد پایین‌تر از 18 سال تمام،خلاف قوانین باکی بوده و پروفایل
+          ثبت نام افراد پایین‌تر از 18 سال تمام،خلاف قوانین باکی بوده و پروفایل
           این افراد مسدود خواهد شد.
           <br />
           فیلدهای ثبت نام و تصویر کاربران پس از بررسی و تایید توسط مدیریت، برای
@@ -63,7 +65,7 @@ export const Rules = ({ hideRules }: { hideRules: () => void }) => {
           مطالعه و رعایت نمایند.
           <br />
           از کاربران و بازدیدکنندگان محترم تقاضا می شود در صورت مشاهده نقض
-          قوانین، مورد را از طریق مربوط با ما در میان بگذارند.
+          قوانین، مورد را از طریق مربوط با ما در میان بگذارند.
           <br />
           عضویت در باکی به منزله پذیرش و تایید قوانین آن از طرف کاربران می باشد.
           <br />

@@ -5,10 +5,12 @@ import { useLocalStore } from '../../store/useLocalStore';
 import { iranProvinces } from '@/constants';
 import { customToast } from '../base/toast';
 import { cities } from '@/constants/iranProvinces';
+import Button from '../base/Button/Button';
 
 export default function GetProvinces(props: {
+  textAction?: string;
   className?: string;
-  handleSubmit?: () => void;
+  handleSubmit?: (data: { city?: string; province?: string }) => void;
 }) {
   const [search, setSearch] = useState<string | undefined>();
   const [select, setSelect] = useState<string>();
@@ -35,7 +37,10 @@ export default function GetProvinces(props: {
       city: selectCity,
     });
     if (props?.handleSubmit) {
-      props.handleSubmit();
+      props.handleSubmit({
+        province: select,
+        city: selectCity,
+      });
     } else {
       handleNextStep();
     }
@@ -133,19 +138,17 @@ export default function GetProvinces(props: {
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center justify-between gap-x-[8px]">
           <SolarIconSet.LockKeyholeUnlocked size={24} />
-          <p className="pl-[29px] text-xs font-medium leading-none text-brand-black">
+          <p className="text-xs font-medium leading-none text-brand-black">
             شما میتوانید این بخش را در آینده تغییر دهید.
           </p>
         </div>
-        <button
-          disabled={!select}
+        <Button
+          disabled={!select && !selectCity}
           onClick={handleSubmit}
-          className={`px-5 py-4 ${
-            select ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-brand-black`}
+          className={`text-nowrap rounded-[12px] px-5 py-4 text-base font-bold leading-none text-brand-black`}
         >
-          بعدی
-        </button>
+          {props.textAction || 'بعدی'}
+        </Button>
       </div>
     </div>
   );

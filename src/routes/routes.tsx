@@ -26,15 +26,17 @@ import CompleteSpecialty from '@/components/Profile/CompleteSpecialty';
 import BasicInformations from '@/components/Profile/BasicInformations/BasicInformations';
 import { Profile } from '@/pages/Profile/profile';
 import { Settings } from '@/pages/settings/settings';
-import { Support } from '@/pages/settings/support';
+import { Support } from '@/pages/settings/support/support';
 import { Bills } from '@/pages/settings/bills';
-import { Questions } from '@/pages/settings/questions';
+import { Questions } from '@/pages/settings/support/questions';
 import { LoaderPage } from '@/components/base/Loader/LoaderPage';
-import { ContactSupport } from '@/pages/settings/contactSupport';
-import { AboutUs } from '@/pages/settings/aboutUs';
-import { Guide } from '@/pages/settings/guide';
-import { SearchTypeGuide } from '@/pages/settings/SearchTypeGuide';
-import { CommunicationGuide } from '@/pages/settings/communicationGuide';
+import { ContactSupport } from '@/pages/settings/support/contactSupport';
+import { AboutUs } from '@/pages/settings/support/aboutUs';
+import { Guide } from '@/pages/settings/guide/guide';
+import { SearchTypeGuide } from '@/pages/settings/guide/SearchTypeGuide';
+import { CommunicationGuide } from '@/pages/settings/guide/communicationGuide';
+import { Plans } from '@/pages/plans/plans';
+import { Confirm } from '@/pages/plans/confirm';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -150,6 +152,13 @@ export default function Routes() {
                 exact
                 path={paths.settings.communicationGuide}
                 component={CommunicationGuide}
+              />
+              {/* plan */}
+              <Route exact path={paths.plans.main} component={Plans} />
+              <Route
+                exact
+                path={paths.plans.confirm.main}
+                component={Confirm}
               />
               {/* explore */}
               <Route exact path={paths.explore.filter} component={Filter} />

@@ -1,8 +1,4 @@
 import { useHistory } from 'react-router-dom';
-
-import { useLocalStore } from '@/store/useLocalStore';
-import toast from 'react-hot-toast';
-import { Toast } from '@/components/base/toast/toast';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { Page } from '../layout/Page';
 import AppBar from '../layout/Header/AppBar';
@@ -12,12 +8,10 @@ import { customToast } from '../base/toast';
 export default function CompletePersonalInterests() {
   const [updateUser] = useUpdateUserMutation();
   const hs = useHistory();
-  const userInfo = useLocalStore((store) => store.userInfo);
-
-  const handleSubmit = () => {
+  const handleSubmit = (data: { personalInterests?: string[] }) => {
     updateUser({
       variables: {
-        personalInterests: userInfo.personalInterests,
+        ...data,
       },
       onCompleted: () => {
         customToast(' اطلاعات شما با موفقیت ثبت شد', 'success');
@@ -36,7 +30,10 @@ export default function CompletePersonalInterests() {
       contentClassName="h-[100dvh] p-6"
       header={<AppBar title="علایق شخصی"></AppBar>}
     >
-      <GetPersonalInterests handleSubmit={handleSubmit} />
+      <GetPersonalInterests
+        handleSubmit={handleSubmit}
+        textAction="ذخیره و بستن"
+      />
     </Page>
   );
 }

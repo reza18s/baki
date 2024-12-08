@@ -9,14 +9,14 @@ import WakeUpEarlyStep from './WakeUpEarlyStep';
 import SpiritStep from './SpiritStep';
 import { Page } from '@/components/layout/Page';
 import AppBar from '@/components/layout/Header/AppBar';
+import { IBasicInformationsStep, useStore } from '@/store/useStore';
 
-type StepsNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 const HeadStep = ({
   stepNum,
   activeStep,
 }: {
-  stepNum: StepsNumber;
-  activeStep: StepsNumber;
+  stepNum: IBasicInformationsStep;
+  activeStep: IBasicInformationsStep;
 }) => {
   return (
     <div
@@ -28,12 +28,14 @@ const HeadStep = ({
 };
 
 export default function BasicInformations() {
-  const [step, setStep] = useState<StepsNumber>(0);
+  const { setBasicInformationsStep, basicInformationsStep } = useStore(
+    (s) => s,
+  );
   const hs = useHistory();
   const handleNextStep = () => {
-    setStep((prevStep: StepsNumber) => {
+    setBasicInformationsStep((prevStep: IBasicInformationsStep) => {
       if (prevStep < 6) {
-        return (prevStep + 1) as StepsNumber;
+        return (prevStep + 1) as IBasicInformationsStep;
       } else {
         return prevStep;
       }
@@ -48,10 +50,12 @@ export default function BasicInformations() {
         <AppBar
           title="اطلاعات اولیه"
           onBack={() => {
-            if (step === 0) {
+            if (basicInformationsStep === 0) {
               hs.goBack();
             } else {
-              setStep((prev) => (prev - 1) as StepsNumber);
+              setBasicInformationsStep(
+                (prev) => (prev - 1) as IBasicInformationsStep,
+              );
             }
           }}
         ></AppBar>
@@ -62,17 +66,33 @@ export default function BasicInformations() {
         <div className="flex w-full justify-around gap-[1px]">
           {/* Steps */}
           {[...Array(7)].map((_, i) => (
-            <HeadStep key={i} stepNum={i as StepsNumber} activeStep={step} />
+            <HeadStep
+              key={i}
+              stepNum={i as IBasicInformationsStep}
+              activeStep={basicInformationsStep}
+            />
           ))}
         </div>
       </div>
-      {step === 0 && <GenderStep handleNextStep={handleNextStep} />}
-      {step === 1 && <BirthdateStep handleNextStep={handleNextStep} />}
-      {step === 2 && <MaritalStatusStep handleNextStep={handleNextStep} />}
-      {step === 3 && <CigarettesStep handleNextStep={handleNextStep} />}
-      {step === 4 && <SportStep handleNextStep={handleNextStep} />}
-      {step === 5 && <WakeUpEarlyStep handleNextStep={handleNextStep} />}
-      {step === 6 && <SpiritStep />}
+      {basicInformationsStep === 0 && (
+        <GenderStep handleNextStep={handleNextStep} />
+      )}
+      {basicInformationsStep === 1 && (
+        <BirthdateStep handleNextStep={handleNextStep} />
+      )}
+      {basicInformationsStep === 2 && (
+        <MaritalStatusStep handleNextStep={handleNextStep} />
+      )}
+      {basicInformationsStep === 3 && (
+        <CigarettesStep handleNextStep={handleNextStep} />
+      )}
+      {basicInformationsStep === 4 && (
+        <SportStep handleNextStep={handleNextStep} />
+      )}
+      {basicInformationsStep === 5 && (
+        <WakeUpEarlyStep handleNextStep={handleNextStep} />
+      )}
+      {basicInformationsStep === 6 && <SpiritStep />}
     </Page>
   );
 }
