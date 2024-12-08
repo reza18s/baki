@@ -39,6 +39,56 @@ export const gender = [
   { label: 'زن', value: 'female' },
   { label: 'مرد', value: 'male' },
 ];
+export const zodiacSigns = [
+  {
+    label: 'حمل',
+    value: 'Aries',
+  },
+  {
+    label: 'ثور',
+    value: 'Taurus',
+  },
+  {
+    label: 'جوزا',
+    value: 'Gemini',
+  },
+  {
+    label: 'سرطان',
+    value: 'Cancer',
+  },
+  {
+    label: 'اسد',
+    value: 'Leo',
+  },
+  {
+    label: 'سنبله',
+    value: 'Virgo',
+  },
+  {
+    label: 'میزان',
+    value: 'Libra',
+  },
+  {
+    label: 'عقرب',
+    value: 'Scorpio',
+  },
+  {
+    label: 'قوس',
+    value: 'Sagittarius',
+  },
+  {
+    label: 'جدی',
+    value: 'Capricorn',
+  },
+  {
+    label: 'دلو',
+    value: 'Aquarius',
+  },
+  {
+    label: 'حوت',
+    value: 'Pisces',
+  },
+];
 export const AmountOfEarlyRising = [
   { label: 'سحرخیز', value: 'wakeUpEarly' },
   { label: 'خواب‌آلود', value: 'sleepy' },
@@ -89,6 +139,6 @@ export const getMonthLabel = (value?: string) => {
   if (!value) {
     return undefined;
   }
-  const [year, month] = value.split('-');
+  const [year, month] = value.split('/');
   return `${months.find((val) => val.key === +month)?.label}${year}`;
 };

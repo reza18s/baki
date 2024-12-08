@@ -1,12 +1,14 @@
 import { useForm } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import Button from '@/components/base/Button/Button';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
 import { customToast } from '@/components/base/toast';
 
-export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
+export default function WakeUpEarlyStep(props: {
+  handleNextStep: (user?: Partial<UserInfo>) => void;
+}) {
   const { control, watch, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
@@ -14,15 +16,11 @@ export default function WakeUpEarlyStep(props: { handleNextStep: () => void }) {
   useEffect(() => {
     setValue('AmountOfEarlyRising', userInfo.AmountOfEarlyRising);
   }, [userInfo.AmountOfEarlyRising]);
-
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const handleSubmit = () => {
     if (watch('AmountOfEarlyRising')) {
-      updateUserInfo({
+      props.handleNextStep({
         AmountOfEarlyRising: watch('AmountOfEarlyRising'),
       });
-      props.handleNextStep();
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

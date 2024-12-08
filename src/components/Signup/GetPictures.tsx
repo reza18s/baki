@@ -3,6 +3,7 @@ import * as SolarIconSet from 'solar-icon-set';
 import UploadPictures from '../shared/Inputs/UploadPictures';
 import { useLocalStore } from '../../store/useLocalStore';
 import Modal from '@/components/base/Modal/Modal';
+import Button from '../base/Button/Button';
 
 export default function GetPictures(props: { control: any; name: string }) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
@@ -32,15 +33,15 @@ export default function GetPictures(props: { control: any; name: string }) {
             </p>
           </div>
         </div>
-        <button
-          disabled={props.name?.length < 1}
+        <Button
+          // disabled={props.name?.length > 1}
           onClick={() => {
             handleNextStep();
           }}
-          className={`px-5 py-4 ${props.name?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'} rounded-[12px] font-bold leading-none text-brand-black`}
+          className={`rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >
           بعدی
-        </button>
+        </Button>
       </div>
       {/* Help */}
       <Modal

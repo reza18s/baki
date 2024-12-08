@@ -8,6 +8,7 @@ query GetUser($id: String!) {
     gender
     languages
     birthday
+    zodiacSign
     traveledToPlaces
     livedInPlaces
     province

@@ -1,7 +1,7 @@
 mutation UpdateUser(
   $name: String
   $gender: Gender
-  $birthday: DateTime
+  $birthday: String
   $province: String
   $city: String
   $images: [String!]
@@ -67,8 +67,10 @@ query GetRandomUser(
     traveledToPlaces
     livedInPlaces
     province
+    mainImages
     images
     city
+    zodiacSign
     travelInterests
     personalInterests
     mySpecialty

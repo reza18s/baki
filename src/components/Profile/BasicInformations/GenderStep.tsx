@@ -2,27 +2,24 @@ import { useForm } from 'react-hook-form';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from '@/components/base/Button/Button';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import { customToast } from '@/components/base/toast';
+import { Gender } from '@/graphql/generated/graphql.codegen';
 
-export default function GenderStep(props: { handleNextStep: () => void }) {
-  const { control, watch, setValue } = useForm();
+export default function GenderStep(props: {
+  handleNextStep: (user?: Partial<UserInfo>) => void;
+}) {
+  const { control, watch, setValue } = useForm<{ gender?: Gender }>();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
     setValue('gender', userInfo.gender);
   }, [userInfo.gender]);
-
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const handleSubmit = () => {
     if (watch('gender')) {
-      updateUserInfo({
-        gender: watch('gender'),
-      });
-      props.handleNextStep();
+      props.handleNextStep({ gender: watch('gender') });
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

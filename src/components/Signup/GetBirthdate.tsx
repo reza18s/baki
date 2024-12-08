@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { months } from '@/constants';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
+import Button from '../base/Button/Button';
 
 export default function GetBirthdate() {
   const { control, watch, setValue } = useForm<{
@@ -20,10 +21,10 @@ export default function GetBirthdate() {
 
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   useEffect(() => {
-    setValue('year', userInfo.birthdate?.split('-')[0]);
+    setValue('year', userInfo.birthdate?.split('/')[0]);
     setValue(
       'month',
-      months.find((el) => el.key == +userInfo.birthdate?.split('-')[1]),
+      months.find((el) => el.key == +userInfo.birthdate?.split('/')[1]),
     );
   }, [userInfo.birthdate]);
 
@@ -72,12 +73,12 @@ export default function GetBirthdate() {
             ما فقط سن شما را به کاربران نشان می دهیم و نه تاریخ تولد .
           </p>
         </div>
-        <button
+        <Button
           disabled={!watch('year') || watch('year').length < 4}
           onClick={() => {
             if (watch('year') && watch('month')) {
               updateUserInfo({
-                birthdate: `${watch('year')}-${watch('month')?.key}`,
+                birthdate: `${watch('year')}/${watch('month')?.key}`,
               });
               handleNextStep();
             } else {
@@ -96,7 +97,7 @@ export default function GetBirthdate() {
           } rounded-[12px] font-bold leading-none text-brand-black`}
         >
           بعدی
-        </button>
+        </Button>
       </div>
     </div>
   );

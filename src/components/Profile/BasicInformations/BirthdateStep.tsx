@@ -1,33 +1,31 @@
 import { useForm } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from '@/components/base/Button/Button';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useEffect } from 'react';
 import { months } from '@/constants';
 import MonthPicker from '@/components/shared/Inputs/MonthPicker';
 import { customToast } from '@/components/base/toast';
 
-export default function BirthdateStep(props: { handleNextStep: () => void }) {
+export default function BirthdateStep(props: {
+  handleNextStep: (user?: Partial<UserInfo>) => void;
+}) {
   const { control, watch, register, setValue } = useForm();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
   useEffect(() => {
-    setValue('year', userInfo.birthdate?.split('-')[0]);
+    setValue('year', userInfo.birthdate?.split('/')[0]);
     setValue(
       'month',
-      months.find((el) => el.key == +userInfo.birthdate?.split('-')[1]),
+      months.find((el) => el.key == +userInfo.birthdate?.split('/')[1]),
     );
   }, [userInfo.birthdate]);
-
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-
   const handleSubmit = () => {
     if (watch('year') && watch('month')) {
-      updateUserInfo({
-        birthdate: `${watch('year')}-${watch('month')?.key}`,
+      props.handleNextStep({
+        birthdate: `${watch('year')}/${watch('month')?.key}`,
       });
-      props.handleNextStep();
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

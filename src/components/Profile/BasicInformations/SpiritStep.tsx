@@ -2,45 +2,26 @@ import { useForm } from 'react-hook-form';
 import RadioButton from '@/components/shared/Buttons/RadioButton';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from '@/components/base/Button/Button';
-import { useLocalStore } from '@/store/useLocalStore';
+import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useHistory } from 'react-router';
-import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { useEffect } from 'react';
-import { convertJalaliToGregorian } from '@/utils/datetime';
 import { customToast } from '@/components/base/toast';
 
-export default function SpiritStep() {
-  const { control, setValue, watch } = useForm();
-  const [updateUser] = useUpdateUserMutation();
+export default function SpiritStep(props: {
+  handleNextStep: (user?: Partial<UserInfo>) => void;
+}) {
+  const { control, setValue, watch } = useForm<{
+    spiritStatus?: 'extroverted' | 'introvert';
+  }>();
   const userInfo = useLocalStore((store) => store.userInfo);
-  const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   useEffect(() => {
     setValue('spiritStatus', userInfo.spiritStatus);
   }, [userInfo.spiritStatus]);
   const hs = useHistory();
   const handleSubmit = () => {
     if (watch('spiritStatus')) {
-      updateUserInfo({ spiritStatus: watch('spiritStatus') });
-      updateUser({
-        variables: {
-          gender: userInfo.gender,
-          maritalStatus: userInfo.maritalStatus,
-          birthday: convertJalaliToGregorian(userInfo.birthdate),
-          smokeStatus: userInfo.smokeStatus,
-          sportsStatus: userInfo.sportsStatus,
-          spiritStatus: watch('spiritStatus'),
-          amountOfEarlyRising: userInfo.AmountOfEarlyRising,
-        },
-        onCompleted: () => {
-          customToast('اطلاعات شما با موفقیت ثبت شد', 'success');
-          setTimeout(() => {
-            hs.goBack();
-          }, 1000);
-        },
-        onError: () => {
-          customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
-        },
-      });
+      props.handleNextStep({ spiritStatus: watch('spiritStatus') });
+      hs.goBack();
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

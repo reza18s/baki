@@ -2,7 +2,6 @@ import { useHistory } from 'react-router';
 import BakiLogo from '../../assets/img/signup/BakiLogo.svg';
 import { useUpdateUserMutation } from '../../graphql/generated/graphql.codegen';
 import { useLocalStore } from '../../store/useLocalStore';
-import { convertJalaliToGregorian } from '@/utils/datetime';
 import { paths } from '@/routes/paths';
 
 export default function FinalStep() {
@@ -31,7 +30,7 @@ export default function FinalStep() {
         onClick={() => {
           updateUser({
             variables: {
-              birthday: convertJalaliToGregorian(userInfo.birthdate),
+              birthday: userInfo.birthdate,
               travelInterests: userInfo.travelInterests,
               gender: userInfo.gender,
               province: userInfo.province,
