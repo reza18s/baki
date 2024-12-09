@@ -63,7 +63,7 @@ export default function BirthdateStep(props: {
         </div>
       </div>
       {/* Footer */}
-      <Button onClick={handleSubmit}>بعدی</Button>
+      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
     </div>
   );
 }

@@ -11,8 +11,8 @@ import CardImage from '../../assets/images/image.png';
 import { CircleSpinner } from '../base/Loader/Loader';
 import {
   Notification,
-  useCreateCompanionRequestMutation,
-  useCreateHostingInvitationMutation,
+  RequestType,
+  useCreateRequestMutation,
   useGetUserQuery,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
@@ -27,10 +27,8 @@ export const CommunicationModal = ({
   isOpen: boolean;
   setClose: () => void;
 }) => {
-  const [createHostingInvitation, { loading: HostingLoading }] =
-    useCreateHostingInvitationMutation();
-  const [createCompanionRequest, { loading: companionLoading }] =
-    useCreateCompanionRequestMutation();
+  const [createRequest, { loading: requestLoading }] =
+    useCreateRequestMutation();
   const { searchType } = useStore((store) => store);
   const { data, loading } = useGetUserQuery({
     variables: { id: notification.actionId },
@@ -99,8 +97,12 @@ export const CommunicationModal = ({
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
             onClick={() => {
-              createCompanionRequest({
-                variables: { receiverId: user.id, searchType: searchType },
+              createRequest({
+                variables: {
+                  receiverId: user.id,
+                  searchType: searchType,
+                  type: 'companionRequest' as RequestType,
+                },
                 onCompleted: () => {
                   customToast('دعودت با موفقیت ارسال شد', 'success');
                 },
@@ -109,7 +111,7 @@ export const CommunicationModal = ({
                 },
               });
             }}
-            loading={companionLoading}
+            loading={requestLoading}
           >
             <IcCase></IcCase>
             ارسال درخواست همسفری
@@ -118,8 +120,12 @@ export const CommunicationModal = ({
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
             onClick={() => {
-              createHostingInvitation({
-                variables: { guestId: user.id, searchType: searchType },
+              createRequest({
+                variables: {
+                  receiverId: user.id,
+                  searchType: searchType,
+                  type: 'hostingInvitation' as RequestType,
+                },
                 onCompleted: () => {
                   customToast('دعودت با موفقیت ارسال شد', 'success');
                 },
@@ -128,7 +134,7 @@ export const CommunicationModal = ({
                 },
               });
             }}
-            loading={HostingLoading}
+            loading={requestLoading}
           >
             <IcChair></IcChair>ارسال دعوت میزبانی
           </Button>

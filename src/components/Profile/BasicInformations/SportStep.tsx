@@ -47,7 +47,7 @@ export default function SportStep(props: {
         />
       </div>
       {/* Footer */}
-      <Button onClick={handleSubmit}>بعدی</Button>
+      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
     </div>
   );
 }

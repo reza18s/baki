@@ -44,17 +44,6 @@ export type Chat = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type CompanionRequest = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['String']['output'];
-  receiver?: Maybe<User>;
-  receiverId: Scalars['String']['output'];
-  requester?: Maybe<User>;
-  requesterId: Scalars['String']['output'];
-  status: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
 export type FavoriteList = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   favoriteUserId: Scalars['String']['output'];
@@ -85,17 +74,6 @@ export type Guest = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type HostingInvitation = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  guest?: Maybe<User>;
-  guestId: Scalars['String']['output'];
-  host?: Maybe<User>;
-  hostId: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  status: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-};
-
 export type Includes = {
   blacklists?: Scalars['Boolean']['input'];
   chats?: Scalars['Boolean']['input'];
@@ -122,16 +100,14 @@ export type Mutation = {
   activePlan?: Maybe<User>;
   addToBlackList?: Maybe<Blacklist>;
   addToFavorite?: Maybe<FavoriteList>;
-  createCompanionRequest?: Maybe<CompanionRequest>;
-  createHostingInvitation?: Maybe<HostingInvitation>;
   createReport?: Maybe<ViolationReport>;
+  createRequest?: Maybe<Request>;
   logInAsGuest?: Maybe<AuthPayload>;
   refreshAccessToken?: Maybe<AuthPayload>;
-  removeCompanionRequest?: Maybe<CompanionRequest>;
   removeFromBlacklist?: Maybe<Blacklist>;
   removeFromFavorite?: Maybe<FavoriteList>;
-  removeHostingInvitation?: Maybe<HostingInvitation>;
   removeReport?: Maybe<ViolationReport>;
+  removeRequest?: Maybe<Request>;
   requestPay: Scalars['JSON']['output'];
   updateUser?: Maybe<User>;
   verifyOtp?: Maybe<AuthPayload>;
@@ -163,21 +139,16 @@ export type MutationAddToFavoriteArgs = {
 };
 
 
-export type MutationCreateCompanionRequestArgs = {
-  receiverId: Scalars['String']['input'];
-  searchType: Scalars['String']['input'];
-};
-
-
-export type MutationCreateHostingInvitationArgs = {
-  guestId: Scalars['String']['input'];
-  searchType: Scalars['String']['input'];
-};
-
-
 export type MutationCreateReportArgs = {
   reason: Scalars['String']['input'];
   reportedId: Scalars['String']['input'];
+};
+
+
+export type MutationCreateRequestArgs = {
+  receiverId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
+  type: RequestType;
 };
 
 
@@ -194,11 +165,6 @@ export type MutationLogInAsGuestArgs = {
 };
 
 
-export type MutationRemoveCompanionRequestArgs = {
-  requestId: Scalars['String']['input'];
-};
-
-
 export type MutationRemoveFromBlacklistArgs = {
   blockedId: Scalars['String']['input'];
   userId: Scalars['String']['input'];
@@ -210,13 +176,13 @@ export type MutationRemoveFromFavoriteArgs = {
 };
 
 
-export type MutationRemoveHostingInvitationArgs = {
-  invitationId: Scalars['String']['input'];
+export type MutationRemoveReportArgs = {
+  id: Scalars['String']['input'];
 };
 
 
-export type MutationRemoveReportArgs = {
-  id: Scalars['String']['input'];
+export type MutationRemoveRequestArgs = {
+  requestId: Scalars['String']['input'];
 };
 
 
@@ -286,12 +252,11 @@ export type PricePlan = {
 };
 
 export type Query = {
-  getCompanionRequests: Array<CompanionRequest>;
-  getHostingInvitations: Array<HostingInvitation>;
   getMe?: Maybe<User>;
   getNotifications: Array<Notification>;
   getPricePlan: Array<PricePlan>;
   getRandomUser?: Maybe<Array<Maybe<RandomUser>>>;
+  getRequests: Array<Request>;
   getUser?: Maybe<User>;
   getUsers: Array<User>;
 };
@@ -355,6 +320,24 @@ export type RandomUser = {
   zodiacSign?: Maybe<Scalars['Int']['output']>;
 };
 
+export type Request = {
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  receiver?: Maybe<User>;
+  receiverId: Scalars['String']['output'];
+  requester?: Maybe<User>;
+  requesterId: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export enum RequestType {
+  CompanionRequest = 'companionRequest',
+  HostingInvitation = 'hostingInvitation',
+  Message = 'message'
+}
+
 export enum Role {
   Admin = 'admin',
   Guest = 'guest',
@@ -371,6 +354,7 @@ export type Transaction = {
 
 export type User = {
   AmountOfEarlyRising?: Maybe<Scalars['String']['output']>;
+  Requests?: Maybe<Array<Maybe<Request>>>;
   age?: Maybe<Scalars['Int']['output']>;
   avatar?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
@@ -378,13 +362,10 @@ export type User = {
   blacklists?: Maybe<Array<Maybe<Blacklist>>>;
   chats?: Maybe<Array<Maybe<Chat>>>;
   city?: Maybe<Scalars['String']['output']>;
-  companionRequests?: Maybe<Array<Maybe<CompanionRequest>>>;
   createdAt: Scalars['DateTime']['output'];
   deletedAt?: Maybe<Scalars['DateTime']['output']>;
   favoriteList?: Maybe<Array<Maybe<FavoriteList>>>;
   gender?: Maybe<Gender>;
-  guestInvitations?: Maybe<Array<Maybe<HostingInvitation>>>;
-  hostingInvitations?: Maybe<Array<Maybe<HostingInvitation>>>;
   id: Scalars['String']['output'];
   images?: Maybe<Array<Scalars['String']['output']>>;
   languages?: Maybe<Array<Scalars['String']['output']>>;
@@ -401,7 +382,7 @@ export type User = {
   phoneNumber: Scalars['String']['output'];
   plan?: Maybe<Plan>;
   province?: Maybe<Scalars['String']['output']>;
-  receivedRequests?: Maybe<Array<Maybe<CompanionRequest>>>;
+  receivedRequests?: Maybe<Array<Maybe<Request>>>;
   reportsMade?: Maybe<Array<Maybe<ViolationReport>>>;
   role: Role;
   score?: Maybe<Scalars['Int']['output']>;
@@ -427,14 +408,6 @@ export type ViolationReport = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type CreateCompanionRequestMutationVariables = Exact<{
-  receiverId: Scalars['String']['input'];
-  searchType: Scalars['String']['input'];
-}>;
-
-
-export type CreateCompanionRequestMutation = { createCompanionRequest?: { id: string, receiverId: string, requesterId: string } | null };
-
 export type AddToFavoriteMutationVariables = Exact<{
   favoriteId: Scalars['String']['input'];
   searchType: Scalars['String']['input'];
@@ -443,18 +416,19 @@ export type AddToFavoriteMutationVariables = Exact<{
 
 export type AddToFavoriteMutation = { addToFavorite?: { id: string } | null };
 
-export type CreateHostingInvitationMutationVariables = Exact<{
-  guestId: Scalars['String']['input'];
-  searchType: Scalars['String']['input'];
-}>;
-
-
-export type CreateHostingInvitationMutation = { createHostingInvitation?: { id: string, hostId: string, guestId: string, status: string } | null };
-
 export type RefreshAccessTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RefreshAccessTokenMutation = { refreshAccessToken?: { accessToken?: string | null } | null };
+
+export type CreateRequestMutationVariables = Exact<{
+  receiverId: Scalars['String']['input'];
+  type: RequestType;
+  searchType: Scalars['String']['input'];
+}>;
+
+
+export type CreateRequestMutation = { createRequest?: { id: string, receiverId: string, requesterId: string } | null };
 
 export type SignupMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
@@ -530,42 +504,6 @@ export type GetUserQueryVariables = Exact<{
 export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 
-export const CreateCompanionRequestDocument = gql`
-    mutation CreateCompanionRequest($receiverId: String!, $searchType: String!) {
-  createCompanionRequest(receiverId: $receiverId, searchType: $searchType) {
-    id
-    receiverId
-    requesterId
-  }
-}
-    `;
-export type CreateCompanionRequestMutationFn = Apollo.MutationFunction<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>;
-
-/**
- * __useCreateCompanionRequestMutation__
- *
- * To run a mutation, you first call `useCreateCompanionRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCompanionRequestMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createCompanionRequestMutation, { data, loading, error }] = useCreateCompanionRequestMutation({
- *   variables: {
- *      receiverId: // value for 'receiverId'
- *      searchType: // value for 'searchType'
- *   },
- * });
- */
-export function useCreateCompanionRequestMutation(baseOptions?: Apollo.MutationHookOptions<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>(CreateCompanionRequestDocument, options);
-      }
-export type CreateCompanionRequestMutationHookResult = ReturnType<typeof useCreateCompanionRequestMutation>;
-export type CreateCompanionRequestMutationResult = Apollo.MutationResult<CreateCompanionRequestMutation>;
-export type CreateCompanionRequestMutationOptions = Apollo.BaseMutationOptions<CreateCompanionRequestMutation, CreateCompanionRequestMutationVariables>;
 export const AddToFavoriteDocument = gql`
     mutation AddToFavorite($favoriteId: String!, $searchType: String!) {
   addToFavorite(favoriteId: $favoriteId, searchType: $searchType) {
@@ -600,43 +538,6 @@ export function useAddToFavoriteMutation(baseOptions?: Apollo.MutationHookOption
 export type AddToFavoriteMutationHookResult = ReturnType<typeof useAddToFavoriteMutation>;
 export type AddToFavoriteMutationResult = Apollo.MutationResult<AddToFavoriteMutation>;
 export type AddToFavoriteMutationOptions = Apollo.BaseMutationOptions<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
-export const CreateHostingInvitationDocument = gql`
-    mutation CreateHostingInvitation($guestId: String!, $searchType: String!) {
-  createHostingInvitation(guestId: $guestId, searchType: $searchType) {
-    id
-    hostId
-    guestId
-    status
-  }
-}
-    `;
-export type CreateHostingInvitationMutationFn = Apollo.MutationFunction<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>;
-
-/**
- * __useCreateHostingInvitationMutation__
- *
- * To run a mutation, you first call `useCreateHostingInvitationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateHostingInvitationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createHostingInvitationMutation, { data, loading, error }] = useCreateHostingInvitationMutation({
- *   variables: {
- *      guestId: // value for 'guestId'
- *      searchType: // value for 'searchType'
- *   },
- * });
- */
-export function useCreateHostingInvitationMutation(baseOptions?: Apollo.MutationHookOptions<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>(CreateHostingInvitationDocument, options);
-      }
-export type CreateHostingInvitationMutationHookResult = ReturnType<typeof useCreateHostingInvitationMutation>;
-export type CreateHostingInvitationMutationResult = Apollo.MutationResult<CreateHostingInvitationMutation>;
-export type CreateHostingInvitationMutationOptions = Apollo.BaseMutationOptions<CreateHostingInvitationMutation, CreateHostingInvitationMutationVariables>;
 export const RefreshAccessTokenDocument = gql`
     mutation RefreshAccessToken {
   refreshAccessToken {
@@ -669,6 +570,43 @@ export function useRefreshAccessTokenMutation(baseOptions?: Apollo.MutationHookO
 export type RefreshAccessTokenMutationHookResult = ReturnType<typeof useRefreshAccessTokenMutation>;
 export type RefreshAccessTokenMutationResult = Apollo.MutationResult<RefreshAccessTokenMutation>;
 export type RefreshAccessTokenMutationOptions = Apollo.BaseMutationOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>;
+export const CreateRequestDocument = gql`
+    mutation CreateRequest($receiverId: String!, $type: RequestType!, $searchType: String!) {
+  createRequest(receiverId: $receiverId, type: $type, searchType: $searchType) {
+    id
+    receiverId
+    requesterId
+  }
+}
+    `;
+export type CreateRequestMutationFn = Apollo.MutationFunction<CreateRequestMutation, CreateRequestMutationVariables>;
+
+/**
+ * __useCreateRequestMutation__
+ *
+ * To run a mutation, you first call `useCreateRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRequestMutation, { data, loading, error }] = useCreateRequestMutation({
+ *   variables: {
+ *      receiverId: // value for 'receiverId'
+ *      type: // value for 'type'
+ *      searchType: // value for 'searchType'
+ *   },
+ * });
+ */
+export function useCreateRequestMutation(baseOptions?: Apollo.MutationHookOptions<CreateRequestMutation, CreateRequestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRequestMutation, CreateRequestMutationVariables>(CreateRequestDocument, options);
+      }
+export type CreateRequestMutationHookResult = ReturnType<typeof useCreateRequestMutation>;
+export type CreateRequestMutationResult = Apollo.MutationResult<CreateRequestMutation>;
+export type CreateRequestMutationOptions = Apollo.BaseMutationOptions<CreateRequestMutation, CreateRequestMutationVariables>;
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
   Signin(phoneNumber: $phoneNumber)

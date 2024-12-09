@@ -48,7 +48,7 @@ export default function SpiritStep(props: {
           name="spiritStatus"
         />
       </div>
-      <Button onClick={handleSubmit}>پایان</Button>
+      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
     </div>
   );
 }

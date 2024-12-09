@@ -1,8 +1,0 @@
-mutation CreateHostingInvitation($guestId: String!, $searchType: String!) {
-  createHostingInvitation(guestId: $guestId, searchType: $searchType) {
-    id
-    hostId
-    guestId
-    status
-  }
-}

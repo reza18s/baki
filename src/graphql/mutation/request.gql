@@ -1,0 +1,11 @@
+mutation CreateRequest(
+  $receiverId: String!
+  $type: RequestType!
+  $searchType: String!
+) {
+  createRequest(receiverId: $receiverId, type: $type, searchType: $searchType) {
+    id
+    receiverId
+    requesterId
+  }
+}

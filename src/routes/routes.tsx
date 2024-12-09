@@ -13,7 +13,6 @@ import Welcome from '@/pages/welcome';
 import Signup from '@/pages/signup';
 import EditProfile from '@/pages/Profile/editProfile';
 import Filter from '@/pages/Explore/Filter';
-import Chat from '@/pages/Chat/Chat';
 import CompleteProfile from '@/pages/Profile/ComplateProfile';
 import AppGuard from './AppGaurd';
 import { Notifications } from '@/pages/notifications/notifications';
@@ -38,6 +37,7 @@ import { CommunicationGuide } from '@/pages/settings/guide/communicationGuide';
 import { Plans } from '@/pages/plans/plans';
 import { Confirm } from '@/pages/plans/confirm';
 import { FreePlan } from '@/pages/plans/freePlan';
+import { Chat } from '@/pages/chat/chat';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)

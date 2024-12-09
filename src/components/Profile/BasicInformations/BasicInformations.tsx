@@ -45,18 +45,21 @@ export default function BasicInformations() {
       },
       onCompleted: () => {
         customToast('اطلاعات شما با موفقیت ثبت شد', 'success');
+        setTimeout(() => {
+          hs.goBack();
+        }, 1000);
       },
       onError: () => {
         customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
       },
     });
-    setBasicInformationsStep((prevStep: IBasicInformationsStep) => {
-      if (prevStep < 6) {
-        return (prevStep + 1) as IBasicInformationsStep;
-      } else {
-        return prevStep;
-      }
-    });
+    // setBasicInformationsStep((prevStep: IBasicInformationsStep) => {
+    //   if (prevStep < 6) {
+    //     return (prevStep + 1) as IBasicInformationsStep;
+    //   } else {
+    //     return prevStep;
+    //   }
+    // });
   };
 
   return (

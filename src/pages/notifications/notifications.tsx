@@ -11,13 +11,17 @@ import { Notification } from '@/components/notifications/notification';
 import { MessageModal } from '@/components/notifications/messageModal';
 import { calculateElapsedTime } from '@/utils/datetime';
 import { LikeCard } from '@/components/notifications/likeCard';
+import { cn } from '@/lib/utils';
 const items = [
   { value: 'all', title: 'همه' },
   {
     value: 'liked',
     icon: ({ select }: { select: boolean }) => (
       <IcHeardTap
-        className={`${select && 'fill-black stroke-black'} size-5`}
+        className={cn(
+          'size-5 fill-none stroke-gray-500',
+          select && 'fill-black stroke-black',
+        )}
       ></IcHeardTap>
     ),
   },
@@ -41,7 +45,7 @@ export const Notifications = () => {
             {items.map((val, i) => (
               <div
                 key={i}
-                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-8 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
+                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
                 onClick={() => setFilter(val.value)}
               >
                 {val.title}
@@ -131,8 +135,8 @@ export const Notifications = () => {
                         setIsOpen('like');
                       }
                       if (
-                        notification.type === 'hosting-invitation' ||
-                        notification.type === 'companion-request'
+                        notification.type === 'hostingInvitation' ||
+                        notification.type === 'companionRequest'
                       ) {
                         setNoti(notification);
                         setIsOpen('message');

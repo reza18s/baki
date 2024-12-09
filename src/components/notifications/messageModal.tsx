@@ -85,10 +85,10 @@ export const MessageModal = ({
         </div>
         <div className="flex flex-col items-center gap-2">
           <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white py-4">
-            {notification.type === 'companion-request' && (
+            {notification.type === 'companionRequest' && (
               <IcChair className="size-12"></IcChair>
             )}
-            {notification.type === 'hosting-invitation' && (
+            {notification.type === 'hostingInvitation' && (
               <IcCase className="size-12"></IcCase>
             )}
             {notification.type === 'message' && (

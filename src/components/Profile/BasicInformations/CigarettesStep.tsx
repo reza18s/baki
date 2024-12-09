@@ -48,7 +48,7 @@ export default function CigarettesStep(props: {
           name="smokeStatus"
         />
       </div>
-      <Button onClick={handleSubmit}>بعدی</Button>
+      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
     </div>
   );
 }
