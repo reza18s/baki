@@ -163,7 +163,7 @@ const checkUserInfo = (VerifyOtp: VerifyOtpMutation['verifyOtp']) => {
   return (
     VerifyOtp?.user?.name &&
     VerifyOtp?.user?.gender &&
-    VerifyOtp?.user.birthday &&
+    VerifyOtp?.user.birthdate &&
     VerifyOtp?.user.province &&
     (VerifyOtp?.user.travelInterests?.length || 0) >= 5 &&
     (VerifyOtp?.user.personalInterests?.length || 0) >= 5 &&

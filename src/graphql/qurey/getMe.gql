@@ -7,7 +7,7 @@ query GetMe {
     phoneNumber
     gender
     languages
-    birthday
+    birthdate
     zodiacSign
     traveledToPlaces
     livedInPlaces

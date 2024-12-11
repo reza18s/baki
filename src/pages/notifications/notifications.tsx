@@ -12,6 +12,7 @@ import { MessageModal } from '@/components/notifications/messageModal';
 import { calculateElapsedTime } from '@/utils/datetime';
 import { LikeCard } from '@/components/notifications/likeCard';
 import { cn } from '@/lib/utils';
+import { CommunicationModal } from '@/components/notifications/communicationModal';
 const items = [
   { value: 'all', title: 'همه' },
   {
@@ -31,7 +32,7 @@ const items = [
 ];
 export const Notifications = () => {
   const [filter, setFilter] = useState('all');
-  const [isOpen, setIsOpen] = useState<'like' | 'message'>();
+  const [isOpen, setIsOpen] = useState<'like' | 'message' | 'likeBack'>();
   const [noti, setNoti] = useState<INotification>();
   const { data } = useGetNotificationsQuery();
   return (
@@ -141,6 +142,10 @@ export const Notifications = () => {
                         setNoti(notification);
                         setIsOpen('message');
                       }
+                      if (notification.type === 'likedBack') {
+                        setNoti(notification);
+                        setIsOpen('likeBack');
+                      }
                     }}
                   ></Notification>
                 ))}
@@ -180,6 +185,13 @@ export const Notifications = () => {
           setClose={() => setIsOpen(undefined)}
           notification={noti}
         ></MessageModal>
+      )}{' '}
+      {noti && (
+        <CommunicationModal
+          isOpen={isOpen === 'likeBack'}
+          setClose={() => setIsOpen(undefined)}
+          notification={noti}
+        ></CommunicationModal>
       )}
     </Page>
   );

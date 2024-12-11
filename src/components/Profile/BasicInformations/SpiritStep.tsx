@@ -17,11 +17,9 @@ export default function SpiritStep(props: {
   useEffect(() => {
     setValue('spiritStatus', userInfo.spiritStatus);
   }, [userInfo.spiritStatus]);
-  const hs = useHistory();
   const handleSubmit = () => {
     if (watch('spiritStatus')) {
       props.handleNextStep({ spiritStatus: watch('spiritStatus') });
-      hs.goBack();
     } else {
       customToast('لطفا یک گزینه را انتخاب کنید', 'error');
     }

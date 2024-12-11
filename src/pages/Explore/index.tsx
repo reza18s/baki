@@ -13,8 +13,8 @@ import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import {
   RandomUser,
-  useAddToFavoriteMutation,
   useGetRandomUserLazyQuery,
+  useLikeMutation,
 } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
@@ -32,7 +32,7 @@ export default function Explore() {
   const { filters, searchType } = useStore((store) => store);
   const history = useHistory();
   const [getUser, { loading }] = useGetRandomUserLazyQuery();
-  const [addToFavorite] = useAddToFavoriteMutation();
+  const [Like] = useLikeMutation();
 
   const [cards, setCards] = useState<RandomUser[]>([]);
   useEffect(() => {
@@ -56,7 +56,8 @@ export default function Explore() {
           setCards(data.getRandomUser);
           setNoResult(data.getRandomUser?.length === 0);
         },
-        onError: () => {
+        onError: (error) => {
+          console.log(error);
           customToast('کاربر موجود نیست', 'error');
         },
       });
@@ -64,7 +65,7 @@ export default function Explore() {
   }, [start, filters]);
   const handleSwipe = (id: string, direction: 'left' | 'right') => {
     if (direction === 'right') {
-      addToFavorite({ variables: { favoriteId: id, searchType: searchType } });
+      Like({ variables: { likedUserId: id, searchType: searchType } });
     }
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };

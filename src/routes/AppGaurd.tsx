@@ -30,7 +30,7 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
     if (data?.getMe) {
       const getMe = data.getMe;
       // @ts-expect-error the
-      updateUserInfo(getMe);
+      updateUserInfo({ ...getMe });
       setState('normal');
     }
   }, [data, refetch]);
@@ -42,7 +42,7 @@ const checkUserInfo = (getMeData: GetMeQuery['getMe']) => {
   return (
     getMeData?.name &&
     getMeData?.gender &&
-    getMeData.birthday &&
+    getMeData.birthdate &&
     getMeData.province &&
     (getMeData.travelInterests?.length || 0) >= 5 &&
     (getMeData.personalInterests?.length || 0) >= 5 &&

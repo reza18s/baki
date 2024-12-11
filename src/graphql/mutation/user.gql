@@ -1,7 +1,7 @@
 mutation UpdateUser(
   $name: String
   $gender: Gender
-  $birthday: String
+  $birthdate: String
   $province: String
   $city: String
   $images: [String!]
@@ -13,7 +13,7 @@ mutation UpdateUser(
   $maritalStatus: String
   $smokeStatus: String
   $sportsStatus: String
-  $amountOfEarlyRising: String
+  $AmountOfEarlyRising: String
   $languages: [String!]
   $traveledToPlaces: [String!]
   $livedInPlaces: [String!]
@@ -22,7 +22,7 @@ mutation UpdateUser(
   updateUser(
     name: $name
     gender: $gender
-    birthday: $birthday
+    birthdate: $birthdate
     province: $province
     city: $city
     images: $images
@@ -34,7 +34,7 @@ mutation UpdateUser(
     maritalStatus: $maritalStatus
     smokeStatus: $smokeStatus
     sportsStatus: $sportsStatus
-    AmountOfEarlyRising: $amountOfEarlyRising
+    AmountOfEarlyRising: $AmountOfEarlyRising
     languages: $languages
     traveledToPlaces: $traveledToPlaces
     livedInPlaces: $livedInPlaces
@@ -63,7 +63,7 @@ query GetRandomUser(
     phoneNumber
     gender
     languages
-    birthday
+    birthdate
     traveledToPlaces
     livedInPlaces
     province

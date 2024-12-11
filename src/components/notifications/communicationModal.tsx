@@ -37,9 +37,8 @@ export const CommunicationModal = ({
       setClose();
     },
   });
-
   const user = data?.getUser;
-  if (loading || !user) {
+  if (!!loading || !user) {
     return (
       <Modal
         isOpen={!!isOpen}
@@ -95,7 +94,7 @@ export const CommunicationModal = ({
         <div className="flex w-full flex-col items-center justify-center gap-2 pb-4 pt-6">
           <Button
             variant="outline"
-            className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
+            className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
             onClick={() => {
               createRequest({
                 variables: {
@@ -118,7 +117,7 @@ export const CommunicationModal = ({
           </Button>
           <Button
             variant="outline"
-            className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
+            className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
             onClick={() => {
               createRequest({
                 variables: {

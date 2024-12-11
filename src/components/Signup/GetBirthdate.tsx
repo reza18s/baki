@@ -93,7 +93,7 @@ export default function GetBirthdate() {
             }
           }}
           className={`px-5 py-4 ${
-            watch('year').length === 4 ? 'bg-brand-yellow' : 'bg-slate-100'
+            watch('year')?.length === 4 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-brand-black`}
         >
           بعدی

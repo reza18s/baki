@@ -59,7 +59,7 @@ export enum Gender {
 }
 
 export type Guest = {
-  birthday?: Maybe<Scalars['DateTime']['output']>;
+  birthdate?: Maybe<Scalars['DateTime']['output']>;
   city?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   deletedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -87,6 +87,15 @@ export type Includes = {
   reportsMade?: Scalars['Boolean']['input'];
 };
 
+export type Liked = {
+  LikedUserId: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
+  userId: Scalars['String']['output'];
+};
+
 export type Message = {
   chat?: Maybe<Chat>;
   content: Scalars['String']['output'];
@@ -96,6 +105,7 @@ export type Message = {
 };
 
 export type Mutation = {
+  Like?: Maybe<Liked>;
   Signin?: Maybe<Scalars['String']['output']>;
   activePlan?: Maybe<User>;
   addToBlackList?: Maybe<Blacklist>;
@@ -111,6 +121,12 @@ export type Mutation = {
   requestPay: Scalars['JSON']['output'];
   updateUser?: Maybe<User>;
   verifyOtp?: Maybe<AuthPayload>;
+};
+
+
+export type MutationLikeArgs = {
+  likedUserId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
 };
 
 
@@ -135,7 +151,6 @@ export type MutationAddToBlackListArgs = {
 
 export type MutationAddToFavoriteArgs = {
   favoriteId: Scalars['String']['input'];
-  searchType: Scalars['String']['input'];
 };
 
 
@@ -196,7 +211,7 @@ export type MutationUpdateUserArgs = {
   AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
-  birthday?: InputMaybe<Scalars['String']['input']>;
+  birthdate?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
   images?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -295,7 +310,7 @@ export type RandomUser = {
   age?: Maybe<Scalars['Int']['output']>;
   avatar: Scalars['String']['output'];
   bio: Scalars['String']['output'];
-  birthday: Scalars['DateTime']['output'];
+  birthdate: Scalars['String']['output'];
   city: Scalars['String']['output'];
   gender: Gender;
   id: Scalars['String']['output'];
@@ -317,7 +332,7 @@ export type RandomUser = {
   travelInterests: Array<Scalars['String']['output']>;
   traveledToPlaces: Array<Scalars['String']['output']>;
   username: Scalars['String']['output'];
-  zodiacSign?: Maybe<Scalars['Int']['output']>;
+  zodiacSign?: Maybe<Scalars['String']['output']>;
 };
 
 export type Request = {
@@ -354,22 +369,23 @@ export type Transaction = {
 
 export type User = {
   AmountOfEarlyRising?: Maybe<Scalars['String']['output']>;
-  Requests?: Maybe<Array<Maybe<Request>>>;
   age?: Maybe<Scalars['Int']['output']>;
   avatar?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
-  birthday?: Maybe<Scalars['DateTime']['output']>;
+  birthdate?: Maybe<Scalars['String']['output']>;
   blacklists?: Maybe<Array<Maybe<Blacklist>>>;
   chats?: Maybe<Array<Maybe<Chat>>>;
   city?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   deletedAt?: Maybe<Scalars['DateTime']['output']>;
-  favoriteList?: Maybe<Array<Maybe<FavoriteList>>>;
+  favorites?: Maybe<Array<Maybe<FavoriteList>>>;
   gender?: Maybe<Gender>;
   id: Scalars['String']['output'];
   images?: Maybe<Array<Scalars['String']['output']>>;
   languages?: Maybe<Array<Scalars['String']['output']>>;
   lastSeen?: Maybe<Scalars['DateTime']['output']>;
+  liked?: Maybe<Array<Maybe<Liked>>>;
+  likedBack?: Maybe<Array<Maybe<Liked>>>;
   livedInPlaces?: Maybe<Array<Scalars['String']['output']>>;
   mainImages?: Maybe<Scalars['String']['output']>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
@@ -384,6 +400,7 @@ export type User = {
   province?: Maybe<Scalars['String']['output']>;
   receivedRequests?: Maybe<Array<Maybe<Request>>>;
   reportsMade?: Maybe<Array<Maybe<ViolationReport>>>;
+  requests?: Maybe<Array<Maybe<Request>>>;
   role: Role;
   score?: Maybe<Scalars['Int']['output']>;
   smokeStatus?: Maybe<Scalars['String']['output']>;
@@ -410,11 +427,18 @@ export type ViolationReport = {
 
 export type AddToFavoriteMutationVariables = Exact<{
   favoriteId: Scalars['String']['input'];
-  searchType: Scalars['String']['input'];
 }>;
 
 
 export type AddToFavoriteMutation = { addToFavorite?: { id: string } | null };
+
+export type LikeMutationVariables = Exact<{
+  likedUserId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
+}>;
+
+
+export type LikeMutation = { Like?: { LikedUserId: string, userId: string, id: string } | null };
 
 export type RefreshAccessTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -443,12 +467,12 @@ export type VerifyOtpMutationVariables = Exact<{
 }>;
 
 
-export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, images?: Array<string> | null, mySpecialty?: Array<string> | null, personalInterests?: Array<string> | null, travelInterests?: Array<string> | null, username?: string | null, avatar?: string | null, phoneNumber: string, languages?: Array<string> | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, age?: number | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, city?: string | null, AmountOfEarlyRising?: string | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthday?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
+export type VerifyOtpMutation = { verifyOtp?: { accessToken?: string | null, user?: { name?: string | null, gender?: Gender | null, birthdate?: string | null, province?: string | null, images?: Array<string> | null, mySpecialty?: Array<string> | null, personalInterests?: Array<string> | null, travelInterests?: Array<string> | null, username?: string | null, avatar?: string | null, phoneNumber: string, languages?: Array<string> | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, age?: number | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, city?: string | null, AmountOfEarlyRising?: string | null } | null, guest?: { id: string, name?: string | null, gender?: Gender | null, birthdate?: any | null, province?: string | null, city?: string | null, images?: Array<string | null> | null, travelInterests?: Array<string | null> | null, personalInterests?: Array<string | null> | null, mySpecialty?: Array<string | null> | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null } | null };
 
 export type UpdateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Gender>;
-  birthday?: InputMaybe<Scalars['String']['input']>;
+  birthdate?: InputMaybe<Scalars['String']['input']>;
   province?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -460,7 +484,7 @@ export type UpdateUserMutationVariables = Exact<{
   maritalStatus?: InputMaybe<Scalars['String']['input']>;
   smokeStatus?: InputMaybe<Scalars['String']['input']>;
   sportsStatus?: InputMaybe<Scalars['String']['input']>;
-  amountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
+  AmountOfEarlyRising?: InputMaybe<Scalars['String']['input']>;
   languages?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   traveledToPlaces?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -479,12 +503,12 @@ export type GetRandomUserQueryVariables = Exact<{
 }>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthday: any, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: number | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -501,12 +525,12 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthday?: any | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 
 export const AddToFavoriteDocument = gql`
-    mutation AddToFavorite($favoriteId: String!, $searchType: String!) {
-  addToFavorite(favoriteId: $favoriteId, searchType: $searchType) {
+    mutation AddToFavorite($favoriteId: String!) {
+  addToFavorite(favoriteId: $favoriteId) {
     id
   }
 }
@@ -527,7 +551,6 @@ export type AddToFavoriteMutationFn = Apollo.MutationFunction<AddToFavoriteMutat
  * const [addToFavoriteMutation, { data, loading, error }] = useAddToFavoriteMutation({
  *   variables: {
  *      favoriteId: // value for 'favoriteId'
- *      searchType: // value for 'searchType'
  *   },
  * });
  */
@@ -538,6 +561,42 @@ export function useAddToFavoriteMutation(baseOptions?: Apollo.MutationHookOption
 export type AddToFavoriteMutationHookResult = ReturnType<typeof useAddToFavoriteMutation>;
 export type AddToFavoriteMutationResult = Apollo.MutationResult<AddToFavoriteMutation>;
 export type AddToFavoriteMutationOptions = Apollo.BaseMutationOptions<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
+export const LikeDocument = gql`
+    mutation Like($likedUserId: String!, $searchType: String!) {
+  Like(likedUserId: $likedUserId, searchType: $searchType) {
+    LikedUserId
+    userId
+    id
+  }
+}
+    `;
+export type LikeMutationFn = Apollo.MutationFunction<LikeMutation, LikeMutationVariables>;
+
+/**
+ * __useLikeMutation__
+ *
+ * To run a mutation, you first call `useLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likeMutation, { data, loading, error }] = useLikeMutation({
+ *   variables: {
+ *      likedUserId: // value for 'likedUserId'
+ *      searchType: // value for 'searchType'
+ *   },
+ * });
+ */
+export function useLikeMutation(baseOptions?: Apollo.MutationHookOptions<LikeMutation, LikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeMutation, LikeMutationVariables>(LikeDocument, options);
+      }
+export type LikeMutationHookResult = ReturnType<typeof useLikeMutation>;
+export type LikeMutationResult = Apollo.MutationResult<LikeMutation>;
+export type LikeMutationOptions = Apollo.BaseMutationOptions<LikeMutation, LikeMutationVariables>;
 export const RefreshAccessTokenDocument = gql`
     mutation RefreshAccessToken {
   refreshAccessToken {
@@ -644,7 +703,7 @@ export const VerifyOtpDocument = gql`
     user {
       name
       gender
-      birthday
+      birthdate
       province
       images
       mySpecialty
@@ -671,7 +730,7 @@ export const VerifyOtpDocument = gql`
       id
       name
       gender
-      birthday
+      birthdate
       province
       city
       images
@@ -713,11 +772,11 @@ export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation
 export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
 export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($name: String, $gender: Gender, $birthday: String, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $amountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthdate: String, $province: String, $city: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $AmountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
   updateUser(
     name: $name
     gender: $gender
-    birthday: $birthday
+    birthdate: $birthdate
     province: $province
     city: $city
     images: $images
@@ -729,7 +788,7 @@ export const UpdateUserDocument = gql`
     maritalStatus: $maritalStatus
     smokeStatus: $smokeStatus
     sportsStatus: $sportsStatus
-    AmountOfEarlyRising: $amountOfEarlyRising
+    AmountOfEarlyRising: $AmountOfEarlyRising
     languages: $languages
     traveledToPlaces: $traveledToPlaces
     livedInPlaces: $livedInPlaces
@@ -756,7 +815,7 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *   variables: {
  *      name: // value for 'name'
  *      gender: // value for 'gender'
- *      birthday: // value for 'birthday'
+ *      birthdate: // value for 'birthdate'
  *      province: // value for 'province'
  *      city: // value for 'city'
  *      images: // value for 'images'
@@ -768,7 +827,7 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *      maritalStatus: // value for 'maritalStatus'
  *      smokeStatus: // value for 'smokeStatus'
  *      sportsStatus: // value for 'sportsStatus'
- *      amountOfEarlyRising: // value for 'amountOfEarlyRising'
+ *      AmountOfEarlyRising: // value for 'AmountOfEarlyRising'
  *      languages: // value for 'languages'
  *      traveledToPlaces: // value for 'traveledToPlaces'
  *      livedInPlaces: // value for 'livedInPlaces'
@@ -798,7 +857,7 @@ export const GetRandomUserDocument = gql`
     phoneNumber
     gender
     languages
-    birthday
+    birthdate
     traveledToPlaces
     livedInPlaces
     province
@@ -866,7 +925,7 @@ export const GetMeDocument = gql`
     phoneNumber
     gender
     languages
-    birthday
+    birthdate
     zodiacSign
     traveledToPlaces
     livedInPlaces
@@ -1018,7 +1077,7 @@ export const GetUserDocument = gql`
     phoneNumber
     gender
     languages
-    birthday
+    birthdate
     zodiacSign
     traveledToPlaces
     livedInPlaces

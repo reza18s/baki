@@ -21,6 +21,7 @@ export type UserInfo = {
   smokeStatus?: 'never' | 'sometimes' | 'regularly';
   sportsStatus?: 'never' | 'sometimes' | 'regularly';
   AmountOfEarlyRising?: 'wakeUpEarly' | 'sleepy' | 'onTime';
+  zodiacSign?: string;
   username: string;
   bio: string;
   verified: boolean;

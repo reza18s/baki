@@ -30,7 +30,7 @@ export default function FinalStep() {
         onClick={() => {
           updateUser({
             variables: {
-              birthday: userInfo.birthdate,
+              birthdate: userInfo.birthdate,
               travelInterests: userInfo.travelInterests,
               gender: userInfo.gender,
               province: userInfo.province,

@@ -7,7 +7,7 @@ mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
     user {
       name
       gender
-      birthday
+      birthdate
       province
       images
       mySpecialty
@@ -34,7 +34,7 @@ mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
       id
       name
       gender
-      birthday
+      birthdate
       province
       city
       images

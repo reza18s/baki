@@ -27,6 +27,7 @@ import {
   getSmokeStatusLabel,
   getSpiritStatusLabel,
   getSportStatusLabel,
+  getZodiacSignsLabel,
 } from '@/constants';
 import { useStore } from '@/store/useStore';
 
@@ -281,7 +282,9 @@ export default function EditProfile() {
                 </p>
               </div>
               <div className="flex items-center gap-x-2">
-                <p className="text-sm font-medium text-[#94A3B8]">قوچ</p>
+                <p className="text-sm font-medium text-[#94A3B8]">
+                  {getZodiacSignsLabel(userInfo.zodiacSign)}
+                </p>
                 <TbZodiacAries size={24} className="text-[#94A3B8]" />
               </div>
             </div>

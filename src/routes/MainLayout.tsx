@@ -67,7 +67,7 @@ function MainLayout({ children }: MainLayoutProps) {
             isActive={activeTab === 'explore'}
           />
         </Link>
-        <Link className="w-[18%] transition-colors" to={paths.main.profile}>
+        <Link className="transition-colors" to={paths.main.profile}>
           <BottomNavItem
             Icon={
               <IcProfileTap
