@@ -267,6 +267,7 @@ export type PricePlan = {
 };
 
 export type Query = {
+  getChats: Array<Chat>;
   getMe?: Maybe<User>;
   getNotifications: Array<Notification>;
   getPricePlan: Array<PricePlan>;
@@ -505,6 +506,11 @@ export type GetRandomUserQueryVariables = Exact<{
 
 export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
+export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetChatsQuery = { getChats: Array<{ id: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null } | null> | null, Message?: Array<{ content: string, id: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null }> };
+
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -519,6 +525,11 @@ export type GetPricePlanQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetPricePlanQuery = { getPricePlan: Array<{ id: number, title: string, price: number, discount: number, months: number, bazarId: string }> };
+
+export type GetRequestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRequestsQuery = { getRequests: Array<{ id: string, receiverId: string, requesterId: string, type: string, createdAt?: any | null, updatedAt?: any | null, status: string, requester?: { id: string, name?: string | null, mainImages?: string | null } | null, receiver?: { id: string, name?: string | null, mainImages?: string | null } | null }> };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -915,6 +926,63 @@ export type GetRandomUserQueryHookResult = ReturnType<typeof useGetRandomUserQue
 export type GetRandomUserLazyQueryHookResult = ReturnType<typeof useGetRandomUserLazyQuery>;
 export type GetRandomUserSuspenseQueryHookResult = ReturnType<typeof useGetRandomUserSuspenseQuery>;
 export type GetRandomUserQueryResult = Apollo.QueryResult<GetRandomUserQuery, GetRandomUserQueryVariables>;
+export const GetChatsDocument = gql`
+    query GetChats {
+  getChats {
+    id
+    participants {
+      id
+      name
+      username
+      phoneNumber
+      mainImages
+      lastSeen
+    }
+    Message {
+      sender {
+        id
+        name
+        username
+      }
+      content
+      id
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetChatsQuery__
+ *
+ * To run a query within a React component, call `useGetChatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChatsQuery(baseOptions?: Apollo.QueryHookOptions<GetChatsQuery, GetChatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetChatsQuery, GetChatsQueryVariables>(GetChatsDocument, options);
+      }
+export function useGetChatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChatsQuery, GetChatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetChatsQuery, GetChatsQueryVariables>(GetChatsDocument, options);
+        }
+export function useGetChatsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetChatsQuery, GetChatsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetChatsQuery, GetChatsQueryVariables>(GetChatsDocument, options);
+        }
+export type GetChatsQueryHookResult = ReturnType<typeof useGetChatsQuery>;
+export type GetChatsLazyQueryHookResult = ReturnType<typeof useGetChatsLazyQuery>;
+export type GetChatsSuspenseQueryHookResult = ReturnType<typeof useGetChatsSuspenseQuery>;
+export type GetChatsQueryResult = Apollo.QueryResult<GetChatsQuery, GetChatsQueryVariables>;
 export const GetMeDocument = gql`
     query GetMe {
   getMe {
@@ -1067,6 +1135,61 @@ export type GetPricePlanQueryHookResult = ReturnType<typeof useGetPricePlanQuery
 export type GetPricePlanLazyQueryHookResult = ReturnType<typeof useGetPricePlanLazyQuery>;
 export type GetPricePlanSuspenseQueryHookResult = ReturnType<typeof useGetPricePlanSuspenseQuery>;
 export type GetPricePlanQueryResult = Apollo.QueryResult<GetPricePlanQuery, GetPricePlanQueryVariables>;
+export const GetRequestsDocument = gql`
+    query GetRequests {
+  getRequests {
+    id
+    receiverId
+    requesterId
+    type
+    createdAt
+    updatedAt
+    status
+    requester {
+      id
+      name
+      mainImages
+    }
+    receiver {
+      id
+      name
+      mainImages
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRequestsQuery__
+ *
+ * To run a query within a React component, call `useGetRequestsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRequestsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRequestsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRequestsQuery(baseOptions?: Apollo.QueryHookOptions<GetRequestsQuery, GetRequestsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRequestsQuery, GetRequestsQueryVariables>(GetRequestsDocument, options);
+      }
+export function useGetRequestsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRequestsQuery, GetRequestsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRequestsQuery, GetRequestsQueryVariables>(GetRequestsDocument, options);
+        }
+export function useGetRequestsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRequestsQuery, GetRequestsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRequestsQuery, GetRequestsQueryVariables>(GetRequestsDocument, options);
+        }
+export type GetRequestsQueryHookResult = ReturnType<typeof useGetRequestsQuery>;
+export type GetRequestsLazyQueryHookResult = ReturnType<typeof useGetRequestsLazyQuery>;
+export type GetRequestsSuspenseQueryHookResult = ReturnType<typeof useGetRequestsSuspenseQuery>;
+export type GetRequestsQueryResult = Apollo.QueryResult<GetRequestsQuery, GetRequestsQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser($id: String!) {
   getUser(id: $id) {

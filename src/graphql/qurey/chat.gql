@@ -1,0 +1,23 @@
+query GetChats {
+  getChats {
+    id
+    participants {
+      id
+      name
+      username
+      phoneNumber
+      mainImages
+      lastSeen
+    }
+    Message {
+      sender {
+        id
+        name
+        username
+      }
+      content
+      id
+      createdAt
+    }
+  }
+}

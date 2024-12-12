@@ -76,8 +76,8 @@ export const SendMessageModal = ({
                 onCompleted: () => {
                   customToast('دعودت با موفقیت ارسال شد', 'success');
                 },
-                onError: () => {
-                  customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
+                onError: (err) => {
+                  customToast(err.message, 'error');
                 },
               });
             }}

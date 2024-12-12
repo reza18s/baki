@@ -9,7 +9,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  useGetChatsQuery,
+  useGetMeQuery,
+  useGetRequestsQuery,
+} from '@/graphql/generated/graphql.codegen';
 import React, { useState } from 'react';
+import CardImage from '../../assets/images/image.png';
+import CountdownCircle from '@/components/ui/countdownCircle';
+import Button from '@/components/base/Button/Button';
 const items = [
   { value: 'all', title: 'همه' },
   { value: 'random', title: 'تصادفی' },
@@ -30,6 +38,16 @@ const mainMenu = [
 ];
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
+  const { data: requests } = useGetRequestsQuery();
+  const { data: chats } = useGetChatsQuery();
+  const { data: me } = useGetMeQuery({
+    onError(err) {
+      if (err.message == 'Failed to fetch') {
+        return;
+      }
+    },
+  });
+  console.log(chats?.getChats);
   return (
     <Page
       headerClassName="py-3 px-6 h-[88px]"
@@ -72,7 +90,62 @@ export const Chat = () => {
     >
       <div className="flex flex-col gap-4">
         <h1 className="text-base font-bold">درخواست‌های جدید</h1>
-        <div className="flex w-full gap-4 overflow-x-scroll"></div>
+        <div className="flex h-fit w-full gap-2 overflow-x-scroll border-b pb-6">
+          {requests?.getRequests.map((req) => (
+            <div
+              key={req.id}
+              className="relative size-[75px] items-center justify-center rounded-full"
+            >
+              <div
+                className="absolute size-16 overflow-hidden rounded-full"
+                style={{
+                  left: `calc(50%)`,
+                  top: `calc(50%)`,
+                  transform: 'translate(-50%,-50%)',
+                }}
+              >
+                <img src={CardImage}></img>
+              </div>
+              <CountdownCircle startDate={req.createdAt}></CountdownCircle>
+            </div>
+          ))}
+        </div>
+      </div>{' '}
+      <div className="flex flex-col gap-4 pt-4">
+        <h1 className="text-base font-bold">مخاطبین</h1>
+        <div className="flex w-full flex-col items-center">
+          {chats?.getChats.map((chat) => {
+            const user = chat.participants?.find(
+              (el) => el?.id !== me?.getMe?.id,
+            );
+            return (
+              <div className="flex w-full gap-2" key={chat.id}>
+                <div className="relative">
+                  <div className="aspect-square size-12 overflow-hidden rounded-full">
+                    <img src={CardImage}></img>
+                  </div>
+                  <div
+                    className={`absolute bottom-3 left-0 size-[14px] rounded-full border-[2.5px] border-white ${false ? 'bg-brand-green' : 'bg-gray-400'}`}
+                  ></div>
+                </div>
+                <div className="flex h-16 flex-1 items-center justify-between gap-2 border-b border-gray-100 pb-2">
+                  <div>
+                    <h2 className="text-[14px] font-medium">{user?.name}</h2>
+                    <span className="text-[10px] text-gray-400">
+                      {chat.Message?.[chat.Message?.length - 1]}
+                    </span>
+                  </div>
+                  <Button
+                    className="flex h-8 items-center px-4"
+                    rounded=" rounded-lg"
+                  >
+                    مشاهده
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </Page>
   );

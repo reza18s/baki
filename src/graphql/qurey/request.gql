@@ -1,0 +1,21 @@
+query GetRequests {
+  getRequests {
+    id
+    receiverId
+    requesterId
+    type
+    createdAt
+    updatedAt
+    status
+    requester {
+      id
+      name
+      mainImages
+    }
+    receiver {
+      id
+      name
+      mainImages
+    }
+  }
+}
