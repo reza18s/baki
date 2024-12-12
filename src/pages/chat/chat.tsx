@@ -132,7 +132,7 @@ export const Chat = () => {
                   <div>
                     <h2 className="text-[14px] font-medium">{user?.name}</h2>
                     <span className="text-[10px] text-gray-400">
-                      {chat.Message?.[chat.Message?.length - 1]}
+                      {chat.Message?.length}
                     </span>
                   </div>
                   <Button
