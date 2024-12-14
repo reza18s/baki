@@ -37,12 +37,13 @@ export const Notifications = () => {
   const { data } = useGetNotificationsQuery();
   return (
     <Page
-      headerClassName="py-3 px-4 h-[88px]"
+      headerClassName="py-3  h-[88px]"
       contentClassName="h-full px-6 pb-20 pt-24 "
       header={
         <div className="flex w-full flex-col justify-center gap-3">
           <h1 className="w-full text-center text-lg font-bold">اعلان ها</h1>
           <div className="scrollbar-hide flex items-center gap-2 overflow-scroll pl-2">
+            <div className='w-2' />
             {items.map((val, i) => (
               <div
                 key={i}
@@ -53,7 +54,9 @@ export const Notifications = () => {
                 {val.icon?.({ select: filter === val.value })}
               </div>
             ))}
+            <div className='w-2' />
           </div>
+
         </div>
       }
       scrollY

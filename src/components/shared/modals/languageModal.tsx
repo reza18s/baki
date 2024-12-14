@@ -67,7 +67,7 @@ export const LanguageModal = ({
                   {item?.icon && (
                     <img src={item.icon} alt={val} className="h-4 w-4" />
                   )}
-                  {item?.flag && <span>{item?.flag}</span>}
+                  {item?.flag && <span className='font-serif'>{item?.flag}</span>}
                   {val}
                   <IcXCircle className="stroke-black"></IcXCircle>
                 </div>

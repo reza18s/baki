@@ -22,7 +22,7 @@ const CustomCard = ({
     >
       <div
         className={`inline-flex items-center justify-center gap-2 rounded-[40px] p-4 text-brand-black ${
-          status ? 'bg-brand-green' : 'bg-brand-yellow'
+          status ? 'bg-brand-green text-white' : 'bg-brand-yellow text-brand-black'
         }`}
       >
         {icon}

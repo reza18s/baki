@@ -64,7 +64,7 @@ export default function RadioButton(props: RadioButtonProps) {
                 }
                 label={
                   <span
-                    className='text-sm font-semibold'
+                    className='text-sm font-semibold font-iransans'
                   >
                     {item.label}
                   </span>
