@@ -121,7 +121,7 @@ const errorLink = onError(
 // Utility function for network errors
 const handleNetworkError = (networkError: any) => {
   if (networkError.message === 'Failed to fetch') {
-    customToast('لطفا انترنت خود را چک کنید', 'error');
+    customToast('لطفا اینترنت خود را چک کنید', 'error');
   } else if (networkError.message.includes('timeout')) {
     customToast('اتصال به سرور تایم‌اوت شده است، دوباره تلاش کنید', 'error');
   } else {

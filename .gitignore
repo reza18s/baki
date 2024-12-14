@@ -31,3 +31,5 @@ yarn-error.log*
 .eslintcache
 bun.lockb
 yarn.lock
+android/app/release/baselineProfiles/1/app-release.dm
+android/app/release/output-metadata.json
