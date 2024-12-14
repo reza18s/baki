@@ -9,7 +9,7 @@ class MainActivity : BridgeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         registerPlugin(BazarPlugin::class.java)
-        installSplashScreen()
+//        installSplashScreen()
         super.onCreate(savedInstanceState)
         BazarPlugin.init(this)
     }
