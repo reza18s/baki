@@ -1,0 +1,31 @@
+query GetFavorite {
+  getFavorite {
+    chats {
+      id
+      createdAt
+      Message {
+        id
+        content
+        createdAt
+        sender {
+          id
+          name
+          username
+        }
+      }
+      participants {
+        id
+        name
+        username
+        images
+      }
+    }
+    favorites {
+      id
+      userId
+      favoriteUserId
+      createdAt
+      updatedAt
+    }
+  }
+}

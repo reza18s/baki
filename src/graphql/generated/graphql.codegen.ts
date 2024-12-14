@@ -267,7 +267,9 @@ export type PricePlan = {
 };
 
 export type Query = {
+  getBlockList: User;
   getChats: Array<Chat>;
+  getFavorite: User;
   getMe?: Maybe<User>;
   getNotifications: Array<Notification>;
   getPricePlan: Array<PricePlan>;
@@ -506,10 +508,20 @@ export type GetRandomUserQueryVariables = Exact<{
 
 export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
+export type GetBlockListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null } | null> | null, Message?: Array<{ id: string, content: string, createdAt?: any | null, sender?: { username?: string | null, name?: string | null, id: string } | null } | null> | null } | null> | null, blacklists?: Array<{ id: string, userId: string, blockedId: string, createdAt?: any | null } | null> | null } };
+
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetChatsQuery = { getChats: Array<{ id: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null } | null> | null, Message?: Array<{ content: string, id: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null }> };
+
+export type GetFavoriteQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, createdAt?: any | null, Message?: Array<{ id: string, content: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null } | null> | null } | null> | null, favorites?: Array<{ id: string, userId: string, favoriteUserId: string, createdAt?: any | null, updatedAt?: any | null } | null> | null } };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -926,6 +938,70 @@ export type GetRandomUserQueryHookResult = ReturnType<typeof useGetRandomUserQue
 export type GetRandomUserLazyQueryHookResult = ReturnType<typeof useGetRandomUserLazyQuery>;
 export type GetRandomUserSuspenseQueryHookResult = ReturnType<typeof useGetRandomUserSuspenseQuery>;
 export type GetRandomUserQueryResult = Apollo.QueryResult<GetRandomUserQuery, GetRandomUserQueryVariables>;
+export const GetBlockListDocument = gql`
+    query GetBlockList {
+  getBlockList {
+    chats {
+      id
+      participants {
+        id
+        name
+        username
+        images
+      }
+      createdAt
+      Message {
+        id
+        content
+        sender {
+          username
+          name
+          id
+        }
+        createdAt
+      }
+    }
+    blacklists {
+      id
+      userId
+      blockedId
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetBlockListQuery__
+ *
+ * To run a query within a React component, call `useGetBlockListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBlockListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBlockListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetBlockListQuery(baseOptions?: Apollo.QueryHookOptions<GetBlockListQuery, GetBlockListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBlockListQuery, GetBlockListQueryVariables>(GetBlockListDocument, options);
+      }
+export function useGetBlockListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBlockListQuery, GetBlockListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBlockListQuery, GetBlockListQueryVariables>(GetBlockListDocument, options);
+        }
+export function useGetBlockListSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBlockListQuery, GetBlockListQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBlockListQuery, GetBlockListQueryVariables>(GetBlockListDocument, options);
+        }
+export type GetBlockListQueryHookResult = ReturnType<typeof useGetBlockListQuery>;
+export type GetBlockListLazyQueryHookResult = ReturnType<typeof useGetBlockListLazyQuery>;
+export type GetBlockListSuspenseQueryHookResult = ReturnType<typeof useGetBlockListSuspenseQuery>;
+export type GetBlockListQueryResult = Apollo.QueryResult<GetBlockListQuery, GetBlockListQueryVariables>;
 export const GetChatsDocument = gql`
     query GetChats {
   getChats {
@@ -983,6 +1059,71 @@ export type GetChatsQueryHookResult = ReturnType<typeof useGetChatsQuery>;
 export type GetChatsLazyQueryHookResult = ReturnType<typeof useGetChatsLazyQuery>;
 export type GetChatsSuspenseQueryHookResult = ReturnType<typeof useGetChatsSuspenseQuery>;
 export type GetChatsQueryResult = Apollo.QueryResult<GetChatsQuery, GetChatsQueryVariables>;
+export const GetFavoriteDocument = gql`
+    query GetFavorite {
+  getFavorite {
+    chats {
+      id
+      createdAt
+      Message {
+        id
+        content
+        createdAt
+        sender {
+          id
+          name
+          username
+        }
+      }
+      participants {
+        id
+        name
+        username
+        images
+      }
+    }
+    favorites {
+      id
+      userId
+      favoriteUserId
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetFavoriteQuery__
+ *
+ * To run a query within a React component, call `useGetFavoriteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFavoriteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFavoriteQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetFavoriteQuery(baseOptions?: Apollo.QueryHookOptions<GetFavoriteQuery, GetFavoriteQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFavoriteQuery, GetFavoriteQueryVariables>(GetFavoriteDocument, options);
+      }
+export function useGetFavoriteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFavoriteQuery, GetFavoriteQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFavoriteQuery, GetFavoriteQueryVariables>(GetFavoriteDocument, options);
+        }
+export function useGetFavoriteSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetFavoriteQuery, GetFavoriteQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetFavoriteQuery, GetFavoriteQueryVariables>(GetFavoriteDocument, options);
+        }
+export type GetFavoriteQueryHookResult = ReturnType<typeof useGetFavoriteQuery>;
+export type GetFavoriteLazyQueryHookResult = ReturnType<typeof useGetFavoriteLazyQuery>;
+export type GetFavoriteSuspenseQueryHookResult = ReturnType<typeof useGetFavoriteSuspenseQuery>;
+export type GetFavoriteQueryResult = Apollo.QueryResult<GetFavoriteQuery, GetFavoriteQueryVariables>;
 export const GetMeDocument = gql`
     query GetMe {
   getMe {

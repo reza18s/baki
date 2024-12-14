@@ -1,5 +1,8 @@
 import moment from 'jalali-moment';
 import jalaali from 'jalaali-js';
+
+import { DateTime } from 'luxon';
+
 export const ceilTime = (timeMinute: number) => {
   const hour = timeMinute / 60;
   if (hour > 0) {
@@ -71,4 +74,71 @@ export function convertGregorianToJalali(gregorianDate: string): string {
   const [year, month, day] = gregorianDate.split('-').map(Number); // جدا کردن سال، ماه، روز
   const { jy, jm, jd } = jalaali.toJalaali(year, month, day); // تبدیل به شمسی
   return `${jy}-${jm.toString().padStart(2, '0')}-${jd.toString().padStart(2, '0')}`; // بازگشت تاریخ به فرمت yyyy/mm/dd
+}
+export function formatLastSeen(lastSeen: Date): string {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - lastSeen.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds}s ago`;
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}m ago`;
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `${diffInHours}h ago`;
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays === 1) {
+    return 'Yesterday';
+  } else if (diffInDays < 7) {
+    return lastSeen.toLocaleDateString(undefined, { weekday: 'long' });
+  } else {
+    return lastSeen.toLocaleDateString();
+  }
+}
+export function getLastMessageTime(lastMessageTimestamp: string): string {
+  const lastMessageDate =
+    DateTime.fromISO(lastMessageTimestamp).setZone('Asia/Tehran');
+  const now = DateTime.now().setZone('Asia/Tehran');
+
+  // Calculate the difference in milliseconds
+  const diff = now.toMillis() - lastMessageDate.toMillis();
+
+  // Constants for time calculations
+  const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+
+  if (diff < oneDay) {
+    // Check if it's "yesterday"
+    if (lastMessageDate.day === now.minus({ days: 1 }).day) {
+      return 'دیروز';
+    }
+    // Show the time in HH:MM format (24-hour clock)
+    return lastMessageDate.toFormat('HH:mm');
+  } else if (diff < 7 * oneDay) {
+    // Show the day name in Persian
+    const days = [
+      'یک‌شنبه',
+      'دوشنبه',
+      'سه‌شنبه',
+      'چهارشنبه',
+      'پنج‌شنبه',
+      'جمعه',
+      'شنبه',
+    ];
+    return days[lastMessageDate.weekday % 7];
+  } else {
+    // Show the date in Persian format YYYY/MM/DD
+    const jalaaliDate = jalaali.toJalaali(
+      lastMessageDate.year,
+      lastMessageDate.month,
+      lastMessageDate.day,
+    );
+    return `${jalaaliDate.jy}/${jalaaliDate.jm.toString().padStart(2, '0')}/${jalaaliDate.jd.toString().padStart(2, '0')}`;
+  }
 }

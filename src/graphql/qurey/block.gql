@@ -1,0 +1,30 @@
+query GetBlockList {
+  getBlockList {
+    chats {
+      id
+      participants {
+        id
+        name
+        username
+        images
+      }
+      createdAt
+      Message {
+        id
+        content
+        sender {
+          username
+          name
+          id
+        }
+        createdAt
+      }
+    }
+    blacklists {
+      id
+      userId
+      blockedId
+      createdAt
+    }
+  }
+}

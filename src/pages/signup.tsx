@@ -7,6 +7,7 @@ import { StepsNumber } from '../types';
 import { Page } from '@/components/layout/Page';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
+import { CircleSpinner } from '@/components/base/Loader/Loader';
 
 const GetPhoneNumber = lazy(
   () => import('../components/Signup/GetPhoneNumber'),
@@ -149,7 +150,13 @@ export default function Signup() {
         </div>
       }
     >
-      <Suspense fallback={<div>Loading step...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex h-full w-full items-center justify-center">
+            <CircleSpinner></CircleSpinner>
+          </div>
+        }
+      >
         <div className="h-full w-full">{renderStep()}</div>
       </Suspense>
     </Page>

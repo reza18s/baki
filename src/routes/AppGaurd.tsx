@@ -1,10 +1,8 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { paths } from './paths';
-import { DotesLoading } from '@/components/base/Loader/Loader';
 import { GetMeQuery, useGetMeQuery } from '@/graphql/generated/graphql.codegen';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useHistory } from 'react-router';
-import { Page } from '@/components/layout/Page';
 import { LoaderPage } from '@/components/base/Loader/LoaderPage';
 
 type GuardState = 'normal' | 'loading' | 'offline';

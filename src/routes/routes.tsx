@@ -38,6 +38,8 @@ import { Plans } from '@/pages/plans/plans';
 import { Confirm } from '@/pages/plans/confirm';
 import { FreePlan } from '@/pages/plans/freePlan';
 import { Chat } from '@/pages/chat/chat';
+import { Blocked } from '@/pages/blocked/blocked';
+import { Favorite } from '@/pages/favorite/favorite';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -164,6 +166,8 @@ export default function Routes() {
               />
               {/* explore */}
               <Route exact path={paths.explore.filter} component={Filter} />
+              <Route exact path={paths.favorite.main} component={Favorite} />
+              <Route exact path={paths.blocked.main} component={Blocked} />
               <Route
                 path={paths.main.main}
                 render={({ match }) => (

@@ -34,6 +34,12 @@ export const paths = {
     basicInformations: '/profile/complete_profile/complete_basicinformations', // Basic information
     languagesKnow: '/profile/complete_profile/complete_languagesknow', // Language skills
   },
+  favorite: {
+    main: '/favorite',
+  },
+  blocked: {
+    main: '/blocked',
+  },
   plans: {
     main: '/plans',
     freePlan: '/free-plan',

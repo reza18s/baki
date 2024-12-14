@@ -21,10 +21,40 @@ import './theme/iransans.css';
 import './theme/Yekan.css';
 import Routes from './routes/routes';
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { useHistory } from 'react-router';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const history = useHistory();
+  useEffect(() => {
+    // Request Notification Permissions
+    LocalNotifications.requestPermissions().then((result) => {
+      if (result.display === 'granted') {
+        console.log('Notification permission granted');
+      } else {
+        console.error('Notification permission not granted');
+      }
+    });
+    LocalNotifications.addListener(
+      'localNotificationActionPerformed',
+      (notification) => {
+        console.log(
+          'Notification action performed:',
+          notification.notification,
+        );
+
+        // Check for extra data
+        const data = notification.notification.extra;
+        if (data && data.route) {
+          // Navigate to the route
+          history.push(data.route);
+        }
+      },
+    );
+  }, []);
   return (
     <IonApp>
       <IonReactRouter>

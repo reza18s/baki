@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { IcDotsMenu } from '@/components/icons/IcDotsMenu';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcStar } from '@/components/icons/IcStar';
@@ -10,44 +11,85 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
+  Chat as IChat,
   useGetChatsQuery,
   useGetMeQuery,
   useGetRequestsQuery,
+  User,
 } from '@/graphql/generated/graphql.codegen';
-import React, { useState } from 'react';
 import CardImage from '../../assets/images/image.png';
 import CountdownCircle from '@/components/ui/countdownCircle';
-import Button from '@/components/base/Button/Button';
+import { Contact } from '@/components/chat/contact';
+import { Link } from 'react-router-dom';
+import { paths } from '@/routes/paths';
+
 const items = [
   { value: 'all', title: 'همه' },
   { value: 'random', title: 'تصادفی' },
   { value: 'baseOnInterest', title: 'علاقه‌مندی' },
   { value: 'famous', title: 'مشهور' },
 ];
+
 const mainMenu = [
   {
-    url: '',
+    url: paths.favorite.main,
     icon: <IcStar className="siz5"></IcStar>,
     title: 'لیست علاقه‌مندی‌ها',
   },
   {
-    url: '',
+    url: paths.blocked.main,
     icon: <IcUserBlackList className="siz5"></IcUserBlackList>,
     title: 'لیست سیاه',
   },
 ];
+
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
+  const [selects, setSelects] = useState<IChat[]>([]);
+  const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isHold, setIsHold] = useState(false);
+
   const { data: requests } = useGetRequestsQuery();
   const { data: chats } = useGetChatsQuery();
   const { data: me } = useGetMeQuery({
     onError(err) {
-      if (err.message == 'Failed to fetch') {
+      if (err.message === 'Failed to fetch') {
         return;
       }
     },
   });
-  console.log(chats?.getChats);
+
+  const toggleSelect = (chat: IChat) => {
+    setSelects((prev) => {
+      const isSelected = prev.some(
+        (selectedChat) => selectedChat.id === chat.id,
+      );
+      if (isSelected) {
+        // Remove chat if it's already in the array
+        return prev.filter((selectedChat) => selectedChat.id !== chat.id);
+      } else {
+        // Add chat if it's not in the array
+        return [...prev, chat];
+      }
+    });
+  };
+
+  const handleMouseDown = (chat: IChat) => {
+    setIsHold(false);
+    const timeout = setTimeout(() => {
+      setIsHold(true);
+      toggleSelect(chat);
+    }, 500); // 500ms for long press
+    setHoldTimeout(timeout);
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+      setHoldTimeout(null);
+    }
+  };
+
   return (
     <Page
       headerClassName="py-3 px-6 h-[88px]"
@@ -67,8 +109,10 @@ export const Chat = () => {
                     key={val.title}
                     className="flex items-center gap-2 p-0 py-2"
                   >
-                    {val.icon}
-                    <h1 className="text-sm">{val.title}</h1>
+                    <Link to={val.url} className="flex w-full">
+                      {val.icon}
+                      <h1 className="text-sm">{val.title}</h1>
+                    </Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -78,7 +122,11 @@ export const Chat = () => {
             {items.map((val, i) => (
               <div
                 key={i}
-                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
+                className={`${
+                  filter === val.value
+                    ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black'
+                    : 'border border-gray-300 text-gray-500'
+                } flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`}
                 onClick={() => setFilter(val.value)}
               >
                 {val.title}
@@ -104,47 +152,38 @@ export const Chat = () => {
                   transform: 'translate(-50%,-50%)',
                 }}
               >
-                <img src={CardImage}></img>
+                <img src={CardImage} alt="Card" />
               </div>
               <CountdownCircle startDate={req.createdAt}></CountdownCircle>
             </div>
           ))}
         </div>
-      </div>{' '}
+      </div>
       <div className="flex flex-col gap-4 pt-4">
         <h1 className="text-base font-bold">مخاطبین</h1>
-        <div className="flex w-full flex-col items-center">
-          {chats?.getChats.map((chat) => {
-            const user = chat.participants?.find(
-              (el) => el?.id !== me?.getMe?.id,
-            );
-            return (
-              <div className="flex w-full gap-2" key={chat.id}>
-                <div className="relative">
-                  <div className="aspect-square size-12 overflow-hidden rounded-full">
-                    <img src={CardImage}></img>
-                  </div>
-                  <div
-                    className={`absolute bottom-3 left-0 size-[14px] rounded-full border-[2.5px] border-white ${false ? 'bg-brand-green' : 'bg-gray-400'}`}
-                  ></div>
-                </div>
-                <div className="flex h-16 flex-1 items-center justify-between gap-2 border-b border-gray-100 pb-2">
-                  <div>
-                    <h2 className="text-[14px] font-medium">{user?.name}</h2>
-                    <span className="text-[10px] text-gray-400">
-                      {chat.Message?.length}
-                    </span>
-                  </div>
-                  <Button
-                    className="flex h-8 items-center px-4"
-                    rounded=" rounded-lg"
-                  >
-                    مشاهده
-                  </Button>
-                </div>
-              </div>
-            );
-          })}
+        <div className="flex w-full flex-col items-center gap-1">
+          {chats?.getChats.map((chat) => (
+            <Contact
+              key={chat.id}
+              onClick={
+                selects.length > 0
+                  ? () => !isHold && toggleSelect(chat as IChat)
+                  : () => {
+                      console.log('lll');
+                    }
+              }
+              onMouseDown={() => handleMouseDown(chat as IChat)}
+              onMouseUp={handleMouseUpOrLeave}
+              onMouseLeave={handleMouseUpOrLeave}
+              className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
+              checked={selects.some(
+                (selectedChat) => selectedChat.id === chat.id,
+              )}
+              hideChecked={selects.length <= 0}
+              chat={chat as IChat}
+              me={me?.getMe as User}
+            ></Contact>
+          ))}
         </div>
       </div>
     </Page>
