@@ -9,6 +9,7 @@ import { customToast } from '@/components/base/toast';
 
 export default function BirthdateStep(props: {
   handleNextStep: (user?: Partial<UserInfo>) => void;
+  loading: boolean;
 }) {
   const { control, watch, register, setValue } = useForm();
 
@@ -63,7 +64,9 @@ export default function BirthdateStep(props: {
         </div>
       </div>
       {/* Footer */}
-      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
+      <Button className="h-12" loading={props.loading} onClick={handleSubmit}>
+        ذخیره و بستن
+      </Button>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { Features } from '../../components/plan/features';
 import { FeaturesCarousel } from '@/components/plan/featuresCarousel';
 import { PlanCard } from '@/components/plan/planCard';
 import Accordion from '@/components/accordion/Accordion';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { paths } from '@/routes/paths';
 const faq: { question: string; answer: string }[] = [
   {
@@ -42,6 +42,7 @@ export const Plans = () => {
   const [showConditions, setShowConditions] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<string | undefined>();
   const [select, setSelect] = useState<PricePlan>();
+  const hs = useHistory();
   const { data: plans } = useGetPricePlanQuery();
   return (
     <Page contentClassName="min-h-full bg-gray-50 pb-20" scrollY>
@@ -54,7 +55,7 @@ export const Plans = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="absolute right-3 top-14" onClick={() => {}}>
+        <div className="absolute right-3 top-14" onClick={() => hs.goBack()}>
           <IcXCircle className="size-5 stroke-black stroke-[1.1]"></IcXCircle>
         </div>
         <h1 className="mt-10 text-[32px] font-bold">باکی</h1>

@@ -120,7 +120,9 @@ export const ChatHeader = ({
           </>
         ) : (
           <>
-            <IcSearch className="size-6"></IcSearch>
+            <Link to={paths.chat.search}>
+              <IcSearch className="size-6"></IcSearch>
+            </Link>
             <h1 className="text-center text-lg font-bold">پیام‌ها</h1>
             <DropdownMenu dir="rtl">
               <DropdownMenuTrigger>

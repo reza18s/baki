@@ -8,6 +8,7 @@ import { customToast } from '@/components/base/toast';
 
 export default function MaritalStatusStep(props: {
   handleNextStep: (user?: Partial<UserInfo>) => void;
+  loading: boolean;
 }) {
   const { control, watch, setValue } = useForm();
 
@@ -49,7 +50,9 @@ export default function MaritalStatusStep(props: {
         />
       </div>
       {/* Footer */}
-      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
+      <Button className="h-12" loading={props.loading} onClick={handleSubmit}>
+        ذخیره و بستن
+      </Button>
     </div>
   );
 }

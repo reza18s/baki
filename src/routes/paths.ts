@@ -37,6 +37,10 @@ export const paths = {
   favorite: {
     main: '/favorite',
   },
+  chat: {
+    main: '/chat',
+    search: '/chat/search',
+  },
   blocked: {
     main: '/blocked',
   },

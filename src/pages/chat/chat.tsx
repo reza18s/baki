@@ -29,7 +29,6 @@ export const Chat = () => {
       }
     },
   });
-
   const toggleSelect = (chat: IChat) => {
     setSelects((prev) => {
       const isSelected = prev.some(
@@ -76,9 +75,10 @@ export const Chat = () => {
     >
       <div className="flex flex-col gap-4">
         <h1 className="text-base font-bold">درخواست‌های جدید</h1>
-        <div className="flex h-fit w-full gap-2 overflow-x-scroll border-b pb-6">
-          {(requests?.getRequests.length || 0) > 0
-            ? requests?.getRequests.map((req) => (
+        <div className="flex h-fit max-w-full gap-2 overflow-scroll border-b pb-6">
+          {(requests?.getRequests.length || 0) > 0 ? (
+            <>
+              {requests?.getRequests.map((req) => (
                 <div
                   key={req.id}
                   className="relative size-[75px] items-center justify-center rounded-full"
@@ -95,45 +95,58 @@ export const Chat = () => {
                   </div>
                   <CountdownCircle startDate={req.createdAt}></CountdownCircle>
                 </div>
-              ))
-            : [1, 2, 3, 4].map((num) => (
+              ))}
+            </>
+          ) : (
+            <>
+              {[1, 2, 3, 4].map((num) => (
                 <div
                   key={num}
-                  className="border-d size-[74px] rounded-full border-2 border-dashed border-gray-300"
-                ></div>
+                  className="border-d min-size-[74px] size-[74px] rounded-full border-2 border-dashed border-gray-300 text-transparent"
+                >
+                  kkkkkkkkkkkk
+                </div>
               ))}
+            </>
+          )}
         </div>
       </div>
       {contactLoading ? (
         <div className="mt-10 flex justify-center">
           <CircleSpinner></CircleSpinner>
         </div>
-      ) : (chats?.getChats.length || 0) > 0 ? (
+      ) : (chats?.getChats.filter(
+          (el) => filter === 'all' || el.searchType === filter,
+        ).length || 0) > 0 ? (
         <div className="flex flex-col gap-4 pt-4">
           <h1 className="text-base font-bold">مخاطبین</h1>
           <div className="flex w-full flex-col items-center gap-1">
-            {chats?.getChats.map((chat) => (
-              <Contact
-                key={chat.id}
-                onClick={
-                  selects.length > 0
-                    ? () => !isHold && toggleSelect(chat as IChat)
-                    : () => {
-                        console.log('lll');
-                      }
-                }
-                onMouseDown={() => handleMouseDown(chat as IChat)}
-                onMouseUp={handleMouseUpOrLeave}
-                onMouseLeave={handleMouseUpOrLeave}
-                className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
-                checked={selects.some(
-                  (selectedChat) => selectedChat.id === chat.id,
-                )}
-                hideChecked={selects.length <= 0}
-                chat={chat as IChat}
-                me={me?.getMe as User}
-              ></Contact>
-            ))}
+            {chats?.getChats
+              .filter((el) => filter === 'all' || el.searchType === filter)
+              .map((chat) => (
+                <Contact
+                  key={chat.id}
+                  onClick={
+                    selects.length > 0
+                      ? () => !isHold && toggleSelect(chat as IChat)
+                      : () => {
+                          console.log('lll');
+                        }
+                  }
+                  onTouchStart={() => handleMouseDown(chat as IChat)}
+                  onTouchEnd={handleMouseUpOrLeave}
+                  onMouseDown={() => handleMouseDown(chat as IChat)}
+                  onMouseUp={handleMouseUpOrLeave}
+                  onMouseLeave={handleMouseUpOrLeave}
+                  className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
+                  checked={selects.some(
+                    (selectedChat) => selectedChat.id === chat.id,
+                  )}
+                  hideChecked={selects.length <= 0}
+                  chat={chat as IChat}
+                  me={me?.getMe as User}
+                ></Contact>
+              ))}
           </div>
         </div>
       ) : (

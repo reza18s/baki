@@ -41,6 +41,7 @@ export type Chat = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
   participants?: Maybe<Array<Maybe<User>>>;
+  searchType: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -523,7 +524,7 @@ export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, cr
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatsQuery = { getChats: Array<{ id: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null } | null> | null, Message?: Array<{ content: string, id: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null }> };
+export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null } | null> | null, Message?: Array<{ content: string, id: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null }> };
 
 export type GetFavoriteQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1042,6 +1043,7 @@ export const GetChatsDocument = gql`
     query GetChats {
   getChats {
     id
+    searchType
     participants {
       id
       name
