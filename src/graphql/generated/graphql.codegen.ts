@@ -108,8 +108,8 @@ export type Mutation = {
   Like?: Maybe<Liked>;
   Signin?: Maybe<Scalars['String']['output']>;
   activePlan?: Maybe<User>;
-  addToBlackList?: Maybe<Blacklist>;
-  addToFavorite?: Maybe<FavoriteList>;
+  addToBlackList?: Maybe<Scalars['JSON']['output']>;
+  addToFavorite?: Maybe<Scalars['JSON']['output']>;
   createReport?: Maybe<ViolationReport>;
   createRequest?: Maybe<Request>;
   logInAsGuest?: Maybe<AuthPayload>;
@@ -145,12 +145,12 @@ export type MutationActivePlanArgs = {
 
 
 export type MutationAddToBlackListArgs = {
-  blockedId: Scalars['String']['input'];
+  blockedId: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationAddToFavoriteArgs = {
-  favoriteId: Scalars['String']['input'];
+  favoriteIds: Array<Scalars['String']['input']>;
 };
 
 
@@ -428,12 +428,19 @@ export type ViolationReport = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type AddToFavoriteMutationVariables = Exact<{
-  favoriteId: Scalars['String']['input'];
+export type AddToBlackListMutationVariables = Exact<{
+  blockedId: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type AddToFavoriteMutation = { addToFavorite?: { id: string } | null };
+export type AddToBlackListMutation = { addToBlackList?: any | null };
+
+export type AddToFavoriteMutationVariables = Exact<{
+  favoriteIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type AddToFavoriteMutation = { addToFavorite?: any | null };
 
 export type LikeMutationVariables = Exact<{
   likedUserId: Scalars['String']['input'];
@@ -551,11 +558,40 @@ export type GetUserQueryVariables = Exact<{
 export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 
+export const AddToBlackListDocument = gql`
+    mutation AddToBlackList($blockedId: [String!]!) {
+  addToBlackList(blockedId: $blockedId)
+}
+    `;
+export type AddToBlackListMutationFn = Apollo.MutationFunction<AddToBlackListMutation, AddToBlackListMutationVariables>;
+
+/**
+ * __useAddToBlackListMutation__
+ *
+ * To run a mutation, you first call `useAddToBlackListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToBlackListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToBlackListMutation, { data, loading, error }] = useAddToBlackListMutation({
+ *   variables: {
+ *      blockedId: // value for 'blockedId'
+ *   },
+ * });
+ */
+export function useAddToBlackListMutation(baseOptions?: Apollo.MutationHookOptions<AddToBlackListMutation, AddToBlackListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToBlackListMutation, AddToBlackListMutationVariables>(AddToBlackListDocument, options);
+      }
+export type AddToBlackListMutationHookResult = ReturnType<typeof useAddToBlackListMutation>;
+export type AddToBlackListMutationResult = Apollo.MutationResult<AddToBlackListMutation>;
+export type AddToBlackListMutationOptions = Apollo.BaseMutationOptions<AddToBlackListMutation, AddToBlackListMutationVariables>;
 export const AddToFavoriteDocument = gql`
-    mutation AddToFavorite($favoriteId: String!) {
-  addToFavorite(favoriteId: $favoriteId) {
-    id
-  }
+    mutation AddToFavorite($favoriteIds: [String!]!) {
+  addToFavorite(favoriteIds: $favoriteIds)
 }
     `;
 export type AddToFavoriteMutationFn = Apollo.MutationFunction<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
@@ -573,7 +609,7 @@ export type AddToFavoriteMutationFn = Apollo.MutationFunction<AddToFavoriteMutat
  * @example
  * const [addToFavoriteMutation, { data, loading, error }] = useAddToFavoriteMutation({
  *   variables: {
- *      favoriteId: // value for 'favoriteId'
+ *      favoriteIds: // value for 'favoriteIds'
  *   },
  * });
  */

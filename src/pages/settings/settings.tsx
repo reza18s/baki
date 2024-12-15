@@ -11,7 +11,7 @@ import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import ArrowButton from '@/components/shared/Buttons/ArrowButton';
 import { paths } from '@/routes/paths';
-import { shareRecipe } from '@/utils/share';
+import { share } from '@/utils/share';
 export const Settings = () => {
   return (
     <Page
@@ -36,15 +36,17 @@ export const Settings = () => {
           icon={<IcGift></IcGift>}
         ></ArrowButton>
         <ArrowButton
-          onClick={() => shareRecipe()}
+          onClick={() => share()}
           text="دعوت از دوستان"
           icon={<IcShear></IcShear>}
         ></ArrowButton>
         <ArrowButton
+          url={paths.favorite.main}
           text="لیست علاقه‌مندی‌ها"
           icon={<IcStar></IcStar>}
         ></ArrowButton>
         <ArrowButton
+          url={paths.blocked.main}
           text="لیست سیاه"
           icon={<IcUserBlackList></IcUserBlackList>}
         ></ArrowButton>

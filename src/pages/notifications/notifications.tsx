@@ -34,7 +34,7 @@ export const Notifications = () => {
   const [filter, setFilter] = useState('all');
   const [isOpen, setIsOpen] = useState<'like' | 'message' | 'likeBack'>();
   const [noti, setNoti] = useState<INotification>();
-  const { data } = useGetNotificationsQuery();
+  const { data, loading } = useGetNotificationsQuery();
   return (
     <Page
       headerClassName="py-3 px-4 h-[88px]"
@@ -56,6 +56,7 @@ export const Notifications = () => {
           </div>
         </div>
       }
+      isLoading={loading}
       scrollY
     >
       {(data?.getNotifications.filter(

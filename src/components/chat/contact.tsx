@@ -15,7 +15,7 @@ export const Contact: FC<
     hideChecked?: boolean;
   }
 > = ({ chat, me, checked, hideChecked = true, ...props }) => {
-  const user = chat.participants?.find((el) => el?.id !== me?.id);
+  const user = chat.participants?.[0];
   return (
     <div {...props}>
       <Checkbox

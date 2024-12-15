@@ -1,5 +1,3 @@
-mutation AddToFavorite($favoriteId: String!) {
-  addToFavorite(favoriteId: $favoriteId) {
-    id
-  }
+mutation AddToFavorite($favoriteIds: [String!]!) {
+  addToFavorite(favoriteIds: $favoriteIds)
 }
