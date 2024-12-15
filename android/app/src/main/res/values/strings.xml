@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">باکی</string>
-    <string name="title_activity_main">باکی</string>
-    <string name="package_name">ir.baki.app</string>
-    <string name="custom_url_scheme">ir.baki.app</string>
+	<string name="app_name">باکی</string>
+	<string name="title_activity_main">باکی</string>
+	<string name="package_name">ir.baki.app</string>
+	<string name="custom_url_scheme">ir.baki.app</string>
 	<string name="bazar_key">
+
 <!--		TODO: add bazar key here-->
-		BAZAR_KEY
 	</string>
 </resources>

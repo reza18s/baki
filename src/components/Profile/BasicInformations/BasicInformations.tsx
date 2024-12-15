@@ -70,30 +70,14 @@ export default function BasicInformations() {
         <AppBar
           title="اطلاعات اولیه"
           onBack={() => {
-            if (basicInformationsStep === 0) {
+            
               hs.goBack();
-            } else {
-              setBasicInformationsStep(
-                (prev) => (prev - 1) as IBasicInformationsStep,
-              );
-            }
+            
           }}
         ></AppBar>
       }
     >
-      <div className="flex w-full items-center justify-between gap-x-[7px]">
-        {/* Progress bar */}
-        <div className="flex w-full justify-around gap-[1px]">
-          {/* Steps */}
-          {[...Array(7)].map((_, i) => (
-            <HeadStep
-              key={i}
-              stepNum={i as IBasicInformationsStep}
-              activeStep={basicInformationsStep}
-            />
-          ))}
-        </div>
-      </div>
+     
       {basicInformationsStep === 0 && (
         <GenderStep handleNextStep={handleNextStep} />
       )}
