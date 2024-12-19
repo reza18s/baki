@@ -9,6 +9,7 @@ query GetChats {
       phoneNumber
       mainImages
       lastSeen
+      isOnline
     }
     Message {
       sender {
@@ -16,6 +17,35 @@ query GetChats {
         name
         username
       }
+      senderId
+      read
+      content
+      id
+      createdAt
+    }
+  }
+}
+query GetChat($chatId: String!) {
+  getChat(chatId: $chatId) {
+    id
+    searchType
+    participants {
+      id
+      name
+      username
+      phoneNumber
+      mainImages
+      lastSeen
+      isOnline
+    }
+    Message {
+      sender {
+        id
+        name
+        username
+      }
+      senderId
+      read
       content
       id
       createdAt

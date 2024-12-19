@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 body {
-  background-color: white;
   color: #1a1d1e;
   font-family: 'IRANSansX', sans;
 }
@@ -130,5 +129,15 @@ input:-webkit-autofill:focus {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

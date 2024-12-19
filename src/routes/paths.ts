@@ -40,6 +40,10 @@ export const paths = {
   chat: {
     main: '/chat',
     search: '/chat/search',
+    contact: {
+      main: '/chat/:id',
+      exactPath: (id: string) => `/chat/${id}`,
+    },
   },
   blocked: {
     main: '/blocked',

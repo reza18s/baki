@@ -21,6 +21,7 @@ interface PageProps extends BasePropsWithChildren {
   header?: React.ReactNode;
   isLoading?: boolean;
   loading?: React.ReactDOM;
+  bgImage?: any;
 }
 
 export const Page = forwardRef<HTMLIonContentElement, PageProps>(
@@ -35,6 +36,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
       children,
       headerClassName,
       loading,
+      bgImage,
       isLoading,
     },
     ref,
@@ -56,6 +58,15 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
             {header}
           </div>
         )}
+
+        {bgImage && (
+          <div
+            className="absolute inset-0 z-0 bg-gray-50 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url(${bgImage})`, // Replace with your image source
+            }}
+          ></div>
+        )}
         <IonContent
           id="ion-content"
           className={contentClassName}
@@ -63,6 +74,12 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
           ref={ref}
           scrollY={scrollY}
           scrollEvents={!!onScroll} // Converts to a boolean
+          style={
+            bgImage && {
+              backgroundColor: 'transparent', // Inline style to override Ionic's default
+              '--background': 'transparent', // Ionic CSS variable for transparency
+            }
+          }
         >
           {refresher && (
             <IonRefresher

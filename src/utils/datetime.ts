@@ -75,27 +75,28 @@ export function convertGregorianToJalali(gregorianDate: string): string {
   const { jy, jm, jd } = jalaali.toJalaali(year, month, day); // تبدیل به شمسی
   return `${jy}-${jm.toString().padStart(2, '0')}-${jd.toString().padStart(2, '0')}`; // بازگشت تاریخ به فرمت yyyy/mm/dd
 }
-export function formatLastSeen(lastSeen: Date): string {
+export function formatLastSeen(lastSeenS: Date): string {
   const now = new Date();
+  const lastSeen = new Date(lastSeenS);
   const diffInSeconds = Math.floor((now.getTime() - lastSeen.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
-    return `${diffInSeconds}s ago`;
+    return `آخرین بازدید ${diffInSeconds} ثانیه پیش`;
   }
 
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   if (diffInMinutes < 60) {
-    return `${diffInMinutes}m ago`;
+    return `آخرین بازدید ${diffInMinutes} دقیقه پیش`;
   }
 
   const diffInHours = Math.floor(diffInMinutes / 60);
   if (diffInHours < 24) {
-    return `${diffInHours}h ago`;
+    return `آخرین بازدید ${diffInHours} ساعت پیش`;
   }
 
   const diffInDays = Math.floor(diffInHours / 24);
   if (diffInDays === 1) {
-    return 'Yesterday';
+    return 'دیروز';
   } else if (diffInDays < 7) {
     return lastSeen.toLocaleDateString(undefined, { weekday: 'long' });
   } else {

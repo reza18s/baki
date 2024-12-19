@@ -41,6 +41,7 @@ import { Chat } from '@/pages/chat/chat';
 import { Blocked } from '@/pages/blocked/blocked';
 import { Favorite } from '@/pages/favorite/favorite';
 import { Search } from '@/pages/chat/search';
+import { ContactPage } from '@/pages/chat/contact';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -168,7 +169,11 @@ export default function Routes() {
               {/* explore */}
               <Route exact path={paths.explore.filter} component={Filter} />
               {/* chat */}
-
+              <Route
+                exact
+                path={paths.chat.contact.main}
+                component={ContactPage}
+              />
               <Route exact path={paths.chat.search} component={Search} />
               {/* other */}
               <Route exact path={paths.favorite.main} component={Favorite} />

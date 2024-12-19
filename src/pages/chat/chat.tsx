@@ -13,12 +13,15 @@ import { Contact } from '@/components/chat/contact';
 import { ChatHeader } from '@/components/chat/chatHeader';
 import { IcUserGroup } from '@/components/icons/IcUserGroup';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
 
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
   const [selects, setSelects] = useState<IChat[]>([]);
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
+  const hs = useHistory();
 
   const { data: requests } = useGetRequestsQuery();
   const { data: chats, loading: contactLoading } = useGetChatsQuery();
@@ -130,7 +133,7 @@ export const Chat = () => {
                     selects.length > 0
                       ? () => !isHold && toggleSelect(chat as IChat)
                       : () => {
-                          console.log('lll');
+                          hs.push(paths.chat.contact.exactPath(chat.id));
                         }
                   }
                   onTouchStart={() => handleMouseDown(chat as IChat)}

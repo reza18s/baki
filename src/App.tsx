@@ -21,10 +21,25 @@ import './theme/iransans.css';
 import './theme/Yekan.css';
 import Routes from './routes/routes';
 import { Toaster } from 'react-hot-toast';
+import { socket } from './graphql/apollo/socket';
+import {
+  useMessageSentSubscription,
+  useUserStatusSubscription,
+} from './graphql/generated/graphql.codegen';
+import { useEffect } from 'react';
+import { client } from './graphql/apollo/client';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const { data } = useUserStatusSubscription({ client: socket });
+  const { data: messages } = useMessageSentSubscription({ client: socket });
+  useEffect(() => {
+    client.refetchQueries({ include: ['GetChats'] });
+  }, [data, messages]);
+  useEffect(() => {
+    client.refetchQueries({ include: ['GetChat'] });
+  }, [messages]);
   return (
     <IonApp>
       <IonReactRouter>

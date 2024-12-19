@@ -18,6 +18,7 @@ query GetFavorite {
         name
         username
         images
+        isOnline
       }
     }
     favorites {

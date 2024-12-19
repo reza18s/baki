@@ -107,11 +107,11 @@ export default function ExploreCard({
                   <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                     <div
                       className={`h-[8px] w-[8px] rounded-full ${
-                        user ? 'bg-brand-green' : 'bg-red-500'
+                        user.isOnline ? 'bg-brand-green' : 'bg-red-500'
                       }`}
                     />
                   </div>
-                  {user ? 'آنلاین' : 'آفلاین'}
+                  {user.isOnline ? 'آنلاین' : 'آفلاین'}
                 </div>
               </div>
               <div className="flex items-center gap-x-[8px]">
