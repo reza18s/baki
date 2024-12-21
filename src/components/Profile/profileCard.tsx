@@ -19,7 +19,9 @@ import { optionTexts } from '@/utils';
 export const ProfileCard = ({
   user,
   className,
+  me = false,
 }: {
+  me?: boolean;
   user: User;
   className?: string;
 }) => {
@@ -57,11 +59,11 @@ export const ProfileCard = ({
               <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                 <div
                   className={`h-[8px] w-[8px] rounded-full ${
-                    user ? 'bg-brand-green' : 'bg-red-500'
+                    user.isOnline ? 'bg-brand-green' : 'bg-red-500'
                   }`}
                 />
               </div>
-              {user ? 'آنلاین' : 'آفلاین'}
+              {user.isOnline ? 'آنلاین' : 'آفلاین'}
             </div>
           </div>
           <div className="flex items-center gap-x-[8px]">
@@ -113,17 +115,24 @@ export const ProfileCard = ({
           items={user.livedInPlaces as string[] | undefined}
           title="مکان‌هایی که زندگی کرده‌ام"
         ></Info>
-        <div className="flex justify-between px-8">
-          <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
-            <IcTick></IcTick>
-          </div>
-          <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
-            <IcX></IcX>
-          </div>
-        </div>
-        <Button className="mx-8 py-4" onClick={() => setIsOpen('sendMessage')}>
-          ارسال پیام
-        </Button>
+        {!me && (
+          <>
+            <div className="flex justify-between px-8">
+              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+                <IcTick></IcTick>
+              </div>
+              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+                <IcX></IcX>
+              </div>
+            </div>
+            <Button
+              className="mx-8 py-4"
+              onClick={() => setIsOpen('sendMessage')}
+            >
+              ارسال پیام
+            </Button>
+          </>
+        )}
       </div>
       <SendMessageModal
         isOpen={isOpen === 'sendMessage'}

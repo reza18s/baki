@@ -21,6 +21,10 @@ export const paths = {
   },
   profile: {
     main: '/profile', // User profile page
+    userProfile: {
+      main: '/profile/:id',
+      exactPath: (id: string) => `/profile/${id}`,
+    },
     editProfile: '/profile/edit_profile',
     completeProfile: '/profile/complete_profile', // Complete profile page
     identityVerification: '/profile/complete_profile/identify_verification', // Identity verification

@@ -54,9 +54,15 @@ export default function ExploreCard({
           if (info.offset.x > 200) {
             setSwipeDirection('right');
             handleSwipe(user.id, 'right'); // Swipe right logic
+            setTimeout(() => {
+              setRotation(0);
+            }, 200);
           } else if (info.offset.x < -200) {
             setSwipeDirection('left');
             handleSwipe(user.id, 'left'); // Swipe left logic
+            setTimeout(() => {
+              setRotation(0);
+            }, 200);
           } else {
             // Reset rotation with animation when swipe is canceled
             setRotation(0);

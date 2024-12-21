@@ -106,7 +106,6 @@ export const getSmokeStatusLabel = (value?: string) => {
   return smokeStatus.find((val) => val.value === value)?.label;
 };
 export const getZodiacSignsLabel = (value?: string) => {
-  console.log(value);
   if (!value) {
     return undefined;
   }

@@ -1,5 +1,5 @@
 import moment from 'jalali-moment';
-import jalaali from 'jalaali-js';
+import jalaali, { toGregorian } from 'jalaali-js';
 
 import { DateTime } from 'luxon';
 
@@ -142,4 +142,41 @@ export function getLastMessageTime(lastMessageTimestamp: string): string {
     );
     return `${jalaaliDate.jy}/${jalaaliDate.jm.toString().padStart(2, '0')}/${jalaaliDate.jd.toString().padStart(2, '0')}`;
   }
+}
+export function calculateAgeFromJalali(birthDateJalali: string): number {
+  // اگر روز مشخص نشده باشد، روز ۱م را به صورت پیش‌فرض اضافه می‌کنیم
+  const fullDate = birthDateJalali.includes('/')
+    ? birthDateJalali.split('/').length === 2
+      ? `${birthDateJalali}/1`
+      : birthDateJalali
+    : `${birthDateJalali}/1/1`;
+
+  // جدا کردن سال، ماه و روز
+  const [birthYear, birthMonth, birthDay] = fullDate.split('/').map((value) => {
+    const num = Number(value.trim()); // حذف فاصله اضافی و تبدیل به عدد
+    if (isNaN(num)) {
+      throw new Error("Invalid date format. Please use 'YYYY/MM/DD'.");
+    }
+    return num;
+  });
+
+  // تبدیل تاریخ شمسی به میلادی
+  const gregorianDate = toGregorian(birthYear, birthMonth, birthDay);
+
+  // تاریخ امروز میلادی
+  const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth() + 1; // ماه‌ها از 0 شروع می‌شوند
+  const todayDay = today.getDate();
+
+  // محاسبه سن
+  let age = todayYear - gregorianDate.gy;
+  if (
+    todayMonth < gregorianDate.gm ||
+    (todayMonth === gregorianDate.gm && todayDay < gregorianDate.gd)
+  ) {
+    age--; // هنوز تولد نرسیده
+  }
+
+  return age;
 }

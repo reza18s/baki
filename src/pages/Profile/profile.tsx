@@ -2,7 +2,7 @@ import { IcEdit } from '@/components/icons/IcEdit';
 import { IcSetting } from '@/components/icons/IcSetting';
 import { Page } from '@/components/layout/Page';
 import { useGetMeQuery, User } from '@/graphql/generated/graphql.codegen';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CardImage from '../../assets/images/image.png';
 import { MdVerified } from 'react-icons/md';
 import Button from '@/components/base/Button/Button';
@@ -12,8 +12,11 @@ import { ProfileCard } from '@/components/Profile/profileCard';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 
 export const Profile = () => {
-  const { data, loading } = useGetMeQuery();
+  const { data, loading, refetch } = useGetMeQuery();
   const me = data?.getMe;
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <Page
       contentClassName="pt-20 p-4 flex flex-col gap-8 pb-20 items-center"
@@ -56,7 +59,7 @@ export const Profile = () => {
               <Button className="w-full"> تکمیل پروفایل</Button>
             </Link>
           </div>
-          <ProfileCard user={me as User}></ProfileCard>
+          <ProfileCard user={me as User} me={true}></ProfileCard>
         </>
       )}
     </Page>

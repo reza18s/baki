@@ -80,9 +80,9 @@ export const ContactPage = () => {
   };
 
   const handleTouchMove = () => {
-    setIsScrolling(true); // Mark as scrolling
+    setIsScrolling(true);
     if (holdTimeout) {
-      clearTimeout(holdTimeout); // Cancel long press
+      clearTimeout(holdTimeout);
       setHoldTimeout(null);
     }
   };
@@ -92,16 +92,6 @@ export const ContactPage = () => {
       clearTimeout(holdTimeout);
       setHoldTimeout(null);
     }
-  };
-
-  const handleClick = (message: Message) => {
-    if (!isHold && !isScrolling) {
-      // Handle regular click
-      console.log('Message clicked:', message);
-      toggleSelect(message);
-    }
-    setIsHold(false); // Reset hold state after click
-    setIsScrolling(false); // Reset scrolling state
   };
 
   const handleInput = () => {
@@ -115,6 +105,78 @@ export const ContactPage = () => {
       const maxHeight = lineHeight * 5;
       textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
     }
+  };
+
+  const formatDate = (isoDate: string) => {
+    return DateTime.fromISO(isoDate)
+      .setZone('Asia/Tehran')
+      .toLocaleString(DateTime.DATE_MED); // Format as "Dec 18, 2023"
+  };
+
+  const renderMessagesWithDateDividers = () => {
+    let lastDate = '';
+    return messages.map((message, index) => {
+      const messageDate = DateTime.fromISO(message.createdAt)
+        .setZone('Asia/Tehran')
+        .toFormat('yyyy-MM-dd');
+
+      const showDateDivider = messageDate !== lastDate;
+      lastDate = messageDate;
+
+      return (
+        <React.Fragment key={message.id}>
+          {showDateDivider && (
+            <div className="flex justify-center py-2 text-xs text-gray-500">
+              {formatDate(message.createdAt)}
+            </div>
+          )}
+          <div
+            className={cn(
+              'flex w-full items-center justify-end px-4 py-1 opacity-0 transition-all duration-300 ease-in-out',
+              selects.length > 0 && 'justify-between',
+              selects.some((val) => val.id === message.id) &&
+                'bg-brand-yellow/10',
+              message.senderId === me?.getMe?.id && 'justify-start gap-4',
+              'opacity-100',
+            )}
+            onTouchStart={() => handleMouseDown(message)}
+            onTouchEnd={handleMouseUpOrLeave}
+            onMouseDown={() => handleMouseDown(message)}
+            onMouseUp={handleMouseUpOrLeave}
+            onClick={
+              selects.length > 0 ? () => handleMouseUpOrLeave() : () => {}
+            }
+          >
+            <Checkbox
+              readOnly
+              className={cn('flex', selects.length == 0 && 'hidden')}
+              checked={selects.some((val) => val.id === message.id)}
+            />
+            <div
+              className={cn(
+                'flex w-fit max-w-[85%] flex-col rounded-xl rounded-bl-sm bg-white px-3 py-2 text-sm font-medium shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10),0px_1px_2px_0px_rgba(0,0,0,0.06)] transition-colors duration-300 ease-in-out',
+                selects.some((val) => val.id === message.id) &&
+                  'bg-brand-yellow/10',
+                message.senderId === me?.getMe?.id &&
+                  'rounded-xl rounded-br-sm bg-brand-yellow',
+              )}
+            >
+              <span>{message.content}</span>
+              <div
+                className={cn(
+                  'w-full text-end text-[9px]',
+                  message.senderId === me?.getMe?.id && 'text-start',
+                )}
+              >
+                {DateTime.fromISO(message.createdAt)
+                  .setZone('Asia/Tehran')
+                  .toFormat('HH:mm')}
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    });
   };
 
   return (
@@ -134,53 +196,9 @@ export const ContactPage = () => {
     >
       <div
         className="relative flex min-h-full w-full flex-col justify-end"
-        onTouchMove={handleTouchMove} // Detect scrolling
+        onTouchMove={handleTouchMove}
       >
-        {messages.map((message) => (
-          <div
-            key={message?.id}
-            className={cn(
-              'flex w-full items-center justify-end px-4 py-1 opacity-0 transition-all duration-300 ease-in-out',
-              selects.length > 0 && 'justify-between',
-              selects.some((val) => val.id === message?.id) &&
-                'bg-brand-yellow/10',
-              message?.senderId === me?.getMe?.id && 'justify-start gap-4',
-              'opacity-100',
-            )}
-            onTouchStart={() => handleMouseDown(message)}
-            onTouchEnd={handleMouseUpOrLeave}
-            onMouseDown={() => handleMouseDown(message)}
-            onMouseUp={handleMouseUpOrLeave}
-            onClick={selects.length > 0 ? () => handleClick(message) : () => {}} // Handle click
-          >
-            <Checkbox
-              readOnly
-              className={cn('flex', selects.length == 0 && 'hidden')}
-              checked={selects.some((val) => val.id === message?.id)}
-            />
-            <div
-              className={cn(
-                'flex w-fit max-w-[85%] flex-col rounded-xl rounded-bl-sm bg-white px-3 py-2 text-sm font-medium shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10),0px_1px_2px_0px_rgba(0,0,0,0.06)] transition-colors duration-300 ease-in-out',
-                selects.some((val) => val.id === message?.id) &&
-                  'bg-brand-yellow/10',
-                message?.senderId === me?.getMe?.id &&
-                  'rounded-xl rounded-br-sm bg-brand-yellow',
-              )}
-            >
-              <span>{message?.content}</span>
-              <div
-                className={cn(
-                  'w-full text-end text-[9px]',
-                  message?.senderId === me?.getMe?.id && 'text-start',
-                )}
-              >
-                {DateTime.fromISO(message.createdAt)
-                  .setZone('Asia/Tehran')
-                  .toFormat('HH:mm')}
-              </div>
-            </div>
-          </div>
-        ))}
+        {renderMessagesWithDateDividers()}
       </div>
       <div className="sticky bottom-0 w-full bg-white px-3 py-[10px] transition-all duration-300 ease-in-out">
         <form
@@ -191,8 +209,8 @@ export const ContactPage = () => {
                 chatId: chat!.id,
                 read: false,
                 content: value.message,
-                createdAt: new Date(),
-                id: '1',
+                createdAt: new Date().toISOString(),
+                id: `${Date.now()}`,
                 senderId: me!.getMe!.id,
               },
             ]);
