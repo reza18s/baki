@@ -10,7 +10,7 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { cn } from '@/lib/utils';
 import React, { useState } from 'react';
-import { Controller, Form, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 
 export const Confirm = () => {

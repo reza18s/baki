@@ -15,7 +15,7 @@ export const Contact: FC<
     hideChecked?: boolean;
   }
 > = ({ chat, me, checked, hideChecked = true, ...props }) => {
-  const user = chat.participants?.find((el) => el?.id !== me?.id);
+  const user = chat.participants?.[0];
   return (
     <div {...props}>
       <Checkbox
@@ -29,7 +29,7 @@ export const Contact: FC<
             <img src={CardImage}></img>
           </div>
           <div
-            className={`absolute bottom-1 left-0 size-[14px] rounded-full border-[2.5px] border-white ${false ? 'bg-brand-green' : 'bg-gray-400'}`}
+            className={`absolute bottom-1 left-0 size-[14px] rounded-full border-[2.5px] border-white ${user?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}
           ></div>
         </div>
         <div className="w-full border-b border-gray-100 pb-1">

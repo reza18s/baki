@@ -9,6 +9,7 @@ import { Gender } from '@/graphql/generated/graphql.codegen';
 
 export default function GenderStep(props: {
   handleNextStep: (user?: Partial<UserInfo>) => void;
+  loading: boolean;
 }) {
   const { control, watch, setValue } = useForm<{ gender?: Gender }>();
 
@@ -47,7 +48,9 @@ export default function GenderStep(props: {
         />
       </div>
       {/* Footer */}
-      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
+      <Button className="h-12" loading={props.loading} onClick={handleSubmit}>
+        ذخیره و بستن
+      </Button>
     </div>
   );
 }

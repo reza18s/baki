@@ -15,9 +15,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: { input: any; output: any; }
+  /** DateTime scalar type */
   DateTime: { input: any; output: any; }
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
+  /** Floats that will have a value greater than 0. */
   PositiveFloat: { input: any; output: any; }
 };
 
@@ -41,6 +45,7 @@ export type Chat = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
   participants?: Maybe<Array<Maybe<User>>>;
+  searchType: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -98,18 +103,21 @@ export type Liked = {
 
 export type Message = {
   chat?: Maybe<Chat>;
+  chatId: Scalars['String']['output'];
   content: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt: Scalars['DateTime']['output'];
   id: Scalars['String']['output'];
+  read: Scalars['Boolean']['output'];
   sender?: Maybe<User>;
+  senderId: Scalars['String']['output'];
 };
 
 export type Mutation = {
   Like?: Maybe<Liked>;
   Signin?: Maybe<Scalars['String']['output']>;
   activePlan?: Maybe<User>;
-  addToBlackList?: Maybe<Blacklist>;
-  addToFavorite?: Maybe<FavoriteList>;
+  addToBlackList?: Maybe<Scalars['JSON']['output']>;
+  addToFavorite?: Maybe<Scalars['JSON']['output']>;
   createReport?: Maybe<ViolationReport>;
   createRequest?: Maybe<Request>;
   logInAsGuest?: Maybe<AuthPayload>;
@@ -119,6 +127,7 @@ export type Mutation = {
   removeReport?: Maybe<ViolationReport>;
   removeRequest?: Maybe<Request>;
   requestPay: Scalars['JSON']['output'];
+  sendMessage?: Maybe<Message>;
   updateUser?: Maybe<User>;
   verifyOtp?: Maybe<AuthPayload>;
 };
@@ -145,12 +154,12 @@ export type MutationActivePlanArgs = {
 
 
 export type MutationAddToBlackListArgs = {
-  blockedId: Scalars['String']['input'];
+  blockedId: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationAddToFavoriteArgs = {
-  favoriteId: Scalars['String']['input'];
+  favoriteIds: Array<Scalars['String']['input']>;
 };
 
 
@@ -204,6 +213,13 @@ export type MutationRemoveRequestArgs = {
 export type MutationRequestPayArgs = {
   code?: InputMaybe<Scalars['String']['input']>;
   planId: Scalars['Int']['input'];
+};
+
+
+export type MutationSendMessageArgs = {
+  chatId?: InputMaybe<Scalars['String']['input']>;
+  content: Scalars['String']['input'];
+  receiverId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -268,6 +284,7 @@ export type PricePlan = {
 
 export type Query = {
   getBlockList: User;
+  getChat: Chat;
   getChats: Array<Chat>;
   getFavorite: User;
   getMe?: Maybe<User>;
@@ -277,6 +294,12 @@ export type Query = {
   getRequests: Array<Request>;
   getUser?: Maybe<User>;
   getUsers: Array<User>;
+  ok: Scalars['Boolean']['output'];
+};
+
+
+export type QueryGetChatArgs = {
+  chatId: Scalars['String']['input'];
 };
 
 
@@ -318,6 +341,7 @@ export type RandomUser = {
   gender: Gender;
   id: Scalars['String']['output'];
   images: Array<Scalars['String']['output']>;
+  isOnline: Scalars['Boolean']['output'];
   languages: Array<Scalars['String']['output']>;
   lastSeen: Scalars['DateTime']['output'];
   livedInPlaces: Array<Scalars['String']['output']>;
@@ -362,6 +386,11 @@ export enum Role {
   User = 'user'
 }
 
+export type Subscription = {
+  messageSent?: Maybe<Message>;
+  userStatus?: Maybe<User>;
+};
+
 export type Transaction = {
   amount: Scalars['Float']['output'];
   createdAt: Scalars['DateTime']['output'];
@@ -385,6 +414,7 @@ export type User = {
   gender?: Maybe<Gender>;
   id: Scalars['String']['output'];
   images?: Maybe<Array<Scalars['String']['output']>>;
+  isOnline?: Maybe<Scalars['Boolean']['output']>;
   languages?: Maybe<Array<Scalars['String']['output']>>;
   lastSeen?: Maybe<Scalars['DateTime']['output']>;
   liked?: Maybe<Array<Maybe<Liked>>>;
@@ -428,12 +458,28 @@ export type ViolationReport = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type AddToFavoriteMutationVariables = Exact<{
-  favoriteId: Scalars['String']['input'];
+export type AddToBlackListMutationVariables = Exact<{
+  blockedId: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type AddToFavoriteMutation = { addToFavorite?: { id: string } | null };
+export type AddToBlackListMutation = { addToBlackList?: any | null };
+
+export type SendMessageMutationVariables = Exact<{
+  content: Scalars['String']['input'];
+  chatId?: InputMaybe<Scalars['String']['input']>;
+  receiverId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type SendMessageMutation = { sendMessage?: { id: string, content: string, senderId: string } | null };
+
+export type AddToFavoriteMutationVariables = Exact<{
+  favoriteIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type AddToFavoriteMutation = { addToFavorite?: any | null };
 
 export type LikeMutationVariables = Exact<{
   likedUserId: Scalars['String']['input'];
@@ -506,27 +552,34 @@ export type GetRandomUserQueryVariables = Exact<{
 }>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, isOnline: boolean, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImages?: string | null, images: Array<string>, city: string, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 export type GetBlockListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null } | null> | null, Message?: Array<{ id: string, content: string, createdAt?: any | null, sender?: { username?: string | null, name?: string | null, id: string } | null } | null> | null } | null> | null, blacklists?: Array<{ id: string, userId: string, blockedId: string, createdAt?: any | null } | null> | null } };
+export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ id: string, content: string, createdAt: any, sender?: { username?: string | null, name?: string | null, id: string } | null } | null> | null } | null> | null, blacklists?: Array<{ id: string, userId: string, blockedId: string, createdAt?: any | null } | null> | null } };
 
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatsQuery = { getChats: Array<{ id: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null } | null> | null, Message?: Array<{ content: string, id: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null }> };
+export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ senderId: string, read: boolean, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null }> };
+
+export type GetChatQueryVariables = Exact<{
+  chatId: Scalars['String']['input'];
+}>;
+
+
+export type GetChatQuery = { getChat: { id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ senderId: string, read: boolean, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null } };
 
 export type GetFavoriteQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, createdAt?: any | null, Message?: Array<{ id: string, content: string, createdAt?: any | null, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null } | null> | null } | null> | null, favorites?: Array<{ id: string, userId: string, favoriteUserId: string, createdAt?: any | null, updatedAt?: any | null } | null> | null } };
+export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, createdAt?: any | null, Message?: Array<{ id: string, content: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null, isOnline?: boolean | null } | null> | null } | null> | null, favorites?: Array<{ id: string, userId: string, favoriteUserId: string, createdAt?: any | null, updatedAt?: any | null } | null> | null } };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -550,12 +603,88 @@ export type GetUserQueryVariables = Exact<{
 
 export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
+export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export const AddToFavoriteDocument = gql`
-    mutation AddToFavorite($favoriteId: String!) {
-  addToFavorite(favoriteId: $favoriteId) {
+
+export type MessageSentSubscription = { messageSent?: { id: string, content: string, senderId: string } | null };
+
+export type UserStatusSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserStatusSubscription = { userStatus?: { id: string, name?: string | null, isOnline?: boolean | null } | null };
+
+
+export const AddToBlackListDocument = gql`
+    mutation AddToBlackList($blockedId: [String!]!) {
+  addToBlackList(blockedId: $blockedId)
+}
+    `;
+export type AddToBlackListMutationFn = Apollo.MutationFunction<AddToBlackListMutation, AddToBlackListMutationVariables>;
+
+/**
+ * __useAddToBlackListMutation__
+ *
+ * To run a mutation, you first call `useAddToBlackListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToBlackListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToBlackListMutation, { data, loading, error }] = useAddToBlackListMutation({
+ *   variables: {
+ *      blockedId: // value for 'blockedId'
+ *   },
+ * });
+ */
+export function useAddToBlackListMutation(baseOptions?: Apollo.MutationHookOptions<AddToBlackListMutation, AddToBlackListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToBlackListMutation, AddToBlackListMutationVariables>(AddToBlackListDocument, options);
+      }
+export type AddToBlackListMutationHookResult = ReturnType<typeof useAddToBlackListMutation>;
+export type AddToBlackListMutationResult = Apollo.MutationResult<AddToBlackListMutation>;
+export type AddToBlackListMutationOptions = Apollo.BaseMutationOptions<AddToBlackListMutation, AddToBlackListMutationVariables>;
+export const SendMessageDocument = gql`
+    mutation SendMessage($content: String!, $chatId: String, $receiverId: String) {
+  sendMessage(content: $content, chatId: $chatId, receiverId: $receiverId) {
     id
+    content
+    senderId
   }
+}
+    `;
+export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutation, SendMessageMutationVariables>;
+
+/**
+ * __useSendMessageMutation__
+ *
+ * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
+ *   variables: {
+ *      content: // value for 'content'
+ *      chatId: // value for 'chatId'
+ *      receiverId: // value for 'receiverId'
+ *   },
+ * });
+ */
+export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendMessageMutation, SendMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument, options);
+      }
+export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
+export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
+export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
+export const AddToFavoriteDocument = gql`
+    mutation AddToFavorite($favoriteIds: [String!]!) {
+  addToFavorite(favoriteIds: $favoriteIds)
 }
     `;
 export type AddToFavoriteMutationFn = Apollo.MutationFunction<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
@@ -573,7 +702,7 @@ export type AddToFavoriteMutationFn = Apollo.MutationFunction<AddToFavoriteMutat
  * @example
  * const [addToFavoriteMutation, { data, loading, error }] = useAddToFavoriteMutation({
  *   variables: {
- *      favoriteId: // value for 'favoriteId'
+ *      favoriteIds: // value for 'favoriteIds'
  *   },
  * });
  */
@@ -879,6 +1008,7 @@ export const GetRandomUserDocument = gql`
     username
     phoneNumber
     gender
+    isOnline
     languages
     birthdate
     traveledToPlaces
@@ -948,6 +1078,7 @@ export const GetBlockListDocument = gql`
         name
         username
         images
+        isOnline
       }
       createdAt
       Message {
@@ -1006,6 +1137,7 @@ export const GetChatsDocument = gql`
     query GetChats {
   getChats {
     id
+    searchType
     participants {
       id
       name
@@ -1013,6 +1145,7 @@ export const GetChatsDocument = gql`
       phoneNumber
       mainImages
       lastSeen
+      isOnline
     }
     Message {
       sender {
@@ -1020,6 +1153,8 @@ export const GetChatsDocument = gql`
         name
         username
       }
+      senderId
+      read
       content
       id
       createdAt
@@ -1059,6 +1194,68 @@ export type GetChatsQueryHookResult = ReturnType<typeof useGetChatsQuery>;
 export type GetChatsLazyQueryHookResult = ReturnType<typeof useGetChatsLazyQuery>;
 export type GetChatsSuspenseQueryHookResult = ReturnType<typeof useGetChatsSuspenseQuery>;
 export type GetChatsQueryResult = Apollo.QueryResult<GetChatsQuery, GetChatsQueryVariables>;
+export const GetChatDocument = gql`
+    query GetChat($chatId: String!) {
+  getChat(chatId: $chatId) {
+    id
+    searchType
+    participants {
+      id
+      name
+      username
+      phoneNumber
+      mainImages
+      lastSeen
+      isOnline
+    }
+    Message {
+      sender {
+        id
+        name
+        username
+      }
+      senderId
+      read
+      content
+      id
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetChatQuery__
+ *
+ * To run a query within a React component, call `useGetChatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChatQuery({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *   },
+ * });
+ */
+export function useGetChatQuery(baseOptions: Apollo.QueryHookOptions<GetChatQuery, GetChatQueryVariables> & ({ variables: GetChatQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetChatQuery, GetChatQueryVariables>(GetChatDocument, options);
+      }
+export function useGetChatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChatQuery, GetChatQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetChatQuery, GetChatQueryVariables>(GetChatDocument, options);
+        }
+export function useGetChatSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetChatQuery, GetChatQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetChatQuery, GetChatQueryVariables>(GetChatDocument, options);
+        }
+export type GetChatQueryHookResult = ReturnType<typeof useGetChatQuery>;
+export type GetChatLazyQueryHookResult = ReturnType<typeof useGetChatLazyQuery>;
+export type GetChatSuspenseQueryHookResult = ReturnType<typeof useGetChatSuspenseQuery>;
+export type GetChatQueryResult = Apollo.QueryResult<GetChatQuery, GetChatQueryVariables>;
 export const GetFavoriteDocument = gql`
     query GetFavorite {
   getFavorite {
@@ -1080,6 +1277,7 @@ export const GetFavoriteDocument = gql`
         name
         username
         images
+        isOnline
       }
     }
     favorites {
@@ -1131,6 +1329,7 @@ export const GetMeDocument = gql`
     username
     id
     avatar
+    isOnline
     phoneNumber
     gender
     languages
@@ -1396,3 +1595,65 @@ export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const MessageSentDocument = gql`
+    subscription MessageSent {
+  messageSent {
+    id
+    content
+    senderId
+  }
+}
+    `;
+
+/**
+ * __useMessageSentSubscription__
+ *
+ * To run a query within a React component, call `useMessageSentSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMessageSentSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessageSentSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMessageSentSubscription(baseOptions?: Apollo.SubscriptionHookOptions<MessageSentSubscription, MessageSentSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<MessageSentSubscription, MessageSentSubscriptionVariables>(MessageSentDocument, options);
+      }
+export type MessageSentSubscriptionHookResult = ReturnType<typeof useMessageSentSubscription>;
+export type MessageSentSubscriptionResult = Apollo.SubscriptionResult<MessageSentSubscription>;
+export const UserStatusDocument = gql`
+    subscription UserStatus {
+  userStatus {
+    id
+    name
+    isOnline
+  }
+}
+    `;
+
+/**
+ * __useUserStatusSubscription__
+ *
+ * To run a query within a React component, call `useUserStatusSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserStatusSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserStatusSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserStatusSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UserStatusSubscription, UserStatusSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UserStatusSubscription, UserStatusSubscriptionVariables>(UserStatusDocument, options);
+      }
+export type UserStatusSubscriptionHookResult = ReturnType<typeof useUserStatusSubscription>;
+export type UserStatusSubscriptionResult = Apollo.SubscriptionResult<UserStatusSubscription>;

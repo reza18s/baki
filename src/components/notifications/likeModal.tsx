@@ -62,7 +62,7 @@ export const LikeModal = ({
       <div className="h-[calc(100%-56px)]">
         <AnimatePresence>
           <ExploreCard
-            className="h-[calc(100%-72px)]"
+            className="h-[calc(100%-72px)] w-[calc(100%-16px)]"
             handleSwipe={() => {}}
             inView={true}
             searchMethod={

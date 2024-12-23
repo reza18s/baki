@@ -1,0 +1,3 @@
+mutation AddToBlackList($blockedId: [String!]!) {
+  addToBlackList(blockedId: $blockedId)
+}

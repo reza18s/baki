@@ -2,11 +2,13 @@ import { IoEye } from 'react-icons/io5';
 import MonthPicker from '../shared/Inputs/MonthPicker';
 import { useLocalStore } from '../../store/useLocalStore';
 import { Controller, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { months } from '@/constants';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 import Button from '../base/Button/Button';
+import Modal from '../base/Modal/Modal';
+import { calculateAgeFromJalali } from '@/utils/datetime';
 
 export default function GetBirthdate() {
   const { control, watch, setValue } = useForm<{
@@ -17,6 +19,7 @@ export default function GetBirthdate() {
       year: '',
     },
   });
+  const [isOpen, setIsOpen] = useState(false);
   const userInfo = useLocalStore((store) => store.userInfo);
 
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
@@ -77,10 +80,7 @@ export default function GetBirthdate() {
           disabled={!watch('year') || watch('year').length < 4}
           onClick={() => {
             if (watch('year') && watch('month')) {
-              updateUserInfo({
-                birthdate: `${watch('year')}/${watch('month')?.key}`,
-              });
-              handleNextStep();
+              setIsOpen(true);
             } else {
               toast.custom(
                 (t) => (
@@ -99,6 +99,54 @@ export default function GetBirthdate() {
           بعدی
         </Button>
       </div>
+      <Modal
+        className="flex w-[90%] flex-col gap-6 rounded-3xl bg-white px-6 pb-2 pt-6"
+        isOpen={isOpen}
+        onRequestClose={() => {
+          setIsOpen(false);
+        }}
+      >
+        <h1 className="text-center text-2xl font-bold">
+          شما{' '}
+          {watch('year') &&
+            watch('month') &&
+            calculateAgeFromJalali(
+              `${watch('year')}/${watch('month')?.key}`,
+            )}{' '}
+          سال دارید.
+        </h1>
+        <div className="flex flex-col">
+          <Button
+            className="h-12 text-sm"
+            onClick={() => {
+              if (watch('year') && watch('month')) {
+                updateUserInfo({
+                  birthdate: `${watch('year')}/${watch('month')?.key}`,
+                });
+                handleNextStep();
+              } else {
+                toast.custom(
+                  (t) => (
+                    <Toast t={t} type="error">
+                      لطفا روز تولد خود را وارد کنید
+                    </Toast>
+                  ),
+                  { duration: 1500 },
+                );
+              }
+            }}
+          >
+            درسته!
+          </Button>
+          <Button
+            variant="text"
+            className="h-12 text-sm"
+            onClick={() => setIsOpen(false)}
+          >
+            تغییر تاریخ تولد
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

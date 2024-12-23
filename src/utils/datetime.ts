@@ -1,5 +1,5 @@
 import moment from 'jalali-moment';
-import jalaali from 'jalaali-js';
+import jalaali, { toGregorian } from 'jalaali-js';
 
 import { DateTime } from 'luxon';
 
@@ -75,27 +75,28 @@ export function convertGregorianToJalali(gregorianDate: string): string {
   const { jy, jm, jd } = jalaali.toJalaali(year, month, day); // تبدیل به شمسی
   return `${jy}-${jm.toString().padStart(2, '0')}-${jd.toString().padStart(2, '0')}`; // بازگشت تاریخ به فرمت yyyy/mm/dd
 }
-export function formatLastSeen(lastSeen: Date): string {
+export function formatLastSeen(lastSeenS: Date): string {
   const now = new Date();
+  const lastSeen = new Date(lastSeenS);
   const diffInSeconds = Math.floor((now.getTime() - lastSeen.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
-    return `${diffInSeconds}s ago`;
+    return `آخرین بازدید ${diffInSeconds} ثانیه پیش`;
   }
 
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   if (diffInMinutes < 60) {
-    return `${diffInMinutes}m ago`;
+    return `آخرین بازدید ${diffInMinutes} دقیقه پیش`;
   }
 
   const diffInHours = Math.floor(diffInMinutes / 60);
   if (diffInHours < 24) {
-    return `${diffInHours}h ago`;
+    return `آخرین بازدید ${diffInHours} ساعت پیش`;
   }
 
   const diffInDays = Math.floor(diffInHours / 24);
   if (diffInDays === 1) {
-    return 'Yesterday';
+    return 'دیروز';
   } else if (diffInDays < 7) {
     return lastSeen.toLocaleDateString(undefined, { weekday: 'long' });
   } else {
@@ -141,4 +142,41 @@ export function getLastMessageTime(lastMessageTimestamp: string): string {
     );
     return `${jalaaliDate.jy}/${jalaaliDate.jm.toString().padStart(2, '0')}/${jalaaliDate.jd.toString().padStart(2, '0')}`;
   }
+}
+export function calculateAgeFromJalali(birthDateJalali: string): number {
+  // اگر روز مشخص نشده باشد، روز ۱م را به صورت پیش‌فرض اضافه می‌کنیم
+  const fullDate = birthDateJalali.includes('/')
+    ? birthDateJalali.split('/').length === 2
+      ? `${birthDateJalali}/1`
+      : birthDateJalali
+    : `${birthDateJalali}/1/1`;
+
+  // جدا کردن سال، ماه و روز
+  const [birthYear, birthMonth, birthDay] = fullDate.split('/').map((value) => {
+    const num = Number(value.trim()); // حذف فاصله اضافی و تبدیل به عدد
+    if (isNaN(num)) {
+      throw new Error("Invalid date format. Please use 'YYYY/MM/DD'.");
+    }
+    return num;
+  });
+
+  // تبدیل تاریخ شمسی به میلادی
+  const gregorianDate = toGregorian(birthYear, birthMonth, birthDay);
+
+  // تاریخ امروز میلادی
+  const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth() + 1; // ماه‌ها از 0 شروع می‌شوند
+  const todayDay = today.getDate();
+
+  // محاسبه سن
+  let age = todayYear - gregorianDate.gy;
+  if (
+    todayMonth < gregorianDate.gm ||
+    (todayMonth === gregorianDate.gm && todayDay < gregorianDate.gd)
+  ) {
+    age--; // هنوز تولد نرسیده
+  }
+
+  return age;
 }

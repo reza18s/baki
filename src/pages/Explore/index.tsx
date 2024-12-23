@@ -21,20 +21,45 @@ import { CircleSpinner } from '@/components/base/Loader/Loader';
 import { IcFilterNotFound } from '@/components/icons/IcFilterNotFound';
 import Modal from '@/components/base/Modal/Modal';
 import { customToast } from '@/components/base/toast';
+import { IcSwapLeft } from '@/components/icons/IcSwapLeft';
+import { IcSwapRight } from '@/components/icons/IcSwapRight';
+import { IcHamburgerMenu } from '@/components/icons/IcHamburgerMenu';
+import { IcUndo } from '@/components/icons/IcUndo';
+import { IcTuning2 } from '@/components/icons/IcTuning2';
 
 export default function Explore() {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
   const setExploreEntered = useLocalStore((store) => store.setExploreEntered);
-  const [isOpen, setIsOpen] = useState<'searchType' | 'swipe'>();
+  const [isOpen, setIsOpen] = useState<
+    'searchType' | 'swipe' | 'swipe-left' | 'swipe-right'
+  >();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [noResult, setNoResult] = useState(false);
   const [start, setStart] = useState(false);
+  const [cardsHistory, setCardsHistory] = useState<RandomUser[]>([]);
+  const [cards, setCards] = useState<RandomUser[]>([]);
   const { filters, searchType } = useStore((store) => store);
+
   const history = useHistory();
-  const [getUser, { loading }] = useGetRandomUserLazyQuery();
+  const [getUser, { loading, refetch }] = useGetRandomUserLazyQuery({
+    variables: {
+      age: filters.age,
+      languages: filters.language,
+      mySpecialty: filters.mySpecialty,
+      province: filters.provinces,
+      travelInterests: filters.interest,
+    },
+    onCompleted: (data) => {
+      setCards(data.getRandomUser as RandomUser[]);
+      setNoResult(data.getRandomUser?.length === 0);
+    },
+
+    onError: () => {
+      customToast('کاربر موجود نیست', 'error');
+    },
+  });
   const [Like] = useLikeMutation();
 
-  const [cards, setCards] = useState<RandomUser[]>([]);
   useEffect(() => {
     if (!FirstEnter) {
       setIsOpen('searchType');
@@ -43,30 +68,29 @@ export default function Explore() {
   }, [FirstEnter]);
   useEffect(() => {
     if (start) {
-      getUser({
-        variables: {
-          age: filters.age,
-          languages: filters.language,
-          mySpecialty: filters.mySpecialty,
-          province: filters.provinces,
-          travelInterests: filters.interest,
-        },
-        onCompleted: (data) => {
-          // @ts-expect-error the
-          setCards(data.getRandomUser);
-          setNoResult(data.getRandomUser?.length === 0);
-        },
-        onError: (error) => {
-          console.log(error);
-          customToast('کاربر موجود نیست', 'error');
-        },
-      });
+      refetch();
     }
-  }, [start, filters]);
+  }, [filters]);
+  useEffect(() => {
+    setTimeout(() => {
+      if (start && cards.length <= 1) {
+        refetch().then(({ data }) => {
+          setCards((prev) => [
+            ...(data.getRandomUser as RandomUser[]).filter(
+              (el) => !prev.includes(el),
+            ),
+            ...prev,
+          ]);
+          setNoResult(data.getRandomUser?.length === 0);
+        });
+      }
+    }, 200);
+  }, [cards]);
   const handleSwipe = (id: string, direction: 'left' | 'right') => {
     if (direction === 'right') {
       Like({ variables: { likedUserId: id, searchType: searchType } });
     }
+    setCardsHistory((prev) => [cards.find((card) => card.id === id)!, ...prev]);
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
   return (
@@ -75,16 +99,24 @@ export default function Explore() {
       contentClassName="h-[calc(100%)]"
       scrollY={false}
       header={
-        <div className="flex h-12 w-full items-center justify-between p-3">
-          <SolarIconSet.HamburgerMenu
-            size={24}
-            onClick={() => {
-              setIsSidebarOpen(true);
-            }}
-          />
+        <div className="flex h-12 w-full items-center justify-between p-3 px-6">
+          <div className="flex gap-2">
+            <IcHamburgerMenu
+              onClick={() => {
+                setIsSidebarOpen(true);
+              }}
+            />
+            {cardsHistory.length > 0 && (
+              <IcUndo
+                onClick={() => {
+                  setCards((prev) => [...prev, cardsHistory[0]]);
+                  setCardsHistory((prev) => prev.splice(0, 1));
+                }}
+              ></IcUndo>
+            )}
+          </div>
           <img src={BakiLogo} alt="BakiLogo" />
-          <SolarIconSet.Tuning2
-            size={24}
+          <IcTuning2
             onClick={() => {
               history.push(paths.explore.filter);
             }}
@@ -127,22 +159,38 @@ export default function Explore() {
               </div>
             </div>
           ) : (
-            <AnimatePresence>
-              {cards.map((card, index) => (
-                <ExploreCard
-                  key={card.id}
-                  inView={index == cards.length - 1}
-                  handleSwipe={handleSwipe}
-                  user={card}
-                  searchMethod="تصادفی"
-                />
-              ))}
-            </AnimatePresence>
+            <>
+              {isOpen === 'swipe' && (
+                <div
+                  className="absolute z-[10] h-[calc(100%-16px)] w-[calc(100%-32px)] bg-white/70"
+                  onClick={() => setIsOpen(undefined)}
+                >
+                  <div className="flex h-full w-full items-center justify-center gap-24">
+                    <IcSwapRight></IcSwapRight>
+                    <IcSwapLeft></IcSwapLeft>
+                  </div>
+                </div>
+              )}
+              <AnimatePresence>
+                {cards.map((card, index) => (
+                  <ExploreCard
+                    key={card.id}
+                    inView={index == cards.length - 1}
+                    handleSwipe={handleSwipe}
+                    user={card}
+                    searchMethod="تصادفی"
+                  />
+                ))}
+              </AnimatePresence>
+            </>
           )
         ) : (
           <div
             className="size-full bg-warning-50 p-4"
-            onClick={() => setStart(true)}
+            onClick={() => {
+              setStart(true);
+              refetch();
+            }}
           >
             <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
               <IcExploreStart></IcExploreStart>
@@ -163,14 +211,14 @@ export default function Explore() {
       </div>
       <SearchTypeModal
         isOpen={isOpen === 'searchType'}
-        setClose={() => setIsOpen(undefined)}
+        setClose={() => setIsOpen('swipe')}
       ></SearchTypeModal>
       <SearchTypeSidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       ></SearchTypeSidebar>
       <Modal
-        isOpen={isOpen === 'swipe'}
+        isOpen={isOpen === 'swipe-right'}
         onRequestClose={() => setIsOpen(undefined)}
         onCloseEnd={() => setIsOpen(undefined)}
         className="flex w-[70%] flex-col gap-3 rounded-3xl bg-white px-5 py-3"
@@ -194,7 +242,38 @@ export default function Explore() {
             variant="outline"
             rounded="rounded-lg"
             className="h-y w-16 rounded-lg border-red-500 p-0 text-red-500"
-            onClick={() => history.goBack()}
+            onClick={() => setIsOpen('searchType')}
+          >
+            بازگشت
+          </Button>
+        </div>
+      </Modal>{' '}
+      <Modal
+        isOpen={isOpen === 'swipe-right'}
+        onRequestClose={() => setIsOpen(undefined)}
+        onCloseEnd={() => setIsOpen(undefined)}
+        className="flex w-[70%] flex-col gap-3 rounded-3xl bg-white px-5 py-3"
+      >
+        <div className="flex flex-col gap-2 text-lg font-bold">
+          خوشتون نیومد؟
+          <span className="text-sm text-gray-500">
+            کشیدن پروفایل همسفر به سمت چپ به معنای عدم علاقه به ایجاد ارتباط
+            می‌باشد.
+          </span>
+        </div>
+        <div className="mt-3 flex justify-end gap-2">
+          <Button
+            className="h-7 w-16 border-black p-0"
+            rounded="rounded-lg"
+            onClick={() => setIsOpen(undefined)}
+          >
+            درسته!
+          </Button>
+          <Button
+            variant="outline"
+            rounded="rounded-lg"
+            className="h-y w-16 rounded-lg border-red-500 p-0 text-red-500"
+            onClick={() => setIsOpen('searchType')}
           >
             بازگشت
           </Button>

@@ -54,9 +54,15 @@ export default function ExploreCard({
           if (info.offset.x > 200) {
             setSwipeDirection('right');
             handleSwipe(user.id, 'right'); // Swipe right logic
+            setTimeout(() => {
+              setRotation(0);
+            }, 200);
           } else if (info.offset.x < -200) {
             setSwipeDirection('left');
             handleSwipe(user.id, 'left'); // Swipe left logic
+            setTimeout(() => {
+              setRotation(0);
+            }, 200);
           } else {
             // Reset rotation with animation when swipe is canceled
             setRotation(0);
@@ -107,11 +113,11 @@ export default function ExploreCard({
                   <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                     <div
                       className={`h-[8px] w-[8px] rounded-full ${
-                        user ? 'bg-brand-green' : 'bg-red-500'
+                        user.isOnline ? 'bg-brand-green' : 'bg-red-500'
                       }`}
                     />
                   </div>
-                  {user ? 'آنلاین' : 'آفلاین'}
+                  {user.isOnline ? 'آنلاین' : 'آفلاین'}
                 </div>
               </div>
               <div className="flex items-center gap-x-[8px]">

@@ -1,0 +1,7 @@
+subscription UserStatus {
+  userStatus {
+    id
+    name
+    isOnline
+  }
+}

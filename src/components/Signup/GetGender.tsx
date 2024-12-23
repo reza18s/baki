@@ -35,7 +35,7 @@ export default function GetGender() {
         <div className="flex items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
           <p className="text-xs font-medium leading-none text-brand-black">
-            این نام در پروفایل شما نمایش داده خواهد شد .
+            شما میتوانید این بخش را در آینده تغییر دهید.
           </p>
         </div>
         <button

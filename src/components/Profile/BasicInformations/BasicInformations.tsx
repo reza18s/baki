@@ -34,7 +34,7 @@ export default function BasicInformations() {
   const { setBasicInformationsStep, basicInformationsStep } = useStore(
     (s) => s,
   );
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { loading }] = useUpdateUserMutation();
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const hs = useHistory();
   const handleNextStep = (user?: Partial<UserInfo>) => {
@@ -70,34 +70,31 @@ export default function BasicInformations() {
         <AppBar
           title="اطلاعات اولیه"
           onBack={() => {
-            
-              hs.goBack();
-            
+            hs.goBack();
           }}
         ></AppBar>
       }
     >
-     
       {basicInformationsStep === 0 && (
-        <GenderStep handleNextStep={handleNextStep} />
+        <GenderStep handleNextStep={handleNextStep} loading={loading} />
       )}
       {basicInformationsStep === 1 && (
-        <BirthdateStep handleNextStep={handleNextStep} />
+        <BirthdateStep handleNextStep={handleNextStep} loading={loading} />
       )}
       {basicInformationsStep === 2 && (
-        <MaritalStatusStep handleNextStep={handleNextStep} />
+        <MaritalStatusStep handleNextStep={handleNextStep} loading={loading} />
       )}
       {basicInformationsStep === 3 && (
-        <CigarettesStep handleNextStep={handleNextStep} />
+        <CigarettesStep handleNextStep={handleNextStep} loading={loading} />
       )}
       {basicInformationsStep === 4 && (
-        <SportStep handleNextStep={handleNextStep} />
+        <SportStep handleNextStep={handleNextStep} loading={loading} />
       )}
       {basicInformationsStep === 5 && (
-        <WakeUpEarlyStep handleNextStep={handleNextStep} />
+        <WakeUpEarlyStep handleNextStep={handleNextStep} loading={loading} />
       )}
       {basicInformationsStep === 6 && (
-        <SpiritStep handleNextStep={handleNextStep} />
+        <SpiritStep handleNextStep={handleNextStep} loading={loading} />
       )}
     </Page>
   );

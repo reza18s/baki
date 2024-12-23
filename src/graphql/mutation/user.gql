@@ -62,6 +62,7 @@ query GetRandomUser(
     username
     phoneNumber
     gender
+    isOnline
     languages
     birthdate
     traveledToPlaces

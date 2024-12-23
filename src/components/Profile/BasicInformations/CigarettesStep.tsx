@@ -8,6 +8,7 @@ import { customToast } from '@/components/base/toast';
 
 export default function CigarettesStep(props: {
   handleNextStep: (user?: Partial<UserInfo>) => void;
+  loading: boolean;
 }) {
   const { control, watch, setValue } = useForm();
 
@@ -48,7 +49,9 @@ export default function CigarettesStep(props: {
           name="smokeStatus"
         />
       </div>
-      <Button onClick={handleSubmit}>ذخیره و بستن</Button>
+      <Button className="h-12" loading={props.loading} onClick={handleSubmit}>
+        ذخیره و بستن
+      </Button>
     </div>
   );
 }

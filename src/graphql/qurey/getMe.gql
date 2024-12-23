@@ -4,6 +4,7 @@ query GetMe {
     username
     id
     avatar
+    isOnline
     phoneNumber
     gender
     languages

@@ -1,0 +1,7 @@
+mutation SendMessage($content: String!, $chatId: String, $receiverId: String) {
+  sendMessage(content: $content, chatId: $chatId, receiverId: $receiverId) {
+    id
+    content
+    senderId
+  }
+}
