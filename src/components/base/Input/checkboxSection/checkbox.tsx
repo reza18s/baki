@@ -1,4 +1,4 @@
-import { clsx } from 'clsx';
+import { cn } from '@/lib/utils';
 import { ClassAttributes, InputHTMLAttributes } from 'react';
 import React from 'react';
 
@@ -10,7 +10,7 @@ const Checkbox = ({
   return (
     <input
       type="checkbox"
-      className={clsx(
+      className={cn(
         'custom-checkbox h-5 w-5 appearance-none rounded border-2 border-gray-400 bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0',
         className,
       )}

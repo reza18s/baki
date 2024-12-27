@@ -13,6 +13,7 @@ import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
+import { client } from './client';
 
 // ----------------- GraphQL Mutation -----------------
 const REFRESH_TOKEN_MUTATION = gql`
@@ -86,9 +87,10 @@ const errorLink = onError(
   ({ graphQLErrors, networkError, operation, forward }) => {
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
-        if (err.extensions?.code === 'INVALID_TOKEN') {
+        // @ts-expect-error the
+        if (err?.code === 'INVALID_TOKEN') {
           return new Observable((observer) => {
-            refreshAccessToken(socket)
+            refreshAccessToken(client)
               .then((newToken) => {
                 if (newToken) {
                   operation.setContext(({ headers = {} }) => ({
@@ -153,6 +155,15 @@ const wsLink = new GraphQLWsLink(
       return {
         authorization: token ? `Bearer ${token}` : '',
       };
+    },
+    on: {
+      error: (error) => {
+        console.error('WebSocket error:', error);
+        customToast(
+          'مشکلی در اتصال به سرور پیش آمد. لطفا دوباره تلاش کنید.',
+          'error',
+        );
+      },
     },
   }),
 );

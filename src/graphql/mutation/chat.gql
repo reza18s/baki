@@ -1,7 +1,28 @@
-mutation SendMessage($content: String!, $chatId: String, $receiverId: String) {
-  sendMessage(content: $content, chatId: $chatId, receiverId: $receiverId) {
+mutation SendMessage(
+  $content: String!
+  $replyId: String
+  $receiverId: String
+  $chatId: String
+) {
+  sendMessage(
+    content: $content
+    replyId: $replyId
+    receiverId: $receiverId
+    chatId: $chatId
+  ) {
     id
     content
-    senderId
   }
+}
+mutation DelMessages($messagesId: [String!]!) {
+  delMessages(messagesId: $messagesId)
+}
+mutation EditMessage($messageId: String!, $content: String!) {
+  editMessage(messageId: $messageId, content: $content) {
+    id
+    content
+  }
+}
+mutation DelChat($chatsId: [String!]!) {
+  delChat(chatsId: $chatsId)
 }

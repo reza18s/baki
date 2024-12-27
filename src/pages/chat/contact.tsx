@@ -1,98 +1,96 @@
-import { Page } from '@/components/layout/Page';
-
 import {
   Message,
+  useEditMessageMutation,
   useGetChatQuery,
-  useGetMeQuery,
   useSendMessageMutation,
 } from '@/graphql/generated/graphql.codegen';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import BgChat from '../../assets/images/bg-chat.png';
-import { cn } from '@/lib/utils';
-import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
-import { IcMicrophone } from '@/components/icons/IcMicrophone';
-import { IcPaperclip } from '@/components/icons/IcPaperclip';
-import { IcChat } from '@/components/icons/IcChat';
-import { IcFace } from '@/components/icons/IcFace';
 import { Controller, useForm } from 'react-hook-form';
+import BgChat from '../../assets/images/bg-chat.png';
+import { Page } from '@/components/layout/Page';
 import { ContactBar } from '@/components/chat/contactBar';
-import { IcSend } from '@/components/icons/IcSend';
+import { Messages } from '@/components/chat/messages';
 import Button from '@/components/base/Button/Button';
 import { socket } from '@/graphql/apollo/socket';
-import { DateTime } from 'luxon';
+import { IcSend } from '@/components/icons/IcSend';
+import { IcMicrophone } from '@/components/icons/IcMicrophone';
+import { IcFace } from '@/components/icons/IcFace';
+import { IcChat } from '@/components/icons/IcChat';
+import { IcPaperclip } from '@/components/icons/IcPaperclip';
+import { IcXCircle } from '@/components/icons/IcXCircle';
+import { IcReply } from '@/components/icons/IcReply';
+import { IcPen } from '@/components/icons/IcPen';
+import { useStore } from '@/store/useStore';
+import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 
 export const ContactPage = () => {
   const chatContainerRef = useRef<HTMLIonContentElement | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const {
+    isSearch,
+    search,
+    setSearches,
+    searches,
+    setSelectSearch,
+    selectSearch,
+  } = useStore((s) => s);
   const [selects, setSelects] = useState<Message[]>([]);
+  const [reply, setReply] = useState<Message>();
+  const [edit, setEdit] = useState<Message>();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [isHold, setIsHold] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
-
-  const { control, watch, handleSubmit, reset } = useForm<{
+  const [once, setOnce] = useState(false);
+  const { control, watch, handleSubmit, reset, setValue } = useForm<{
     message: string;
   }>();
-
   const { id }: { id: string } = useParams();
-  const { data } = useGetChatQuery({ variables: { chatId: id } });
-  const { data: me } = useGetMeQuery({
-    onError(err) {
-      if (err.message === 'Failed to fetch') {
-        return;
-      }
+  const { data } = useGetChatQuery({
+    variables: { chatId: id },
+    onError(error) {
+      console.log(error);
     },
   });
+  useEffect(() => {
+    if (isSearch && search.length) {
+      const searches = messages
+        .filter((el) => el.content.includes(search))
+        .map((el) => el.id);
+      setSearches(searches);
+      setSelectSearch(searches[searches.length - 1]);
+    }
+  }, [search]);
 
-  const [sendMessage] = useSendMessageMutation({ client: socket });
+  const [sendMessage] = useSendMessageMutation({
+    client: socket,
+  });
+  const [editMessage] = useEditMessageMutation({
+    client: socket,
+  });
+
   const chat = data?.getChat;
 
   useEffect(() => {
     if (data?.getChat?.Message) {
-      setMessages(data.getChat.Message);
+      setMessages(data.getChat.Message as Message[]);
     }
-    chatContainerRef.current?.scrollToBottom(500);
-  }, [chat?.Message, messages]);
+  }, [data?.getChat.Message]);
 
-  const toggleSelect = (message: Message) => {
-    setSelects((prev) => {
-      const isSelected = prev.some(
-        (selectedChat) => selectedChat.id === message.id,
-      );
-      if (isSelected) {
-        return prev.filter((selectedChat) => selectedChat.id !== message.id);
-      } else {
-        return [...prev, message];
+  useEffect(() => {
+    // Scroll to the bottom when messages are loaded
+    if (chatContainerRef.current && messages.length > 0) {
+      if (!once) {
+        chatContainerRef.current.scrollToPoint(
+          null,
+          (chatContainerRef.current.children.item(1)?.clientHeight || 0) -
+            chatContainerRef.current.clientHeight -
+            100,
+          0,
+        );
+        setOnce(true);
       }
-    });
-  };
-
-  const handleMouseDown = (message: Message) => {
-    setIsScrolling(false);
-    const timeout = setTimeout(() => {
-      if (!isScrolling) {
-        setIsHold(true);
-        toggleSelect(message);
-      }
-    }, 500);
-    setHoldTimeout(timeout);
-  };
-
-  const handleTouchMove = () => {
-    setIsScrolling(true);
-    if (holdTimeout) {
-      clearTimeout(holdTimeout);
-      setHoldTimeout(null);
+      chatContainerRef.current.scrollToBottom(500);
     }
-  };
-
-  const handleMouseUpOrLeave = () => {
-    if (holdTimeout) {
-      clearTimeout(holdTimeout);
-      setHoldTimeout(null);
-    }
-  };
+  }, [messages]);
 
   const handleInput = () => {
     if (textareaRef.current) {
@@ -106,77 +104,57 @@ export const ContactPage = () => {
       textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
     }
   };
+  useEffect(() => {
+    if (watch('message')) {
+      handleInput();
+    }
+  }, [watch('message')]);
 
-  const formatDate = (isoDate: string) => {
-    return DateTime.fromISO(isoDate)
-      .setZone('Asia/Tehran')
-      .toLocaleString(DateTime.DATE_MED); // Format as "Dec 18, 2023"
+  const toggleSelect = (message: Message) => {
+    setSelects((prev) => {
+      const isSelected = prev.some(
+        (selectedChat) => selectedChat.id === message.id,
+      );
+      return isSelected
+        ? prev.filter((selectedChat) => selectedChat.id !== message.id)
+        : [...prev, message];
+    });
   };
 
-  const renderMessagesWithDateDividers = () => {
-    let lastDate = '';
-    return messages.map((message, index) => {
-      const messageDate = DateTime.fromISO(message.createdAt)
-        .setZone('Asia/Tehran')
-        .toFormat('yyyy-MM-dd');
+  const onSubmit = async (
+    value: { message: string },
+    action: 'send' | 'edit',
+  ) => {
+    if (!value.message.trim()) {
+      return;
+    }
+    try {
+      if (action == 'send') {
+        await sendMessage({
+          variables: {
+            chatId: chat?.id,
+            content: value.message,
+            replyId: reply?.id,
+          },
+        });
+        setReply(undefined);
+      } else if (edit) {
+        await editMessage({
+          variables: {
+            messageId: edit?.id,
+            content: value.message,
+          },
+        });
+        setEdit(undefined);
+      }
 
-      const showDateDivider = messageDate !== lastDate;
-      lastDate = messageDate;
-
-      return (
-        <React.Fragment key={message.id}>
-          {showDateDivider && (
-            <div className="flex justify-center py-2 text-xs text-gray-500">
-              {formatDate(message.createdAt)}
-            </div>
-          )}
-          <div
-            className={cn(
-              'flex w-full items-center justify-end px-4 py-1 opacity-0 transition-all duration-300 ease-in-out',
-              selects.length > 0 && 'justify-between',
-              selects.some((val) => val.id === message.id) &&
-                'bg-brand-yellow/10',
-              message.senderId === me?.getMe?.id && 'justify-start gap-4',
-              'opacity-100',
-            )}
-            onTouchStart={() => handleMouseDown(message)}
-            onTouchEnd={handleMouseUpOrLeave}
-            onMouseDown={() => handleMouseDown(message)}
-            onMouseUp={handleMouseUpOrLeave}
-            onClick={
-              selects.length > 0 ? () => handleMouseUpOrLeave() : () => {}
-            }
-          >
-            <Checkbox
-              readOnly
-              className={cn('flex', selects.length == 0 && 'hidden')}
-              checked={selects.some((val) => val.id === message.id)}
-            />
-            <div
-              className={cn(
-                'flex w-fit max-w-[85%] flex-col rounded-xl rounded-bl-sm bg-white px-3 py-2 text-sm font-medium shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10),0px_1px_2px_0px_rgba(0,0,0,0.06)] transition-colors duration-300 ease-in-out',
-                selects.some((val) => val.id === message.id) &&
-                  'bg-brand-yellow/10',
-                message.senderId === me?.getMe?.id &&
-                  'rounded-xl rounded-br-sm bg-brand-yellow',
-              )}
-            >
-              <span>{message.content}</span>
-              <div
-                className={cn(
-                  'w-full text-end text-[9px]',
-                  message.senderId === me?.getMe?.id && 'text-start',
-                )}
-              >
-                {DateTime.fromISO(message.createdAt)
-                  .setZone('Asia/Tehran')
-                  .toFormat('HH:mm')}
-              </div>
-            </div>
-          </div>
-        </React.Fragment>
-      );
-    });
+      reset();
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
   };
 
   return (
@@ -186,7 +164,17 @@ export const ContactPage = () => {
         <ContactBar
           clearSelect={() => setSelects([])}
           selects={selects}
+          //@ts-expect-error the
           contact={chat?.participants?.[0]}
+          setEdit={(message) => {
+            setReply(undefined);
+            setEdit(message);
+            setValue('message', message.content);
+            setSelects([]);
+          }}
+          deleteMessages={(ids) => {
+            setMessages((prev) => prev.filter((msg) => !ids.includes(msg.id)));
+          }}
         />
       }
       contentClassName="min-h-full relative flex flex-col bg-transparent"
@@ -194,73 +182,126 @@ export const ContactPage = () => {
       ref={chatContainerRef}
       bgImage={BgChat}
     >
-      <div
-        className="relative flex min-h-full w-full flex-col justify-end"
-        onTouchMove={handleTouchMove}
-      >
-        {renderMessagesWithDateDividers()}
-      </div>
-      <div className="sticky bottom-0 w-full bg-white px-3 py-[10px] transition-all duration-300 ease-in-out">
-        <form
-          onSubmit={handleSubmit((value) => {
-            setMessages((prev) => [
-              ...prev,
-              {
-                chatId: chat!.id,
-                read: false,
-                content: value.message,
-                createdAt: new Date().toISOString(),
-                id: `${Date.now()}`,
-                senderId: me!.getMe!.id,
-              },
-            ]);
-            sendMessage({
-              variables: {
-                chatId: chat?.id,
-                content: value.message,
-              },
-            });
-            reset();
-          })}
-        >
-          <div className="flex items-end gap-3">
-            {watch('message')?.length > 0 ? (
-              <Button
-                variant="text"
-                type="submit"
-                className="mb-1 flex items-center justify-center p-0"
-              >
-                <IcSend />
-              </Button>
-            ) : (
-              <IcMicrophone className="mb-1" />
-            )}
-            <Controller
-              name="message"
-              control={control}
-              defaultValue=""
-              rules={{ required: true, min: 5 }}
-              render={({ field }) => (
-                <div className="flex flex-1 items-end justify-between rounded-lg bg-gray-50 px-2 py-[6px]">
-                  <textarea
-                    rows={1}
-                    placeholder="پیام خود را یادداشت کنید"
-                    onInput={handleInput}
-                    className="flex-1 resize-none bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none transition-all duration-300 ease-in-out"
-                    style={{
-                      transition: 'height 0.2s ease',
-                    }}
-                    {...field}
-                    ref={textareaRef}
-                  />
-                  <IcFace />
-                </div>
-              )}
-            />
-            <IcChat className="mb-1" />
-            <IcPaperclip className="mb-1" />
+      <Messages
+        setReply={(message) => {
+          setEdit(undefined);
+          setReply(message);
+        }}
+        messages={messages}
+        selects={selects}
+        toggleSelect={toggleSelect}
+      />
+      <div className="sticky bottom-0 w-screen bg-white px-3 py-[10px] transition-all duration-300 ease-in-out">
+        {isSearch ? (
+          <div className="flex w-full justify-between">
+            <p>
+              {`${searches.findIndex((el) => el === selectSearch) + 1} از
+              ${searches.length}`}
+            </p>
+            <div className="flex gap-2">
+              <IcArrowLeft
+                className="rotate-90"
+                onClick={() =>
+                  setSelectSearch(
+                    searches[
+                      searches.findIndex((el) => el === selectSearch) - 1
+                    ],
+                  )
+                }
+              ></IcArrowLeft>
+              <IcArrowLeft
+                className="-rotate-90"
+                onClick={() =>
+                  setSelectSearch(
+                    searches[
+                      searches.findIndex((el) => el === selectSearch) + 1
+                    ],
+                  )
+                }
+              ></IcArrowLeft>
+            </div>
           </div>
-        </form>
+        ) : (
+          <>
+            {reply && (
+              <div className="mb-4 flex w-full items-center gap-3 bg-white">
+                <div className="flex flex-1 items-center rounded-lg bg-gray-100 px-3 py-2">
+                  <div className="w-full">
+                    <h1 className="truncate text-sm font-bold">
+                      {reply.sender?.name}
+                    </h1>
+                    <div className="max-w-[70vw] overflow-hidden truncate text-xs text-gray-500">
+                      {reply?.content}
+                    </div>
+                  </div>
+                  <IcReply></IcReply>
+                </div>
+                <IcXCircle
+                  onClick={() => setReply(undefined)}
+                  className="stroke size-5 stroke-brand-black"
+                ></IcXCircle>
+              </div>
+            )}
+            {edit && (
+              <div className="mb-4 flex w-full items-center gap-3 bg-white">
+                <div className="flex flex-1 items-center rounded-lg bg-gray-100 px-3 py-2">
+                  <div className="w-full">
+                    <h1 className="truncate text-sm font-bold">
+                      {edit.sender?.name}
+                    </h1>
+                    <div className="max-w-[70vw] overflow-hidden truncate text-xs text-gray-500">
+                      {edit?.content}
+                    </div>
+                  </div>
+                  <IcPen></IcPen>
+                </div>
+                <IcXCircle
+                  onClick={() => setEdit(undefined)}
+                  className="stroke size-5 stroke-brand-black"
+                ></IcXCircle>
+              </div>
+            )}
+            <form
+              onSubmit={handleSubmit((val) =>
+                edit ? onSubmit(val, 'edit') : onSubmit(val, 'send'),
+              )}
+            >
+              <div className="flex items-end gap-3">
+                {watch('message')?.trim().length > 0 ? (
+                  <Button
+                    variant="text"
+                    type="submit"
+                    className="mb-1 flex items-center justify-center p-0"
+                  >
+                    <IcSend />
+                  </Button>
+                ) : (
+                  <IcMicrophone className="mb-1" />
+                )}
+                <Controller
+                  name="message"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <div className="flex flex-1 items-end justify-between rounded-lg bg-gray-50 px-2 py-[6px]">
+                      <textarea
+                        rows={1}
+                        placeholder="پیام خود را یادداشت کنید"
+                        onInput={handleInput}
+                        className="flex-1 resize-none bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
+                        {...field}
+                        ref={textareaRef}
+                      />
+                      <IcFace />
+                    </div>
+                  )}
+                />
+                <IcChat className="mb-1" />
+                <IcPaperclip className="mb-1" />
+              </div>
+            </form>
+          </>
+        )}
       </div>
     </Page>
   );

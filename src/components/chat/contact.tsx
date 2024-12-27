@@ -42,9 +42,10 @@ export const Contact: FC<
             </div>
             <div>
               <span className="text-xs text-gray-500">
-                {getLastMessageTime(
-                  chat.Message?.[chat.Message?.length - 1]?.createdAt,
-                )}
+                {chat.Message?.[chat.Message?.length - 1]?.createdAt &&
+                  getLastMessageTime(
+                    chat.Message?.[chat.Message?.length - 1]?.createdAt,
+                  )}
               </span>
               <div className="flex justify-end">
                 <IcStar className="size-4 fill-gray-400"></IcStar>

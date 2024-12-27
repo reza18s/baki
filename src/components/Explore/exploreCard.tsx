@@ -16,6 +16,7 @@ import { SendMessageModal } from './sendMessageModal';
 import ViolationReportModal from './violationReportModal';
 import { clsx } from 'clsx';
 import { optionTexts } from '@/utils';
+import { cn } from '@/lib/utils';
 export default function ExploreCard({
   user,
   drag = true,
@@ -39,7 +40,7 @@ export default function ExploreCard({
   return (
     <>
       <motion.div
-        className={clsx(
+        className={cn(
           'absolute flex max-h-[calc(100%-16px)] w-[calc(100%-32px)] flex-col overflow-y-scroll rounded-2xl',
           className,
         )}

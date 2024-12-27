@@ -17,6 +17,16 @@ query GetChats {
         name
         username
       }
+      replyId
+      reply {
+        id
+        content
+        sender {
+          id
+          name
+          username
+        }
+      }
       senderId
       read
       content
@@ -49,6 +59,14 @@ query GetChat($chatId: String!) {
       content
       id
       createdAt
+      reply {
+        id
+        content
+        sender {
+          id
+          name
+        }
+      }
     }
   }
 }

@@ -21,27 +21,60 @@ import {
   Message,
   useAddToBlackListMutation,
   useAddToFavoriteMutation,
+  useDelMessagesMutation,
 } from '@/graphql/generated/graphql.codegen';
 import ViolationReportModal from '../Explore/violationReportModal';
 import { optionTexts } from '@/utils';
 import { IcCopy } from '../icons/IcCopy';
-import { IcPenRound } from '../icons/IcPenRound';
+import { socket } from '@/graphql/apollo/socket';
+import { IcPen } from '../icons/IcPen';
+import { useStore } from '@/store/useStore';
+import { useHistory } from 'react-router';
+import { Input } from '../shared/Inputs/input';
 
 export const ContactBar = ({
   selects,
   clearSelect,
   contact,
+  deleteMessages,
+  setEdit,
 }: {
-  contact: { id: string; name?: string; mainImage?: string; lastSeen: Date };
+  contact: {
+    id: string;
+    name?: string;
+    mainImage?: string;
+    lastSeen: Date;
+    isOnline: boolean;
+  };
   selects: Message[];
   clearSelect: () => void;
+  deleteMessages: (ids: string[]) => void;
+  setEdit: (message: Message) => void;
 }) => {
-  const [isOpen, setIsOpen] = useState<'sendMessage' | 'violationReport'>();
+  const { setIsSearch, isSearch, setSearch, search } = useStore((s) => s);
+  const [isOpen, setIsOpen] = useState<
+    'sendMessage' | 'violationReport' | 'delete'
+  >();
   const [addToFavorite] = useAddToFavoriteMutation();
   const [addToBlackList] = useAddToBlackListMutation();
+  const [delMessages] = useDelMessagesMutation({ client: socket });
+  const hs = useHistory();
   return (
     <div className="flex h-full w-full items-center justify-between">
-      {selects.length > 0 ? (
+      {isSearch ? (
+        <>
+          <div className="flex w-full items-center gap-2">
+            <IcArrowRight onClick={() => setIsSearch(false)}></IcArrowRight>
+            <Input
+              className="h-8 w-full"
+              icon={<IcSearch></IcSearch>}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="جستحو"
+            ></Input>
+          </div>
+        </>
+      ) : selects.length > 0 ? (
         <>
           <div className="flex items-center gap-2">
             <IcXCircle
@@ -50,16 +83,76 @@ export const ContactBar = ({
             ></IcXCircle>
             <span>{selects.length}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <IcPenRound></IcPenRound>
-            <IcCopy></IcCopy>
-            <IcTrash className=""></IcTrash>
+          <div className="flex items-center gap-4">
+            {selects.length === 1 && selects?.[0].senderId !== contact.id && (
+              <IcPen onClick={() => setEdit(selects?.[0])}></IcPen>
+            )}
+            <IcCopy
+              className="size-6"
+              onClick={() => {
+                if (selects.length === 0) {
+                  customToast('No messages selected to copy', 'warning');
+                  return;
+                }
+
+                // Sort selected messages by creation date
+                const sortedMessages = selects
+                  .slice()
+                  .sort(
+                    (a, b) =>
+                      new Date(a.createdAt).getTime() -
+                      new Date(b.createdAt).getTime(),
+                  );
+
+                // Format messages with sender?.name grouped
+                let lastSenderName: string;
+                const textToCopy = sortedMessages
+                  .map((message) => {
+                    const isNewGroup = message.sender?.name !== lastSenderName;
+                    lastSenderName = message.sender?.name as string;
+
+                    const title = isNewGroup
+                      ? `${message.sender?.name || 'Unknown User'}:\n`
+                      : '';
+                    const content = `${message.content}\n`;
+
+                    return `${title}${content}`;
+                  })
+                  .join('\n');
+
+                // Copy to clipboard
+                navigator.clipboard
+                  .writeText(textToCopy)
+                  .then(() =>
+                    customToast('Messages copied to clipboard!', 'success'),
+                  )
+                  .catch((err) => {
+                    console.error('Failed to copy messages:', err);
+                    customToast(
+                      'Failed to copy messages. Please try again.',
+                      'error',
+                    );
+                  });
+                clearSelect();
+              }}
+            ></IcCopy>
+
+            <IcTrash
+              className="size-6 active:bg-gray-100"
+              onClick={() => {
+                deleteMessages(selects.map((val) => val.id));
+                delMessages({
+                  variables: { messagesId: selects.map((val) => val.id) },
+                });
+                clearSelect();
+              }}
+            ></IcTrash>
           </div>
         </>
       ) : (
         <>
           <div className="flex items-center gap-2">
-            <IcArrowRight></IcArrowRight>
+            <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>
@@ -71,7 +164,9 @@ export const ContactBar = ({
                 {contact?.name}
               </h1>
               <span className="text-xs text-gray-400">
-                {formatLastSeen(contact?.lastSeen)}
+                {contact?.isOnline
+                  ? 'انلاین'
+                  : formatLastSeen(contact?.lastSeen)}
               </span>
             </div>
           </div>
@@ -80,7 +175,10 @@ export const ContactBar = ({
               <IcDotsMenu></IcDotsMenu>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="ml-6 origin-top-right scale-95 transform divide-y rounded-xl px-3 py-1 transition-transform duration-300 ease-in-out">
-              <DropdownMenuItem className="flex items-center gap-2 p-0 py-2">
+              <DropdownMenuItem
+                className="flex items-center gap-2 p-0 py-2"
+                onClick={() => setIsSearch(true)}
+              >
                 <IcSearch className="siz5"></IcSearch>
                 <h1 className="text-sm">جستجو</h1>
               </DropdownMenuItem>

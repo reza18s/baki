@@ -21,6 +21,7 @@ export const Chat = () => {
   const [selects, setSelects] = useState<IChat[]>([]);
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const hs = useHistory();
 
   const { data: requests } = useGetRequestsQuery();
@@ -49,13 +50,20 @@ export const Chat = () => {
 
   const handleMouseDown = (chat: IChat) => {
     setIsHold(false);
+    setIsScrolling(false);
     const timeout = setTimeout(() => {
       setIsHold(true);
       toggleSelect(chat);
-    }, 500); // 500ms for long press
+    }, 300); // 500ms for long press
     setHoldTimeout(timeout);
   };
-
+  const handleTouchMove = () => {
+    setIsScrolling(true);
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+      setHoldTimeout(null);
+    }
+  };
   const handleMouseUpOrLeave = () => {
     if (holdTimeout) {
       clearTimeout(holdTimeout);
@@ -123,7 +131,10 @@ export const Chat = () => {
         ).length || 0) > 0 ? (
         <div className="flex flex-col gap-4 pt-4">
           <h1 className="text-base font-bold">مخاطبین</h1>
-          <div className="flex w-full flex-col items-center gap-1">
+          <div
+            className="flex w-full flex-col items-center gap-1"
+            onTouchMove={handleTouchMove}
+          >
             {chats?.getChats
               .filter((el) => filter === 'all' || el.searchType === filter)
               .map((chat) => (

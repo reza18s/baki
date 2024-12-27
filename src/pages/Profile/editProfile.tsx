@@ -141,7 +141,11 @@ export default function EditProfile() {
               className={`${userInfo.verified ? '' : 'fill-none stroke-black'}`}
             />
           }
-          url="/profile/complete_profile/identify_verification"
+          url={
+            !userInfo.verified
+              ? '/profile/complete_profile/identify_verification'
+              : undefined
+          }
           text={userInfo.verified ? ' تایید شده' : 'تایید شماره موبایل'}
         />
       </div>

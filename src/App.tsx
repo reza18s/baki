@@ -1,7 +1,16 @@
 import { IonApp, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
+import Routes from './routes/routes';
+import { socket } from './graphql/apollo/socket';
+import {
+  useMessageSentSubscription,
+  useUserStatusSubscription,
+} from './graphql/generated/graphql.codegen';
+import { client } from './graphql/apollo/client';
 
-/* Import your CSS files */
+/* Import CSS files */
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
@@ -19,27 +28,48 @@ import './theme/variables.css';
 import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
-import Routes from './routes/routes';
-import { Toaster } from 'react-hot-toast';
-import { socket } from './graphql/apollo/socket';
-import {
-  useMessageSentSubscription,
-  useUserStatusSubscription,
-} from './graphql/generated/graphql.codegen';
-import { useEffect } from 'react';
-import { client } from './graphql/apollo/client';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { data } = useUserStatusSubscription({ client: socket });
-  const { data: messages } = useMessageSentSubscription({ client: socket });
+  const {
+    data,
+    restart,
+    error: userStatusError,
+  } = useUserStatusSubscription({
+    client: socket,
+  });
+  const {
+    data: messages,
+    restart: restartMessages,
+    error: messageError,
+  } = useMessageSentSubscription({
+    client: socket,
+    shouldResubscribe: true,
+  });
+
+  useEffect(() => {
+    if (userStatusError) {
+      setTimeout(() => {
+        restart();
+      }, 1000);
+    }
+    if (messageError) {
+      setTimeout(() => {
+        console.log('err');
+        restartMessages();
+      }, 1000);
+    }
+  }, [userStatusError, messageError]);
+
   useEffect(() => {
     client.refetchQueries({ include: ['GetChats'] });
   }, [data, messages]);
+
   useEffect(() => {
     client.refetchQueries({ include: ['GetChat'] });
   }, [messages]);
+
   return (
     <IonApp>
       <IonReactRouter>

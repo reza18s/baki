@@ -95,11 +95,6 @@ export default function Routes() {
               />
               <Route
                 exact
-                path={paths.profile.userProfile.main}
-                component={UserProfile}
-              />
-              <Route
-                exact
                 path={paths.profile.editProfile}
                 component={EditProfile}
               />
@@ -137,6 +132,11 @@ export default function Routes() {
                 exact
                 path={paths.profile.completeSpecialty}
                 component={CompleteSpecialty}
+              />
+              <Route
+                exact
+                path={paths.profile.userProfile.main}
+                component={UserProfile}
               />
               {/* settings */}
               <Route exact path={paths.settings.main} component={Settings} />

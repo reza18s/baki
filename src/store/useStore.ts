@@ -13,6 +13,10 @@ interface IStore {
   basicInformationsStep: IBasicInformationsStep;
   searchType: ISeachType;
   filters: IFilter;
+  isSearch: boolean;
+  search: string;
+  searches: string[];
+  selectSearch: string;
 }
 export type Actions = {
   setSearchType: (value: ISeachType) => void;
@@ -22,6 +26,10 @@ export type Actions = {
       | ((step: IBasicInformationsStep) => IBasicInformationsStep)
       | IBasicInformationsStep,
   ) => void;
+  setIsSearch: (e: ((prev: boolean) => boolean) | boolean) => void;
+  setSearch: (e: ((prev: string) => string) | string) => void;
+  setSelectSearch: (e: ((prev: string) => string) | string) => void;
+  setSearches: (e: ((prev: string[]) => string[]) | string[]) => void;
 };
 
 export type Store = IStore & Actions;
@@ -30,6 +38,10 @@ export const defaultInitState: IStore = {
   basicInformationsStep: 0,
   searchType: 'random',
   filters: {},
+  isSearch: false,
+  search: '',
+  searches: [],
+  selectSearch: '',
 };
 
 export const useStore = create<Store>()((set, get) => ({
@@ -57,5 +69,33 @@ export const useStore = create<Store>()((set, get) => ({
       }
       return { basicInformationsStep: step(prev.basicInformationsStep) };
     });
+  },
+  setIsSearch: (e) => {
+    if (typeof e == 'boolean') {
+      set({ isSearch: e });
+    } else if (typeof e === 'function') {
+      set({ isSearch: e(get().isSearch) });
+    }
+  },
+  setSearch: (e) => {
+    if (typeof e == 'string') {
+      set({ search: e });
+    } else if (typeof e === 'function') {
+      set({ search: e(get().search) });
+    }
+  },
+  setSearches: (e) => {
+    if (typeof e == 'object') {
+      set({ searches: e });
+    } else if (typeof e === 'function') {
+      set({ searches: e(get().searches) });
+    }
+  },
+  setSelectSearch: (e) => {
+    if (typeof e == 'string') {
+      set({ selectSearch: e });
+    } else if (typeof e === 'function') {
+      set({ selectSearch: e(get().selectSearch) });
+    }
   },
 }));
