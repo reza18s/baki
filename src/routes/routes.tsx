@@ -43,6 +43,7 @@ import { Favorite } from '@/pages/favorite/favorite';
 import { Search } from '@/pages/chat/search';
 import { ContactPage } from '@/pages/chat/contact';
 import { UserProfile } from '@/pages/Profile/UserProfile';
+import { Subs } from './subs';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -87,124 +88,134 @@ export default function Routes() {
               {/* Login */}
               <Route exact path={paths.welcome.main} component={Welcome} />
               <Route exact path={paths.signup.main} component={Signup} />
-              {/* profile */}
-              <Route
-                exact
-                path={paths.profile.basicInformations}
-                component={BasicInformations}
-              />
-              <Route
-                exact
-                path={paths.profile.editProfile}
-                component={EditProfile}
-              />
-              <Route
-                exact
-                path={paths.profile.completeProfile}
-                component={CompleteProfile}
-              />
-              <Route
-                exact
-                path={paths.profile.identityVerification}
-                component={IdentityVerification}
-              />
-              <Route
-                exact
-                path={paths.profile.completePictures}
-                component={CompletePictures}
-              />
-              <Route
-                exact
-                path={paths.profile.completeTravelInterests}
-                component={CompleteTravelInterests}
-              />
-              <Route
-                exact
-                path={paths.profile.completePersonalInterests}
-                component={CompletePersonalInterests}
-              />
-              <Route
-                exact
-                path={paths.profile.completeProvinces}
-                component={CompleteProvinces}
-              />
-              <Route
-                exact
-                path={paths.profile.completeSpecialty}
-                component={CompleteSpecialty}
-              />
-              <Route
-                exact
-                path={paths.profile.userProfile.main}
-                component={UserProfile}
-              />
-              {/* settings */}
-              <Route exact path={paths.settings.main} component={Settings} />
-              <Route exact path={paths.settings.support} component={Support} />
-              <Route exact path={paths.settings.bills} component={Bills} />
-              <Route
-                exact
-                path={paths.settings.questions}
-                component={Questions}
-              />
-              <Route
-                exact
-                path={paths.settings.contactSupport}
-                component={ContactSupport}
-              />
-              <Route exact path={paths.settings.aboutUs} component={AboutUs} />
-              <Route exact path={paths.settings.guide} component={Guide} />
-              <Route
-                exact
-                path={paths.settings.searchTypeGuide}
-                component={SearchTypeGuide}
-              />
-              <Route
-                exact
-                path={paths.settings.communicationGuide}
-                component={CommunicationGuide}
-              />
-              {/* plan */}
-              <Route exact path={paths.plans.main} component={Plans} />
-              <Route exact path={paths.plans.freePlan} component={FreePlan} />
-              <Route
-                exact
-                path={paths.plans.confirm.main}
-                component={Confirm}
-              />
-              {/* explore */}
-              <Route exact path={paths.explore.filter} component={Filter} />
-              {/* chat */}
-              <Route
-                exact
-                path={paths.chat.contact.main}
-                component={ContactPage}
-              />
-              <Route exact path={paths.chat.search} component={Search} />
-              {/* other */}
-              <Route exact path={paths.favorite.main} component={Favorite} />
-              <Route exact path={paths.blocked.main} component={Blocked} />
-              <Route
-                path={paths.main.main}
-                render={({ match }) => (
-                  <MainLayout>
-                    <Switch>
-                      <Route exact path={match.path} component={Explore} />
-                      <Route
-                        exact
-                        path={paths.main.profile}
-                        component={Profile}
-                      />
-                      <Route
-                        exact
-                        path={paths.main.notifications}
-                        component={Notifications}
-                      />
-                      <Route exact path={paths.main.chat} component={Chat} />
-                    </Switch>
-                  </MainLayout>
-                )}
-              />
+              <Subs>
+                {/* profile */}
+                <Route
+                  exact
+                  path={paths.profile.basicInformations}
+                  component={BasicInformations}
+                />
+                <Route
+                  exact
+                  path={paths.profile.editProfile}
+                  component={EditProfile}
+                />
+                <Route
+                  exact
+                  path={paths.profile.completeProfile}
+                  component={CompleteProfile}
+                />
+                <Route
+                  exact
+                  path={paths.profile.identityVerification}
+                  component={IdentityVerification}
+                />
+                <Route
+                  exact
+                  path={paths.profile.completePictures}
+                  component={CompletePictures}
+                />
+                <Route
+                  exact
+                  path={paths.profile.completeTravelInterests}
+                  component={CompleteTravelInterests}
+                />
+                <Route
+                  exact
+                  path={paths.profile.completePersonalInterests}
+                  component={CompletePersonalInterests}
+                />
+                <Route
+                  exact
+                  path={paths.profile.completeProvinces}
+                  component={CompleteProvinces}
+                />
+                <Route
+                  exact
+                  path={paths.profile.completeSpecialty}
+                  component={CompleteSpecialty}
+                />
+                <Route
+                  exact
+                  path={paths.profile.userProfile.main}
+                  component={UserProfile}
+                />
+                {/* settings */}
+                <Route exact path={paths.settings.main} component={Settings} />
+                <Route
+                  exact
+                  path={paths.settings.support}
+                  component={Support}
+                />
+                <Route exact path={paths.settings.bills} component={Bills} />
+                <Route
+                  exact
+                  path={paths.settings.questions}
+                  component={Questions}
+                />
+                <Route
+                  exact
+                  path={paths.settings.contactSupport}
+                  component={ContactSupport}
+                />
+                <Route
+                  exact
+                  path={paths.settings.aboutUs}
+                  component={AboutUs}
+                />
+                <Route exact path={paths.settings.guide} component={Guide} />
+                <Route
+                  exact
+                  path={paths.settings.searchTypeGuide}
+                  component={SearchTypeGuide}
+                />
+                <Route
+                  exact
+                  path={paths.settings.communicationGuide}
+                  component={CommunicationGuide}
+                />
+                {/* plan */}
+                <Route exact path={paths.plans.main} component={Plans} />
+                <Route exact path={paths.plans.freePlan} component={FreePlan} />
+                <Route
+                  exact
+                  path={paths.plans.confirm.main}
+                  component={Confirm}
+                />
+                {/* explore */}
+                <Route exact path={paths.explore.filter} component={Filter} />
+                {/* chat */}
+                <Route
+                  exact
+                  path={paths.chat.contact.main}
+                  component={ContactPage}
+                />
+                <Route exact path={paths.chat.search} component={Search} />
+                {/* other */}
+                <Route exact path={paths.favorite.main} component={Favorite} />
+                <Route exact path={paths.blocked.main} component={Blocked} />
+                <Route
+                  path={paths.main.main}
+                  render={({ match }) => (
+                    <MainLayout>
+                      <Switch>
+                        <Route exact path={match.path} component={Explore} />
+                        <Route
+                          exact
+                          path={paths.main.profile}
+                          component={Profile}
+                        />
+                        <Route
+                          exact
+                          path={paths.main.notifications}
+                          component={Notifications}
+                        />
+                        <Route exact path={paths.main.chat} component={Chat} />
+                      </Switch>
+                    </MainLayout>
+                  )}
+                />
+              </Subs>
             </Switch>
           </AppGuard>
         </IonRouterOutlet>

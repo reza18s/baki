@@ -1,14 +1,7 @@
 import { IonApp, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Routes from './routes/routes';
-import { socket } from './graphql/apollo/socket';
-import {
-  useMessageSentSubscription,
-  useUserStatusSubscription,
-} from './graphql/generated/graphql.codegen';
-import { client } from './graphql/apollo/client';
 
 /* Import CSS files */
 import '@ionic/react/css/core.css';
@@ -32,44 +25,6 @@ import './theme/Yekan.css';
 setupIonicReact();
 
 const App: React.FC = () => {
-  const {
-    data,
-    restart,
-    error: userStatusError,
-  } = useUserStatusSubscription({
-    client: socket,
-  });
-  const {
-    data: messages,
-    restart: restartMessages,
-    error: messageError,
-  } = useMessageSentSubscription({
-    client: socket,
-    shouldResubscribe: true,
-  });
-
-  useEffect(() => {
-    if (userStatusError) {
-      setTimeout(() => {
-        restart();
-      }, 1000);
-    }
-    if (messageError) {
-      setTimeout(() => {
-        console.log('err');
-        restartMessages();
-      }, 1000);
-    }
-  }, [userStatusError, messageError]);
-
-  useEffect(() => {
-    client.refetchQueries({ include: ['GetChats'] });
-  }, [data, messages]);
-
-  useEffect(() => {
-    client.refetchQueries({ include: ['GetChat'] });
-  }, [messages]);
-
   return (
     <IonApp>
       <IonReactRouter>
