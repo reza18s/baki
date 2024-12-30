@@ -47,23 +47,23 @@ export const ProfileCard = ({
           <div className="text-sm text-white">
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-black text-white">
-                {user.name} ، {user.age}
+                {user?.name} ، {user?.age}
               </h1>
               <MdVerified size={24} className="fill-brand-yellow" />
             </div>
             <div className="flex items-center gap-x-1 text-white">
               <RiMapPin2Fill size={16} fill="#fff" className="-mr-[2px]" />
-              {user.province} , {user.city}
+              {user?.province} , {user?.city}
             </div>
             <div className="flex items-center gap-x-1 text-white">
               <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                 <div
                   className={`h-[8px] w-[8px] rounded-full ${
-                    user.isOnline ? 'bg-brand-green' : 'bg-red-500'
+                    user?.isOnline ? 'bg-brand-green' : 'bg-red-500'
                   }`}
                 />
               </div>
-              {user.isOnline ? 'آنلاین' : 'آفلاین'}
+              {user?.isOnline ? 'آنلاین' : 'آفلاین'}
             </div>
           </div>
           <div className="flex items-center gap-x-[8px]">
@@ -83,7 +83,7 @@ export const ProfileCard = ({
       {/* body */}
       <div className="flex flex-col gap-8 p-4">
         <div className="flex flex-col gap-4">
-          <Bio bio={user.bio || ''}></Bio>
+          <Bio bio={user?.bio || ''}></Bio>
           <Info
             className="bg-brand-yellow"
             items={getBaseInfo(user) as string[]}
@@ -92,27 +92,27 @@ export const ProfileCard = ({
         </div>
         <Info
           className="bg-warning-100"
-          items={user.mySpecialty as string[] | undefined}
+          items={user?.mySpecialty as string[] | undefined}
           title="تخصص"
         ></Info>
         <Info
           className="bg-warning-100"
-          items={user.personalInterests as string[] | undefined}
+          items={user?.personalInterests as string[] | undefined}
           title="علایق شخصی من"
         ></Info>
         <Info
           className="bg-warning-100"
-          items={user.languages as string[] | undefined}
+          items={user?.languages as string[] | undefined}
           title="زبان هایی که میدانم "
         ></Info>
         <Info
           className="bg-warning-100"
-          items={user.traveledToPlaces as string[] | undefined}
+          items={user?.traveledToPlaces as string[] | undefined}
           title="مکان‌هایی که سفر کرده‌ام"
         ></Info>
         <Info
           className="bg-warning-100"
-          items={user.livedInPlaces as string[] | undefined}
+          items={user?.livedInPlaces as string[] | undefined}
           title="مکان‌هایی که زندگی کرده‌ام"
         ></Info>
         {!me && (

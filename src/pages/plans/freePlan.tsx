@@ -80,7 +80,7 @@ function getDistanceToNextPrize(currentStep: number) {
   return 0; // اگر جایزه‌ای وجود نداشته باشد
 }
 export const FreePlan = () => {
-  const userStep = 3;
+  const userStep = 0;
   return (
     <Page
       contentClassName="relative p-6 pt-20 pb-32 flex flex-col gap-6 "
@@ -108,7 +108,7 @@ export const FreePlan = () => {
             </span>
           </div>
           <h2
-            className="text overflow-hidden text-nowrap rounded-lg bg-gray-50 px-4 py-1 text-xs font-bold underline-offset-auto"
+            className="text w-full overflow-hidden truncate text-nowrap rounded-lg bg-gray-50 px-4 py-1 text-xs font-bold underline-offset-auto"
             style={{
               textUnderlinePosition: 'from-font',
               textDecorationLine: 'underline',
@@ -119,7 +119,7 @@ export const FreePlan = () => {
           >
             https://www.figma.com/design/2EbpuvNHeX5rWnrLECsoPq/%F0%9F%94%8E-BaKi---UI%2FUX?node-id=20-14473&t=QkUv2Vqr3mBtH4iK-0
           </h2>
-        </div>{' '}
+        </div>
         <div className="flex w-full flex-col gap-4 rounded-xl border border-gray-300 p-4">
           <div className="flex items-center justify-between">
             <h1 className="text-sm font-medium">تعداد دعوت‌های موفق شما:</h1>

@@ -54,7 +54,7 @@ export const Chat = () => {
     const timeout = setTimeout(() => {
       setIsHold(true);
       toggleSelect(chat);
-    }, 300); // 500ms for long press
+    }, 500); // 500ms for long press
     setHoldTimeout(timeout);
   };
   const handleTouchMove = () => {

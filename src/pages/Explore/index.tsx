@@ -54,7 +54,8 @@ export default function Explore() {
       setNoResult(data.getRandomUser?.length === 0);
     },
 
-    onError: () => {
+    onError: (err) => {
+      console.log(err);
       customToast('کاربر موجود نیست', 'error');
     },
   });

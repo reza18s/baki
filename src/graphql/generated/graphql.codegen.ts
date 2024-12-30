@@ -49,6 +49,13 @@ export type Chat = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+export type Discount = {
+  code: Scalars['String']['output'];
+  expireAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  percent: Scalars['Int']['output'];
+};
+
 export type FavoriteList = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   favoriteUserId: Scalars['String']['output'];
@@ -120,6 +127,7 @@ export type Mutation = {
   activePlan?: Maybe<User>;
   addToBlackList?: Maybe<Scalars['JSON']['output']>;
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
+  checkDiscount: Discount;
   createReport?: Maybe<ViolationReport>;
   createRequest?: Maybe<Request>;
   delChat?: Maybe<Scalars['String']['output']>;
@@ -165,6 +173,11 @@ export type MutationAddToBlackListArgs = {
 
 export type MutationAddToFavoriteArgs = {
   favoriteIds: Array<Scalars['String']['input']>;
+};
+
+
+export type MutationCheckDiscountArgs = {
+  code: Scalars['String']['input'];
 };
 
 
@@ -314,6 +327,7 @@ export type Query = {
   getPricePlan: Array<PricePlan>;
   getRandomUser?: Maybe<Array<Maybe<RandomUser>>>;
   getRequests: Array<Request>;
+  getTransaction: Array<Transaction>;
   getUser?: Maybe<User>;
   getUsers: Array<User>;
   ok: Scalars['Boolean']['output'];
@@ -417,9 +431,14 @@ export type Subscription = {
 export type Transaction = {
   amount: Scalars['Float']['output'];
   createdAt: Scalars['DateTime']['output'];
-  details: Scalars['JSON']['output'];
+  details?: Maybe<Scalars['JSON']['output']>;
+  discount?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
+  itemId: Scalars['String']['output'];
+  status: Scalars['String']['output'];
   successful: Scalars['Boolean']['output'];
+  user: User;
+  userId: Scalars['String']['output'];
 };
 
 export type User = {
@@ -535,6 +554,32 @@ export type LikeMutationVariables = Exact<{
 
 export type LikeMutation = { Like?: { LikedUserId: string, userId: string, id: string } | null };
 
+export type CheckDiscountMutationVariables = Exact<{
+  code: Scalars['String']['input'];
+}>;
+
+
+export type CheckDiscountMutation = { checkDiscount: { id: string, code: string, percent: number, expireAt: any } };
+
+export type RequestPayMutationVariables = Exact<{
+  planId: Scalars['Int']['input'];
+  code?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type RequestPayMutation = { requestPay: any };
+
+export type ActivePlanMutationVariables = Exact<{
+  planId: Scalars['Int']['input'];
+  bazarPurchaseToken?: InputMaybe<Scalars['String']['input']>;
+  transactionsId?: InputMaybe<Scalars['String']['input']>;
+  authority?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ActivePlanMutation = { activePlan?: { id: string, name?: string | null } | null };
+
 export type RefreshAccessTokenMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -641,6 +686,11 @@ export type GetRequestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetRequestsQuery = { getRequests: Array<{ id: string, receiverId: string, requesterId: string, type: string, createdAt?: any | null, updatedAt?: any | null, status: string, requester?: { id: string, name?: string | null, mainImages?: string | null } | null, receiver?: { id: string, name?: string | null, mainImages?: string | null } | null }> };
+
+export type GetTransactionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTransactionQuery = { getTransaction: Array<{ id: string, amount: number, successful: boolean, discount?: number | null, status: string, itemId: string, userId: string, details?: any | null, createdAt: any }> };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -897,6 +947,118 @@ export function useLikeMutation(baseOptions?: Apollo.MutationHookOptions<LikeMut
 export type LikeMutationHookResult = ReturnType<typeof useLikeMutation>;
 export type LikeMutationResult = Apollo.MutationResult<LikeMutation>;
 export type LikeMutationOptions = Apollo.BaseMutationOptions<LikeMutation, LikeMutationVariables>;
+export const CheckDiscountDocument = gql`
+    mutation CheckDiscount($code: String!) {
+  checkDiscount(code: $code) {
+    id
+    code
+    percent
+    expireAt
+  }
+}
+    `;
+export type CheckDiscountMutationFn = Apollo.MutationFunction<CheckDiscountMutation, CheckDiscountMutationVariables>;
+
+/**
+ * __useCheckDiscountMutation__
+ *
+ * To run a mutation, you first call `useCheckDiscountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckDiscountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkDiscountMutation, { data, loading, error }] = useCheckDiscountMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useCheckDiscountMutation(baseOptions?: Apollo.MutationHookOptions<CheckDiscountMutation, CheckDiscountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckDiscountMutation, CheckDiscountMutationVariables>(CheckDiscountDocument, options);
+      }
+export type CheckDiscountMutationHookResult = ReturnType<typeof useCheckDiscountMutation>;
+export type CheckDiscountMutationResult = Apollo.MutationResult<CheckDiscountMutation>;
+export type CheckDiscountMutationOptions = Apollo.BaseMutationOptions<CheckDiscountMutation, CheckDiscountMutationVariables>;
+export const RequestPayDocument = gql`
+    mutation RequestPay($planId: Int!, $code: String) {
+  requestPay(planId: $planId, code: $code)
+}
+    `;
+export type RequestPayMutationFn = Apollo.MutationFunction<RequestPayMutation, RequestPayMutationVariables>;
+
+/**
+ * __useRequestPayMutation__
+ *
+ * To run a mutation, you first call `useRequestPayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestPayMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestPayMutation, { data, loading, error }] = useRequestPayMutation({
+ *   variables: {
+ *      planId: // value for 'planId'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useRequestPayMutation(baseOptions?: Apollo.MutationHookOptions<RequestPayMutation, RequestPayMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestPayMutation, RequestPayMutationVariables>(RequestPayDocument, options);
+      }
+export type RequestPayMutationHookResult = ReturnType<typeof useRequestPayMutation>;
+export type RequestPayMutationResult = Apollo.MutationResult<RequestPayMutation>;
+export type RequestPayMutationOptions = Apollo.BaseMutationOptions<RequestPayMutation, RequestPayMutationVariables>;
+export const ActivePlanDocument = gql`
+    mutation ActivePlan($planId: Int!, $bazarPurchaseToken: String, $transactionsId: String, $authority: String, $userId: String) {
+  activePlan(
+    planId: $planId
+    bazarPurchaseToken: $bazarPurchaseToken
+    transactionsId: $transactionsId
+    authority: $authority
+    userId: $userId
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type ActivePlanMutationFn = Apollo.MutationFunction<ActivePlanMutation, ActivePlanMutationVariables>;
+
+/**
+ * __useActivePlanMutation__
+ *
+ * To run a mutation, you first call `useActivePlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useActivePlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [activePlanMutation, { data, loading, error }] = useActivePlanMutation({
+ *   variables: {
+ *      planId: // value for 'planId'
+ *      bazarPurchaseToken: // value for 'bazarPurchaseToken'
+ *      transactionsId: // value for 'transactionsId'
+ *      authority: // value for 'authority'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useActivePlanMutation(baseOptions?: Apollo.MutationHookOptions<ActivePlanMutation, ActivePlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ActivePlanMutation, ActivePlanMutationVariables>(ActivePlanDocument, options);
+      }
+export type ActivePlanMutationHookResult = ReturnType<typeof useActivePlanMutation>;
+export type ActivePlanMutationResult = Apollo.MutationResult<ActivePlanMutation>;
+export type ActivePlanMutationOptions = Apollo.BaseMutationOptions<ActivePlanMutation, ActivePlanMutationVariables>;
 export const RefreshAccessTokenDocument = gql`
     mutation RefreshAccessToken {
   refreshAccessToken {
@@ -1696,6 +1858,53 @@ export type GetRequestsQueryHookResult = ReturnType<typeof useGetRequestsQuery>;
 export type GetRequestsLazyQueryHookResult = ReturnType<typeof useGetRequestsLazyQuery>;
 export type GetRequestsSuspenseQueryHookResult = ReturnType<typeof useGetRequestsSuspenseQuery>;
 export type GetRequestsQueryResult = Apollo.QueryResult<GetRequestsQuery, GetRequestsQueryVariables>;
+export const GetTransactionDocument = gql`
+    query GetTransaction {
+  getTransaction {
+    id
+    amount
+    successful
+    discount
+    status
+    itemId
+    userId
+    details
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetTransactionQuery__
+ *
+ * To run a query within a React component, call `useGetTransactionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTransactionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTransactionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTransactionQuery(baseOptions?: Apollo.QueryHookOptions<GetTransactionQuery, GetTransactionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTransactionQuery, GetTransactionQueryVariables>(GetTransactionDocument, options);
+      }
+export function useGetTransactionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTransactionQuery, GetTransactionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTransactionQuery, GetTransactionQueryVariables>(GetTransactionDocument, options);
+        }
+export function useGetTransactionSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTransactionQuery, GetTransactionQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTransactionQuery, GetTransactionQueryVariables>(GetTransactionDocument, options);
+        }
+export type GetTransactionQueryHookResult = ReturnType<typeof useGetTransactionQuery>;
+export type GetTransactionLazyQueryHookResult = ReturnType<typeof useGetTransactionLazyQuery>;
+export type GetTransactionSuspenseQueryHookResult = ReturnType<typeof useGetTransactionSuspenseQuery>;
+export type GetTransactionQueryResult = Apollo.QueryResult<GetTransactionQuery, GetTransactionQueryVariables>;
 export const GetUserDocument = gql`
     query GetUser($id: String!) {
   getUser(id: $id) {

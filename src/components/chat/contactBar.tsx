@@ -31,6 +31,7 @@ import { IcPen } from '../icons/IcPen';
 import { useStore } from '@/store/useStore';
 import { useHistory } from 'react-router';
 import { Input } from '../shared/Inputs/input';
+import { Clipboard } from '@capacitor/clipboard';
 
 export const ContactBar = ({
   selects,
@@ -121,8 +122,9 @@ export const ContactBar = ({
                   .join('\n');
 
                 // Copy to clipboard
-                navigator.clipboard
-                  .writeText(textToCopy)
+                Clipboard.write({
+                  string: textToCopy,
+                })
                   .then(() =>
                     customToast('Messages copied to clipboard!', 'success'),
                   )
