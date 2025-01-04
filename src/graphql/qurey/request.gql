@@ -19,3 +19,14 @@ query GetRequests {
     }
   }
 }
+query GetRequest($requesterId: String!, $type: RequestType!) {
+  getRequest(requesterId: $requesterId, type: $type) {
+    id
+    receiverId
+    requesterId
+    status
+    type
+    createdAt
+    updatedAt
+  }
+}

@@ -31,7 +31,6 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
     }
     if (messageError) {
       setTimeout(() => {
-        console.log('err');
         restartMessages();
       }, 1000);
     }

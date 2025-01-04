@@ -21,6 +21,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 import { onBazarPaymentException } from './helper';
 import { Capacitor } from '@capacitor/core';
+import { IcDiscount } from '@/components/icons/IcDiscount';
 export interface PaymentVariables {
   bazarPurchaseToken?: string;
   authority?: string;
@@ -30,6 +31,8 @@ export const Confirm = () => {
   const {
     control,
     handleSubmit,
+    setError,
+
     formState: { errors, isSubmitSuccessful },
   } = useForm<{ code: string }>();
   const [purchasing, setPurchasing] = useState(false);
@@ -38,7 +41,8 @@ export const Confirm = () => {
   const [discount, setDiscount] = useState<Discount>();
   const { data, loading } = useGetPricePlanQuery();
   const plan = data?.getPricePlan.find((plan) => plan.id === +id);
-  const [checkDiscount] = useCheckDiscountMutation();
+  const [checkDiscount, { loading: checkLoading, error }] =
+    useCheckDiscountMutation();
   const [requestPayMut, { loading: requestLoading }] = useRequestPayMutation();
   const [activePlanMut] = useActivePlanMutation();
 
@@ -126,7 +130,6 @@ export const Confirm = () => {
           },
           onCompleted(data) {
             const paymentData = data.requestPay;
-            console.log('llll');
 
             if (paymentData) {
               if (paymentData.paymentURL.length > 0) {
@@ -194,9 +197,11 @@ export const Confirm = () => {
               variables: { code: values.code },
               onCompleted: (data) => {
                 setDiscount(data.checkDiscount);
-                setIsOpen(false);
               },
               onError: (err) => {
+                setError('code', {
+                  message: 'کد تخفیف وارد شده معتبر نمی‌باشد.',
+                });
                 customToast(err.message, 'error');
               },
             });
@@ -211,28 +216,49 @@ export const Confirm = () => {
             defaultValue={''}
             rules={{ required: true, min: 5 }}
             render={({ field }) => (
-              <div
-                className={cn(
-                  'flex items-center rounded-xl border border-brand-black p-3 transition-all duration-100 ease-in-out',
-                  field.value.length && 'shadow-[0px_2px_#000]',
-                  errors.code &&
-                    'border-brand-red shadow-[0px_2px_#000] shadow-brand-red',
-                  isSubmitSuccessful &&
-                    'border-brand-green shadow-[0px_2px_#000] shadow-brand-green',
-                  // true && 'border-brand-green shadow-brand-green',
-                )}
-              >
-                <input
-                  {...field}
-                  type="text"
-                  dir="ltr"
-                  placeholder="XXXX111"
-                  className="w-full border-none bg-white text-sm outline-none"
-                />
+              <div>
+                <div
+                  className={cn(
+                    'flex items-center rounded-xl border border-brand-black p-3 transition-all duration-100 ease-in-out',
+                    field.value.length && 'shadow-[0px_2px_#000]',
+                    isSubmitSuccessful &&
+                      discount &&
+                      'border-brand-green shadow-[0px_2px_#000] shadow-brand-green',
+                    errors.code &&
+                      'border-brand-red shadow-[0px_2px_#000] shadow-brand-red',
+                    // true && 'border-brand-green shadow-brand-green',
+                  )}
+                >
+                  <IcDiscount
+                    className={cn(
+                      isSubmitSuccessful && discount && 'fill-brand-green',
+                      errors.code && 'fill-brand-red',
+                    )}
+                  ></IcDiscount>
+                  <input
+                    {...field}
+                    type="text"
+                    dir="ltr"
+                    placeholder="XXXX111"
+                    className="w-full border-none bg-white text-sm outline-none"
+                  />
+                </div>
+                <p
+                  className={cn(
+                    'mt-1 px-4 text-xs',
+                    isSubmitSuccessful && discount && 'text-brand-green',
+                    errors.code && 'text-brand-red',
+                  )}
+                >
+                  {(discount && 'کد تخفیف وارد شده معتبر می‌باشد!') ||
+                    (error && 'کد تخفیف وارد شده معتبر نمی‌باشد.')}
+                </p>
               </div>
             )}
           />
-          <Button className="mt-4 w-full">تایید و بازگشت</Button>
+          <Button className="mt-4 w-full" onClick={() => setIsOpen(false)}>
+            تایید و بازگشت
+          </Button>
         </form>
       </BottomSheetModal>
     </Page>

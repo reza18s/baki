@@ -1,8 +1,12 @@
-import { Notification as INotification } from '@/graphql/generated/graphql.codegen';
+import {
+  Notification as INotification,
+  useGetUserQuery,
+} from '@/graphql/generated/graphql.codegen';
 import { calculateElapsedTime } from '@/utils/datetime';
 import React from 'react';
 import Button from '../base/Button/Button';
 import CardImage from '../../assets/images/image.png';
+import { customToast } from '../base/toast';
 
 export const Notification = ({
   notification,
@@ -13,6 +17,12 @@ export const Notification = ({
   onClick?: () => void;
   disabled?: boolean;
 }) => {
+  const { data, loading } = useGetUserQuery({
+    variables: { id: notification.actionId },
+    onError() {
+      customToast('کاربر موجود نیست', 'error');
+    },
+  });
   return (
     <div className="flex gap-2">
       <div className="relative">
@@ -20,7 +30,7 @@ export const Notification = ({
           <img src={CardImage}></img>
         </div>
         <div
-          className={`absolute -left-2 bottom-3 size-[14px] rounded-full border-[2.5px] border-white ${false ? 'bg-brand-green' : 'bg-gray-400'}`}
+          className={`absolute -left-2 bottom-3 size-[14px] rounded-full border-[2.5px] border-white ${data?.getUser?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}
         ></div>
       </div>
       <div className="flex h-16 flex-1 items-center justify-between gap-2 border-b border-gray-100 pb-2">

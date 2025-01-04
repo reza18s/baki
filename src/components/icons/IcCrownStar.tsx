@@ -8,6 +8,7 @@ export const IcCrownStar: FC<IconProps> = ({ className, ...props }) => {
       height="20"
       viewBox="0 0 20 20"
       className={className}
+      {...props}
       fill="white"
     >
       <path

@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import Modal from '@/components/base/Modal/Modal';
 import { IcBillListr } from '@/components/icons/IcBillList';
 import { IcCrownStar } from '@/components/icons/IcCrownStar';
 import { IcDocument } from '@/components/icons/IcDocument';
@@ -10,9 +11,13 @@ import { IcUserBlackList } from '@/components/icons/IcUserBlackList';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import ArrowButton from '@/components/shared/Buttons/ArrowButton';
+import { Rules } from '@/components/Signup/rules';
+import { clientLogout } from '@/graphql/apollo/client';
 import { paths } from '@/routes/paths';
 import { share } from '@/utils/share';
+import { useState } from 'react';
 export const Settings = () => {
+  const [showRules, setShowRules] = useState<boolean>(false);
   return (
     <Page
       contentClassName="pt-20 p-6 flex flex-col gap-2 h-full justify-between pb-2 bg-gray-50"
@@ -61,10 +66,20 @@ export const Settings = () => {
           icon={<IcHelp></IcHelp>}
         ></ArrowButton>
         <ArrowButton
+          onClick={() => {
+            setShowRules(true);
+          }}
           text="قوانین و مقررات"
           icon={<IcDocument></IcDocument>}
         ></ArrowButton>
-        <Button variant="danger-outline">خروج از حساب کاربری</Button>
+        <Button
+          variant="danger-outline"
+          onClick={() => {
+            clientLogout();
+          }}
+        >
+          خروج از حساب کاربری
+        </Button>
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-1">
         <svg
@@ -81,6 +96,13 @@ export const Settings = () => {
         </svg>
         <span className="relative bottom-0 text-[10px]">نسخه 1.0.0</span>
       </div>
+      <Modal
+        isOpen={showRules}
+        onRequestClose={() => setShowRules(false)}
+        className="w-[90%] rounded-3xl"
+      >
+        <Rules hideRules={() => setShowRules(false)}></Rules>
+      </Modal>
     </Page>
   );
 };

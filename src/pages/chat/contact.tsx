@@ -2,6 +2,7 @@ import {
   Message,
   useEditMessageMutation,
   useGetChatQuery,
+  useGetUserQuery,
   useSendMessageMutation,
 } from '@/graphql/generated/graphql.codegen';
 import React, { useEffect, useRef, useState } from 'react';
@@ -23,8 +24,10 @@ import { IcReply } from '@/components/icons/IcReply';
 import { IcPen } from '@/components/icons/IcPen';
 import { useStore } from '@/store/useStore';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
+import { customToast } from '@/components/base/toast';
 
 export const ContactPage = () => {
+  const { id }: { id: string } = useParams();
   const chatContainerRef = useRef<HTMLIonContentElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const {
@@ -43,13 +46,27 @@ export const ContactPage = () => {
   const { control, watch, handleSubmit, reset, setValue } = useForm<{
     message: string;
   }>();
-  const { id }: { id: string } = useParams();
+
+  const { data: participant, loading } = useGetUserQuery({
+    variables: { id: id },
+    onError() {
+      customToast('کاربر موجود نیست', 'error');
+    },
+  });
   const { data } = useGetChatQuery({
-    variables: { chatId: id },
+    variables: { participantId: id },
     onError(error) {
       console.log(error);
     },
   });
+  const chat = data?.getChat;
+  const [sendMessage] = useSendMessageMutation({
+    client: socket,
+  });
+  const [editMessage] = useEditMessageMutation({
+    client: socket,
+  });
+
   useEffect(() => {
     if (isSearch && search.length) {
       const searches = messages
@@ -60,20 +77,11 @@ export const ContactPage = () => {
     }
   }, [search]);
 
-  const [sendMessage] = useSendMessageMutation({
-    client: socket,
-  });
-  const [editMessage] = useEditMessageMutation({
-    client: socket,
-  });
-
-  const chat = data?.getChat;
-
   useEffect(() => {
-    if (data?.getChat?.Message) {
-      setMessages(data.getChat.Message as Message[]);
+    if (chat?.Message) {
+      setMessages(chat.Message as Message[]);
     }
-  }, [data?.getChat.Message]);
+  }, [chat?.Message]);
 
   useEffect(() => {
     // Scroll to the bottom when messages are loaded
@@ -133,6 +141,7 @@ export const ContactPage = () => {
         await sendMessage({
           variables: {
             chatId: chat?.id,
+            receiverId: participant?.getUser?.id,
             content: value.message,
             replyId: reply?.id,
           },
@@ -165,7 +174,7 @@ export const ContactPage = () => {
           clearSelect={() => setSelects([])}
           selects={selects}
           //@ts-expect-error the
-          contact={chat?.participants?.[0]}
+          contact={participant?.getUser}
           setEdit={(message) => {
             setReply(undefined);
             setEdit(message);

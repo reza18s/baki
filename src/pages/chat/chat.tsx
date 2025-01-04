@@ -144,7 +144,11 @@ export const Chat = () => {
                     selects.length > 0
                       ? () => !isHold && toggleSelect(chat as IChat)
                       : () => {
-                          hs.push(paths.chat.contact.exactPath(chat.id));
+                          hs.push(
+                            paths.chat.contact.exactPath(
+                              chat.participants[0]!.id,
+                            ),
+                          );
                         }
                   }
                   onTouchStart={() => handleMouseDown(chat as IChat)}

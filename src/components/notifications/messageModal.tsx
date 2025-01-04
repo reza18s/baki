@@ -7,12 +7,21 @@ import CardImage from '../../assets/images/image.png';
 import BgChat from '../../assets/images/bg-chat.png';
 import {
   Notification,
+  RequestType,
+  useAcceptRequestMutation,
+  useGetChatQuery,
+  useGetRequestQuery,
+  useGetRequestsQuery,
   useGetUserQuery,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
 import { CircleSpinner } from '../base/Loader/Loader';
 import { IcChair } from '../icons/IcChair';
 import { LikeModal } from './likeModal';
+import { formatLastSeen } from '@/utils/datetime';
+import { cn } from '@/lib/utils';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
 
 export const MessageModal = ({
   isOpen,
@@ -31,6 +40,21 @@ export const MessageModal = ({
       setClose();
     },
   });
+  const user = data?.getUser;
+  const hs = useHistory();
+  const { data: chat } = useGetChatQuery({
+    variables: { participantId: user?.id },
+    onError(error) {
+      console.log(error);
+    },
+  });
+  const { data: request, refetch } = useGetRequestQuery({
+    variables: {
+      requesterId: user?.id || '',
+      type: notification.type as RequestType,
+    },
+  });
+  const [acceptRequest] = useAcceptRequestMutation();
   if (loading) {
     return (
       <Modal
@@ -44,7 +68,7 @@ export const MessageModal = ({
       </Modal>
     );
   }
-  const user = data?.getUser;
+  console.log(request?.getRequest);
   return (
     <Modal
       isOpen={!!isOpen && !!user}
@@ -54,7 +78,7 @@ export const MessageModal = ({
       className="flex h-[90dvh] w-[90%] flex-col gap-4"
     >
       <div
-        className={`relative flex h-full flex-col justify-between gap-4 overflow-y-scroll rounded-2xl bg-white p-4`}
+        className={`relative flex h-full flex-col justify-between gap-4 overflow-x-hidden overflow-y-scroll rounded-2xl bg-white p-4`}
         style={{
           backgroundImage: `url(${BgChat})`,
           backgroundSize: 'cover',
@@ -72,7 +96,8 @@ export const MessageModal = ({
           <h1 className="flex flex-col items-center text-sm font-bold">
             {user?.name}
             <span className="text-xs text-gray-400">
-              آخرین بازدید 2 ساعت پیش
+              آخرین بازدید{' '}
+              {user?.isOnline ? 'انلاین' : formatLastSeen(user?.lastSeen)}
             </span>
           </h1>
           <Button
@@ -112,14 +137,54 @@ export const MessageModal = ({
             شما 24 ساعت زمان دارید تا به درخواست {user?.name} پاسخ دهید.
           </span>
         </div>
-        <div className="flex flex-col gap-4">
-          <div className="mr-auto w-fit rounded-xl rounded-bl-sm bg-black p-2 text-sm text-white">
-            من تمایل دارم با شما همسفر شوم!
-          </div>
+        <div className="flex flex-col gap-2">
+          {chat?.getChat.Message?.map((message) => (
+            <div
+              key={message?.id}
+              className={cn(
+                'w-fit max-w-[85%] rounded-xl rounded-br-sm bg-brand-yellow p-2 text-sm text-brand-black',
+                message?.senderId === user &&
+                  'mr-auto rounded-bl-sm bg-black text-white',
+              )}
+            >
+              {message?.content}
+            </div>
+          ))}
         </div>
       </div>
       <div className="flex w-full items-center gap-2">
-        <Button className="h-10 w-full p-0 text-sm">قبول کردن</Button>
+        <Button
+          className="h-10 w-full p-0 text-sm"
+          onClick={
+            request?.getRequest?.status !== 'accept'
+              ? () => {
+                  acceptRequest({
+                    variables: {
+                      requesterId: user!.id,
+                      searchType: notification.searchType,
+                      type: notification.type as RequestType,
+                    },
+                    onCompleted(data) {
+                      customToast('درخواست با موفقیت قبول شد', 'success');
+                      refetch();
+                    },
+                    onError: () => {
+                      customToast(
+                        'مشکلی پیش امد لطفا دوباره امتحان کنید',
+                        'error',
+                      );
+                    },
+                  });
+                }
+              : () => {
+                  if (chat?.getChat.id) {
+                    hs.push(paths.chat.contact.exactPath(user!.id));
+                  }
+                }
+          }
+        >
+          {request?.getRequest?.status == 'accept' ? 'رفتن به چت' : 'قبول کردن'}
+        </Button>
         <Button
           variant="white"
           className="h-10 w-full p-0 text-sm"

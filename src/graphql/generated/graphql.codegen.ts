@@ -124,6 +124,7 @@ export type Message = {
 export type Mutation = {
   Like?: Maybe<Liked>;
   Signin?: Maybe<Scalars['String']['output']>;
+  acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
   addToBlackList?: Maybe<Scalars['JSON']['output']>;
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
@@ -154,6 +155,13 @@ export type MutationLikeArgs = {
 
 export type MutationSigninArgs = {
   phoneNumber: Scalars['String']['input'];
+};
+
+
+export type MutationAcceptRequestArgs = {
+  requesterId: Scalars['String']['input'];
+  searchType: Scalars['String']['input'];
+  type: RequestType;
 };
 
 
@@ -322,10 +330,11 @@ export type Query = {
   getChat: Chat;
   getChats: Array<Chat>;
   getFavorite: User;
-  getMe?: Maybe<User>;
+  getMe: User;
   getNotifications: Array<Notification>;
   getPricePlan: Array<PricePlan>;
   getRandomUser?: Maybe<Array<Maybe<RandomUser>>>;
+  getRequest?: Maybe<Request>;
   getRequests: Array<Request>;
   getTransaction: Array<Transaction>;
   getUser?: Maybe<User>;
@@ -335,7 +344,8 @@ export type Query = {
 
 
 export type QueryGetChatArgs = {
-  chatId: Scalars['String']['input'];
+  chatId?: InputMaybe<Scalars['String']['input']>;
+  participantId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -355,6 +365,12 @@ export type QueryGetRandomUserArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   province?: InputMaybe<Array<Scalars['String']['input']>>;
   travelInterests?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+
+export type QueryGetRequestArgs = {
+  requesterId: Scalars['String']['input'];
+  type: RequestType;
 };
 
 
@@ -594,6 +610,15 @@ export type CreateRequestMutationVariables = Exact<{
 
 export type CreateRequestMutation = { createRequest?: { id: string, receiverId: string, requesterId: string } | null };
 
+export type AcceptRequestMutationVariables = Exact<{
+  requesterId: Scalars['String']['input'];
+  type: RequestType;
+  searchType: Scalars['String']['input'];
+}>;
+
+
+export type AcceptRequestMutation = { acceptRequest?: { id: string } | null };
+
 export type SignupMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
 }>;
@@ -656,7 +681,8 @@ export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImages?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ replyId?: string | null, senderId: string, read: boolean, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, sender?: { id: string, name?: string | null, username?: string | null } | null } | null } | null> | null }> };
 
 export type GetChatQueryVariables = Exact<{
-  chatId: Scalars['String']['input'];
+  chatId?: InputMaybe<Scalars['String']['input']>;
+  participantId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -670,7 +696,7 @@ export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, crea
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe?: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null } | null };
+export type GetMeQuery = { getMe: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, verified: boolean, AmountOfEarlyRising?: string | null, plan?: { id: string, title: string, expireAt: any, createdAt: any, updatedAt: any } | null } };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -687,6 +713,14 @@ export type GetRequestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetRequestsQuery = { getRequests: Array<{ id: string, receiverId: string, requesterId: string, type: string, createdAt?: any | null, updatedAt?: any | null, status: string, requester?: { id: string, name?: string | null, mainImages?: string | null } | null, receiver?: { id: string, name?: string | null, mainImages?: string | null } | null }> };
 
+export type GetRequestQueryVariables = Exact<{
+  requesterId: Scalars['String']['input'];
+  type: RequestType;
+}>;
+
+
+export type GetRequestQuery = { getRequest?: { id: string, receiverId: string, requesterId: string, status: string, type: string, createdAt?: any | null, updatedAt?: any | null } | null };
+
 export type GetTransactionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -697,7 +731,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -1128,6 +1162,41 @@ export function useCreateRequestMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateRequestMutationHookResult = ReturnType<typeof useCreateRequestMutation>;
 export type CreateRequestMutationResult = Apollo.MutationResult<CreateRequestMutation>;
 export type CreateRequestMutationOptions = Apollo.BaseMutationOptions<CreateRequestMutation, CreateRequestMutationVariables>;
+export const AcceptRequestDocument = gql`
+    mutation AcceptRequest($requesterId: String!, $type: RequestType!, $searchType: String!) {
+  acceptRequest(requesterId: $requesterId, type: $type, searchType: $searchType) {
+    id
+  }
+}
+    `;
+export type AcceptRequestMutationFn = Apollo.MutationFunction<AcceptRequestMutation, AcceptRequestMutationVariables>;
+
+/**
+ * __useAcceptRequestMutation__
+ *
+ * To run a mutation, you first call `useAcceptRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAcceptRequestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [acceptRequestMutation, { data, loading, error }] = useAcceptRequestMutation({
+ *   variables: {
+ *      requesterId: // value for 'requesterId'
+ *      type: // value for 'type'
+ *      searchType: // value for 'searchType'
+ *   },
+ * });
+ */
+export function useAcceptRequestMutation(baseOptions?: Apollo.MutationHookOptions<AcceptRequestMutation, AcceptRequestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AcceptRequestMutation, AcceptRequestMutationVariables>(AcceptRequestDocument, options);
+      }
+export type AcceptRequestMutationHookResult = ReturnType<typeof useAcceptRequestMutation>;
+export type AcceptRequestMutationResult = Apollo.MutationResult<AcceptRequestMutation>;
+export type AcceptRequestMutationOptions = Apollo.BaseMutationOptions<AcceptRequestMutation, AcceptRequestMutationVariables>;
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
   Signin(phoneNumber: $phoneNumber)
@@ -1515,8 +1584,8 @@ export type GetChatsLazyQueryHookResult = ReturnType<typeof useGetChatsLazyQuery
 export type GetChatsSuspenseQueryHookResult = ReturnType<typeof useGetChatsSuspenseQuery>;
 export type GetChatsQueryResult = Apollo.QueryResult<GetChatsQuery, GetChatsQueryVariables>;
 export const GetChatDocument = gql`
-    query GetChat($chatId: String!) {
-  getChat(chatId: $chatId) {
+    query GetChat($chatId: String, $participantId: String) {
+  getChat(chatId: $chatId, participantId: $participantId) {
     id
     searchType
     participants {
@@ -1565,10 +1634,11 @@ export const GetChatDocument = gql`
  * const { data, loading, error } = useGetChatQuery({
  *   variables: {
  *      chatId: // value for 'chatId'
+ *      participantId: // value for 'participantId'
  *   },
  * });
  */
-export function useGetChatQuery(baseOptions: Apollo.QueryHookOptions<GetChatQuery, GetChatQueryVariables> & ({ variables: GetChatQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetChatQuery(baseOptions?: Apollo.QueryHookOptions<GetChatQuery, GetChatQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetChatQuery, GetChatQueryVariables>(GetChatDocument, options);
       }
@@ -1678,7 +1748,15 @@ export const GetMeDocument = gql`
     spiritStatus
     sportsStatus
     lastSeen
+    verified
     AmountOfEarlyRising
+    plan {
+      id
+      title
+      expireAt
+      createdAt
+      updatedAt
+    }
   }
 }
     `;
@@ -1858,6 +1936,53 @@ export type GetRequestsQueryHookResult = ReturnType<typeof useGetRequestsQuery>;
 export type GetRequestsLazyQueryHookResult = ReturnType<typeof useGetRequestsLazyQuery>;
 export type GetRequestsSuspenseQueryHookResult = ReturnType<typeof useGetRequestsSuspenseQuery>;
 export type GetRequestsQueryResult = Apollo.QueryResult<GetRequestsQuery, GetRequestsQueryVariables>;
+export const GetRequestDocument = gql`
+    query GetRequest($requesterId: String!, $type: RequestType!) {
+  getRequest(requesterId: $requesterId, type: $type) {
+    id
+    receiverId
+    requesterId
+    status
+    type
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetRequestQuery__
+ *
+ * To run a query within a React component, call `useGetRequestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRequestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRequestQuery({
+ *   variables: {
+ *      requesterId: // value for 'requesterId'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useGetRequestQuery(baseOptions: Apollo.QueryHookOptions<GetRequestQuery, GetRequestQueryVariables> & ({ variables: GetRequestQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRequestQuery, GetRequestQueryVariables>(GetRequestDocument, options);
+      }
+export function useGetRequestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRequestQuery, GetRequestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRequestQuery, GetRequestQueryVariables>(GetRequestDocument, options);
+        }
+export function useGetRequestSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRequestQuery, GetRequestQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRequestQuery, GetRequestQueryVariables>(GetRequestDocument, options);
+        }
+export type GetRequestQueryHookResult = ReturnType<typeof useGetRequestQuery>;
+export type GetRequestLazyQueryHookResult = ReturnType<typeof useGetRequestLazyQuery>;
+export type GetRequestSuspenseQueryHookResult = ReturnType<typeof useGetRequestSuspenseQuery>;
+export type GetRequestQueryResult = Apollo.QueryResult<GetRequestQuery, GetRequestQueryVariables>;
 export const GetTransactionDocument = gql`
     query GetTransaction {
   getTransaction {
@@ -1912,6 +2037,7 @@ export const GetUserDocument = gql`
     name
     username
     avatar
+    isOnline
     phoneNumber
     gender
     languages
