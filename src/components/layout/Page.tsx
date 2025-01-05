@@ -20,7 +20,7 @@ interface PageProps extends BasePropsWithChildren {
   onScroll?: (event: IonContentCustomEvent<ScrollDetail>) => void;
   header?: React.ReactNode;
   isLoading?: boolean;
-  loading?: React.ReactDOM;
+  loading?: React.ReactNode;
   bgImage?: any;
 }
 
@@ -99,7 +99,8 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
                     <CircleSpinner></CircleSpinner>
                   </div>
                 )}
-              </>
+                </>
+              
             ) : (
               children
             )}
