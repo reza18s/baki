@@ -17,6 +17,8 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
 import { useStore } from '@/store/useStore';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
 
 export const CommunicationModal = ({
   isOpen,
@@ -29,6 +31,8 @@ export const CommunicationModal = ({
 }) => {
   const [createRequest, { loading: requestLoading }] =
     useCreateRequestMutation();
+  const [createRequest2, { loading: requestLoading2 }] =
+    useCreateRequestMutation();
   const { searchType } = useStore((store) => store);
   const { data, loading } = useGetUserQuery({
     variables: { id: notification.actionId },
@@ -37,6 +41,7 @@ export const CommunicationModal = ({
       setClose();
     },
   });
+  const hs = useHistory();
   const user = data?.getUser;
   if (!!loading || !user) {
     return (
@@ -61,9 +66,12 @@ export const CommunicationModal = ({
     >
       <div className="flex flex-col gap-4 rounded-2xl bg-brand-yellow p-4">
         <div className="flex w-full items-center justify-between">
-          <IcXCircle className="size-5 stroke-black"></IcXCircle>
+          <IcXCircle
+            className="size-5 stroke-black"
+            onClick={() => setClose()}
+          ></IcXCircle>
           <div className="flex items-center justify-center">
-            <IcExclamationMarkInCircle></IcExclamationMarkInCircle>
+            <IcExclamationMarkInCircle className="fill-black"></IcExclamationMarkInCircle>
             راهنما
           </div>
         </div>
@@ -119,7 +127,7 @@ export const CommunicationModal = ({
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
             onClick={() => {
-              createRequest({
+              createRequest2({
                 variables: {
                   receiverId: user.id,
                   searchType: searchType,
@@ -133,15 +141,26 @@ export const CommunicationModal = ({
                 },
               });
             }}
-            loading={requestLoading}
+            loading={requestLoading2}
           >
             <IcChair></IcChair>ارسال دعوت میزبانی
           </Button>
         </div>
       </div>
       <div className="flex w-full items-center gap-2">
-        <Button className="h-10 w-full p-0 text-sm">رفتن به صفحه چت</Button>
-        <Button variant="white" className="h-10 w-full p-0 text-sm">
+        <Button
+          className="h-10 w-full p-0 text-sm"
+          onClick={() => {
+            hs.push(paths.chat.contact.exactPath(notification.actionId));
+          }}
+        >
+          رفتن به صفحه چت
+        </Button>
+        <Button
+          variant="white"
+          className="h-10 w-full p-0 text-sm"
+          onClick={() => setClose()}
+        >
           بعدی
         </Button>
       </div>

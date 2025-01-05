@@ -25,6 +25,14 @@ query GetMe {
     spiritStatus
     sportsStatus
     lastSeen
+    verified
     AmountOfEarlyRising
+    plan {
+      id
+      title
+      expireAt
+      createdAt
+      updatedAt
+    }
   }
 }

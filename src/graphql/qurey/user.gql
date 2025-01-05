@@ -4,6 +4,7 @@ query GetUser($id: String!) {
     name
     username
     avatar
+    isOnline
     phoneNumber
     gender
     languages

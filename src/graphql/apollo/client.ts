@@ -149,6 +149,11 @@ const responseMiddleware = new ApolloLink((operation, forward) => {
     return response;
   });
 });
+export const clientLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  window.location.reload();
+};
 
 // Combine all ApolloLinks
 const link = ApolloLink.from([

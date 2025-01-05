@@ -1,0 +1,13 @@
+query GetTransaction {
+  getTransaction {
+    id
+    amount
+    successful
+    discount
+    status
+    itemId
+    userId
+    details
+    createdAt
+  }
+}

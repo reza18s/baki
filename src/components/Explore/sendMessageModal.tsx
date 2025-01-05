@@ -38,7 +38,7 @@ export const SendMessageModal = ({
         <img src={CardImage} className="rounded-full"></img>
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-4">
-        <h2 className="text-lg font-bold">دوست داری به {user.name} چی بگی؟</h2>
+        <h2 className="text-lg font-bold">دوست داری به {user?.name} چی بگی؟</h2>
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <Button
             variant="outline"

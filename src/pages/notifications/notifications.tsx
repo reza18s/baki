@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { IcChatPage } from '@/components/icons/IcChatPage';
 import {
   Notification as INotification,
+  useGetMeQuery,
   useGetNotificationsQuery,
 } from '@/graphql/generated/graphql.codegen';
 import { LikeModal } from '@/components/notifications/likeModal';
@@ -13,6 +14,10 @@ import { calculateElapsedTime } from '@/utils/datetime';
 import { LikeCard } from '@/components/notifications/likeCard';
 import { cn } from '@/lib/utils';
 import { CommunicationModal } from '@/components/notifications/communicationModal';
+import { IcCrownStar } from '@/components/icons/IcCrownStar';
+import Button from '@/components/base/Button/Button';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
 const items = [
   { value: 'all', title: 'همه' },
   {
@@ -35,15 +40,23 @@ export const Notifications = () => {
   const [isOpen, setIsOpen] = useState<'like' | 'message' | 'likeBack'>();
   const [noti, setNoti] = useState<INotification>();
   const { data, loading } = useGetNotificationsQuery();
+  const hs = useHistory();
+  const { data: me } = useGetMeQuery({
+    onError(err) {
+      if (err.message === 'Failed to fetch') {
+        return;
+      }
+    },
+  });
   return (
     <Page
       headerClassName="py-3  h-[88px]"
-      contentClassName="h-full px-6 pb-20 pt-24 "
+      contentClassName="relative h-full px-6 pb-20 pt-24 "
       header={
         <div className="flex w-full flex-col justify-center gap-3">
           <h1 className="w-full text-center text-lg font-bold">اعلان ها</h1>
           <div className="scrollbar-hide flex items-center gap-2 overflow-scroll pl-2">
-            <div className='w-2' />
+            <div className="w-2" />
             {items.map((val, i) => (
               <div
                 key={i}
@@ -54,9 +67,8 @@ export const Notifications = () => {
                 {val.icon?.({ select: filter === val.value })}
               </div>
             ))}
-            <div className='w-2' />
+            <div className="w-2" />
           </div>
-
         </div>
       }
       isLoading={loading}
@@ -76,6 +88,26 @@ export const Notifications = () => {
         </div>
       ) : filter === 'liked' ? (
         <>
+          <div className="absolute z-[1] h-[calc(100vh-48px)] w-[calc(100%-48px)]">
+            <div className="flex h-full w-full items-center justify-center">
+              <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+                <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
+                  <IcCrownStar className="size-8 fill-none stroke-black"></IcCrownStar>
+                </div>
+
+                <h1 className="text-center text-base font-bold">
+                  برای مشاهده لیست کسانی که شما رو لایک کردند، نیاز به تهیه
+                  اشتراک ویژه دارید.
+                </h1>
+                <Button
+                  className="w-full"
+                  onClick={() => hs.push(paths.plans.main)}
+                >
+                  مشاهده اشتراک‌های ویژه
+                </Button>
+              </div>
+            </div>
+          </div>
           <div className="flex flex-col gap-4">
             <h1 className="text-lg font-bold">جدید</h1>
             <div className="grid grid-cols-2 gap-4">
@@ -95,6 +127,8 @@ export const Notifications = () => {
                         setIsOpen('like');
                       }
                     }}
+                    showInfo={!!me?.getMe?.plan}
+                    className="blur-sm"
                   ></LikeCard>
                 ))}
             </div>
@@ -102,7 +136,9 @@ export const Notifications = () => {
           <div className="relative flex flex-col gap-4 pt-6">
             <h1 className="text-lg font-bold">منقضی شده</h1>
             <div className="relative grid grid-cols-2 gap-4">
-              <div className="absolute z-10 h-full w-full bg-white/50"></div>
+              {!!me?.getMe?.plan && (
+                <div className="absolute z-10 h-full w-full bg-white/50"></div>
+              )}
               {data?.getNotifications
                 .filter(
                   (val) =>
@@ -114,6 +150,7 @@ export const Notifications = () => {
                     key={notification.id}
                     notification={notification}
                     disabled
+                    showInfo={!!me?.getMe?.plan}
                   ></LikeCard>
                 ))}
             </div>

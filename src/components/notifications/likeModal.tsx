@@ -7,6 +7,7 @@ import Button from '../base/Button/Button';
 import {
   Notification,
   useGetUserQuery,
+  useLikeMutation,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
 import { CircleSpinner } from '../base/Loader/Loader';
@@ -28,6 +29,8 @@ export const LikeModal = ({
       setClose();
     },
   });
+
+  const [Like] = useLikeMutation();
 
   const user = data?.getUser;
   if (loading || !user) {
@@ -74,7 +77,19 @@ export const LikeModal = ({
         </AnimatePresence>
       </div>
       <div className="flex w-full items-center gap-2">
-        <Button className="h-10 w-full p-0 text-sm">لایک کردن</Button>
+        <Button
+          className="h-10 w-full p-0 text-sm"
+          onClick={() => {
+            Like({
+              variables: {
+                likedUserId: notification.actionId,
+                searchType: notification.searchType,
+              },
+            });
+          }}
+        >
+          لایک کردن
+        </Button>
         <Button
           variant="white"
           className="h-10 w-full p-0 text-sm"

@@ -35,8 +35,8 @@ query GetChats {
     }
   }
 }
-query GetChat($chatId: String!) {
-  getChat(chatId: $chatId) {
+query GetChat($chatId: String, $participantId: String) {
+  getChat(chatId: $chatId, participantId: $participantId) {
     id
     searchType
     participants {

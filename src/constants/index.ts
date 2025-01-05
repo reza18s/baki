@@ -1,7 +1,11 @@
+import { IcAries } from '@/components/icons/IcAries';
+import { zodiacSigns } from './zodiacSigns';
+
 export { allIcon } from './allIcons';
 export { languages } from './languages';
 export { iranProvinces } from './iranProvinces';
 export { countries } from './countries';
+export { zodiacSigns } from './zodiacSigns';
 export {
   PersonalInterestsItems,
   SpecialtyItems,
@@ -39,56 +43,6 @@ export const gender = [
   { label: 'زن', value: 'female' },
   { label: 'مرد', value: 'male' },
 ];
-export const zodiacSigns = [
-  {
-    label: 'حمل',
-    value: 'Aries',
-  },
-  {
-    label: 'ثور',
-    value: 'Taurus',
-  },
-  {
-    label: 'جوزا',
-    value: 'Gemini',
-  },
-  {
-    label: 'سرطان',
-    value: 'Cancer',
-  },
-  {
-    label: 'اسد',
-    value: 'Leo',
-  },
-  {
-    label: 'سنبله',
-    value: 'Virgo',
-  },
-  {
-    label: 'میزان',
-    value: 'Libra',
-  },
-  {
-    label: 'عقرب',
-    value: 'Scorpio',
-  },
-  {
-    label: 'قوس',
-    value: 'Sagittarius',
-  },
-  {
-    label: 'جدی',
-    value: 'Capricorn',
-  },
-  {
-    label: 'دلو',
-    value: 'Aquarius',
-  },
-  {
-    label: 'حوت',
-    value: 'Pisces',
-  },
-];
 export const AmountOfEarlyRising = [
   { label: 'سحرخیز', value: 'wakeUpEarly' },
   { label: 'خواب‌آلود', value: 'sleepy' },
@@ -110,6 +64,12 @@ export const getZodiacSignsLabel = (value?: string) => {
     return undefined;
   }
   return zodiacSigns.find((val) => val.value === value)?.label;
+};
+export const getZodiacSignsIcon = (value?: string) => {
+  if (!value) {
+    return undefined;
+  }
+  return zodiacSigns.find((val) => val.value === value)?.icon;
 };
 export const getAmountOfEarlyRisingLabel = (value?: string) => {
   if (!value) {

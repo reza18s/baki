@@ -1,0 +1,29 @@
+mutation CheckDiscount($code: String!) {
+  checkDiscount(code: $code) {
+    id
+    code
+    percent
+    expireAt
+  }
+}
+mutation RequestPay($planId: Int!, $code: String) {
+  requestPay(planId: $planId, code: $code)
+}
+mutation ActivePlan(
+  $planId: Int!
+  $bazarPurchaseToken: String
+  $transactionsId: String
+  $authority: String
+  $userId: String
+) {
+  activePlan(
+    planId: $planId
+    bazarPurchaseToken: $bazarPurchaseToken
+    transactionsId: $transactionsId
+    authority: $authority
+    userId: $userId
+  ) {
+    id
+    name
+  }
+}

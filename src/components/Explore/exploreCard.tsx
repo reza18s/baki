@@ -51,6 +51,7 @@ export default function ExploreCard({
           const rotateValue = Math.max(-40, Math.min(40, info.offset.x / 20));
           setRotation(rotateValue);
         }}
+        dragElastic={0.6}
         onDragEnd={(event, info) => {
           if (info.offset.x > 200) {
             setSwipeDirection('right');

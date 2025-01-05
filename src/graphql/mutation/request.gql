@@ -9,3 +9,16 @@ mutation CreateRequest(
     requesterId
   }
 }
+mutation AcceptRequest(
+  $requesterId: String!
+  $type: RequestType!
+  $searchType: String!
+) {
+  acceptRequest(
+    requesterId: $requesterId
+    type: $type
+    searchType: $searchType
+  ) {
+    id
+  }
+}

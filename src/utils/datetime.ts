@@ -98,7 +98,16 @@ export function formatLastSeen(lastSeenS: Date): string {
   if (diffInDays === 1) {
     return 'دیروز';
   } else if (diffInDays < 7) {
-    return lastSeen.toLocaleDateString(undefined, { weekday: 'long' });
+    const days = [
+      'یک‌شنبه',
+      'دوشنبه',
+      'سه‌شنبه',
+      'چهارشنبه',
+      'پنج‌شنبه',
+      'جمعه',
+      'شنبه',
+    ];
+    return days[lastSeen.getDay()];
   } else {
     return lastSeen.toLocaleDateString();
   }

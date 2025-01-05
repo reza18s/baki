@@ -7,6 +7,7 @@ import Modal from '../components/base/Modal/Modal';
 import { Page } from '@/components/layout/Page';
 import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
+import { App } from '@capacitor/app';
 export default function Welcome() {
   const [showRules, setShowRules] = useState<boolean>(false);
   const hs = useHistory();
@@ -16,6 +17,21 @@ export default function Welcome() {
       hs.push(paths.explore.main);
     }
   }, [data]);
+  useEffect(() => {
+    // Add back button listener
+    const backButtonListener = App.addListener('backButton', () => {
+      exitApp(); // Show the exit modal when back button is pressed
+    });
+
+    // Cleanup listener on component unmount
+    return () => {
+      backButtonListener.remove();
+    };
+  }, []);
+
+  const exitApp = () => {
+    App.exitApp(); // Exit the app
+  };
   return (
     <Page
       className="flex h-full w-full flex-col items-center"

@@ -54,7 +54,7 @@ export const Chat = () => {
     const timeout = setTimeout(() => {
       setIsHold(true);
       toggleSelect(chat);
-    }, 300); // 500ms for long press
+    }, 500); // 500ms for long press
     setHoldTimeout(timeout);
   };
   const handleTouchMove = () => {
@@ -144,7 +144,11 @@ export const Chat = () => {
                     selects.length > 0
                       ? () => !isHold && toggleSelect(chat as IChat)
                       : () => {
-                          hs.push(paths.chat.contact.exactPath(chat.id));
+                          hs.push(
+                            paths.chat.contact.exactPath(
+                              chat.participants[0]!.id,
+                            ),
+                          );
                         }
                   }
                   onTouchStart={() => handleMouseDown(chat as IChat)}
