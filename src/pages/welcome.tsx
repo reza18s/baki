@@ -25,7 +25,7 @@ export default function Welcome() {
 
     // Cleanup listener on component unmount
     return () => {
-      backButtonListener.remove();
+      backButtonListener.then((listener) => listener.remove());
     };
   }, []);
 
