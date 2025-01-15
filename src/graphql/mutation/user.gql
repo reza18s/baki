@@ -4,6 +4,7 @@ mutation UpdateUser(
   $birthdate: String
   $province: String
   $city: String
+  $mainImage: String
   $images: [String!]
   $travelInterests: [String!]
   $personalInterests: [String!]
@@ -25,6 +26,7 @@ mutation UpdateUser(
     birthdate: $birthdate
     province: $province
     city: $city
+    mainImage: $mainImage
     images: $images
     travelInterests: $travelInterests
     personalInterests: $personalInterests
@@ -68,7 +70,7 @@ query GetRandomUser(
     traveledToPlaces
     livedInPlaces
     province
-    mainImages
+    mainImage
     images
     city
     zodiacSign

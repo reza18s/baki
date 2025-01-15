@@ -8,7 +8,6 @@ import { IcSendMessageHeart } from '../icons/IcSendMessageHeart';
 import { IcTick } from '../icons/IcTick';
 import { IcX } from '../icons/IcX';
 import { User } from '@/graphql/generated/graphql.codegen';
-import CardImage from '../../assets/images/image.png';
 import CardAvatar from '../../assets/images/avatar.png';
 import clsx from 'clsx';
 import { getBaseInfo } from '@/utils/getBaseInfo';
@@ -37,7 +36,7 @@ export const ProfileCard = ({
       <div
         className={`flex min-h-[60dvh] flex-col justify-end bg-cover bg-center p-4`}
         style={{
-          backgroundImage: `url(${CardImage})`,
+          backgroundImage: `url(${user.mainImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

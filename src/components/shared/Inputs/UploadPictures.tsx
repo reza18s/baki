@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import * as SolarIconSet from 'solar-icon-set';
 
-export default function UploadPictures() {
+export default function UploadPictures({
+  setMainImage,
+  setSecondaryImages,
+}: {
+  mainImage?: string | null;
+  secondaryImages?: (string | null)[];
+  setMainImage?: (images: string | null) => void;
+  setSecondaryImages?: (images: (string | null)[]) => void;
+}) {
   const [mainImagePreview, setMainImagePreview] = useState<string | null>(null);
   const [secondaryImagePreviews, setSecondaryImagePreviews] = useState<
     (string | null)[]
@@ -17,10 +25,12 @@ export default function UploadPictures() {
       reader.onloadend = () => {
         if (index === 'main') {
           setMainImagePreview(reader.result as string);
+          setMainImage?.(reader.result as string);
         } else {
           setSecondaryImagePreviews((prev) => {
             const newPreviews = [...prev];
             newPreviews[index] = reader.result as string;
+            setSecondaryImages?.(newPreviews);
             return newPreviews;
           });
         }

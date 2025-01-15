@@ -7,7 +7,7 @@ query GetChats {
       name
       username
       phoneNumber
-      mainImages
+      mainImage
       lastSeen
       isOnline
     }
@@ -44,7 +44,7 @@ query GetChat($chatId: String, $participantId: String) {
       name
       username
       phoneNumber
-      mainImages
+      mainImage
       lastSeen
       isOnline
     }

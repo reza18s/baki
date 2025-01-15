@@ -4,10 +4,93 @@ import UploadPictures from '../shared/Inputs/UploadPictures';
 import { useLocalStore } from '../../store/useLocalStore';
 import Modal from '@/components/base/Modal/Modal';
 import Button from '../base/Button/Button';
+import { customToast } from '../base/toast';
+import { client, refreshAccessToken } from '@/graphql/apollo/client';
 
 export default function GetPictures(props: { control: any; name: string }) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
-
+  const [mainImage, setMainImage] = useState<string | null>(null);
+  const [secondaryImage, setSecondaryImage] = useState<(string | null)[]>([
+    null,
+    null,
+    null,
+  ]);
+  const { updateUserInfo } = useLocalStore((s) => s);
+  const [uploadStatus, setUploadStatus] = useState<boolean>(false);
+  const uploadImages = async () => {
+    if (!mainImage || secondaryImage.length !== 3) {
+      customToast('لطفا اطلاعات خواسته شده را وارد کنید', 'error');
+      return;
+    }
+    const mainFormData = new FormData();
+    const secondaryFormData = new FormData();
+    if (mainImage) {
+      const file = await fetch(mainImage).then((res) => res.blob());
+      mainFormData.append('files', file, 'mainImage.jpg');
+    }
+    for (let i = 0; i < secondaryImage.length; i++) {
+      if (secondaryImage[i]) {
+        const file = await fetch(secondaryImage[i]!).then((res) => res.blob());
+        secondaryFormData.append('files', file, `secondaryImage${i + 1}.jpg`);
+      }
+    }
+    try {
+      setUploadStatus(true);
+      const response = await fetch(
+        `http://localhost:4000/upload/upload-images`,
+        {
+          method: 'POST',
+          body: mainFormData,
+          redirect: 'follow',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      );
+      if (response.ok) {
+        customToast('عکس اصلی با موفقیت اپلود شد', 'success');
+        updateUserInfo({
+          mainImage: (await response.json())?.files[0]?.original,
+        });
+        const secondaryResponse = await fetch(
+          `http://localhost:4000/upload/upload-images`,
+          {
+            method: 'POST',
+            body: secondaryFormData,
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          },
+        );
+        if (secondaryResponse.ok) {
+          updateUserInfo({
+            images: (await secondaryResponse.json())?.files.map(
+              (ob: { original: string }) => ob.original,
+            ),
+          });
+          customToast('عکس های اضافی با موفقیت اپلود شد', 'success');
+          setTimeout(() => {
+            handleNextStep();
+          }, 500);
+        } else {
+          if ((await secondaryResponse.json()).code === 'INVALID_TOKEN') {
+            refreshAccessToken(client);
+          }
+          setUploadStatus(false);
+          customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
+        }
+      } else {
+        if ((await response.json()).code === 'INVALID_TOKEN') {
+          refreshAccessToken(client);
+        }
+        setUploadStatus(false);
+        customToast('مشکلی در اپلود عکس های اصلی پیش امد', 'error');
+      }
+    } catch (err) {
+      setUploadStatus(false);
+      customToast('مشکلی در سرور پیش امد', 'error');
+    }
+  };
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   return (
     <div className="flex h-[calc(100%)] w-full flex-col justify-between">
@@ -16,7 +99,10 @@ export default function GetPictures(props: { control: any; name: string }) {
         <p className="mb-6 text-sm font-medium leading-tight text-gray-500">
           در صورت تمایل تصویر دلخواه خود را اپلود کنید.
         </p>
-        <UploadPictures />
+        <UploadPictures
+          setMainImage={(image) => setMainImage(image)}
+          setSecondaryImages={(images) => setSecondaryImage(images)}
+        />
       </div>
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center justify-between gap-x-[8px]">
@@ -34,9 +120,10 @@ export default function GetPictures(props: { control: any; name: string }) {
           </div>
         </div>
         <Button
-          // disabled={props.name?.length > 1}
-          onClick={() => {
-            handleNextStep();
+          disabled={!mainImage && !(secondaryImage.length == 3) && uploadStatus}
+          loading={uploadStatus}
+          onClick={async () => {
+            await uploadImages();
           }}
           className={`rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >

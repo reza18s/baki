@@ -41,7 +41,7 @@ export const Profile = () => {
         <>
           <div className="flex w-full flex-col items-center gap-2">
             <div className="size-[88px] overflow-hidden rounded-full">
-              <img src={CardImage}></img>
+              <img src={me?.mainImage}></img>
             </div>
             <div className="flex items-center gap-1">
               <h1 className="flex items-center text-sm font-black">

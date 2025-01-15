@@ -37,7 +37,7 @@ const saveToken = (token: string) => {
 };
 
 // Function to refresh the access token
-const refreshAccessToken = async (client: ApolloClient<any>) => {
+export const refreshAccessToken = async (client: ApolloClient<any>) => {
   try {
     const refreshToken = localStorage.getItem('refreshToken');
     if (!refreshToken) {

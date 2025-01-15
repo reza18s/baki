@@ -24,6 +24,7 @@ export type UserInfo = {
   zodiacSign?: string;
   username: string;
   bio: string;
+  mainImage: string;
   verified: boolean;
 };
 interface IStore {
@@ -52,6 +53,7 @@ export const defaultInitState: IStore = {
     traveledToPlaces: [],
     livedInPlaces: [],
     languages: [],
+    mainImage: '',
     verified: false,
     phoneNumber: '',
     name: '',
@@ -93,7 +95,8 @@ export const useLocalStore = create<Store>()(
           userInfo.bio,
           userInfo.province,
           userInfo.gender,
-          userInfo.images.length >= 4,
+          userInfo.mainImage,
+          userInfo.images.length >= 3,
           userInfo.personalInterests.length >= 5,
           userInfo.travelInterests.length >= 5,
           userInfo.mySpecialty.length > 0,

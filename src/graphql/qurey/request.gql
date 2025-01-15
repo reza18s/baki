@@ -10,12 +10,12 @@ query GetRequests {
     requester {
       id
       name
-      mainImages
+      mainImage
     }
     receiver {
       id
       name
-      mainImages
+      mainImage
     }
   }
 }

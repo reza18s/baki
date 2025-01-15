@@ -15,6 +15,7 @@ query GetMe {
     province
     age
     city
+    mainImage
     images
     travelInterests
     personalInterests

@@ -9,6 +9,7 @@ mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
       gender
       birthdate
       province
+      mainImage
       images
       mySpecialty
       personalInterests

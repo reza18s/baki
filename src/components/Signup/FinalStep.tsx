@@ -30,6 +30,8 @@ export default function FinalStep() {
         onClick={() => {
           updateUser({
             variables: {
+              images: userInfo.images,
+              mainImage: userInfo.mainImage,
               birthdate: userInfo.birthdate,
               travelInterests: userInfo.travelInterests,
               gender: userInfo.gender,
