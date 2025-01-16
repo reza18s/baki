@@ -39,7 +39,7 @@ export const LikeCard = ({
       )}
       onClick={() => !disabled && onClick?.()}
       style={{
-        backgroundImage: `url(${CardImage})`,
+        backgroundImage: `url(${user?.mainImage || CardImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

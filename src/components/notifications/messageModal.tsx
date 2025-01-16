@@ -91,7 +91,10 @@ export const MessageModal = ({
         </div>
         <div className="flex w-full flex-col items-center gap-2">
           <div className="size-20 overflow-hidden rounded-full">
-            <img src={CardImage}></img>
+            <img
+              src={user?.mainImage || CardImage}
+              className="h-full w-full object-cover"
+            ></img>
           </div>
           <h1 className="flex flex-col items-center text-sm font-bold">
             {user?.name}

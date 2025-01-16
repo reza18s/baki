@@ -156,7 +156,7 @@ export const ContactBar = ({
           <div className="flex items-center gap-2">
             <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={contact.mainImage} />
               <AvatarFallback>
                 {contact?.name?.[0].toUpperCase()}
               </AvatarFallback>

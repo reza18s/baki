@@ -26,7 +26,10 @@ export const Contact: FC<
       <div className="flex w-full gap-2 rounded-lg transition-all duration-300 ease-in-out active:bg-gray-100">
         <div className="relative flex items-center justify-center">
           <div className="aspect-square size-12 overflow-hidden rounded-full">
-            <img src={CardImage}></img>
+            <img
+              src={user?.mainImage || CardImage}
+              className="h-full w-full object-cover"
+            ></img>
           </div>
           <div
             className={`absolute bottom-1 left-0 size-[14px] rounded-full border-[2.5px] border-white ${user?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}

@@ -14,7 +14,6 @@ import { getBaseInfo } from '@/utils/getBaseInfo';
 import { IcSendMessageHeart } from '../icons/IcSendMessageHeart';
 import { SendMessageModal } from './sendMessageModal';
 import ViolationReportModal from './violationReportModal';
-import { clsx } from 'clsx';
 import { optionTexts } from '@/utils';
 import { cn } from '@/lib/utils';
 export default function ExploreCard({
@@ -90,7 +89,7 @@ export default function ExploreCard({
           <div
             className={`flex min-h-[60dvh] flex-col justify-between bg-cover bg-center p-4`}
             style={{
-              backgroundImage: `url(${CardImage})`,
+              backgroundImage: `url(${user.mainImage || CardImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',

@@ -35,7 +35,10 @@ export const SendMessageModal = ({
       className="relative flex flex-col items-center justify-center gap-4 p-4 px-6"
     >
       <div className="size-20 overflow-hidden rounded-full">
-        <img src={CardImage} className="rounded-full"></img>
+        <img
+          src={user.mainImage || CardImage}
+          className="size-full rounded-full object-cover"
+        ></img>
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <h2 className="text-lg font-bold">دوست داری به {user?.name} چی بگی؟</h2>

@@ -277,6 +277,7 @@ export type MutationUpdateUserArgs = {
   languages?: InputMaybe<Array<Scalars['String']['input']>>;
   livedInPlaces?: InputMaybe<Array<Scalars['String']['input']>>;
   mainImage?: InputMaybe<Scalars['String']['input']>;
+  mainImages?: InputMaybe<Scalars['String']['input']>;
   maritalStatus?: InputMaybe<Scalars['String']['input']>;
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']>>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -399,6 +400,7 @@ export type RandomUser = {
   lastSeen: Scalars['DateTime']['output'];
   livedInPlaces: Array<Scalars['String']['output']>;
   mainImage?: Maybe<Scalars['String']['output']>;
+  mainImages?: Maybe<Scalars['String']['output']>;
   maritalStatus: Scalars['String']['output'];
   mySpecialty: Array<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -479,6 +481,7 @@ export type User = {
   likedBack?: Maybe<Array<Maybe<Liked>>>;
   livedInPlaces?: Maybe<Array<Scalars['String']['output']>>;
   mainImage?: Maybe<Scalars['String']['output']>;
+  mainImages?: Maybe<Scalars['String']['output']>;
   maritalStatus?: Maybe<Scalars['String']['output']>;
   messages?: Maybe<Array<Maybe<Message>>>;
   mySpecialty?: Maybe<Array<Scalars['String']['output']>>;
@@ -732,7 +735,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
 
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2053,6 +2056,7 @@ export const GetUserDocument = gql`
     province
     age
     city
+    mainImage
     images
     travelInterests
     personalInterests

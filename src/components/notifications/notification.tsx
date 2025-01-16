@@ -27,7 +27,10 @@ export const Notification = ({
     <div className="flex gap-2">
       <div className="relative">
         <div className="aspect-square size-12 overflow-hidden rounded-xl">
-          <img src={CardImage}></img>
+          <img
+            src={data?.getUser?.mainImage || CardImage}
+            className="h-full w-full object-cover"
+          ></img>
         </div>
         <div
           className={`absolute -left-2 bottom-3 size-[14px] rounded-full border-[2.5px] border-white ${data?.getUser?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}

@@ -13,6 +13,7 @@ import {
   Notification,
   RequestType,
   useCreateRequestMutation,
+  useGetMeQuery,
   useGetUserQuery,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
@@ -39,6 +40,11 @@ export const CommunicationModal = ({
     onError() {
       customToast('کاربر موجود نیست', 'error');
       setClose();
+    },
+  });
+  const { data: me } = useGetMeQuery({
+    onError: (err) => {
+      console.error('Error fetching user data:', err);
     },
   });
   const hs = useHistory();
@@ -83,13 +89,19 @@ export const CommunicationModal = ({
               <IcStars className="absolute -left-8 top-[50%] size-12 -rotate-[15deg] fill-white/50"></IcStars>
               <IcStars className="absolute -right-10 top-[20%] size-12 rotate-[15deg] fill-white/50"></IcStars>
               <div className="-ml-4 aspect-square size-32 rotate-[15deg] overflow-hidden rounded-[27px] border-4 border-white">
-                <img src={CardImage}></img>
+                <img
+                  src={me?.getMe.mainImage || CardImage}
+                  className="h-full w-full object-cover"
+                ></img>
               </div>
               <div className="absolute bottom-0 left-[calc(50%-32px)] z-10 flex size-16 items-center justify-center rounded-full bg-white">
                 <IcTick className="size-7"></IcTick>
               </div>
               <div className="aspect-square size-32 -rotate-[15deg] overflow-hidden rounded-[27px] border-4 border-white">
-                <img src={CardImage}></img>
+                <img
+                  src={user.mainImage || CardImage}
+                  className="h-full w-full object-cover"
+                ></img>
               </div>
             </div>
           </div>

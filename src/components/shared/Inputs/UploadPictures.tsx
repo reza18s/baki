@@ -40,6 +40,12 @@ export default function UploadPictures({
           if (onChange) {
             try {
               const mainFormData = new FormData();
+              if (reader.result) {
+                const file = await fetch(reader.result as string).then((res) =>
+                  res.blob(),
+                );
+                mainFormData.append('files', file, 'mainImage.jpg');
+              }
               const response = await fetch(
                 `http://localhost:4000/upload/upload-images`,
                 {
@@ -65,6 +71,7 @@ export default function UploadPictures({
                 customToast('مشکلی در اپلود عکس های اصلی پیش امد', 'error');
               }
             } catch (error) {
+              console.log(error);
               customToast('مشکلی در اپلود عکس های اصلی پیش امد', 'error');
             }
           }
@@ -74,13 +81,55 @@ export default function UploadPictures({
             newPreviews[index] = reader.result as string;
             return newPreviews;
           });
+          if (onChange) {
+            try {
+              const formData = new FormData();
+              if (reader.result) {
+                const file = await fetch(reader.result as string).then((res) =>
+                  res.blob(),
+                );
+                formData.append('files', file, 'Image.jpg');
+              }
+              const response = await fetch(
+                `http://localhost:4000/upload/upload-images`,
+                {
+                  method: 'POST',
+                  body: formData,
+                  redirect: 'follow',
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                },
+              );
+              if (response.ok) {
+                customToast('عکس اضافی با موفقیت اپلود شد', 'success');
+                const imagesUrl = [...images];
+                imagesUrl[index] = (await response.json())?.files[0]?.original;
+                updateUserInfo({
+                  images: imagesUrl,
+                });
+                updateUser({
+                  variables: {
+                    images: imagesUrl,
+                  },
+                });
+              } else {
+                if ((await response.json()).code === 'INVALID_TOKEN') {
+                  refreshAccessToken(client);
+                }
+                customToast('مشکلی در اپلود عکس های اضافی پیش امد', 'error');
+              }
+            } catch (error) {
+              console.log(error);
+              customToast('مشکلی در اپلود عکس های اضافی پیش امد', 'error');
+            }
+          }
         }
       };
       reader.readAsDataURL(file);
     }
   };
   useEffect(() => {
-    console.log(secondaryImagePreviews);
     setSecondaryImages?.(secondaryImagePreviews);
   }, [secondaryImagePreviews]);
   return (

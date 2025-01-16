@@ -3,11 +3,10 @@ import { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
   // Define both schemas for different servers
   schema: [
-    // { 'http://localhost:4000/graphql': {} },
-    // { 'http://localhost:4001/graphql': {} },
-  {'https://subs.baki.app/graphql' :{}},
-  {"https://api.baki.app/graphql" : {}},
-
+    { 'http://localhost:4000/graphql': {} },
+    { 'http://localhost:4001/graphql': {} },
+    // {'https://subs.baki.app/graphql' :{}},
+    // {"https://api.baki.app/graphql" : {}},
   ],
   documents: ['src/graphql/**/*.gql'], // Path to your queries/mutations
   generates: {

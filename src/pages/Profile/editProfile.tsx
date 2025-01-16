@@ -163,7 +163,7 @@ export default function EditProfile() {
         {/* Upload Picture */}
         <div className="flex min-h-fit w-full flex-col items-center gap-y-3">
           <h1 className="w-full pr-3 text-gray-500">انتخاب عکس</h1>
-          <UploadPictures />
+          <UploadPictures onChange />
         </div>
         {/* About Me */}
         <div className="flex min-h-fit w-full flex-col items-center gap-y-3">
