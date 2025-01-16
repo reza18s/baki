@@ -7,7 +7,13 @@ import Button from '../base/Button/Button';
 import { customToast } from '../base/toast';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
 
-export default function GetPictures(props: { control: any; name: string }) {
+export default function GetPictures({
+  update = false,
+  handleSubmit,
+}: {
+  update: boolean;
+  handleSubmit?: (data: { images?: string[]; mainImage?: string }) => void;
+}) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
   const [mainImage, setMainImage] = useState<string | null>(null);
   const [secondaryImage, setSecondaryImage] = useState<(string | null)[]>([
@@ -15,12 +21,14 @@ export default function GetPictures(props: { control: any; name: string }) {
     null,
     null,
   ]);
-  const { updateUserInfo } = useLocalStore((s) => s);
+  const { updateUserInfo, userInfo } = useLocalStore((s) => s);
   const [uploadStatus, setUploadStatus] = useState<boolean>(false);
   const uploadImages = async () => {
-    if (!mainImage || secondaryImage.length !== 3) {
-      customToast('لطفا اطلاعات خواسته شده را وارد کنید', 'error');
-      return;
+    if (!update) {
+      if (!mainImage && secondaryImage.length !== 3) {
+        customToast('لطفا اطلاعات خواسته شده را وارد کنید', 'error');
+        return;
+      }
     }
     const mainFormData = new FormData();
     const secondaryFormData = new FormData();
@@ -35,23 +43,38 @@ export default function GetPictures(props: { control: any; name: string }) {
       }
     }
     try {
+      let mainImageUrl: string | undefined = undefined;
+      let imagesUrl: string[] | undefined = undefined;
+
       setUploadStatus(true);
-      const response = await fetch(
-        `http://localhost:4000/upload/upload-images`,
-        {
-          method: 'POST',
-          body: mainFormData,
-          redirect: 'follow',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+      if (mainImage) {
+        const response = await fetch(
+          `http://localhost:4000/upload/upload-images`,
+          {
+            method: 'POST',
+            body: mainFormData,
+            redirect: 'follow',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
           },
-        },
-      );
-      if (response.ok) {
-        customToast('عکس اصلی با موفقیت اپلود شد', 'success');
-        updateUserInfo({
-          mainImage: (await response.json())?.files[0]?.original,
-        });
+        );
+        if (response.ok) {
+          customToast('عکس اصلی با موفقیت اپلود شد', 'success');
+          mainImageUrl = (await response.json())?.files[0]?.original;
+          updateUserInfo({
+            mainImage: mainImageUrl,
+          });
+        } else {
+          if ((await response.json()).code === 'INVALID_TOKEN') {
+            refreshAccessToken(client);
+          }
+          setUploadStatus(false);
+          customToast('مشکلی در اپلود عکس های اصلی پیش امد', 'error');
+          return;
+        }
+      }
+      if (secondaryImage.filter((v) => v).length > 0) {
         const secondaryResponse = await fetch(
           `http://localhost:4000/upload/upload-images`,
           {
@@ -63,28 +86,37 @@ export default function GetPictures(props: { control: any; name: string }) {
           },
         );
         if (secondaryResponse.ok) {
+          const images: string[] = (await secondaryResponse.json())?.files.map(
+            (ob: { original: string }) => ob.original,
+          );
+          imagesUrl = secondaryImage.map((image, index) => {
+            if (!image) {
+              return userInfo.images[index];
+            }
+            const select = images[0];
+            images.splice(0, 1);
+            return select;
+          });
           updateUserInfo({
-            images: (await secondaryResponse.json())?.files.map(
-              (ob: { original: string }) => ob.original,
-            ),
+            images: imagesUrl,
           });
           customToast('عکس های اضافی با موفقیت اپلود شد', 'success');
-          setTimeout(() => {
-            handleNextStep();
-          }, 500);
+          setUploadStatus(false);
         } else {
           if ((await secondaryResponse.json()).code === 'INVALID_TOKEN') {
             refreshAccessToken(client);
           }
           setUploadStatus(false);
           customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
+          return;
         }
+      }
+      if (handleSubmit) {
+        handleSubmit({ images: imagesUrl, mainImage: mainImageUrl });
       } else {
-        if ((await response.json()).code === 'INVALID_TOKEN') {
-          refreshAccessToken(client);
-        }
-        setUploadStatus(false);
-        customToast('مشکلی در اپلود عکس های اصلی پیش امد', 'error');
+        setTimeout(() => {
+          handleNextStep();
+        }, 500);
       }
     } catch (err) {
       setUploadStatus(false);
