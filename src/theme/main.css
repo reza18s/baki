@@ -141,3 +141,18 @@ input:-webkit-autofill:focus {
     transform: translateY(0);
   }
 }
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-fadeInOut {
+  animation: fadeInOut 1s infinite;
+}

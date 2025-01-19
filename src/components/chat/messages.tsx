@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
 import { useStore } from '@/store/useStore';
+import VoicePlayer from './voice';
 
 let lastDate = '';
 
@@ -222,52 +223,76 @@ const Message = ({
             });
           }}
           className={cn(
-            'flex w-fit max-w-[85%] flex-col rounded-xl rounded-bl-sm bg-white px-3 py-2 text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
+            'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl rounded-bl-sm bg-white text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
             selects.some((val) => val.id === message.id) &&
               'bg-brand-yellow/10',
             message.senderId === me?.getMe?.id &&
               'rounded-xl rounded-br-sm bg-brand-yellow',
           )}
         >
-          {message.reply && (
-            <div
-              className={cn(
-                'mb-1 flex w-full overflow-hidden rounded-lg bg-gray-100',
-                message.senderId === me?.getMe?.id && 'bg-warning-100',
-              )}
-              onClick={() => clickReply?.(message.reply!.id)}
-            >
-              <div
-                className={cn(
-                  'flex max-h-full w-1 overflow-hidden bg-gray-400 text-transparent',
-                  message.senderId === me?.getMe?.id && '',
-                )}
-              >
-                mmm
-              </div>
-              <div className="max-w-[calc(100%-4px)] p-2">
-                <h1 className="truncate text-sm font-bold">
-                  {message.reply?.sender?.name}
-                </h1>
-                <div className="overflow-hidden truncate text-xs text-gray-500">
-                  {message.reply?.content}
-                </div>
-              </div>
+          {message.type == 'message' && message.url && (
+            <div className="my-auto flex items-center justify-center overflow-hidden bg-black">
+              <img className="max-h-96 object-cover" src={message.url}></img>
             </div>
           )}
-
-          <p className="whitespace-pre-wrap leading-normal">
-            {message.content.trim()}
-          </p>
-          <div
-            className={cn(
-              'w-full text-end text-[9px]',
-              message.senderId === me?.getMe?.id && 'text-start',
+          {message.type == 'voice' && message.url && (
+            <VoicePlayer
+              url={message.url}
+              me={message.senderId === me?.getMe?.id}
+            ></VoicePlayer>
+          )}
+          <div className="px-3 py-2">
+            {message.reply && (
+              <div
+                className={cn(
+                  'mb-1 flex w-full overflow-hidden rounded-lg bg-gray-100',
+                  message.senderId === me?.getMe?.id && 'bg-warning-100',
+                )}
+                onClick={() => clickReply?.(message.reply!.id)}
+              >
+                <div
+                  className={cn(
+                    'flex max-h-full w-1 overflow-hidden bg-gray-400 text-transparent',
+                    message.senderId === me?.getMe?.id && '',
+                  )}
+                >
+                  mmm
+                </div>
+                {message.reply.url && (
+                  <div className="my-auto flex size-8 items-center justify-center overflow-hidden bg-black">
+                    <img
+                      className="size-8 object-cover"
+                      src={message.reply.url}
+                    ></img>
+                  </div>
+                )}
+                <div className="max-w-[calc(100%-4px)] p-1 px-2">
+                  <h1 className="truncate text-sm font-bold">
+                    {message.reply?.sender?.name}
+                  </h1>
+                  <div className="overflow-hidden truncate text-xs text-gray-500">
+                    {message.reply?.type == 'message'
+                      ? 'عکس'
+                      : message.reply?.type == 'voice'
+                        ? 'پیام صوتی'
+                        : message.reply?.content}
+                  </div>
+                </div>
+              </div>
             )}
-          >
-            {DateTime.fromISO(message.createdAt)
-              .setZone('Asia/Tehran')
-              .toFormat('HH:mm')}
+            <p className="whitespace-pre-wrap leading-normal">
+              {message.content.trim()}
+            </p>
+            <div
+              className={cn(
+                'w-full text-end text-[9px]',
+                message.senderId === me?.getMe?.id && 'text-start',
+              )}
+            >
+              {DateTime.fromISO(message.createdAt)
+                .setZone('Asia/Tehran')
+                .toFormat('HH:mm')}
+            </div>
           </div>
         </motion.div>
       </div>

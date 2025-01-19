@@ -119,6 +119,8 @@ export type Message = {
   replyId?: Maybe<Scalars['String']['output']>;
   sender?: Maybe<User>;
   senderId: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -529,6 +531,8 @@ export type SendMessageMutationVariables = Exact<{
   content: Scalars['String']['input'];
   replyId?: InputMaybe<Scalars['String']['input']>;
   receiverId?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
   chatId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
@@ -681,7 +685,7 @@ export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, cr
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ replyId?: string | null, senderId: string, read: boolean, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, sender?: { id: string, name?: string | null, username?: string | null } | null } | null } | null> | null }> };
+export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ replyId?: string | null, senderId: string, read: boolean, type: string, url?: string | null, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, sender?: { id: string, name?: string | null, username?: string | null } | null } | null } | null> | null }> };
 
 export type GetChatQueryVariables = Exact<{
   chatId?: InputMaybe<Scalars['String']['input']>;
@@ -689,7 +693,7 @@ export type GetChatQueryVariables = Exact<{
 }>;
 
 
-export type GetChatQuery = { getChat: { id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ senderId: string, read: boolean, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, sender?: { id: string, name?: string | null } | null } | null } | null> | null } };
+export type GetChatQuery = { getChat: { id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ senderId: string, read: boolean, content: string, id: string, type: string, url?: string | null, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, type: string, url?: string | null, sender?: { id: string, name?: string | null } | null } | null } | null> | null } };
 
 export type GetFavoriteQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -779,12 +783,14 @@ export type AddToBlackListMutationHookResult = ReturnType<typeof useAddToBlackLi
 export type AddToBlackListMutationResult = Apollo.MutationResult<AddToBlackListMutation>;
 export type AddToBlackListMutationOptions = Apollo.BaseMutationOptions<AddToBlackListMutation, AddToBlackListMutationVariables>;
 export const SendMessageDocument = gql`
-    mutation SendMessage($content: String!, $replyId: String, $receiverId: String, $chatId: String) {
+    mutation SendMessage($content: String!, $replyId: String, $receiverId: String, $type: String, $url: String, $chatId: String) {
   sendMessage(
     content: $content
     replyId: $replyId
     receiverId: $receiverId
     chatId: $chatId
+    url: $url
+    type: $type
   ) {
     id
     content
@@ -809,6 +815,8 @@ export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutation,
  *      content: // value for 'content'
  *      replyId: // value for 'replyId'
  *      receiverId: // value for 'receiverId'
+ *      type: // value for 'type'
+ *      url: // value for 'url'
  *      chatId: // value for 'chatId'
  *   },
  * });
@@ -1550,6 +1558,8 @@ export const GetChatsDocument = gql`
       }
       senderId
       read
+      type
+      url
       content
       id
       createdAt
@@ -1613,10 +1623,14 @@ export const GetChatDocument = gql`
       read
       content
       id
+      type
+      url
       createdAt
       reply {
         id
         content
+        type
+        url
         sender {
           id
           name

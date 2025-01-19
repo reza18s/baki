@@ -29,6 +29,8 @@ query GetChats {
       }
       senderId
       read
+      type
+      url
       content
       id
       createdAt
@@ -58,10 +60,14 @@ query GetChat($chatId: String, $participantId: String) {
       read
       content
       id
+      type
+      url
       createdAt
       reply {
         id
         content
+        type
+        url
         sender {
           id
           name

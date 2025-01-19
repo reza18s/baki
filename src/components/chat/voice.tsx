@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IonButton, IonIcon, IonSpinner } from '@ionic/react';
+import { IonIcon, IonSpinner } from '@ionic/react';
 import { pauseOutline, playOutline } from 'ionicons/icons';
 import WaveSurfer from 'wavesurfer.js';
+import Button from '../base/Button/Button';
+import { cn } from '@/lib/utils';
 
-const VoicePlayer: React.FC = () => {
-  const audioUrl =
-    'https://c223026.parspack.net/c223026/users/cm5e8eihm000212wsjw85pgk9/audio/xYT36KG0-audio_2025-01-18_22-30-35.ogg'; // Replace with your audio file URL
+const VoicePlayer = ({ url, me }: { url: string; me: boolean }) => {
   const waveformRef = useRef<HTMLDivElement | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -50,19 +50,29 @@ const VoicePlayer: React.FC = () => {
     }
   };
 
+  // Restart Audio when it ends
+  const handleAudioEnd = () => {
+    if (wavesurfer.current) {
+      setCurrentTime(0);
+
+      wavesurfer.current.seekTo(0); // Seek to the start
+      setIsPlaying(false); // Stop playing state
+    }
+  };
+
   // Initialize Wavesurfer
   useEffect(() => {
     if (waveformRef.current) {
       wavesurfer.current = WaveSurfer.create({
         container: waveformRef.current,
-        height: 49,
+        height: 39,
         width: 180,
         normalize: true,
-        waveColor: '#FEF3C7',
-        progressColor: '#FFCC4E',
+        waveColor: me ? '#FEF3C7' : '#FEF3C7',
+        progressColor: me ? '#FFF' : '#FFCC4E',
         cursorColor: '#ddd5e900',
         cursorWidth: 2,
-        barWidth: 2,
+        barWidth: 2.5,
         barHeight: 1,
         minPxPerSec: 1,
         fillParent: true,
@@ -77,18 +87,19 @@ const VoicePlayer: React.FC = () => {
       });
 
       // Load the audio URL into WaveSurfer
-      wavesurfer.current.load(audioUrl);
+      wavesurfer.current.load(url);
 
       // Add event listeners
       wavesurfer.current.on('ready', handleAudioReady);
       wavesurfer.current.on('audioprocess', handleTimeUpdate);
       wavesurfer.current.on('seek', handleTimeUpdate);
+      wavesurfer.current.on('finish', handleAudioEnd); // Listen for the end of the audio
 
       return () => {
         wavesurfer.current?.destroy(); // Clean up when the component is unmounted
       };
     }
-  }, [audioUrl]); // Ensure the useEffect runs when the URL changes
+  }, [url]); // Ensure the useEffect runs when the URL changes
 
   // Ensure that the audio is ready before starting playback
   useEffect(() => {
@@ -99,16 +110,23 @@ const VoicePlayer: React.FC = () => {
   }, []);
 
   return (
-    <div className="mx-auto flex max-w-[400px] items-center gap-4">
-      <div
-        ref={waveformRef}
-        style={{ height: '50px', position: 'relative' }}
-        className={`w-full ${isLoading ? 'opacity-50' : ''}`} // Show loading effect
-      />
-      <IonButton
+    <div className="mx-auto flex max-w-[400px] items-center gap-2 p-2">
+      <div>
+        <div
+          ref={waveformRef}
+          style={{ height: '40px', position: 'relative' }}
+          className={`w-full ${isLoading ? 'opacity-50' : ''}`} // Show loading effect
+        />
+        <div className="flex w-full justify-end text-[10px]">
+          {formatTime(duration)} / {formatTime(currentTime)}
+        </div>
+      </div>
+      <Button
         onClick={togglePlayPause}
-        fill="clear"
-        className="mr-2"
+        className={cn(
+          'mr-2 flex size-12 min-h-12 min-w-12 items-center justify-center rounded-full bg-brand-yellow p-0',
+          me && 'bg-white',
+        )}
         disabled={isLoading} // Disable button while loading
       >
         {isLoading ? (
@@ -119,7 +137,7 @@ const VoicePlayer: React.FC = () => {
             className="text-xl"
           />
         )}
-      </IonButton>
+      </Button>
     </div>
   );
 };

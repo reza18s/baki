@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { IconProps } from './icons.types';
 
-export const IcX = ({ className, ...props }: { className?: string }) => {
+export const IcX: FC<IconProps> = ({
+  className,
+  ...props
+}: {
+  className?: string;
+}) => {
   return (
     <svg
       width="96"

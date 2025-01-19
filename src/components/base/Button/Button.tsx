@@ -3,6 +3,7 @@ import style from './Button.module.scss';
 import clsx from 'clsx';
 import { ButtonProps } from './Button.type';
 import { DotesLoading } from '../Loader/Loader';
+import { cn } from '@/lib/utils';
 
 const Button = forwardRef(function Button(
   props: ButtonProps,
@@ -20,7 +21,7 @@ const Button = forwardRef(function Button(
   return (
     <button
       ref={ref}
-      className={clsx(style.button, style[variant], rounded, className)}
+      className={cn(style.button, style[variant], rounded, className)}
       {...rest}
     >
       {props.loading ? (
@@ -46,7 +47,7 @@ export const LargeButton: React.FC<ButtonProps> = ({
     <Button
       variant={variant}
       loading={loading}
-      className={clsx('min-h-[54px] w-full text-base', className)}
+      className={cn('min-h-[54px] w-full text-base', className)}
       {...rest}
     >
       {children}

@@ -2,6 +2,8 @@ mutation SendMessage(
   $content: String!
   $replyId: String
   $receiverId: String
+  $type: String
+  $url: String
   $chatId: String
 ) {
   sendMessage(
@@ -9,6 +11,8 @@ mutation SendMessage(
     replyId: $replyId
     receiverId: $receiverId
     chatId: $chatId
+    url: $url
+    type: $type
   ) {
     id
     content

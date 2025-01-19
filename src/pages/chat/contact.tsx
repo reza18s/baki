@@ -25,10 +25,19 @@ import { IcPen } from '@/components/icons/IcPen';
 import { useStore } from '@/store/useStore';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { customToast } from '@/components/base/toast';
-import { GenericResponse, VoiceRecorder } from 'capacitor-voice-recorder';
-import VoicePlayer from '@/components/chat/voice';
-import FileInput from '@/components/chat/uploadFile';
+import { VoiceRecorder } from 'capacitor-voice-recorder';
+import { IcX } from '@/components/icons/IcX';
+import EmojiPicker from 'emoji-picker-react';
+import { client, refreshAccessToken } from '@/graphql/apollo/client';
+import { IcTrash } from '@/components/icons/IcTrash';
+const formatTime = (time: number): string => {
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
+  const seconds = Math.floor(time % 60);
+  const tenths = Math.floor((time % 1) * 10); // For tenths of a second
 
+  return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${tenths}`;
+};
 export const ContactPage = () => {
   const { id }: { id: string } = useParams();
   const chatContainerRef = useRef<HTMLIonContentElement | null>(null);
@@ -46,6 +55,12 @@ export const ContactPage = () => {
   const [edit, setEdit] = useState<Message>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [once, setOnce] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [recording, setRecording] = useState(false);
+  const [time, setTime] = useState<number>(0);
+  const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(
+    null,
+  );
   const { control, watch, handleSubmit, reset, setValue } = useForm<{
     message: string;
   }>();
@@ -99,7 +114,7 @@ export const ContactPage = () => {
         );
         setOnce(true);
       }
-      chatContainerRef.current.scrollToBottom(500);
+      chatContainerRef.current.scrollToBottom(0);
     }
   }, [messages]);
 
@@ -120,7 +135,14 @@ export const ContactPage = () => {
       handleInput();
     }
   }, [watch('message')]);
-
+  useEffect(() => {
+    // Clean up the interval when the component unmounts or recording stops
+    return () => {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+    };
+  }, [timerInterval]);
   const toggleSelect = (message: Message) => {
     setSelects((prev) => {
       const isSelected = prev.some(
@@ -141,14 +163,44 @@ export const ContactPage = () => {
     }
     try {
       if (action == 'send') {
+        let imageUrl: string | undefined;
+        if (selectedImage) {
+          const formData = new FormData();
+          const file = await fetch(selectedImage).then((res) => res.blob());
+          formData.append('files', file, `Image.jpg`);
+          const response = await fetch(
+            `${import.meta.env.VITE_APP_BASE}/upload/upload-images`,
+            {
+              method: 'POST',
+              body: formData,
+              redirect: 'follow',
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            },
+          );
+          if (response.ok) {
+            imageUrl = (await response.json())?.files?.[0]?.original;
+          } else {
+            if ((await response.json()).code === 'INVALID_TOKEN') {
+              refreshAccessToken(client);
+            }
+            customToast('مشکلی در اپلود عکس های پیش امد', 'error');
+            return;
+          }
+          setSelectedImage(null);
+        }
         await sendMessage({
           variables: {
             chatId: chat?.id,
             receiverId: participant?.getUser?.id,
             content: value.message,
             replyId: reply?.id,
+            type: selectedImage ? 'message' : undefined,
+            url: imageUrl,
           },
         });
+
         setReply(undefined);
       } else if (edit) {
         await editMessage({
@@ -165,10 +217,11 @@ export const ContactPage = () => {
         textareaRef.current.style.height = 'auto';
       }
     } catch (err) {
+      setSelectedImage(null);
       console.error('Error sending message:', err);
     }
   };
-  const onTouchStart = async () => {
+  const onStartRecording = async () => {
     if (!(await VoiceRecorder.canDeviceVoiceRecord()).value) {
       customToast(`دستگاه شما نمیتواند ریکورد کند`, 'error');
       return;
@@ -189,14 +242,90 @@ export const ContactPage = () => {
     }
 
     if ((await VoiceRecorder.getCurrentStatus()).status === 'NONE') {
-      VoiceRecorder.startRecording()
-        .then((result: GenericResponse) => console.log(result.value))
-        .catch((error) => console.log(error));
+      await VoiceRecorder.startRecording();
+      setRecording(true);
+
+      const intervalId = setInterval(() => {
+        setTime((prevTime) => +(prevTime + 0.1).toFixed(2));
+      }, 100); // Update every second
+
+      setTimerInterval(intervalId);
     }
   };
-  const onTouchEnd = async () => {
+  const onStopRecording = async () => {
     if ((await VoiceRecorder.getCurrentStatus()).status === 'RECORDING') {
-      VoiceRecorder.stopRecording();
+      const value = await VoiceRecorder.stopRecording();
+      setRecording(false);
+      setTime(0);
+      if (timerInterval) {
+        clearInterval(timerInterval); // Stop the timer
+        setTimerInterval(null);
+      }
+      let voiceUrl: string | undefined = undefined;
+      const formdata = new FormData();
+      const base64Data = value.value.recordDataBase64;
+      const audioBlob = await fetch(`data:audio/mp3;base64,${base64Data}`).then(
+        (res) => res.blob(),
+      );
+      const file = new File([audioBlob], 'audio.mp3', {
+        type: 'audio/mp3',
+      });
+      formdata.append('voice', file);
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_BASE}/upload/upload-voice`,
+          {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          },
+        );
+        if (response.ok) {
+          voiceUrl = (await response.json())?.file?.url;
+        } else {
+          if ((await response.json()).code === 'INVALID_TOKEN') {
+            refreshAccessToken(client);
+          }
+          customToast('مشکلی در اپلود عکس های پیش امد', 'error');
+          return;
+        }
+        await sendMessage({
+          variables: {
+            chatId: chat?.id,
+            receiverId: participant?.getUser?.id,
+            content: '',
+            replyId: reply?.id,
+            type: 'voice',
+            url: voiceUrl,
+          },
+        });
+      } catch (error) {
+        customToast('مشکلی در اپلود ', 'error');
+      }
+    }
+  };
+  const onConsoleRecording = async () => {
+    if ((await VoiceRecorder.getCurrentStatus()).status === 'RECORDING') {
+      const value = await VoiceRecorder.stopRecording();
+      setRecording(false);
+      setTime(0);
+      if (timerInterval) {
+        clearInterval(timerInterval); // Stop the timer
+        setTimerInterval(null);
+      }
+    }
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result as string); // ذخیره URL تصویر در state
+      };
+      reader.readAsDataURL(file);
     }
   };
   return (
@@ -233,123 +362,179 @@ export const ContactPage = () => {
         selects={selects}
         toggleSelect={toggleSelect}
       />
-      <div className="sticky bottom-0 w-screen bg-white px-3 py-[10px] transition-all duration-300 ease-in-out">
-        {isSearch ? (
-          <div className="flex w-full justify-between">
-            <p>
-              {`${searches.findIndex((el) => el === selectSearch) + 1} از
+      <div className="sticky bottom-0 w-screen bg-white transition-all duration-300 ease-in-out">
+        <div className="px-3 py-[10px]">
+          {isSearch ? (
+            <div className="flex w-full justify-between">
+              <p>
+                {`${searches.findIndex((el) => el === selectSearch) + 1} از
               ${searches.length}`}
-            </p>
-            <div className="flex gap-2">
-              <IcArrowLeft
-                className="rotate-90"
-                onClick={() =>
-                  setSelectSearch(
-                    searches[
-                      searches.findIndex((el) => el === selectSearch) - 1
-                    ],
-                  )
-                }
-              ></IcArrowLeft>
-              <IcArrowLeft
-                className="-rotate-90"
-                onClick={() =>
-                  setSelectSearch(
-                    searches[
-                      searches.findIndex((el) => el === selectSearch) + 1
-                    ],
-                  )
-                }
-              ></IcArrowLeft>
+              </p>
+              <div className="flex gap-2">
+                <IcArrowLeft
+                  className="rotate-90"
+                  onClick={() =>
+                    setSelectSearch(
+                      searches[
+                        searches.findIndex((el) => el === selectSearch) - 1
+                      ],
+                    )
+                  }
+                ></IcArrowLeft>
+                <IcArrowLeft
+                  className="-rotate-90"
+                  onClick={() =>
+                    setSelectSearch(
+                      searches[
+                        searches.findIndex((el) => el === selectSearch) + 1
+                      ],
+                    )
+                  }
+                ></IcArrowLeft>
+              </div>
             </div>
-          </div>
-        ) : (
-          <>
-            {reply && (
-              <div className="mb-4 flex w-full items-center gap-3 bg-white">
-                <div className="flex flex-1 items-center rounded-lg bg-gray-100 px-3 py-2">
-                  <div className="w-full">
-                    <h1 className="truncate text-sm font-bold">
-                      {reply.sender?.name}
-                    </h1>
-                    <div className="max-w-[70vw] overflow-hidden truncate text-xs text-gray-500">
-                      {reply?.content}
+          ) : (
+            <>
+              {reply && (
+                <div className="mb-4 flex w-full items-center gap-3 bg-white">
+                  <div className="flex flex-1 items-center rounded-lg bg-gray-100 px-3 py-2">
+                    <div className="w-full">
+                      <h1 className="truncate text-sm font-bold">
+                        {reply.sender?.name}
+                      </h1>
+                      <div className="max-w-[70vw] overflow-hidden truncate text-xs text-gray-500">
+                        {reply.type == 'message'
+                          ? 'عکس'
+                          : reply.type == 'voice'
+                            ? 'پیام صوتی'
+                            : reply?.content}
+                      </div>
                     </div>
+                    <IcReply></IcReply>
                   </div>
-                  <IcReply></IcReply>
+                  <IcXCircle
+                    onClick={() => setReply(undefined)}
+                    className="stroke size-5 stroke-brand-black"
+                  ></IcXCircle>
                 </div>
-                <IcXCircle
-                  onClick={() => setReply(undefined)}
-                  className="stroke size-5 stroke-brand-black"
-                ></IcXCircle>
-              </div>
-            )}
-            {edit && (
-              <div className="mb-4 flex w-full items-center gap-3 bg-white">
-                <div className="flex flex-1 items-center rounded-lg bg-gray-100 px-3 py-2">
-                  <div className="w-full">
-                    <h1 className="truncate text-sm font-bold">
-                      {edit.sender?.name}
-                    </h1>
-                    <div className="max-w-[70vw] overflow-hidden truncate text-xs text-gray-500">
-                      {edit?.content}
-                    </div>
-                  </div>
-                  <IcPen></IcPen>
-                </div>
-                <IcXCircle
-                  onClick={() => setEdit(undefined)}
-                  className="stroke size-5 stroke-brand-black"
-                ></IcXCircle>
-              </div>
-            )}
-            <form
-              onSubmit={handleSubmit((val) =>
-                edit ? onSubmit(val, 'edit') : onSubmit(val, 'send'),
               )}
-            >
-              <div className="flex items-end gap-3">
-                {watch('message')?.trim().length > 0 ? (
+              {edit && (
+                <div className="mb-4 flex w-full items-center gap-3 bg-white">
+                  <div className="flex flex-1 items-center rounded-lg bg-gray-100 px-3 py-2">
+                    <div className="w-full">
+                      <h1 className="truncate text-sm font-bold">
+                        {edit.sender?.name}
+                      </h1>
+                      <div className="max-w-[70vw] overflow-hidden truncate text-xs text-gray-500">
+                        {edit?.content}
+                      </div>
+                    </div>
+                    <IcPen></IcPen>
+                  </div>
+                  <IcXCircle
+                    onClick={() => setEdit(undefined)}
+                    className="stroke size-5 stroke-brand-black"
+                  ></IcXCircle>
+                </div>
+              )}
+              {recording ? (
+                <div className="flex items-center gap-3">
                   <Button
+                    className="mb-1 h-6 p-0"
                     variant="text"
-                    type="submit"
-                    className="mb-1 flex items-center justify-center p-0"
+                    onClick={() => onStopRecording()}
                   >
                     <IcSend />
                   </Button>
-                ) : (
-                  <IcMicrophone
+                  <div className="flex flex-1 items-center justify-end gap-2">
+                    <span className="text-xs">{formatTime(time)}</span>
+                    <div className="animate-fadeInOut size-2 rounded-full bg-brand-red"></div>
+                  </div>
+                  <IcTrash
                     className="mb-1"
-                    onMouseDown={onTouchStart}
-                    onTouchStart={onTouchStart}
-                    onMouseLeave={onTouchEnd}
-                    onTouchEnd={onTouchEnd}
-                  />
-                )}
-                <Controller
-                  name="message"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <div className="flex flex-1 items-end justify-between rounded-lg bg-gray-50 px-2 py-[6px]">
-                      <textarea
-                        rows={1}
-                        placeholder="پیام خود را یادداشت کنید"
-                        onInput={handleInput}
-                        className="flex-1 resize-none bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
-                        {...field}
-                        ref={textareaRef}
-                      />
-                      <IcFace />
+                    onClick={() => onConsoleRecording()}
+                  ></IcTrash>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit((val) =>
+                    edit ? onSubmit(val, 'edit') : onSubmit(val, 'send'),
+                  )}
+                >
+                  {selectedImage && (
+                    <div className="mb-2">
+                      <div className="flex">
+                        <IcX
+                          onClick={() => setSelectedImage(null)}
+                          className="size-10"
+                        ></IcX>
+                        <h1 className="flex items-center text-center text-lg font-bold">
+                          ارسال عکس
+                        </h1>
+                      </div>
+                      <div className="flex items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-black">
+                        <img
+                          src={selectedImage}
+                          alt="Selected"
+                          className="max-h-64"
+                        />
+                      </div>
                     </div>
                   )}
-                />
-                <IcChat className="mb-1" />
-                <FileInput />
-              </div>
-            </form>
-          </>
-        )}
+                  <div className="flex items-end gap-3">
+                    {watch('message')?.trim().length > 0 ? (
+                      <Button
+                        variant="text"
+                        type="submit"
+                        className="mb-1 flex items-center justify-center p-0"
+                      >
+                        <IcSend />
+                      </Button>
+                    ) : (
+                      <IcMicrophone
+                        className="mb-1"
+                        onClick={onStartRecording}
+                      />
+                    )}
+                    <Controller
+                      name="message"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <div className="flex flex-1 items-end justify-between rounded-lg bg-gray-50 px-2 py-[6px]">
+                          <textarea
+                            rows={1}
+                            placeholder="پیام خود را یادداشت کنید"
+                            onInput={handleInput}
+                            className="flex-1 resize-none bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
+                            {...field}
+                            ref={textareaRef}
+                          />
+                          <IcFace />
+                        </div>
+                      )}
+                    />
+                    <IcChat className="mb-1" />
+                    <label
+                      className="mb-1 cursor-pointer text-white"
+                      title="Upload Image"
+                    >
+                      <IcPaperclip className="h-6 w-6" />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </form>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* <EmojiPicker width={'100%'} /> */}
       </div>
     </Page>
   );
