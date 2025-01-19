@@ -113,7 +113,7 @@ export default function Signup() {
       case 5:
         return <GetResidenceCity />;
       case 6:
-        return <GetPictures control={control} name={watch('name')} />;
+        return <GetPictures />;
       case 7:
         return <GetGeneralInterests />;
       case 8:

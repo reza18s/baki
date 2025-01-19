@@ -44,10 +44,11 @@ export default function UploadPictures({
                 const file = await fetch(reader.result as string).then((res) =>
                   res.blob(),
                 );
+
                 mainFormData.append('files', file, 'mainImage.jpg');
               }
               const response = await fetch(
-                `http://localhost:4000/upload/upload-images`,
+                `${import.meta.env.VITE_APP_BASE}/upload/upload-images`,
                 {
                   method: 'POST',
                   body: mainFormData,
@@ -91,7 +92,7 @@ export default function UploadPictures({
                 formData.append('files', file, 'Image.jpg');
               }
               const response = await fetch(
-                `http://localhost:4000/upload/upload-images`,
+                `${import.meta.env.VITE_APP_BASE}/upload/upload-images`,
                 {
                   method: 'POST',
                   body: formData,

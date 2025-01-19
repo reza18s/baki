@@ -11,7 +11,7 @@ export default function GetPictures({
   update = false,
   handleSubmit,
 }: {
-  update: boolean;
+  update?: boolean;
   handleSubmit?: (data: { images?: string[]; mainImage?: string }) => void;
 }) {
   const [showHelp, setShowHelp] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export default function GetPictures({
       setUploadStatus(true);
       if (mainImage) {
         const response = await fetch(
-          `http://localhost:4000/upload/upload-images`,
+          `${import.meta.env.VITE_APP_BASE}/upload/upload-images`,
           {
             method: 'POST',
             body: mainFormData,
@@ -76,7 +76,7 @@ export default function GetPictures({
       }
       if (secondaryImage.filter((v) => v).length > 0) {
         const secondaryResponse = await fetch(
-          `http://localhost:4000/upload/upload-images`,
+          `${import.meta.env.VITE_APP_BASE}/upload/upload-images`,
           {
             method: 'POST',
             body: secondaryFormData,

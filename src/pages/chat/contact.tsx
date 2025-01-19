@@ -25,6 +25,9 @@ import { IcPen } from '@/components/icons/IcPen';
 import { useStore } from '@/store/useStore';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { customToast } from '@/components/base/toast';
+import { GenericResponse, VoiceRecorder } from 'capacitor-voice-recorder';
+import VoicePlayer from '@/components/chat/voice';
+import FileInput from '@/components/chat/uploadFile';
 
 export const ContactPage = () => {
   const { id }: { id: string } = useParams();
@@ -165,7 +168,37 @@ export const ContactPage = () => {
       console.error('Error sending message:', err);
     }
   };
+  const onTouchStart = async () => {
+    if (!(await VoiceRecorder.canDeviceVoiceRecord()).value) {
+      customToast(`دستگاه شما نمیتواند ریکورد کند`, 'error');
+      return;
+    }
+    if (!(await VoiceRecorder.hasAudioRecordingPermission()).value) {
+      VoiceRecorder.requestAudioRecordingPermission()
+        .then((result) => {
+          if (!result.value) {
+            customToast(
+              'لطفا درخواست استفاده از میکروفون را قبول کنید',
+              'error',
+            );
+          }
+        })
+        .catch((err) => {
+          customToast(err.message, 'error');
+        });
+    }
 
+    if ((await VoiceRecorder.getCurrentStatus()).status === 'NONE') {
+      VoiceRecorder.startRecording()
+        .then((result: GenericResponse) => console.log(result.value))
+        .catch((error) => console.log(error));
+    }
+  };
+  const onTouchEnd = async () => {
+    if ((await VoiceRecorder.getCurrentStatus()).status === 'RECORDING') {
+      VoiceRecorder.stopRecording();
+    }
+  };
   return (
     <Page
       headerClassName="py-2 px-4"
@@ -285,7 +318,13 @@ export const ContactPage = () => {
                     <IcSend />
                   </Button>
                 ) : (
-                  <IcMicrophone className="mb-1" />
+                  <IcMicrophone
+                    className="mb-1"
+                    onMouseDown={onTouchStart}
+                    onTouchStart={onTouchStart}
+                    onMouseLeave={onTouchEnd}
+                    onTouchEnd={onTouchEnd}
+                  />
                 )}
                 <Controller
                   name="message"
@@ -306,7 +345,7 @@ export const ContactPage = () => {
                   )}
                 />
                 <IcChat className="mb-1" />
-                <IcPaperclip className="mb-1" />
+                <FileInput />
               </div>
             </form>
           </>
