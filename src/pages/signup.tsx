@@ -1,13 +1,19 @@
 import * as SolarIconSet from 'solar-icon-set';
 import { useForm } from 'react-hook-form';
-import { lazy, Suspense } from 'react';
-import { useSignupMutation } from '../graphql/generated/graphql.codegen';
+import { lazy, Suspense, useEffect } from 'react';
+import {
+  useGetMeQuery,
+  useSignupMutation,
+} from '../graphql/generated/graphql.codegen';
 import { useLocalStore } from '../store/useLocalStore';
 import { StepsNumber } from '../types';
 import { Page } from '@/components/layout/Page';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
+import { GetMeQuery } from '@/graphql/generated/graphql.codegen.socket';
 
 const GetPhoneNumber = lazy(
   () => import('../components/Signup/GetPhoneNumber'),
@@ -66,7 +72,13 @@ export default function Signup() {
   const step = useLocalStore((store) => store.step);
   const setStep = useLocalStore((store) => store.setSteps);
   const [signup, { loading }] = useSignupMutation();
-
+  const hs = useHistory();
+  const { data } = useGetMeQuery();
+  useEffect(() => {
+    if (checkUserInfo(data?.getMe)) {
+      hs.push(paths.explore.main);
+    }
+  }, [data]);
   const handleSignup = () => {
     signup({
       variables: { phoneNumber: watch('phoneNumber') },
@@ -162,3 +174,16 @@ export default function Signup() {
     </Page>
   );
 }
+const checkUserInfo = (me?: GetMeQuery['getMe']) => {
+  return (
+    me?.name &&
+    me?.gender &&
+    me?.birthdate &&
+    me?.province &&
+    me?.mainImage &&
+    me?.images?.length == 3 &&
+    (me?.travelInterests?.length || 0) >= 5 &&
+    (me?.personalInterests?.length || 0) >= 5 &&
+    (me?.mySpecialty?.length || 0) >= 1
+  );
+};
