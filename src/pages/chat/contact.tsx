@@ -194,7 +194,7 @@ export const ContactPage = () => {
           variables: {
             chatId: chat?.id,
             receiverId: participant?.getUser?.id,
-            content: value.message,
+            content: selectedImage ? value.message || '' : value.message,
             replyId: reply?.id,
             type: selectedImage ? 'message' : undefined,
             url: imageUrl,
@@ -482,7 +482,7 @@ export const ContactPage = () => {
                     </div>
                   )}
                   <div className="flex items-end gap-3">
-                    {watch('message')?.trim().length > 0 ? (
+                    {watch('message')?.trim().length > 0 || selectedImage ? (
                       <Button
                         variant="text"
                         type="submit"

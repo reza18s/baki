@@ -10,6 +10,7 @@ import {
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import Button from '../base/Button/Button';
+import { customToast } from '../base/toast';
 export default function VerifyOTP(props: {
   path: 'signup' | 'profile';
   editPhone: () => void;
@@ -51,11 +52,15 @@ export default function VerifyOTP(props: {
           props.onSuccess?.();
           if (props.path === 'signup') {
             if (checkUserInfo(data.verifyOtp)) {
-              hs.push(paths.main.explore);
+              window.location.replace(paths.main.explore);
+              // hs.push();
             } else {
               handleNextStep();
             }
           }
+        },
+        onError: () => {
+          customToast('لطفا کد را به درستی وارد کنید', 'error');
         },
       });
     }
