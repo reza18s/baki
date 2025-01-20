@@ -92,7 +92,7 @@ const VoicePlayer = ({ url, me }: { url: string; me: boolean }) => {
       // Add event listeners
       wavesurfer.current.on('ready', handleAudioReady);
       wavesurfer.current.on('audioprocess', handleTimeUpdate);
-      wavesurfer.current.on('seek', handleTimeUpdate);
+      wavesurfer.current.on('seeking', handleTimeUpdate);
       wavesurfer.current.on('finish', handleAudioEnd); // Listen for the end of the audio
 
       return () => {
