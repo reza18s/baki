@@ -97,6 +97,10 @@ export default function GetPictures({
             images.splice(0, 1);
             return select;
           });
+          if (imagesUrl.length <= 3) {
+            customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
+            return;
+          }
           updateUserInfo({
             images: imagesUrl,
           });
