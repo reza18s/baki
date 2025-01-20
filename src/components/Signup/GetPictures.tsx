@@ -25,7 +25,7 @@ export default function GetPictures({
   const [uploadStatus, setUploadStatus] = useState<boolean>(false);
   const uploadImages = async () => {
     if (!update) {
-      if (!mainImage && secondaryImage.length !== 3) {
+      if (!mainImage || !(secondaryImage.length <= 3)) {
         customToast('لطفا اطلاعات خواسته شده را وارد کنید', 'error');
         return;
       }
@@ -97,7 +97,7 @@ export default function GetPictures({
             images.splice(0, 1);
             return select;
           });
-          if (imagesUrl.length <= 3) {
+          if (imagesUrl.filter((e) => e).length <= 3) {
             customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
             return;
           }
@@ -156,7 +156,7 @@ export default function GetPictures({
           </div>
         </div>
         <Button
-          disabled={!mainImage && !(secondaryImage.length == 3) && uploadStatus}
+          disabled={!mainImage || !(secondaryImage.length <= 3) || uploadStatus}
           loading={uploadStatus}
           onClick={async () => {
             await uploadImages();
