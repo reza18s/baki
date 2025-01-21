@@ -301,7 +301,7 @@ export const ContactPage = () => {
             receiverId: participant?.getUser?.id,
             content: '',
             replyId: reply?.id,
-            type: 'voice',
+            type: 'audio',
             url: voiceUrl,
           },
         });

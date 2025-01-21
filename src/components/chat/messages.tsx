@@ -235,7 +235,7 @@ const Message = ({
               <img className="max-h-96 object-cover" src={message.url}></img>
             </div>
           )}
-          {message.type == 'voice' && message.url && (
+          {message.type == 'audio' && message.url && (
             <VoicePlayer
               url={message.url}
               me={message.senderId === me?.getMe?.id}
