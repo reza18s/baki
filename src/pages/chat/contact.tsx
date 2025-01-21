@@ -289,8 +289,11 @@ export const ContactPage = () => {
           if ((await response.json()).code === 'INVALID_TOKEN') {
             refreshAccessToken(client);
           }
-          customToast('مشکلی در اپلود عکس های پیش امد', 'error');
+          customToast('مشکلی در اپلود ویس پیش امد', 'error');
           return;
+        }
+        if (!voiceUrl) {
+          customToast('مشکلی در اپلود ویس پیش امد', 'error');
         }
         await sendMessage({
           variables: {
