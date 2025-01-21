@@ -1,5 +1,3 @@
-import { IcEdit } from '@/components/icons/IcEdit';
-import { IcSetting } from '@/components/icons/IcSetting';
 import { Page } from '@/components/layout/Page';
 import {
   useAddToBlackListMutation,
@@ -11,8 +9,7 @@ import React, { useEffect, useState } from 'react';
 import CardImage from '../../assets/images/image.png';
 import { MdVerified } from 'react-icons/md';
 import Button from '@/components/base/Button/Button';
-import { Link, useParams } from 'react-router-dom';
-import { paths } from '@/routes/paths';
+import { useHistory, useParams } from 'react-router-dom';
 import { ProfileCard } from '@/components/Profile/profileCard';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import {
@@ -29,9 +26,12 @@ import { IcUserBlackList } from '@/components/icons/IcUserBlackList';
 import { IcFlag } from '@/components/icons/IcFlag';
 import ViolationReportModal from '@/components/Explore/violationReportModal';
 import { optionTexts } from '@/utils';
+import { IcArrowRight } from '@/components/icons/IcArrowRight';
+import { formatLastSeen } from '@/utils/datetime';
 
 export const UserProfile = () => {
   const { id }: { id: string } = useParams();
+  const hs = useHistory();
   const { data, loading, refetch } = useGetUserQuery({ variables: { id: id } });
   const [isOpen, setIsOpen] = useState<'sendMessage' | 'violationReport'>();
   const [addToFavorite] = useAddToFavoriteMutation();
@@ -45,9 +45,7 @@ export const UserProfile = () => {
       contentClassName="pt-20 p-4 flex flex-col gap-8 pb-20 items-center"
       header={
         <div className="flex w-full items-center justify-between px-6 py-3">
-          <Link to={paths.profile.editProfile}>
-            <IcEdit></IcEdit>
-          </Link>
+          <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
           <h1 className="flex items-center justify-center text-lg font-bold">
             {user?.username}
             <span className="font-semibold">@</span>
@@ -105,7 +103,7 @@ export const UserProfile = () => {
         </div>
       }
     >
-      {loading ? (
+      {loading && !data?.getUser ? (
         <CircleSpinner></CircleSpinner>
       ) : (
         <>
@@ -126,11 +124,14 @@ export const UserProfile = () => {
               {user?.province}, {user?.city}
             </div>
             <span className="text-xs text-gray-400">
-              آخرین بازدید 2 ساعت پیش
+              {formatLastSeen(user?.lastSeen)}
             </span>
-            <Link to={paths.profile.editProfile} className="w-full">
-              <Button className="w-full"> تکمیل پروفایل</Button>
-            </Link>
+            <div className="flex w-full gap-2">
+              <Button className="w-full">لایک کردن</Button>
+              <Button className="w-full border-brand-black" variant="outline">
+                ارسال پیام
+              </Button>
+            </div>
           </div>
           <ProfileCard user={user as User}></ProfileCard>
         </>

@@ -11,6 +11,7 @@ import { IcExploreTap } from '@/components/icons/IcExploreTap';
 import { IcHeardTap } from '@/components/icons/IcHeardTap';
 import { IcChatTap } from '@/components/icons/IcChatTap';
 import { BottomNavItem } from '@/components/BottomNav/BottomNavItem';
+import { IcExploreTap2 } from '@/components/icons/IcExploreTap2';
 
 interface MainLayoutProps extends RouteComponentProps {
   children: ReactNode;
@@ -60,9 +61,13 @@ function MainLayout({ children }: MainLayoutProps) {
         <Link to={paths.main.explore}>
           <BottomNavItem
             Icon={
-              <IcExploreTap
-                className={`${activeTab === 'explore' ? 'fill-brand-yellow' : ''} transition-colors duration-100 ease-in-out`}
-              />
+              activeTab === 'explore' ? (
+                <IcExploreTap
+                  className={`fill-brand-yellow transition-colors duration-100 ease-in-out`}
+                />
+              ) : (
+                <IcExploreTap2></IcExploreTap2>
+              )
             }
             isActive={activeTab === 'explore'}
           />

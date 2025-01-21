@@ -32,6 +32,9 @@ import { useStore } from '@/store/useStore';
 import { useHistory } from 'react-router';
 import { Input } from '../shared/Inputs/input';
 import { Clipboard } from '@capacitor/clipboard';
+import Modal from '../base/Modal/Modal';
+import Button from '../base/Button/Button';
+import Checkbox from '../base/Input/checkboxSection/checkbox';
 
 export const ContactBar = ({
   selects,
@@ -53,11 +56,10 @@ export const ContactBar = ({
   setEdit: (message: Message) => void;
 }) => {
   const { setIsSearch, isSearch, setSearch, search } = useStore((s) => s);
-  const [isOpen, setIsOpen] = useState<
-    'sendMessage' | 'violationReport' | 'delete'
-  >();
+  const [isOpen, setIsOpen] = useState<'violationReport' | 'delete'>();
   const [addToFavorite] = useAddToFavoriteMutation();
   const [addToBlackList] = useAddToBlackListMutation();
+  const [del, setDel] = useState(false);
   const [delMessages] = useDelMessagesMutation({ client: socket });
   const hs = useHistory();
   return (
@@ -141,13 +143,7 @@ export const ContactBar = ({
 
             <IcTrash
               className="size-6 active:bg-gray-100"
-              onClick={() => {
-                deleteMessages(selects.map((val) => val.id));
-                delMessages({
-                  variables: { messagesId: selects.map((val) => val.id) },
-                });
-                clearSelect();
-              }}
+              onClick={() => setIsOpen('delete')}
             ></IcTrash>
           </div>
         </>
@@ -156,19 +152,21 @@ export const ContactBar = ({
           <div className="flex items-center gap-2">
             <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
             <Avatar>
-              <AvatarImage src={contact?.mainImage} />
+              <AvatarImage src={contact?.mainImage || ''} />
               <AvatarFallback>
-                {contact?.name?.[0].toUpperCase()}
+                {contact?.name?.[0].toUpperCase() || ''}
               </AvatarFallback>
             </Avatar>
-            <div className="flex flex-col">
+            <div className="flex flex-col text-start">
               <h1 className="w-full text-start text-sm font-bold">
-                {contact?.name}
+                {contact?.name || ''}
               </h1>
               <span className="text-xs text-gray-400">
                 {contact?.isOnline
                   ? 'انلاین'
-                  : formatLastSeen(contact?.lastSeen)}
+                  : contact?.lastSeen
+                    ? formatLastSeen(contact?.lastSeen)
+                    : ''}
               </span>
             </div>
           </div>
@@ -245,6 +243,56 @@ export const ContactBar = ({
         }}
         isOpen={isOpen === 'violationReport'}
       ></ViolationReportModal>
+      <Modal
+        isOpen={isOpen === 'delete'}
+        onRequestClose={() => setIsOpen(undefined)}
+        className="flex w-[90%] flex-col gap-6 rounded-xl bg-white p-6"
+      >
+        <div className="flex flex-col gap-2">
+          <h1 className="text-center text-lg font-bold">
+            حذف {selects.length} پیام
+          </h1>
+          <span className="text-center text-sm text-gray-500">
+            آیا از حذف این پیام ها اطمینان دارید؟
+          </span>
+        </div>
+        <div className="flex gap-2">
+          <Checkbox
+            checked={del}
+            onChange={(e) => setDel((prev) => !prev)}
+            className="rounded-lg"
+          ></Checkbox>
+          <span className="text-center text-sm">
+            همچنین حذف برای {contact.name}
+          </span>
+        </div>
+        <div className="flex w-full flex-col gap-2">
+          <Button
+            variant="danger-outline"
+            className="w-full"
+            onClick={() => {
+              deleteMessages(selects.map((val) => val.id));
+              delMessages({
+                variables: {
+                  messagesId: selects.map((val) => val.id),
+                  del: del,
+                },
+              });
+              clearSelect();
+              setIsOpen(undefined);
+            }}
+          >
+            حذف گفتگو با علی
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full border-brand-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            لغو
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

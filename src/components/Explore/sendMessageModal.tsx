@@ -13,6 +13,8 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { customToast } from '../base/toast';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
 
 export const SendMessageModal = ({
   user,
@@ -23,7 +25,10 @@ export const SendMessageModal = ({
   isOpen: boolean;
   setClose: () => void;
 }) => {
+  const hs = useHistory();
   const [createRequest, { loading: requestLoading }] =
+    useCreateRequestMutation();
+  const [createRequest2, { loading: requestLoading2 }] =
     useCreateRequestMutation();
   const { searchType } = useStore((store) => store);
   return (
@@ -70,7 +75,7 @@ export const SendMessageModal = ({
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
             onClick={() => {
-              createRequest({
+              createRequest2({
                 variables: {
                   receiverId: user.id,
                   searchType: searchType,
@@ -84,12 +89,13 @@ export const SendMessageModal = ({
                 },
               });
             }}
-            loading={requestLoading}
+            loading={requestLoading2}
           >
             <IcChair></IcChair>ارسال دعوت میزبانی
           </Button>
         </div>
         <Button
+          onClick={() => hs.push(paths.chat.contact.exactPath(user.id))}
           variant="outline"
           className="mt-4 flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
         >

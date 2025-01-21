@@ -87,7 +87,7 @@ export default function ExploreCard({
         <div className="flex flex-col rounded-2xl bg-warning-50">
           {/* Image */}
           <div
-            className={`flex min-h-[60dvh] flex-col justify-between bg-cover bg-center p-4`}
+            className={`flex min-h-[60dvh] flex-col justify-between bg-brand-black bg-cover bg-center p-4`}
             style={{
               backgroundImage: `url(${user.mainImage || CardImage})`,
               backgroundSize: 'cover',
@@ -178,21 +178,29 @@ export default function ExploreCard({
               items={user.livedInPlaces}
               title="مکان‌هایی که زندگی کرده‌ام"
             ></Info>
-            <div className="flex justify-between px-8">
-              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
-                <IcTick></IcTick>
-              </div>
-              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
-                <IcX></IcX>
-              </div>
-            </div>
-            <Button
-              className="mx-8 py-4"
-              onClick={() => setIsOpen('sendMessage')}
-            >
-              ارسال پیام
-            </Button>
           </div>
+          {user.images?.map((image) => (
+            <div
+              key={image}
+              className="flex items-center justify-center bg-brand-black"
+            >
+              <img src={image || CardImage} className="max-h-96"></img>
+            </div>
+          ))}
+          <div className="my-8 flex justify-between px-8">
+            <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+              <IcTick></IcTick>
+            </div>
+            <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+              <IcX></IcX>
+            </div>
+          </div>
+          <Button
+            className="mx-8 mb-4 py-4"
+            onClick={() => setIsOpen('sendMessage')}
+          >
+            ارسال پیام
+          </Button>
         </div>
         <Button
           variant="white"

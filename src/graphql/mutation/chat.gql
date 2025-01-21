@@ -18,8 +18,8 @@ mutation SendMessage(
     content
   }
 }
-mutation DelMessages($messagesId: [String!]!) {
-  delMessages(messagesId: $messagesId)
+mutation DelMessages($messagesId: [String!]!, $del: Boolean) {
+  delMessages(messagesId: $messagesId, del: $del)
 }
 mutation EditMessage($messageId: String!, $content: String!) {
   editMessage(messageId: $messageId, content: $content) {

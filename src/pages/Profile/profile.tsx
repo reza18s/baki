@@ -35,7 +35,7 @@ export const Profile = () => {
         </div>
       }
     >
-      {loading ? (
+      {loading && !data?.getMe ? (
         <CircleSpinner></CircleSpinner>
       ) : (
         <>

@@ -210,6 +210,7 @@ export type MutationDelChatArgs = {
 
 
 export type MutationDelMessagesArgs = {
+  del?: InputMaybe<Scalars['Boolean']['input']>;
   messagesId: Array<Scalars['String']['input']>;
 };
 
@@ -541,6 +542,7 @@ export type SendMessageMutation = { sendMessage?: { id: string, content: string 
 
 export type DelMessagesMutationVariables = Exact<{
   messagesId: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  del?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
@@ -829,8 +831,8 @@ export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMuta
 export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
 export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
 export const DelMessagesDocument = gql`
-    mutation DelMessages($messagesId: [String!]!) {
-  delMessages(messagesId: $messagesId)
+    mutation DelMessages($messagesId: [String!]!, $del: Boolean) {
+  delMessages(messagesId: $messagesId, del: $del)
 }
     `;
 export type DelMessagesMutationFn = Apollo.MutationFunction<DelMessagesMutation, DelMessagesMutationVariables>;
@@ -849,6 +851,7 @@ export type DelMessagesMutationFn = Apollo.MutationFunction<DelMessagesMutation,
  * const [delMessagesMutation, { data, loading, error }] = useDelMessagesMutation({
  *   variables: {
  *      messagesId: // value for 'messagesId'
+ *      del: // value for 'del'
  *   },
  * });
  */

@@ -34,9 +34,9 @@ export const ProfileCard = ({
     >
       {/* Image */}
       <div
-        className={`flex min-h-[60dvh] flex-col justify-end bg-cover bg-center p-4`}
+        className={`flex min-h-[60dvh] flex-col justify-end bg-brand-black bg-cover bg-center p-4`}
         style={{
-          backgroundImage: `url(${user.mainImage})`,
+          backgroundImage: `url(${user.mainImage || CardAvatar})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -114,25 +114,41 @@ export const ProfileCard = ({
           items={user?.livedInPlaces as string[] | undefined}
           title="مکان‌هایی که زندگی کرده‌ام"
         ></Info>
-        {!me && (
-          <>
-            <div className="flex justify-between px-8">
-              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
-                <IcTick></IcTick>
-              </div>
-              <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
-                <IcX></IcX>
-              </div>
-            </div>
-            <Button
-              className="mx-8 py-4"
-              onClick={() => setIsOpen('sendMessage')}
-            >
-              ارسال پیام
-            </Button>
-          </>
-        )}
       </div>
+      {user.images?.map((image) => (
+        <div key={image} className="bg-brand-black">
+          <img src={image} className="max-h-96"></img>
+        </div>
+      ))}
+      {!me && (
+        <>
+          <div className="my-4 flex justify-between px-8">
+            <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+              <IcTick></IcTick>
+            </div>
+            <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+              <IcX></IcX>
+            </div>
+          </div>
+          <Button
+            className="mx-8 my-4 py-4"
+            onClick={() => setIsOpen('sendMessage')}
+          >
+            ارسال پیام
+          </Button>
+
+          <Button
+            variant="white"
+            className="py-4 text-sm"
+            onClick={() => {
+              setIsOpen('violationReport');
+            }}
+          >
+            گزارش تخلف کاربر
+          </Button>
+        </>
+      )}
+
       <SendMessageModal
         isOpen={isOpen === 'sendMessage'}
         user={user}
