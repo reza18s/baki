@@ -283,29 +283,29 @@ export const ContactPage = () => {
             },
           },
         );
-        if (response.ok) {
-          voiceUrl = (await response.json())?.file?.url;
-        } else {
-          if ((await response.json()).code === 'INVALID_TOKEN') {
-            refreshAccessToken(client);
-          }
-          customToast('مشکلی در اپلود ویس پیش امد', 'error');
-          return;
+        const responseJson = await response.json();
+        console.log("responseJson", responseJson);
+        if (response.ok && responseJson?.file?.url) {
+          voiceUrl = responseJson?.file?.url;
+        } else if (responseJson.code === 'INVALID_TOKEN') {
+          refreshAccessToken(client);
         }
         if (!voiceUrl) {
-          customToast('مشکلی در اپلود ویس پیش امد', 'error');
+          customToast('مشکلی در اپلود ویس پیش آمد', 'error');
+        }else{
+          await sendMessage({
+            variables: {
+              chatId: chat?.id,
+              receiverId: participant?.getUser?.id,
+              content: '',
+              replyId: reply?.id,
+              type: 'voice',
+              url: voiceUrl,
+            },
+          });
         }
-        await sendMessage({
-          variables: {
-            chatId: chat?.id,
-            receiverId: participant?.getUser?.id,
-            content: '',
-            replyId: reply?.id,
-            type: 'voice',
-            url: voiceUrl,
-          },
-        });
-      } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (ignored) {
         customToast('مشکلی در اپلود ', 'error');
       }
     }
