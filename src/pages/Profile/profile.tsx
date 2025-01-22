@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { paths } from '@/routes/paths';
 import { ProfileCard } from '@/components/Profile/profileCard';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const Profile = () => {
   const { data, loading, refetch } = useGetMeQuery();
@@ -40,12 +41,12 @@ export const Profile = () => {
       ) : (
         <>
           <div className="flex w-full flex-col items-center gap-2">
-            <div className="size-[88px] overflow-hidden rounded-full">
-              <img
-                className="h-full w-full object-cover"
-                src={me?.mainImage || CardImage}
-              ></img>
-            </div>
+            <Avatar className="size-[88px]">
+              <AvatarImage src={me?.mainImage || ''} className="object-cover" />
+              <AvatarFallback className="3xl">
+                {me?.name?.[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
             <div className="flex items-center gap-1">
               <h1 className="flex items-center text-sm font-black">
                 {me?.name} ، {me?.age}

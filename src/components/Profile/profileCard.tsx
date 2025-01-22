@@ -14,6 +14,7 @@ import { getBaseInfo } from '@/utils/getBaseInfo';
 import { SendMessageModal } from '../Explore/sendMessageModal';
 import ViolationReportModal from '../Explore/violationReportModal';
 import { optionTexts } from '@/utils';
+import CardImage from '../../assets/images/image.png';
 
 export const ProfileCard = ({
   user,
@@ -36,7 +37,7 @@ export const ProfileCard = ({
       <div
         className={`flex min-h-[60dvh] flex-col justify-end bg-brand-black bg-cover bg-center p-4`}
         style={{
-          backgroundImage: `url(${user.mainImage || CardAvatar})`,
+          backgroundImage: `url(${user.mainImage || CardImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

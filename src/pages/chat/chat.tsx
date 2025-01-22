@@ -53,7 +53,9 @@ export const Chat = () => {
     setIsScrolling(false);
     const timeout = setTimeout(() => {
       setIsHold(true);
-      toggleSelect(chat);
+      if (!isScrolling) {
+        toggleSelect(chat);
+      }
     }, 500); // 500ms for long press
     setHoldTimeout(timeout);
   };

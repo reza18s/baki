@@ -1,10 +1,10 @@
 import { Chat, User } from '@/graphql/generated/graphql.codegen';
-import CardImage from '../../assets/images/image.png';
 import { getLastMessageTime } from '@/utils/datetime';
 import React, { FC } from 'react';
 import { IcStar } from '../icons/IcStar';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export const Contact: FC<
   React.HTMLAttributes<HTMLSpanElement> & {
@@ -14,7 +14,7 @@ export const Contact: FC<
     checked?: boolean;
     hideChecked?: boolean;
   }
-> = ({ chat, me, checked, hideChecked = true, ...props }) => {
+> = ({ chat, checked, hideChecked = true, ...props }) => {
   const user = chat.participants?.[0];
   return (
     <div {...props}>
@@ -25,12 +25,10 @@ export const Contact: FC<
       ></Checkbox>
       <div className="flex w-full gap-2 rounded-lg transition-all duration-300 ease-in-out active:bg-gray-100">
         <div className="relative flex items-center justify-center">
-          <div className="aspect-square size-12 overflow-hidden rounded-full">
-            <img
-              src={user?.mainImage || CardImage}
-              className="h-full w-full object-cover"
-            ></img>
-          </div>
+          <Avatar className="size-12">
+            <AvatarImage src={user?.mainImage || ''} className="object-cover" />
+            <AvatarFallback>{user?.name?.[0].toUpperCase()}</AvatarFallback>
+          </Avatar>
           <div
             className={`absolute bottom-1 left-0 size-[14px] rounded-full border-[2.5px] border-white ${user?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}
           ></div>

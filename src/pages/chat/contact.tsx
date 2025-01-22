@@ -65,7 +65,7 @@ export const ContactPage = () => {
     message: string;
   }>();
 
-  const { data: participant, loading } = useGetUserQuery({
+  const { data: participant } = useGetUserQuery({
     variables: { id: id },
     onError() {
       customToast('کاربر موجود نیست', 'error');

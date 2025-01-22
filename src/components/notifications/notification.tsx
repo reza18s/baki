@@ -7,6 +7,7 @@ import React from 'react';
 import Button from '../base/Button/Button';
 import CardImage from '../../assets/images/image.png';
 import { customToast } from '../base/toast';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export const Notification = ({
   notification,
@@ -26,12 +27,15 @@ export const Notification = ({
   return (
     <div className="flex gap-2">
       <div className="relative">
-        <div className="aspect-square size-12 overflow-hidden rounded-xl">
-          <img
-            src={data?.getUser?.mainImage || CardImage}
-            className="h-full w-full object-cover"
-          ></img>
-        </div>
+        <Avatar className="size-12 rounded-xl">
+          <AvatarImage
+            src={data?.getUser?.mainImage || ''}
+            className="object-cover"
+          />
+          <AvatarFallback className="rounded-xl">
+            {data?.getUser?.name?.[0].toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
         <div
           className={`absolute -left-2 bottom-3 size-[14px] rounded-full border-[2.5px] border-white ${data?.getUser?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}
         ></div>

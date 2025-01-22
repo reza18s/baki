@@ -28,6 +28,7 @@ import ViolationReportModal from '@/components/Explore/violationReportModal';
 import { optionTexts } from '@/utils';
 import { IcArrowRight } from '@/components/icons/IcArrowRight';
 import { formatLastSeen } from '@/utils/datetime';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const UserProfile = () => {
   const { id }: { id: string } = useParams();
@@ -108,12 +109,15 @@ export const UserProfile = () => {
       ) : (
         <>
           <div className="flex w-full flex-col items-center gap-2">
-            <div className="size-[88px] overflow-hidden rounded-full">
-              <img
-                src={user?.mainImage || CardImage}
-                className="h-full w-full object-cover"
-              ></img>
-            </div>
+            <Avatar className="size-[88px]">
+              <AvatarImage
+                src={user?.mainImage || ''}
+                className="object-cover"
+              />
+              <AvatarFallback className="3xl">
+                {user?.name?.[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
             <div className="flex items-center gap-1">
               <h1 className="flex items-center text-sm font-black">
                 {user?.name} ، {user?.age}

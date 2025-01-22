@@ -194,12 +194,12 @@ export default function Routes() {
                   {/* explore */}
                   <Route exact path={paths.explore.filter} component={Filter} />
                   {/* chat */}
+                  <Route exact path={paths.chat.search} component={Search} />
                   <Route
                     exact
                     path={paths.chat.contact.main}
                     component={ContactPage}
                   />
-                  <Route exact path={paths.chat.search} component={Search} />
                   {/* other */}
                   <Route
                     exact

@@ -1,5 +1,5 @@
 import * as SolarIconSet from 'solar-icon-set';
-import BakiBanner from '../../assets/img/profile/BakiBanner.svg';
+import BakiBanner from '../../assets/images/BakiBanner.png';
 import UploadPictures from '../../components/shared/Inputs/UploadPictures';
 import TextInput from '../../components/shared/Inputs/TextInput';
 import { useForm } from 'react-hook-form';
@@ -124,7 +124,7 @@ export default function EditProfile() {
       contentClassName="flex w-full flex-col items-center gap-2 p-6 pt-20 pb-20"
       scrollY
     >
-      <div>
+      <div className="flex flex-col gap-8">
         <div className="w-full text-brand-black">
           <h2 className="mr-3 text-sm font-semibold text-gray-500">
             تکمیل پروفایل:
@@ -139,7 +139,7 @@ export default function EditProfile() {
             }`}
           />
         </div>
-        <div className="w-full mt-8">
+        <div className="w-full">
           <h2 className="mr-3 text-sm font-semibold text-gray-500">
             تایید هویت
           </h2>
@@ -157,12 +157,14 @@ export default function EditProfile() {
             text={userInfo.verified ? ' تایید شده' : 'تایید شماره موبایل'}
           />
         </div>
-        <div className="flex w-full items-center py-8">
-          <img src={BakiBanner} alt="BakiBanner" />
+        <div className="flex w-full items-center">
+          <img src={BakiBanner} className="w-full" alt="BakiBanner" />
         </div>
         {/* Upload Picture */}
         <div className="flex min-h-fit w-full flex-col items-center gap-y-3">
-          <h1 className="w-full pr-3 text-gray-500">انتخاب عکس</h1>
+          <h1 className="w-full px-3 text-start text-sm font-semibold text-gray-500">
+            انتخاب عکس
+          </h1>
           <UploadPictures onChange />
         </div>
         {/* About Me */}
@@ -211,7 +213,11 @@ export default function EditProfile() {
             </h2>
             <ArrowButton
               url={paths.profile.completeProvinces}
-              text="محل زندگی کنونی خود را وارد کنید"
+              text={
+                userInfo.province && userInfo.city
+                  ? `${userInfo.province},${userInfo.city}`
+                  : 'محل زندگی کنونی خود را وارد کنید'
+              }
               icon={<SolarIconSet.Home size={24} />}
             />
           </div>
