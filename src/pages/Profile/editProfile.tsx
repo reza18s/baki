@@ -139,7 +139,7 @@ export default function EditProfile() {
             }`}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full mt-8">
           <h2 className="mr-3 text-sm font-semibold text-gray-500">
             تایید هویت
           </h2>

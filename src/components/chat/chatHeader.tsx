@@ -123,7 +123,7 @@ export const ChatHeader = ({
             <Link to={paths.chat.search}>
               <IcSearch className="size-6"></IcSearch>
             </Link>
-            <h1 className="text-center text-lg font-bold">پیام‌ها</h1>
+            <h1 className="text-center text-lg font-iransans font-bold">پیام‌ها</h1>
             <DropdownMenu dir="rtl">
               <DropdownMenuTrigger>
                 <IcDotsMenu></IcDotsMenu>
@@ -156,7 +156,7 @@ export const ChatHeader = ({
               filter === val.value
                 ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black'
                 : 'border border-gray-300 text-gray-500'
-            } flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`}
+            } flex h-7 items-center font-iransans rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`}
             onClick={() => setFilter(val.value)}
           >
             {val.title}
