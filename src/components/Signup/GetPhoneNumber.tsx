@@ -52,7 +52,7 @@ export default function GetPhoneNumber(props: {
         <div className="flex items-center gap-x-[8px]">
           {/* <SolarIconSet.LockKeyhole size={24} /> */}
           <IoMdLock size={30} className="h-6 w-6" />
-          <p className="pl-9 pr-1 font-['IRANSansXFaNum'] text-xs font-medium leading-none text-brand-black">
+          <p className="pl-9 pr-1 font-iransans text-xs font-medium leading-none text-brand-black">
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>
         </div>

@@ -27,7 +27,7 @@ export default function CompleteProfile() {
       <div className="flex w-full flex-col items-center gap-y-3 text-center">
         <h1 className='font-bold text-[18px]'>پروفایل خودتو تکمیل کن!</h1>
         <p className="text-sm font-medium text-gray-500">
-          هر چقدر در تکمیل اطلاعات صادقتر باشید افرادی با شرایط مشابه بیشتری به
+          هر چقدر در تکمیل اطلاعات صادق‌تر باشید افرادی با شرایط مشابه بیشتری به
           شما معرفی خواهد شد و امکان مسافرت مناسب‌تر برا شما فراهم می‌شود.
         </p>
       </div>

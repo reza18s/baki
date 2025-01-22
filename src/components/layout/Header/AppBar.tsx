@@ -40,7 +40,7 @@ const AppBar: React.FC<AppBarProps> = ({
       ) : (
         <div />
       )}
-      <div className="absolute inset-x-0 mx-12 text-center text-lg font-semibold text-gray-800">
+      <div className="absolute inset-x-0 mx-12 font-iransans text-center text-lg font-semibold text-gray-800">
         {text}
       </div>
       {children}
