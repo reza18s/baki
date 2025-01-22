@@ -3,7 +3,6 @@ import { IcSetting } from '@/components/icons/IcSetting';
 import { Page } from '@/components/layout/Page';
 import { useGetMeQuery, User } from '@/graphql/generated/graphql.codegen';
 import React, { useEffect } from 'react';
-import CardImage from '../../assets/images/image.png';
 import { MdVerified } from 'react-icons/md';
 import Button from '@/components/base/Button/Button';
 import { Link } from 'react-router-dom';
@@ -11,6 +10,7 @@ import { paths } from '@/routes/paths';
 import { ProfileCard } from '@/components/Profile/profileCard';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { formatLastSeen } from '@/utils/datetime';
 
 export const Profile = () => {
   const { data, loading, refetch } = useGetMeQuery();
@@ -57,7 +57,7 @@ export const Profile = () => {
               {me?.province}, {me?.city}
             </div>
             <span className="text-xs text-gray-400">
-              آخرین بازدید 2 ساعت پیش
+              {formatLastSeen(me?.lastSeen)}
             </span>
             <Link to={paths.profile.editProfile} className="w-full">
               <Button className="w-full"> تکمیل پروفایل</Button>
