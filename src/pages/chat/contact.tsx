@@ -520,19 +520,20 @@ export const ContactPage = () => {
                         </div>
                       )}
                     />
-                    <IcChat className="mb-1" />
-                    <label
-                      className="mb-1 cursor-pointer text-white"
-                      title="Upload Image"
-                    >
-                      <IcPaperclip className="h-6 w-6" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="hidden"
-                      />
-                    </label>
+                    {!(watch('message')?.trim().length > 0) && (
+                      <label
+                        className="mb-1 cursor-pointer text-white"
+                        title="Upload Image"
+                      >
+                        <IcPaperclip className="h-6 w-6" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
                   </div>
                 </form>
               )}

@@ -18,6 +18,8 @@ import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkI
 import { SearchTypes } from '@/lib';
 import { IFilter, useStore } from '@/store/useStore';
 import { IcExclamationMarkInCircleFill } from '@/components/icons/IcExclamationMarkInCircleFill';
+import { Link } from 'react-router-dom';
+import { paths } from '@/routes/paths';
 
 export default function Filter() {
   const {
@@ -101,7 +103,11 @@ export default function Filter() {
           {SearchType?.value === 'random' ? '3 بار' : 'یکبار'} از “
           {SearchType?.label}” استفاده کنید.
         </span>
-        <Button className="h-10 w-[90px] p-0 px-2 text-sm">تهیه اشتراک</Button>
+        <Link to={paths.plans.main}>
+          <Button className="h-10 w-[90px] p-0 px-2 text-sm">
+            تهیه اشتراک
+          </Button>
+        </Link>
       </div>
 
       {/* Dynamic Filters */}

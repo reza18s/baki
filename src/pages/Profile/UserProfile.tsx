@@ -47,10 +47,12 @@ export const UserProfile = () => {
       header={
         <div className="flex w-full items-center justify-between px-6 py-3">
           <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
-          <h1 className="flex items-center justify-center text-lg font-bold">
-            {user?.username}
-            <span className="font-semibold">@</span>
-          </h1>{' '}
+          {user?.username && (
+            <h1 className="flex items-center justify-center text-lg font-bold">
+              {user?.username}
+              <span className="font-semibold">@</span>
+            </h1>
+          )}
           <DropdownMenu dir="rtl">
             <DropdownMenuTrigger>
               <IcDotsMenu></IcDotsMenu>

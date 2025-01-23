@@ -27,6 +27,6 @@ mutation EditMessage($messageId: String!, $content: String!) {
     content
   }
 }
-mutation DelChat($chatsId: [String!]!) {
-  delChat(chatsId: $chatsId)
+mutation DelChat($chatsId: [String!]!, $del: Boolean) {
+  delChat(chatsId: $chatsId, del: $del)
 }

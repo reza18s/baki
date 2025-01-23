@@ -26,10 +26,12 @@ export const Profile = () => {
           <Link to={paths.profile.editProfile}>
             <IcEdit></IcEdit>
           </Link>
-          <h1 className="flex items-center justify-center text-lg font-bold">
-            {me?.username}
-            <span className="font-semibold">@</span>
-          </h1>
+          {me?.username && (
+            <h1 className="flex items-center justify-center text-lg font-bold">
+              {me?.username}
+              <span className="font-semibold">@</span>
+            </h1>
+          )}
           <Link to={paths.settings.main}>
             <IcSetting></IcSetting>
           </Link>
