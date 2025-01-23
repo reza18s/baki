@@ -4,8 +4,8 @@ import {
   IonRouterOutlet,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Suspense, useEffect, useState } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import MainLayout from './MainLayout';
 import { paths } from './paths';
 import Explore from '@/pages/Explore';
@@ -62,26 +62,9 @@ export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   return animation;
 };
 export default function Routes() {
-  const [isReload, setIsReload] = useState(true);
-  const location = useLocation();
-
-  useEffect(() => {
-    // Detect page reload
-    const handleReload = () => setIsReload(false);
-    window.addEventListener('load', handleReload);
-
-    // Clean up
-    return () => {
-      window.removeEventListener('load', handleReload);
-    };
-  }, []);
   return (
     <IonReactRouter>
-      <Suspense
-        fallback={
-          isReload ? <LoaderPage></LoaderPage> : <LoaderPage></LoaderPage>
-        }
-      >
+      <Suspense fallback={<LoaderPage></LoaderPage>}>
         <IonRouterOutlet animated={true} animation={zoomInAnimation} mode="md">
           <AppGuard>
             <Switch>
