@@ -6,7 +6,6 @@ import {
   User,
 } from '@/graphql/generated/graphql.codegen';
 import React, { useEffect, useState } from 'react';
-import CardImage from '../../assets/images/image.png';
 import { MdVerified } from 'react-icons/md';
 import Button from '@/components/base/Button/Button';
 import { useHistory, useParams } from 'react-router-dom';
@@ -86,7 +85,7 @@ export const UserProfile = () => {
                       blockedId: user!.id,
                     },
                     onCompleted: (res) => {
-                      customToast(res.addToBlackList.message, 'success');
+                      customToast(res.addToBlackList || '', 'success');
                     },
                   });
                 }}

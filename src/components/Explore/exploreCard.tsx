@@ -1,5 +1,4 @@
 import { FaCirclePlay } from 'react-icons/fa6';
-import CardImage from '../../assets/images/image.png';
 import CardAvatar from '../../assets/images/avatar.png';
 import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
@@ -197,7 +196,7 @@ export default function ExploreCard({
               key={image}
               className="flex items-center justify-center bg-brand-black"
             >
-              <img src={image || CardImage} className="max-h-96"></img>
+              <img src={image} className="max-h-96"></img>
             </div>
           ))}
           <div className="my-8 flex justify-between px-8">

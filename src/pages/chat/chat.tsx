@@ -7,7 +7,6 @@ import {
   useGetRequestsQuery,
   User,
 } from '@/graphql/generated/graphql.codegen';
-import CardImage from '../../assets/images/image.png';
 import CountdownCircle from '@/components/ui/countdownCircle';
 import { Contact } from '@/components/chat/contact';
 import { ChatHeader } from '@/components/chat/chatHeader';

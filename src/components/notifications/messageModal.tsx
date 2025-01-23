@@ -3,7 +3,6 @@ import Modal from '../base/Modal/Modal';
 import { IcXCircle } from '../icons/IcXCircle';
 import Button from '../base/Button/Button';
 import { IcCase } from '../icons/IcCase';
-import CardImage from '../../assets/images/image.png';
 import BgChat from '../../assets/images/bg-chat.png';
 import {
   Notification,
@@ -11,7 +10,6 @@ import {
   useAcceptRequestMutation,
   useGetChatQuery,
   useGetRequestQuery,
-  useGetRequestsQuery,
   useGetUserQuery,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
@@ -22,6 +20,7 @@ import { formatLastSeen } from '@/utils/datetime';
 import { cn } from '@/lib/utils';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export const MessageModal = ({
   isOpen,
@@ -89,12 +88,12 @@ export const MessageModal = ({
           <IcXCircle className="size-5 stroke-black"></IcXCircle>
         </div>
         <div className="flex w-full flex-col items-center gap-2">
-          <div className="size-20 overflow-hidden rounded-full">
-            <img
-              src={user?.mainImage || CardImage}
-              className="h-full w-full object-cover"
-            ></img>
-          </div>
+          <Avatar className="size-20">
+            <AvatarImage src={user?.mainImage || ''} className="object-cover" />
+            <AvatarFallback className="3xl">
+              {user?.name?.[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <h1 className="flex flex-col items-center text-sm font-bold">
             {user?.name}
             <span className="text-xs text-gray-400">

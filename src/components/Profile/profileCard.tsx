@@ -4,7 +4,6 @@ import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { Bio, Info } from '../Explore/card';
 import Button from '../base/Button/Button';
-import { IcSendMessageHeart } from '../icons/IcSendMessageHeart';
 import { IcTick } from '../icons/IcTick';
 import { IcX } from '../icons/IcX';
 import { User } from '@/graphql/generated/graphql.codegen';
@@ -14,7 +13,6 @@ import { getBaseInfo } from '@/utils/getBaseInfo';
 import { SendMessageModal } from '../Explore/sendMessageModal';
 import ViolationReportModal from '../Explore/violationReportModal';
 import { optionTexts } from '@/utils';
-import CardImage from '../../assets/images/image.png';
 import { cn } from '@/lib/utils';
 import { IcNoImage } from '../icons/IcNoImage';
 

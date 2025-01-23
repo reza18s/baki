@@ -4,7 +4,6 @@ import Button from '../base/Button/Button';
 import { IcCase } from '../icons/IcCase';
 import { IcChair } from '../icons/IcChair';
 import { IcSendMessage } from '../icons/IcSendMessage';
-import CardImage from '../../assets/images/image.png';
 import {
   RandomUser,
   RequestType,
@@ -15,6 +14,7 @@ import { useStore } from '@/store/useStore';
 import { customToast } from '../base/toast';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export const SendMessageModal = ({
   user,
@@ -39,12 +39,12 @@ export const SendMessageModal = ({
       onRequestClose={() => setClose()}
       className="relative flex flex-col items-center justify-center gap-4 p-4 px-6"
     >
-      <div className="size-20 overflow-hidden rounded-full">
-        <img
-          src={user.mainImage || CardImage}
-          className="size-full rounded-full object-cover"
-        ></img>
-      </div>
+      <Avatar className="size-20">
+        <AvatarImage src={user?.mainImage || ''} className="object-cover" />
+        <AvatarFallback className="3xl">
+          {user?.name?.[0].toUpperCase()}
+        </AvatarFallback>
+      </Avatar>
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <h2 className="text-lg font-bold">دوست داری به {user?.name} چی بگی؟</h2>
         <div className="flex w-full flex-col items-center justify-center gap-2">

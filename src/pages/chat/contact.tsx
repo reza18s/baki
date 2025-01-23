@@ -341,6 +341,7 @@ export const ContactPage = () => {
         <ContactBar
           clearSelect={() => setSelects([])}
           selects={selects}
+          chatId={chat?.id}
           //@ts-expect-error the
           contact={participant?.getUser || { id: id, isOnline: false }}
           setEdit={(message) => {

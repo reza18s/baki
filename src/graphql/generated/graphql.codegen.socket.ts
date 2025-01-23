@@ -128,7 +128,7 @@ export type Mutation = {
   Signin?: Maybe<Scalars['String']['output']>;
   acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
-  addToBlackList?: Maybe<Scalars['JSON']['output']>;
+  addToBlackList?: Maybe<Scalars['String']['output']>;
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
   checkDiscount: Discount;
   createReport?: Maybe<Scalars['String']['output']>;
@@ -207,6 +207,7 @@ export type MutationCreateRequestArgs = {
 
 export type MutationDelChatArgs = {
   chatsId: Array<Scalars['String']['input']>;
+  del?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -527,7 +528,7 @@ export type AddToBlackListMutationVariables = Exact<{
 }>;
 
 
-export type AddToBlackListMutation = { addToBlackList?: any | null };
+export type AddToBlackListMutation = { addToBlackList?: string | null };
 
 export type SendMessageMutationVariables = Exact<{
   content: Scalars['String']['input'];
@@ -559,6 +560,7 @@ export type EditMessageMutation = { editMessage?: { id: string, content: string 
 
 export type DelChatMutationVariables = Exact<{
   chatsId: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  del?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
@@ -908,8 +910,8 @@ export type EditMessageMutationHookResult = ReturnType<typeof useEditMessageMuta
 export type EditMessageMutationResult = Apollo.MutationResult<EditMessageMutation>;
 export type EditMessageMutationOptions = Apollo.BaseMutationOptions<EditMessageMutation, EditMessageMutationVariables>;
 export const DelChatDocument = gql`
-    mutation DelChat($chatsId: [String!]!) {
-  delChat(chatsId: $chatsId)
+    mutation DelChat($chatsId: [String!]!, $del: Boolean) {
+  delChat(chatsId: $chatsId, del: $del)
 }
     `;
 export type DelChatMutationFn = Apollo.MutationFunction<DelChatMutation, DelChatMutationVariables>;
@@ -928,6 +930,7 @@ export type DelChatMutationFn = Apollo.MutationFunction<DelChatMutation, DelChat
  * const [delChatMutation, { data, loading, error }] = useDelChatMutation({
  *   variables: {
  *      chatsId: // value for 'chatsId'
+ *      del: // value for 'del'
  *   },
  * });
  */

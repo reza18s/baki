@@ -5,7 +5,6 @@ import {
 import { calculateElapsedTime } from '@/utils/datetime';
 import React from 'react';
 import Button from '../base/Button/Button';
-import CardImage from '../../assets/images/image.png';
 import { customToast } from '../base/toast';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
