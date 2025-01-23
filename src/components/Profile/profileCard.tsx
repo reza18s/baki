@@ -15,6 +15,8 @@ import { SendMessageModal } from '../Explore/sendMessageModal';
 import ViolationReportModal from '../Explore/violationReportModal';
 import { optionTexts } from '@/utils';
 import CardImage from '../../assets/images/image.png';
+import { cn } from '@/lib/utils';
+import { IcNoImage } from '../icons/IcNoImage';
 
 export const ProfileCard = ({
   user,
@@ -35,27 +37,39 @@ export const ProfileCard = ({
     >
       {/* Image */}
       <div
-        className={`flex min-h-[60dvh] flex-col justify-end bg-brand-black bg-cover bg-center p-4`}
+        className={cn(
+          `relative flex min-h-[60dvh] flex-col justify-end bg-cover bg-center p-4`,
+          !user.mainImage && 'border-b border-brand-black',
+        )}
         style={{
-          backgroundImage: `url(${user.mainImage || CardImage})`,
+          backgroundImage: `url(${user.mainImage || ''})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
+        {!user.mainImage && (
+          <div className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand-yellow">
+            <IcNoImage></IcNoImage>
+          </div>
+        )}
         <div className="flex items-center justify-between">
-          <div className="text-sm text-white">
+          <div className={cn('text-sm', user.mainImage && 'text-white')}>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-black text-white">
+              <h1 className="text-lg font-black">
                 {user?.name} ، {user?.age}
               </h1>
               <MdVerified size={24} className="fill-brand-yellow" />
             </div>
-            <div className="flex items-center gap-x-1 text-white">
-              <RiMapPin2Fill size={16} fill="#fff" className="-mr-[2px]" />
+            <div className="flex items-center gap-x-1">
+              <RiMapPin2Fill
+                size={16}
+                fill={!user.mainImage ? '#000' : '#fff'}
+                className="-mr-[2px]"
+              />
               {user?.province} , {user?.city}
             </div>
-            <div className="flex items-center gap-x-1 text-white">
+            <div className="flex items-center gap-x-1">
               <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                 <div
                   className={`h-[8px] w-[8px] rounded-full ${

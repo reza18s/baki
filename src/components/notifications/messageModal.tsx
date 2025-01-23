@@ -68,7 +68,6 @@ export const MessageModal = ({
       </Modal>
     );
   }
-  console.log(request?.getRequest);
   return (
     <Modal
       isOpen={!!isOpen && !!user}
