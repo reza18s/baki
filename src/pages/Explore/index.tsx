@@ -237,7 +237,7 @@ export default function Explore() {
         </div>
         <div className="mt-3 flex justify-end gap-2">
           <Button
-            className="h-7 w-16 border-black p-0"
+            className="h-7 w-16 border-black font-iransans p-0"
             rounded="rounded-lg"
             onClick={() => setIsOpen(undefined)}
           >
@@ -246,7 +246,7 @@ export default function Explore() {
           <Button
             variant="outline"
             rounded="rounded-lg"
-            className="h-y w-16 rounded-lg border-red-500 p-0 text-red-500"
+            className="h-y w-16 rounded-lg font-iransans border-red-500 p-0 text-red-500"
             onClick={() => setIsOpen('searchType')}
           >
             بازگشت
