@@ -22,10 +22,10 @@ export const Input: FC<InputProps> = ({
   const hasValue = (props.value?.toString()?.length || 0) > 0;
 
   const baseClass =
-    'flex w-full items-center gap-x-2 rounded-xl border-[1.5px] py-3 pl-6 pr-2  transition-all duration-200 ease-in-out';
+    'flex w-full items-center gap-x-2 rounded-xl font-iransans border-[1.5px] py-3 pl-6 pr-2  transition-all duration-200 ease-in-out';
   const activeClass = hasValue ? 'shadow-[0px_3px_#000]' : '';
   const inputClass =
-    'w-full appearance-none border-none bg-white text-sm outline-none';
+    'w-full appearance-none border-none font-iransans bg-white text-sm outline-none';
 
   return (
     <div className={cn(baseClass, 'border-black', activeClass, className)}>

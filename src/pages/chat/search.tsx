@@ -36,7 +36,7 @@ export const Search = () => {
           ></Input>
           <Button
             variant="text"
-            className="text-brand-red"
+            className="text-brand-red font-iransans"
             onClick={() => hs.goBack()}
           >
             بازگشت

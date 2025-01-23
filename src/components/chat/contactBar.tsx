@@ -71,9 +71,10 @@ export const ContactBar = ({
             <Input
               className="h-8 w-full"
               icon={<IcSearch></IcSearch>}
+              
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="جستحو"
+              placeholder="جستجو"
             ></Input>
           </div>
         </>
