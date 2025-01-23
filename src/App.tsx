@@ -1,7 +1,8 @@
-import { IonApp, setupIonicReact } from '@ionic/react';
+import { IonApp, setupIonicReact, useIonRouter } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Toaster } from 'react-hot-toast';
 import Routes from './routes/routes';
+import { IonRouterOutlet, IonToast, useIonViewWillEnter } from '@ionic/react';
 
 /* Import CSS files */
 import '@ionic/react/css/core.css';
@@ -21,10 +22,49 @@ import './theme/variables.css';
 import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
+import { useHistory } from 'react-router';
+import { useEffect, useState } from 'react';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  // const history = useHistory();
+  // const [showToast, setShowToast] = useState(false);
+  const router = useIonRouter();
+
+  // Custom Back Button Handler
+  useEffect(() => {
+    const backAction = (event: Event) => {
+      event.preventDefault();
+      router.goBack();
+    };
+
+    // Add listener for hardware back button
+    document.addEventListener('ionBackButton', backAction);
+
+    return () => {
+      // Clean up listener on component unmount
+      document.removeEventListener('ionBackButton', backAction);
+    };
+  }, [router]);
+
+  // useEffect(() => {
+  //   const onBackButtonEvent = (event: any) => {
+  //     event.preventDefault(); // Prevent default behavior
+  //     if (history.length > 1) {
+  //       history.goBack(); // Navigate back
+  //     } else {
+  //       setShowToast(true); // Optional: Show "Press again to exit" message
+  //       setTimeout(() => setShowToast(false), 2000); // Reset toast visibility
+  //     }
+  //   };
+
+  //   document.addEventListener('ionBackButton', onBackButtonEvent);
+
+  //   return () => {
+  //     document.removeEventListener('ionBackButton', onBackButtonEvent);
+  //   };
+  // }, [history]);
   return (
     <IonApp>
       <IonReactRouter>

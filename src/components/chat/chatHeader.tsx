@@ -25,6 +25,8 @@ import { socket } from '@/graphql/apollo/socket';
 import Button from '../base/Button/Button';
 import Modal from '../base/Modal/Modal';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
+import ViolationReportModal from '../Explore/violationReportModal';
+import { optionTexts } from '@/utils';
 const items = [
   { value: 'all', title: 'همه' },
   { value: 'random', title: 'تصادفی' },
@@ -54,7 +56,7 @@ export const ChatHeader = ({
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [isOpen, setIsOpen] = useState<'deleteChat'>();
+  const [isOpen, setIsOpen] = useState<'deleteChat' | 'violationReport'>();
   const [addToFavorite] = useAddToFavoriteMutation();
   const [addToBlackList] = useAddToBlackListMutation();
   const [delChat] = useDelChatMutation({ client: socket });
@@ -226,6 +228,18 @@ export const ChatHeader = ({
           </Button>
         </div>
       </Modal>
+      {selects.length === 1 && (
+        <ViolationReportModal
+          id={selects[0].id}
+          loading={false}
+          title="گزارش تخلف"
+          options={optionTexts}
+          setClose={() => {
+            setIsOpen(undefined);
+          }}
+          isOpen={isOpen === 'violationReport'}
+        ></ViolationReportModal>
+      )}
     </div>
   );
 };
