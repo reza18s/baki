@@ -15,6 +15,7 @@ import { IcUserGroup } from '@/components/icons/IcUserGroup';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
@@ -103,11 +104,15 @@ export const Chat = () => {
                       transform: 'translate(-50%,-50%)',
                     }}
                   >
-                    <img
-                      src={req.requester?.mainImage || CardImage}
-                      className="h-full w-full object-cover"
-                      alt="Card"
-                    />
+                    <Avatar className="size-full">
+                      <AvatarImage
+                        src={req.requester?.mainImage || ''}
+                        className="object-cover"
+                      />
+                      <AvatarFallback className="2xl">
+                        {req.requester?.name?.[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
                   <CountdownCircle startDate={req.createdAt}></CountdownCircle>
                 </div>

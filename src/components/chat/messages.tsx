@@ -258,14 +258,6 @@ const Message = ({
                 >
                   mmm
                 </div>
-                {message.reply.url && (
-                  <div className="my-auto flex size-8 items-center justify-center overflow-hidden bg-black">
-                    <img
-                      className="size-8 object-cover"
-                      src={message.reply.url}
-                    ></img>
-                  </div>
-                )}
                 <div className="max-w-[calc(100%-4px)] p-1 px-2">
                   <h1 className="truncate text-sm font-bold">
                     {message.reply?.sender?.name}
