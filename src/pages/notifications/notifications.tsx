@@ -62,7 +62,7 @@ export const Notifications = () => {
             {items.map((val, i) => (
               <div
                 key={i}
-                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black font-iransans text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
+                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black  text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-7 items-center font-iransans rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
                 onClick={() => setFilter(val.value)}
               >
                 {val.title}
