@@ -1,0 +1,11 @@
+mutation CreateReport(
+  $reportedId: String!
+  $description: String!
+  $reasons: [String!]!
+) {
+  createReport(
+    reportedId: $reportedId
+    description: $description
+    reasons: $reasons
+  )
+}

@@ -39,7 +39,6 @@ export default function Explore() {
   const [cardsHistory, setCardsHistory] = useState<RandomUser[]>([]);
   const [cards, setCards] = useState<RandomUser[]>([]);
   const { filters, searchType } = useStore((store) => store);
-
   const history = useHistory();
   const [getUser, { loading, refetch }] = useGetRandomUserLazyQuery({
     variables: {
@@ -94,6 +93,7 @@ export default function Explore() {
     setCardsHistory((prev) => [cards.find((card) => card.id === id)!, ...prev]);
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
+
   return (
     <Page
       className="pb-14"
@@ -110,8 +110,12 @@ export default function Explore() {
             {cardsHistory.length > 0 && (
               <IcUndo
                 onClick={() => {
-                  setCards((prev) => [...prev, cardsHistory[0]]);
-                  setCardsHistory((prev) => prev.splice(0, 1));
+                  if (cardsHistory[0]) {
+                    setCards((prev) => {
+                      return [...prev, cardsHistory[0]].filter((e) => e);
+                    });
+                    setCardsHistory((prev) => prev.splice(0, 1));
+                  }
                 }}
               ></IcUndo>
             )}
@@ -175,7 +179,7 @@ export default function Explore() {
               <AnimatePresence>
                 {cards.map((card, index) => (
                   <ExploreCard
-                    key={card.id}
+                    key={card?.id}
                     inView={index == cards.length - 1}
                     handleSwipe={handleSwipe}
                     user={card}

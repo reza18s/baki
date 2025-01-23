@@ -4,6 +4,11 @@ import BottomSheetModal from '../base/Modal/BottomSheetModal';
 import Button from '../base/Button/Button';
 import { DotesLoading } from '../base/Loader/Loader';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
+import {
+  useAddToBlackListMutation,
+  useCreateReportMutation,
+} from '@/graphql/generated/graphql.codegen';
+import { customToast } from '../base/toast';
 
 interface ViolationReportModalProps {
   options: {
@@ -13,8 +18,9 @@ interface ViolationReportModalProps {
   isOpen: boolean;
   title: string;
   loading: boolean;
+  id: string;
   setClose: () => void;
-  onReportSubmit: (message: string, options: boolean[]) => void;
+  onReportSubmit?: (message: string, options: string[], block: boolean) => void;
 }
 
 const ViolationReportModal: FC<ViolationReportModalProps> = ({
@@ -22,12 +28,15 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
   isOpen,
   loading,
   title,
+  id,
   setClose,
   onReportSubmit,
 }) => {
   const [optionState, setOptionState] = useState<boolean[]>(
     options.map((_) => false),
   );
+  const [Report, { loading: reportLoading }] = useCreateReportMutation();
+  const [addToBlackList] = useAddToBlackListMutation();
   return (
     <BottomSheetModal
       closeOnClickOverlay
@@ -45,14 +54,52 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
         <Formik
           onSubmit={(values) => {
             if (!loading) {
-              onReportSubmit(values.message, optionState);
+              if (onReportSubmit) {
+                console.log('lll');
+                onReportSubmit(
+                  values.message,
+                  options
+                    .filter((_, index) => optionState[index])
+                    .map((val) => val.label),
+                  values.block,
+                );
+              } else {
+                Report({
+                  variables: {
+                    reportedId: id,
+                    description: values.message,
+                    reasons: options
+                      .filter((_, index) => optionState[index])
+                      .map((val) => val.label),
+                  },
+                  onCompleted(data) {
+                    customToast('گزارش با موفقیت ثبت شد', 'success');
+                  },
+                  onError: (err) => {
+                    customToast(err.message, 'error');
+                  },
+                });
+                if (values.block) {
+                  addToBlackList({
+                    variables: { blockedId: id },
+                    onCompleted(data) {
+                      customToast('کاربر به لیست  سیاه اضافه شد', 'success');
+                    },
+                    onError: (err) => {
+                      customToast(err.message, 'error');
+                    },
+                  });
+                }
+              }
             }
           }}
-          initialValues={{ message: '' }}
+          initialValues={
+            { message: '', block: false } as { message: string; block: boolean }
+          }
           validate={(values) => {
             const errors: { message?: string } = {};
             if (
-              optionState.filter((option) => option).length < 1 &&
+              optionState.filter((option) => option).length < 1 ||
               values.message.trim().length < 1
             ) {
               errors.message =
@@ -63,7 +110,14 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
             }
           }}
         >
-          {({ errors, handleSubmit, values, handleChange, setErrors }) => (
+          {({
+            errors,
+            handleSubmit,
+            values,
+            handleChange,
+            setErrors,
+            setValues,
+          }) => (
             <div className="flex w-full flex-col gap-2">
               <div className="mt-3 flex flex-col gap-2">
                 {options.map((item, index) => (
@@ -98,7 +152,10 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
                 variant="danger"
                 className="rounded-8 h-10 w-full p-0 text-sm"
                 type="submit"
-                onClick={() => handleSubmit()}
+                onClick={() => {
+                  setValues({ block: false, message: values.message });
+                  handleSubmit();
+                }}
               >
                 {loading ? (
                   <DotesLoading size="h-2 w-2" className="bg-white" />
@@ -110,7 +167,10 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
                 variant="danger-outline"
                 className="rounded-8 h-10 w-full border border-brand-red p-0 text-sm"
                 type="submit"
-                onClick={() => handleSubmit()}
+                onClick={() => {
+                  setValues({ block: true, message: values.message });
+                  handleSubmit();
+                }}
               >
                 {loading ? (
                   <DotesLoading size="h-2 w-2" className="bg-white" />

@@ -239,7 +239,7 @@ export default function ExploreCard({
         }}
       ></SendMessageModal>
       <ViolationReportModal
-        onReportSubmit={() => {}}
+        id={user.id}
         loading={false}
         title="گزارش تخلف"
         options={optionTexts}

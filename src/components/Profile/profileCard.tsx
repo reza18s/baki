@@ -172,7 +172,7 @@ export const ProfileCard = ({
         }}
       ></SendMessageModal>
       <ViolationReportModal
-        onReportSubmit={() => {}}
+        id={user.id}
         loading={false}
         title="گزارش تخلف"
         options={optionTexts}

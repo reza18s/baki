@@ -141,7 +141,7 @@ export const UserProfile = () => {
         </>
       )}
       <ViolationReportModal
-        onReportSubmit={() => {}}
+        id={id}
         loading={false}
         title="گزارش تخلف"
         options={optionTexts}

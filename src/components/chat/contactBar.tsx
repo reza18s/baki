@@ -158,10 +158,10 @@ export const ContactBar = ({
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col text-start">
-              <h1 className="w-full font-iransans text-start text-sm font-bold">
+              <h1 className="w-full text-start font-iransans text-sm font-bold">
                 {contact?.name || ''}
               </h1>
-              <span className="text-xs font-iransans text-gray-400">
+              <span className="font-iransans text-xs text-gray-400">
                 {contact?.isOnline
                   ? 'انلاین'
                   : contact?.lastSeen
@@ -234,7 +234,7 @@ export const ContactBar = ({
         </>
       )}
       <ViolationReportModal
-        onReportSubmit={() => {}}
+        id={contact.id}
         loading={false}
         title="گزارش تخلف"
         options={optionTexts}

@@ -131,7 +131,7 @@ export type Mutation = {
   addToBlackList?: Maybe<Scalars['JSON']['output']>;
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
   checkDiscount: Discount;
-  createReport?: Maybe<ViolationReport>;
+  createReport?: Maybe<Scalars['String']['output']>;
   createRequest?: Maybe<Request>;
   delChat?: Maybe<Scalars['String']['output']>;
   delMessages?: Maybe<Scalars['String']['output']>;
@@ -192,7 +192,8 @@ export type MutationCheckDiscountArgs = {
 
 
 export type MutationCreateReportArgs = {
-  reason: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  reasons: Array<Scalars['String']['input']>;
   reportedId: Scalars['String']['input'];
 };
 
@@ -608,6 +609,15 @@ export type RefreshAccessTokenMutationVariables = Exact<{ [key: string]: never; 
 
 
 export type RefreshAccessTokenMutation = { refreshAccessToken?: { accessToken?: string | null } | null };
+
+export type CreateReportMutationVariables = Exact<{
+  reportedId: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  reasons: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type CreateReportMutation = { createReport?: string | null };
 
 export type CreateRequestMutationVariables = Exact<{
   receiverId: Scalars['String']['input'];
@@ -1139,6 +1149,43 @@ export function useRefreshAccessTokenMutation(baseOptions?: Apollo.MutationHookO
 export type RefreshAccessTokenMutationHookResult = ReturnType<typeof useRefreshAccessTokenMutation>;
 export type RefreshAccessTokenMutationResult = Apollo.MutationResult<RefreshAccessTokenMutation>;
 export type RefreshAccessTokenMutationOptions = Apollo.BaseMutationOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>;
+export const CreateReportDocument = gql`
+    mutation CreateReport($reportedId: String!, $description: String!, $reasons: [String!]!) {
+  createReport(
+    reportedId: $reportedId
+    description: $description
+    reasons: $reasons
+  )
+}
+    `;
+export type CreateReportMutationFn = Apollo.MutationFunction<CreateReportMutation, CreateReportMutationVariables>;
+
+/**
+ * __useCreateReportMutation__
+ *
+ * To run a mutation, you first call `useCreateReportMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReportMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReportMutation, { data, loading, error }] = useCreateReportMutation({
+ *   variables: {
+ *      reportedId: // value for 'reportedId'
+ *      description: // value for 'description'
+ *      reasons: // value for 'reasons'
+ *   },
+ * });
+ */
+export function useCreateReportMutation(baseOptions?: Apollo.MutationHookOptions<CreateReportMutation, CreateReportMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReportMutation, CreateReportMutationVariables>(CreateReportDocument, options);
+      }
+export type CreateReportMutationHookResult = ReturnType<typeof useCreateReportMutation>;
+export type CreateReportMutationResult = Apollo.MutationResult<CreateReportMutation>;
+export type CreateReportMutationOptions = Apollo.BaseMutationOptions<CreateReportMutation, CreateReportMutationVariables>;
 export const CreateRequestDocument = gql`
     mutation CreateRequest($receiverId: String!, $type: RequestType!, $searchType: String!) {
   createRequest(receiverId: $receiverId, type: $type, searchType: $searchType) {
