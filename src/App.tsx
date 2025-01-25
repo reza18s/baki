@@ -41,10 +41,12 @@ const App: React.FC = () => {
 
     // Add listener for hardware back button
     document.addEventListener('ionBackButton', backAction);
+    document.addEventListener('backButton', backAction);
 
     return () => {
       // Clean up listener on component unmount
       document.removeEventListener('ionBackButton', backAction);
+      document.removeEventListener('backButton', backAction);
     };
   }, [router]);
 
