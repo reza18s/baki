@@ -30,13 +30,13 @@ setupIonicReact();
 const App: React.FC = () => {
   // const history = useHistory();
   // const [showToast, setShowToast] = useState(false);
-  const router = useIonRouter();
+  const hs = useHistory();
 
   // Custom Back Button Handler
   useEffect(() => {
     const backAction = (event: Event) => {
       event.preventDefault();
-      router.goBack();
+      hs.goBack();
     };
 
     // Add listener for hardware back button
@@ -48,7 +48,7 @@ const App: React.FC = () => {
       document.removeEventListener('ionBackButton', backAction);
       document.removeEventListener('backButton', backAction);
     };
-  }, [router]);
+  }, [hs]);
 
   // useEffect(() => {
   //   const onBackButtonEvent = (event: any) => {
