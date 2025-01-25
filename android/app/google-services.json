@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "355358203016",
+    "project_id": "baki-ionic-test",
+    "storage_bucket": "baki-ionic-test.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355358203016:android:869c0efe1abdc2b9dc533d",
+        "android_client_info": {
+          "package_name": "ir.baki.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB_rCEEhrimpxiXfiPv3E7azT6xFnt9RY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

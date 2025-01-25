@@ -3,6 +3,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Toaster } from 'react-hot-toast';
 import Routes from './routes/routes';
 import { IonRouterOutlet, IonToast, useIonViewWillEnter } from '@ionic/react';
+import { PushNotifications } from '@capacitor/push-notifications';
 
 /* Import CSS files */
 import '@ionic/react/css/core.css';
@@ -23,14 +24,19 @@ import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
 import { useHistory } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { customToast } from './components/base/toast';
+import {
+  useAddDeviceTokenMutation,
+  useGetMeQuery,
+} from './graphql/generated/graphql.codegen';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  // const history = useHistory();
-  // const [showToast, setShowToast] = useState(false);
   const hs = useHistory();
+  const { data } = useGetMeQuery();
+  const [addDeviceToken] = useAddDeviceTokenMutation();
 
   // Custom Back Button Handler
   useEffect(() => {
@@ -49,7 +55,44 @@ const App: React.FC = () => {
       document.removeEventListener('backButton', backAction);
     };
   }, [hs]);
+  useEffect(() => {
+    const initializePushNotifications = async () => {
+      const permission = await PushNotifications.requestPermissions();
+      if (permission.receive === 'granted') {
+        await PushNotifications.register();
+      }
 
+      // Handle token
+      PushNotifications.addListener('registration', (token) => {
+        localStorage.setItem('deviceToken', token.value);
+        if (data?.getMe) {
+          addDeviceToken({
+            variables: {
+              token: token.value,
+            },
+          });
+        }
+      });
+
+      // Handle notification received
+      PushNotifications.addListener(
+        'pushNotificationReceived',
+        (notification) => {
+          // customToast(`Notification Rceived: ${notification}`, 'warning');
+        },
+      );
+
+      // Handle notification action
+      PushNotifications.addListener(
+        'pushNotificationActionPerformed',
+        (action) => {
+          customToast(`Notification Ation: ${action}`, 'warning');
+        },
+      );
+    };
+
+    initializePushNotifications();
+  }, []);
   // useEffect(() => {
   //   const onBackButtonEvent = (event: any) => {
   //     event.preventDefault(); // Prevent default behavior

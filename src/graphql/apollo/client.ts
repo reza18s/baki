@@ -16,7 +16,11 @@ const REFRESH_TOKEN_MUTATION = gql`
     }
   }
 `;
-
+const DeleteDeviceTokenMutation = gql`
+  mutation DeleteDeviceToken($deviceToken: String!) {
+    deleteDeviceToken(deviceToken: $deviceToken)
+  }
+`;
 // Utility to safely retrieve the token from localStorage
 const getToken = () => {
   try {
@@ -150,6 +154,15 @@ const responseMiddleware = new ApolloLink((operation, forward) => {
   });
 });
 export const clientLogout = () => {
+  const deviceToken = localStorage.getItem('DeviceToken');
+  if (deviceToken) {
+    client.mutate({
+      mutation: DeleteDeviceTokenMutation,
+      variables: {
+        deviceToken,
+      },
+    });
+  }
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
   window.location.reload();

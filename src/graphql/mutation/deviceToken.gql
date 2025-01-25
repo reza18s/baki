@@ -1,0 +1,6 @@
+mutation DeleteDeviceToken($deviceToken: String!) {
+  deleteDeviceToken(deviceToken: $deviceToken)
+}
+mutation AddDeviceToken($token: String!) {
+  addDeviceToken(token: $token)
+}

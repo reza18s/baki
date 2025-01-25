@@ -128,6 +128,7 @@ export type Mutation = {
   Signin?: Maybe<Scalars['String']['output']>;
   acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
+  addDeviceToken?: Maybe<Scalars['String']['output']>;
   addToBlackList?: Maybe<Scalars['String']['output']>;
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
   checkDiscount: Discount;
@@ -135,6 +136,7 @@ export type Mutation = {
   createRequest?: Maybe<Request>;
   delChat?: Maybe<Scalars['String']['output']>;
   delMessages?: Maybe<Scalars['String']['output']>;
+  deleteDeviceToken?: Maybe<Scalars['String']['output']>;
   editMessage?: Maybe<Message>;
   logInAsGuest?: Maybe<AuthPayload>;
   refreshAccessToken?: Maybe<AuthPayload>;
@@ -176,6 +178,11 @@ export type MutationActivePlanArgs = {
 };
 
 
+export type MutationAddDeviceTokenArgs = {
+  token: Scalars['String']['input'];
+};
+
+
 export type MutationAddToBlackListArgs = {
   blockedId: Array<Scalars['String']['input']>;
 };
@@ -214,6 +221,11 @@ export type MutationDelChatArgs = {
 export type MutationDelMessagesArgs = {
   del?: InputMaybe<Scalars['Boolean']['input']>;
   messagesId: Array<Scalars['String']['input']>;
+};
+
+
+export type MutationDeleteDeviceTokenArgs = {
+  deviceToken: Scalars['String']['input'];
 };
 
 
@@ -299,6 +311,7 @@ export type MutationUpdateUserArgs = {
 
 
 export type MutationVerifyOtpArgs = {
+  deviceToken?: InputMaybe<Scalars['String']['input']>;
   otp: Scalars['String']['input'];
   phoneNumber: Scalars['String']['input'];
 };
@@ -565,6 +578,20 @@ export type DelChatMutationVariables = Exact<{
 
 
 export type DelChatMutation = { delChat?: string | null };
+
+export type DeleteDeviceTokenMutationVariables = Exact<{
+  deviceToken: Scalars['String']['input'];
+}>;
+
+
+export type DeleteDeviceTokenMutation = { deleteDeviceToken?: string | null };
+
+export type AddDeviceTokenMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type AddDeviceTokenMutation = { addDeviceToken?: string | null };
 
 export type AddToFavoriteMutationVariables = Exact<{
   favoriteIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -941,6 +968,68 @@ export function useDelChatMutation(baseOptions?: Apollo.MutationHookOptions<DelC
 export type DelChatMutationHookResult = ReturnType<typeof useDelChatMutation>;
 export type DelChatMutationResult = Apollo.MutationResult<DelChatMutation>;
 export type DelChatMutationOptions = Apollo.BaseMutationOptions<DelChatMutation, DelChatMutationVariables>;
+export const DeleteDeviceTokenDocument = gql`
+    mutation DeleteDeviceToken($deviceToken: String!) {
+  deleteDeviceToken(deviceToken: $deviceToken)
+}
+    `;
+export type DeleteDeviceTokenMutationFn = Apollo.MutationFunction<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>;
+
+/**
+ * __useDeleteDeviceTokenMutation__
+ *
+ * To run a mutation, you first call `useDeleteDeviceTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDeviceTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDeviceTokenMutation, { data, loading, error }] = useDeleteDeviceTokenMutation({
+ *   variables: {
+ *      deviceToken: // value for 'deviceToken'
+ *   },
+ * });
+ */
+export function useDeleteDeviceTokenMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>(DeleteDeviceTokenDocument, options);
+      }
+export type DeleteDeviceTokenMutationHookResult = ReturnType<typeof useDeleteDeviceTokenMutation>;
+export type DeleteDeviceTokenMutationResult = Apollo.MutationResult<DeleteDeviceTokenMutation>;
+export type DeleteDeviceTokenMutationOptions = Apollo.BaseMutationOptions<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>;
+export const AddDeviceTokenDocument = gql`
+    mutation AddDeviceToken($token: String!) {
+  addDeviceToken(token: $token)
+}
+    `;
+export type AddDeviceTokenMutationFn = Apollo.MutationFunction<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>;
+
+/**
+ * __useAddDeviceTokenMutation__
+ *
+ * To run a mutation, you first call `useAddDeviceTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddDeviceTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addDeviceTokenMutation, { data, loading, error }] = useAddDeviceTokenMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useAddDeviceTokenMutation(baseOptions?: Apollo.MutationHookOptions<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>(AddDeviceTokenDocument, options);
+      }
+export type AddDeviceTokenMutationHookResult = ReturnType<typeof useAddDeviceTokenMutation>;
+export type AddDeviceTokenMutationResult = Apollo.MutationResult<AddDeviceTokenMutation>;
+export type AddDeviceTokenMutationOptions = Apollo.BaseMutationOptions<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>;
 export const AddToFavoriteDocument = gql`
     mutation AddToFavorite($favoriteIds: [String!]!) {
   addToFavorite(favoriteIds: $favoriteIds)
