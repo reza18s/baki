@@ -676,6 +676,7 @@ export type SignupMutation = { Signin?: string | null };
 export type VerifyOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
   otp: Scalars['String']['input'];
+  deviceToken?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1382,8 +1383,8 @@ export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
 export const VerifyOtpDocument = gql`
-    mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
-  verifyOtp(phoneNumber: $phoneNumber, otp: $otp) {
+    mutation VerifyOtp($phoneNumber: String!, $otp: String!, $deviceToken: String) {
+  verifyOtp(phoneNumber: $phoneNumber, otp: $otp, deviceToken: $deviceToken) {
     user {
       name
       gender
@@ -1446,6 +1447,7 @@ export type VerifyOtpMutationFn = Apollo.MutationFunction<VerifyOtpMutation, Ver
  *   variables: {
  *      phoneNumber: // value for 'phoneNumber'
  *      otp: // value for 'otp'
+ *      deviceToken: // value for 'deviceToken'
  *   },
  * });
  */

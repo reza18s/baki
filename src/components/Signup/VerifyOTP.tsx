@@ -42,6 +42,7 @@ export default function VerifyOTP(props: {
         variables: {
           phoneNumber: props.phone,
           otp: watch('token'),
+          deviceToken: localStorage.getItem('deviceToken'),
         },
         onCompleted: (data) => {
           updateUserInfo({
