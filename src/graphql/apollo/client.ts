@@ -16,7 +16,7 @@ const REFRESH_TOKEN_MUTATION = gql`
     }
   }
 `;
-const DeleteDeviceTokenMutation = gql`
+const DELETE_DEVICE_TOKEN = gql`
   mutation DeleteDeviceToken($deviceToken: String!) {
     deleteDeviceToken(deviceToken: $deviceToken)
   }
@@ -154,12 +154,18 @@ const responseMiddleware = new ApolloLink((operation, forward) => {
   });
 });
 export const clientLogout = () => {
-  const deviceToken = localStorage.getItem('DeviceToken');
+  const token = getToken();
+  const deviceToken = localStorage.getItem('deviceToken');
   if (deviceToken) {
     client.mutate({
-      mutation: DeleteDeviceTokenMutation,
+      mutation: DELETE_DEVICE_TOKEN,
       variables: {
         deviceToken,
+      },
+      context: {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       },
     });
   }

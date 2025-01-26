@@ -2,7 +2,6 @@ import { IonApp, setupIonicReact, useIonRouter } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Toaster } from 'react-hot-toast';
 import Routes from './routes/routes';
-import { IonRouterOutlet, IonToast, useIonViewWillEnter } from '@ionic/react';
 import { PushNotifications } from '@capacitor/push-notifications';
 
 /* Import CSS files */
