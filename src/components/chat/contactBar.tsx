@@ -77,7 +77,6 @@ export const ContactBar = ({
             <Input
               className="h-8 w-full"
               icon={<IcSearch></IcSearch>}
-              
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="جستجو"
@@ -158,7 +157,10 @@ export const ContactBar = ({
           <div className="flex items-center gap-2">
             <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
             <Avatar>
-              <AvatarImage src={contact?.mainImage || ''} />
+              <AvatarImage
+                src={contact?.mainImage || ''}
+                className="object-cover"
+              />
               <AvatarFallback>
                 {contact?.name?.[0].toUpperCase() || ''}
               </AvatarFallback>
