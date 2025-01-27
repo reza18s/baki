@@ -49,12 +49,16 @@ export default function Explore() {
       travelInterests: filters.interest,
     },
     onCompleted: (data) => {
-      setCards(data.getRandomUser as RandomUser[]);
+      setCards(
+        data.getRandomUser?.filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t?.id === item?.id),
+        ) as RandomUser[],
+      );
       setNoResult(data.getRandomUser?.length === 0);
     },
 
     onError: (err) => {
-      console.log(err);
       customToast('کاربر موجود نیست', 'error');
     },
   });
@@ -75,12 +79,12 @@ export default function Explore() {
     setTimeout(() => {
       if (start && cards.length <= 1) {
         refetch().then(({ data }) => {
-          setCards((prev) => [
-            ...(data.getRandomUser as RandomUser[]).filter(
-              (el) => !prev.includes(el),
+          setCards((prev) =>
+            [...(data.getRandomUser as RandomUser[]), ...prev].filter(
+              (item, index, self) =>
+                index === self.findIndex((t) => t?.id === item?.id),
             ),
-            ...prev,
-          ]);
+          );
           setNoResult(data.getRandomUser?.length === 0);
         });
       }
@@ -90,10 +94,12 @@ export default function Explore() {
     if (direction === 'right') {
       Like({ variables: { likedUserId: id, searchType: searchType } });
     }
-    setCardsHistory((prev) => [cards.find((card) => card.id === id)!, ...prev]);
+    setCardsHistory((prev) => [
+      cards.find((card) => card.id === id)!,
+      ...prev.filter((card) => id !== card.id),
+    ]);
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
-
   return (
     <Page
       className="pb-14"
@@ -112,9 +118,14 @@ export default function Explore() {
                 onClick={() => {
                   if (cardsHistory[0]) {
                     setCards((prev) => {
-                      return [...prev, cardsHistory[0]].filter((e) => e);
+                      return [
+                        ...prev.filter(
+                          (user) => user.id !== cardsHistory[0]?.id,
+                        ),
+                        cardsHistory[0],
+                      ].filter((e) => e);
                     });
-                    setCardsHistory((prev) => prev.splice(0, 1));
+                    setCardsHistory((prev) => prev.slice(1));
                   }
                 }}
               ></IcUndo>
@@ -237,7 +248,7 @@ export default function Explore() {
         </div>
         <div className="mt-3 flex justify-end gap-2">
           <Button
-            className="h-7 w-16 border-black font-iransans p-0"
+            className="h-7 w-16 border-black p-0 font-iransans"
             rounded="rounded-lg"
             onClick={() => setIsOpen(undefined)}
           >
@@ -246,7 +257,7 @@ export default function Explore() {
           <Button
             variant="outline"
             rounded="rounded-lg"
-            className="h-y w-16 rounded-lg font-iransans border-red-500 p-0 text-red-500"
+            className="h-y w-16 rounded-lg border-red-500 p-0 font-iransans text-red-500"
             onClick={() => setIsOpen('searchType')}
           >
             بازگشت

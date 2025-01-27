@@ -24,12 +24,6 @@ export default function GetPictures({
   const { updateUserInfo, userInfo } = useLocalStore((s) => s);
   const [uploadStatus, setUploadStatus] = useState<boolean>(false);
   const uploadImages = async () => {
-    if (!update) {
-      if (!mainImage || !(secondaryImage.length <= 3)) {
-        customToast('لطفا اطلاعات خواسته شده را وارد کنید', 'error');
-        return;
-      }
-    }
     const mainFormData = new FormData();
     const secondaryFormData = new FormData();
     if (mainImage) {
@@ -97,8 +91,9 @@ export default function GetPictures({
             images.splice(0, 1);
             return select;
           });
-          if (imagesUrl.filter((e) => e).length <= 3) {
+          if (imagesUrl.filter((e) => e).length < 3) {
             customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
+            setUploadStatus(false);
             return;
           }
           updateUserInfo({
@@ -156,7 +151,7 @@ export default function GetPictures({
           </div>
         </div>
         <Button
-          disabled={!mainImage || !(secondaryImage.length <= 3) || uploadStatus}
+          disabled={uploadStatus}
           loading={uploadStatus}
           onClick={async () => {
             await uploadImages();

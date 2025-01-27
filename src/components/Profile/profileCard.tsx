@@ -37,22 +37,22 @@ export const ProfileCard = ({
       <div
         className={cn(
           `relative flex min-h-[60dvh] flex-col justify-end bg-cover bg-center p-4`,
-          !user.mainImage && 'border-b border-brand-black',
+          !user?.mainImage && 'border-b border-brand-black',
         )}
         style={{
-          backgroundImage: `url(${user.mainImage || ''})`,
+          backgroundImage: `url(${user?.mainImage || ''})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {!user.mainImage && (
+        {!user?.mainImage && (
           <div className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand-yellow">
             <IcNoImage></IcNoImage>
           </div>
         )}
         <div className="flex items-center justify-between">
-          <div className={cn('text-sm', user.mainImage && 'text-white')}>
+          <div className={cn('text-sm', user?.mainImage && 'text-white')}>
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-black">
                 {user?.name} ، {user?.age}
@@ -62,7 +62,7 @@ export const ProfileCard = ({
             <div className="flex items-center gap-x-1">
               <RiMapPin2Fill
                 size={16}
-                fill={!user.mainImage ? '#000' : '#fff'}
+                fill={!user?.mainImage ? '#000' : '#fff'}
                 className="-mr-[2px]"
               />
               {user?.province} , {user?.city}
@@ -128,7 +128,7 @@ export const ProfileCard = ({
           title="مکان‌هایی که زندگی کرده‌ام"
         ></Info>
       </div>
-      {user.images?.map((image) => (
+      {user?.images?.map((image) => (
         <div key={image} className="bg-brand-black">
           <img src={image} className="max-h-96"></img>
         </div>
@@ -170,7 +170,7 @@ export const ProfileCard = ({
         }}
       ></SendMessageModal>
       <ViolationReportModal
-        id={user.id}
+        id={user?.id}
         loading={false}
         title="گزارش تخلف"
         options={optionTexts}

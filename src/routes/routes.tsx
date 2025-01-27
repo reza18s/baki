@@ -5,7 +5,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Suspense } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router';
 import MainLayout from './MainLayout';
 import { paths } from './paths';
 import Explore from '@/pages/Explore';
