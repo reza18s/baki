@@ -99,8 +99,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
                     <CircleSpinner></CircleSpinner>
                   </div>
                 )}
-                </>
-              
+              </>
             ) : (
               children
             )}

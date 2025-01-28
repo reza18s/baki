@@ -15,6 +15,7 @@ const Button = forwardRef(function Button(
     rounded = 'rounded-xl',
     className,
     loaderClassName,
+    loading,
     ...rest
   } = props;
 
@@ -24,7 +25,7 @@ const Button = forwardRef(function Button(
       className={cn(style.button, style[variant], rounded, className)}
       {...rest}
     >
-      {props.loading ? (
+      {loading ? (
         <DotesLoading
           className={clsx('bg-black', loaderClassName)}
           size="w-2 h-2"

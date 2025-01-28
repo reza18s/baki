@@ -11,8 +11,13 @@ export const IcExploreTap: FC<IconProps> = ({ className, ...props }) => {
       className={className}
       {...props}
     >
-      <rect width="30" height="30" fill="white" />
-      <circle cx="15" cy="15" r="12.5" strokeWidth="1.875" />
+      <circle
+        cx="15"
+        cy="15"
+        r="12.5"
+        strokeWidth="1.875"
+        className="bg-transparent"
+      />
       <path
         d="M6.95452 17.1755C6.66885 16.1191 6.59405 15.0168 6.73439 13.9315C6.87474 12.8461 7.22747 11.7991 7.77246 10.8501C8.31745 9.90113 9.04402 9.06878 9.91069 8.40058C10.7774 7.73239 11.7672 7.24144 12.8236 6.95577"
         stroke="white"

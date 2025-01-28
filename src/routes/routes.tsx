@@ -73,7 +73,6 @@ export default function Routes() {
               <Route exact path={paths.signup.main} component={Signup} />
               <AppGuard>
                 <Subs>
-                  {/* profile */}
                   <Switch>
                     <Route
                       exact
@@ -207,35 +206,20 @@ export default function Routes() {
                       path={paths.blocked.main}
                       component={Blocked}
                     />
-                    <Route
-                      path={paths.main.main}
-                      render={({ match }) => (
-                        <MainLayout>
-                          <Switch>
-                            <Route
-                              exact
-                              path={match.path}
-                              component={Explore}
-                            />
-                            <Route
-                              exact
-                              path={paths.main.profile}
-                              component={Profile}
-                            />
-                            <Route
-                              exact
-                              path={paths.main.notifications}
-                              component={Notifications}
-                            />
-                            <Route
-                              exact
-                              path={paths.main.chat}
-                              component={Chat}
-                            />
-                          </Switch>
-                        </MainLayout>
-                      )}
-                    />
+                    <MainLayout>
+                      <Route exact path={paths.main.main} component={Explore} />
+                      <Route
+                        exact
+                        path={paths.main.profile}
+                        component={Profile}
+                      />
+                      <Route
+                        exact
+                        path={paths.main.notifications}
+                        component={Notifications}
+                      />
+                      <Route exact path={paths.main.chat} component={Chat} />
+                    </MainLayout>
                   </Switch>
                 </Subs>
               </AppGuard>

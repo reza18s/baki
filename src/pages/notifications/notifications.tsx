@@ -178,16 +178,16 @@ export const Notifications = () => {
                         setNoti(notification);
                         setIsOpen('like');
                       }
+                      if (notification.type === 'likedBack') {
+                        setNoti(notification);
+                        setIsOpen('likeBack');
+                      }
                       if (
                         notification.type === 'hostingInvitation' ||
                         notification.type === 'companionRequest'
                       ) {
                         setNoti(notification);
                         setIsOpen('message');
-                      }
-                      if (notification.type === 'likedBack') {
-                        setNoti(notification);
-                        setIsOpen('likeBack');
                       }
                     }}
                   ></Notification>
@@ -222,13 +222,13 @@ export const Notifications = () => {
           notification={noti}
         ></LikeModal>
       )}
-      {noti && (
+      {noti && isOpen === 'message' && (
         <MessageModal
           isOpen={isOpen === 'message'}
           setClose={() => setIsOpen(undefined)}
           notification={noti}
         ></MessageModal>
-      )}{' '}
+      )}
       {noti && (
         <CommunicationModal
           isOpen={isOpen === 'likeBack'}

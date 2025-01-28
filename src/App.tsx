@@ -38,22 +38,22 @@ const App: React.FC = () => {
   const [addDeviceToken] = useAddDeviceTokenMutation();
 
   // Custom Back Button Handler
-  useEffect(() => {
-    const backAction = (event: Event) => {
-      event.preventDefault();
-      hs.goBack();
-    };
+  // useEffect(() => {
+  //   const backAction = (event: Event) => {
+  //     event.preventDefault();
+  //     hs.goBack();
+  //   };
 
-    // Add listener for hardware back button
-    document.addEventListener('ionBackButton', backAction);
-    document.addEventListener('backButton', backAction);
+  //   // Add listener for hardware back button
+  //   document.addEventListener('ionBackButton', backAction);
+  //   document.addEventListener('backButton', backAction);
 
-    return () => {
-      // Clean up listener on component unmount
-      document.removeEventListener('ionBackButton', backAction);
-      document.removeEventListener('backButton', backAction);
-    };
-  }, [hs]);
+  //   return () => {
+  //     // Clean up listener on component unmount
+  //     document.removeEventListener('ionBackButton', backAction);
+  //     document.removeEventListener('backButton', backAction);
+  //   };
+  // }, [hs]);
   useEffect(() => {
     const initializePushNotifications = async () => {
       const permission = await PushNotifications.requestPermissions();

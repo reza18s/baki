@@ -27,7 +27,7 @@ import { IcHamburgerMenu } from '@/components/icons/IcHamburgerMenu';
 import { IcUndo } from '@/components/icons/IcUndo';
 import { IcTuning2 } from '@/components/icons/IcTuning2';
 
-export default function Explore() {
+export default function Explore({ history }) {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
   const setExploreEntered = useLocalStore((store) => store.setExploreEntered);
   const [isOpen, setIsOpen] = useState<
@@ -39,7 +39,6 @@ export default function Explore() {
   const [cardsHistory, setCardsHistory] = useState<RandomUser[]>([]);
   const [cards, setCards] = useState<RandomUser[]>([]);
   const { filters, searchType } = useStore((store) => store);
-  const history = useHistory();
   const [getUser, { loading, refetch }] = useGetRandomUserLazyQuery({
     variables: {
       age: filters.age,

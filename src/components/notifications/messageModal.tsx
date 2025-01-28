@@ -42,14 +42,11 @@ export const MessageModal = ({
   const user = data?.getUser;
   const hs = useHistory();
   const { data: chat } = useGetChatQuery({
-    variables: { participantId: user?.id },
-    onError(error) {
-      console.log(error);
-    },
+    variables: { participantId: notification.actionId },
   });
   const { data: request, refetch } = useGetRequestQuery({
     variables: {
-      requesterId: user?.id || '',
+      requesterId: notification.actionId,
       type: notification.type as RequestType,
     },
   });
