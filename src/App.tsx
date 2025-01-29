@@ -91,9 +91,7 @@ const App: React.FC = () => {
   // }, [history]);
   return (
     <IonApp>
-      <IonReactRouter>
-        <Routes />
-      </IonReactRouter>
+      <Routes />
       <Toaster
         position="top-center"
         gutter={12}
