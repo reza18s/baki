@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "NODE_OPTIONS=\"--max-old-space-size=4096\" bun run build:build",
+    "build": "NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build:build",
     "build:build": "tsc && vite build",
     "preview": "vite preview",
     "test.e2e": "cypress run",
