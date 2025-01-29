@@ -40,7 +40,6 @@ const App: React.FC = () => {
 
   // Custom Back Button Handler
   useEffect(() => {
-    console.log('err');
     const backButtonListener = IApp.addListener('backButton', (e) => {
       customToast('ddd', 'error');
     });

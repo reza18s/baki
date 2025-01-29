@@ -48,7 +48,7 @@ function MainLayout({ children }: MainLayoutProps) {
       {/* Tab Bar for Navigation */}
       <IonTabBar slot="bottom" className="bg-white shadow-[0_0_5px_#88888875]">
         {/* Chat Tab */}
-        <IonTabButton tab="chat" href={paths.main.chat}>
+        <IonTabButton className="bg-white" tab="chat" href={paths.main.chat}>
           <BottomNavItem
             Icon={
               <IcChatTap
@@ -62,7 +62,11 @@ function MainLayout({ children }: MainLayoutProps) {
             isActive={activeTab === 'chat'}
           />
         </IonTabButton>
-        <IonTabButton tab="notifications" href={paths.main.notifications}>
+        <IonTabButton
+          className="bg-white"
+          tab="notifications"
+          href={paths.main.notifications}
+        >
           <BottomNavItem
             Icon={
               <IcHeardTap
@@ -76,7 +80,11 @@ function MainLayout({ children }: MainLayoutProps) {
             isActive={activeTab === 'notifications'}
           />
         </IonTabButton>
-        <IonTabButton tab="explore" href={paths.main.explore}>
+        <IonTabButton
+          className="bg-white"
+          tab="explore"
+          href={paths.main.explore}
+        >
           <BottomNavItem
             Icon={
               activeTab === 'explore' ? (
@@ -88,7 +96,11 @@ function MainLayout({ children }: MainLayoutProps) {
             isActive={activeTab === 'explore'}
           />
         </IonTabButton>
-        <IonTabButton tab="profile" href={paths.main.profile}>
+        <IonTabButton
+          className="bg-white"
+          tab="profile"
+          href={paths.main.profile}
+        >
           <BottomNavItem
             Icon={
               <IcProfileTap

@@ -1,10 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-	<string name="app_name">باکی</string>
-	<string name="title_activity_main">باکی</string>
-	<string name="package_name">ir.baki.app</string>
-	<string name="custom_url_scheme">ir.baki.app</string>
-	<string name="bazar_key">
-MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwClqMRBkfrH6gQBjyETWy5akmibPqi2yt9BiHMfqLP/gyDLsRDeD2w1Zs9pF/4hf40kbNJt2TwPWhZxQQ1fRuallkXyG8WCsK7z20owi1B2/tqRkmqdHf57RUsfB3xGNySuEi/Cr5qEIJv4SYJHG7Sa8xSM7l0P2MfMNHGcRCiKs8zh7DRI2O5OuYPxtDSVf5wrrDRByMXZPNChISKRFz7bHS5gLuOLAV3rc/3vcbsCAwEAAQ==
-	</string>
+    <string name="app_name">Baki</string>
+    <string name="title_activity_main">Baki</string>
+    <string name="package_name">ir.baki.app</string>
+    <string name="custom_url_scheme">ir.baki.app</string>
 </resources>
