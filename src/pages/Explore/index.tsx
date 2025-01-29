@@ -27,7 +27,7 @@ import { IcHamburgerMenu } from '@/components/icons/IcHamburgerMenu';
 import { IcUndo } from '@/components/icons/IcUndo';
 import { IcTuning2 } from '@/components/icons/IcTuning2';
 
-export default function Explore({ history }) {
+export default function Explore({ history } : any) {
   const FirstEnter = useLocalStore((store) => store.ExploreEntered);
   const setExploreEntered = useLocalStore((store) => store.setExploreEntered);
   const [isOpen, setIsOpen] = useState<
