@@ -1,5 +1,7 @@
+import Button from '@/components/base/Button/Button';
 import { Contact } from '@/components/chat/contact';
 import { IcStar } from '@/components/icons/IcStar';
+import { IcXCircle } from '@/components/icons/IcXCircle';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import {
@@ -69,12 +71,29 @@ export const Favorite = () => {
   };
   return (
     <Page
-      header={<AppBar title="علاقه‌مندی‌ها"></AppBar>}
+      header={
+        selects.length === 0 ? (
+          <AppBar title="علاقه‌مندی‌ها"></AppBar>
+        ) : (
+          <div className="flex w-full items-center justify-between px-4 py-3">
+            <div className="flex items-center gap-2 text-lg">
+              <IcXCircle className="size-5 stroke-black"></IcXCircle>
+              {selects.length}
+            </div>
+            <Button variant="text" className="py-2 text-brand-red">
+              حذف از علاقه مندی ها
+            </Button>
+          </div>
+        )
+      }
       contentClassName="p-6 pt-20 bg-gray-50 min-h-full h-full"
       isLoading={loading}
     >
       {(data?.getFavorite.chats?.length || 0) > 0 ? (
-        <div className="flex flex-col rounded-xl border border-gray-300 bg-white px-3 py-2">
+        <div
+          className="flex flex-col rounded-xl border border-gray-300 bg-white px-3 py-2"
+          onTouchMove={handleTouchMove}
+        >
           {data?.getFavorite.chats?.map((chat) => (
             <Contact
               key={chat?.id}
