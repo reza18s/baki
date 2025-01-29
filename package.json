@@ -15,10 +15,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
-    "@capacitor/android": "^6.1.2",
+    "@capacitor/android": "^6.2.0",
     "@capacitor/app": "^6.0.2",
     "@capacitor/clipboard": "^6.0.2",
-    "@capacitor/core": "6.1.2",
+    "@capacitor/core": "6.2.0",
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/local-notifications": "^6.1.1",
