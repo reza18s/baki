@@ -18,6 +18,12 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      maxParallelFileOps: 2, // مقدار را کم کنید
+    },
+  },
   server: {
     port: 3000,
     // proxy: {

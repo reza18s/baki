@@ -167,11 +167,11 @@ export const Chat = () => {
                   onMouseDown={() => handleMouseDown(chat as IChat)}
                   onMouseUp={handleMouseUpOrLeave}
                   onMouseLeave={handleMouseUpOrLeave}
-                  className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
                   checked={selects.some(
                     (selectedChat) => selectedChat.id === chat.id,
                   )}
                   hideChecked={selects.length <= 0}
+                  className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
                   chat={chat as IChat}
                   me={me?.getMe as User}
                 ></Contact>

@@ -8,10 +8,18 @@ import {
   useGetMeQuery,
   User,
 } from '@/graphql/generated/graphql.codegen';
-import React from 'react';
+import { paths } from '@/routes/paths';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 
 export const Favorite = () => {
+  const [selects, setSelects] = useState<Chat[]>([]);
+  const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isHold, setIsHold] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const { data, loading } = useGetFavoriteQuery();
+  const hs = useHistory();
+
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {
@@ -19,6 +27,46 @@ export const Favorite = () => {
       }
     },
   });
+
+  const toggleSelect = (chat: Chat) => {
+    setSelects((prev) => {
+      const isSelected = prev.some(
+        (selectedChat) => selectedChat.id === chat.id,
+      );
+      if (isSelected) {
+        // Remove chat if it's already in the array
+        return prev.filter((selectedChat) => selectedChat.id !== chat.id);
+      } else {
+        // Add chat if it's not in the array
+        return [...prev, chat];
+      }
+    });
+  };
+
+  const handleMouseDown = (chat: Chat) => {
+    setIsHold(false);
+    setIsScrolling(false);
+    const timeout = setTimeout(() => {
+      setIsHold(true);
+      if (!isScrolling) {
+        toggleSelect(chat);
+      }
+    }, 500); // 500ms for long press
+    setHoldTimeout(timeout);
+  };
+  const handleTouchMove = () => {
+    setIsScrolling(true);
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+      setHoldTimeout(null);
+    }
+  };
+  const handleMouseUpOrLeave = () => {
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+      setHoldTimeout(null);
+    }
+  };
   return (
     <Page
       header={<AppBar title="علاقه‌مندی‌ها"></AppBar>}
@@ -33,6 +81,28 @@ export const Favorite = () => {
               className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
               chat={chat as Chat}
               me={me?.getMe as User}
+              onClick={
+                selects.length > 0
+                  ? () => !isHold && toggleSelect(chat as Chat)
+                  : () => {
+                      if (chat?.participants?.[0]?.id) {
+                        hs.push(
+                          paths.chat.contact.exactPath(
+                            chat.participants[0]!.id,
+                          ),
+                        );
+                      }
+                    }
+              }
+              onTouchStart={() => handleMouseDown(chat as Chat)}
+              onTouchEnd={handleMouseUpOrLeave}
+              onMouseDown={() => handleMouseDown(chat as Chat)}
+              onMouseUp={handleMouseUpOrLeave}
+              onMouseLeave={handleMouseUpOrLeave}
+              checked={selects.some(
+                (selectedChat) => selectedChat.id === chat?.id,
+              )}
+              hideChecked={selects.length <= 0}
             ></Contact>
           ))}
         </div>
