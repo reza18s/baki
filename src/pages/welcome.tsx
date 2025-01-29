@@ -17,17 +17,16 @@ export default function Welcome() {
       hs.push(paths.explore.main);
     }
   }, [data]);
-  // useEffect(() => {
-  //   // Add back button listener
-  //   const backButtonListener = App.addListener('backButton', (e) => {
-  //     exitApp(); // Show the exit modal when back button is pressed
-  //   });
+  useEffect(() => {
+    const backButtonListener = App.addListener('backButton', (e) => {
+      exitApp();
+    });
 
-  //   // Cleanup listener on component unmount
-  //   return () => {
-  //     backButtonListener.then((listener) => listener.remove());
-  //   };
-  // }, []);
+    // Cleanup listener on component unmount
+    return () => {
+      backButtonListener.then((listener) => listener.remove());
+    };
+  }, []);
 
   const exitApp = () => {
     App.exitApp(); // Exit the app

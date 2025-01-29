@@ -2,10 +2,10 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import {
   IonRouterOutlet,
   IonTabBar,
-  IonTabs,
   IonTabButton,
+  IonTabs,
 } from '@ionic/react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { paths } from './paths';
 import { BottomNavItem } from '@/components/BottomNav/BottomNavItem';
@@ -37,7 +37,6 @@ function MainLayout({ children }: MainLayoutProps) {
     );
     setActiveTab(matchedTab || '');
   }, [pathname]);
-  console.log(activeTab);
 
   return (
     <IonTabs>

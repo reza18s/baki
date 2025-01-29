@@ -29,6 +29,7 @@ import {
   useAddDeviceTokenMutation,
   useGetMeQuery,
 } from './graphql/generated/graphql.codegen';
+import { App as IApp } from '@capacitor/app';
 
 setupIonicReact();
 
@@ -38,22 +39,17 @@ const App: React.FC = () => {
   const [addDeviceToken] = useAddDeviceTokenMutation();
 
   // Custom Back Button Handler
-  // useEffect(() => {
-  //   const backAction = (event: Event) => {
-  //     event.preventDefault();
-  //     hs.goBack();
-  //   };
+  useEffect(() => {
+    console.log('err');
+    const backButtonListener = IApp.addListener('backButton', (e) => {
+      customToast('ddd', 'error');
+    });
 
-  //   // Add listener for hardware back button
-  //   document.addEventListener('ionBackButton', backAction);
-  //   document.addEventListener('backButton', backAction);
-
-  //   return () => {
-  //     // Clean up listener on component unmount
-  //     document.removeEventListener('ionBackButton', backAction);
-  //     document.removeEventListener('backButton', backAction);
-  //   };
-  // }, [hs]);
+    // Cleanup listener on component unmount
+    return () => {
+      backButtonListener.then((listener) => listener.remove());
+    };
+  }, []);
   useEffect(() => {
     const initializePushNotifications = async () => {
       const permission = await PushNotifications.requestPermissions();
