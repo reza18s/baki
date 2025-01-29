@@ -1,4 +1,4 @@
-import { IonApp, setupIonicReact, useIonRouter } from '@ionic/react';
+import { IonApp, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Toaster } from 'react-hot-toast';
 import Routes from './routes/routes';
@@ -22,31 +22,18 @@ import './theme/variables.css';
 import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
-import { useHistory } from 'react-router';
 import { useEffect } from 'react';
 import { customToast } from './components/base/toast';
 import {
   useAddDeviceTokenMutation,
   useGetMeQuery,
 } from './graphql/generated/graphql.codegen';
-import { App as IApp } from '@capacitor/app';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const hs = useHistory();
   const { data } = useGetMeQuery();
   const [addDeviceToken] = useAddDeviceTokenMutation();
-
-  // Custom Back Button Handler
-  useEffect(() => {
-    const backButtonListener = IApp.addListener('backButton', (e) => {});
-
-    // Cleanup listener on component unmount
-    return () => {
-      backButtonListener.then((listener) => listener.remove());
-    };
-  }, []);
   useEffect(() => {
     const initializePushNotifications = async () => {
       const permission = await PushNotifications.requestPermissions();
