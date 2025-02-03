@@ -55,9 +55,6 @@ export default function Welcome() {
               >
                 ورود / ثبت نام
               </Link>
-              <button className="w-full rounded-[12px] border border-solid border-white py-[16px] text-base font-bold text-white">
-                ورود به صورت مهمان
-              </button>
             </div>
             <p className="px-[20px] text-center text-sm font-bold leading-tight text-white">
               {`ورود و استفاده از اپلیکیشن باکی به معنای موافقت با`}{' '}
@@ -73,13 +70,13 @@ export default function Welcome() {
           <Modal
             isOpen={showRules}
             onRequestClose={() => setShowRules(false)}
-            className="w-[90%] rounded-3xl"
+            className="flex w-[90%] flex-col items-center rounded-3xl bg-white py-4"
           >
             <Rules hideRules={() => setShowRules(false)}></Rules>
           </Modal>
         </div>
         {/* gradient div */}
-        <div className="absolute bottom-0 h-[40vh] w-full bg-gradient-to-t from-[#9a9692]" />
+        <div className="absolute bottom-0 h-[50vh] w-full bg-gradient-to-t from-brand-black" />
       </div>
     </Page>
   );
