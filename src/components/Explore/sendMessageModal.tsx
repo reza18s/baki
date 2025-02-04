@@ -59,7 +59,7 @@ export const SendMessageModal = ({
                   type: 'companionRequest' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: () => {
                   customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
@@ -82,7 +82,7 @@ export const SendMessageModal = ({
                   type: 'hostingInvitation' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: (err) => {
                   customToast(err.message, 'error');

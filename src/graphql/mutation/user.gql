@@ -46,6 +46,7 @@ mutation UpdateUser(
   }
 }
 query GetRandomUser(
+  $searchType: String!
   $languages: [String!]
   $age: [Int!]
   $province: [String!]
@@ -53,6 +54,7 @@ query GetRandomUser(
   $mySpecialty: [String!]
 ) {
   getRandomUser(
+    searchType: $searchType
     languages: $languages
     age: $age
     province: $province

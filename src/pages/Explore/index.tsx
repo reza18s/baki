@@ -29,8 +29,8 @@ import { IcTuning2 } from '@/components/icons/IcTuning2';
 
 export default function Explore() {
   const history = useHistory();
-  const FirstEnter = useLocalStore((store) => store.ExploreEntered);
-  const setExploreEntered = useLocalStore((store) => store.setExploreEntered);
+  const FirstEnter = useLocalStore((store) => store.firstEntered);
+  const updateFirstEntered = useLocalStore((store) => store.updateFirstEntered);
   const [isOpen, setIsOpen] = useState<
     'searchType' | 'swipe' | 'swipe-left' | 'swipe-right'
   >();
@@ -39,9 +39,12 @@ export default function Explore() {
   const [start, setStart] = useState(false);
   const [cardsHistory, setCardsHistory] = useState<RandomUser[]>([]);
   const [cards, setCards] = useState<RandomUser[]>([]);
-  const { filters, searchType } = useStore((store) => store);
+  const { filters, searchType, searchStart, setSearchStart } = useStore(
+    (store) => store,
+  );
   const [getUser, { loading, refetch }] = useGetRandomUserLazyQuery({
     variables: {
+      searchType: searchType,
       age: filters.age,
       languages: filters.language,
       mySpecialty: filters.mySpecialty,
@@ -59,15 +62,15 @@ export default function Explore() {
     },
 
     onError: (err) => {
-      customToast('کاربر موجود نیست', 'error');
+      customToast(err.message, 'error');
     },
   });
   const [Like] = useLikeMutation();
 
   useEffect(() => {
-    if (!FirstEnter) {
+    if (!FirstEnter.showSearchType) {
       setIsOpen('searchType');
-      setExploreEntered();
+      updateFirstEntered({ showSearchType: true });
     }
   }, [FirstEnter]);
   useEffect(() => {
@@ -90,9 +93,22 @@ export default function Explore() {
       }
     }, 200);
   }, [cards]);
+  useEffect(() => {
+    if (searchStart) {
+      setStart(searchStart);
+      setCards([]);
+      refetch();
+      setSearchStart(false);
+    }
+  }, [searchStart]);
   const handleSwipe = (id: string, direction: 'left' | 'right') => {
     if (direction === 'right') {
+      if (!FirstEnter.swapRight) {
+        setIsOpen('swipe-right');
+      }
       Like({ variables: { likedUserId: id, searchType: searchType } });
+    } else if (!FirstEnter.swapLeft) {
+      setIsOpen('swipe-left');
     }
     setCardsHistory((prev) => [
       cards.find((card) => card.id === id)!,
@@ -100,13 +116,24 @@ export default function Explore() {
     ]);
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
+  const handelUndo = () => {
+    if (cardsHistory[0]) {
+      setCards((prev) => {
+        return [
+          ...prev.filter((user) => user.id !== cardsHistory[0]?.id),
+          cardsHistory[0],
+        ].filter((e) => e);
+      });
+      setCardsHistory((prev) => prev.slice(1));
+    }
+  };
   return (
     <Page
       className="pb-14"
       contentClassName="h-[calc(100%)]"
       scrollY={false}
       header={
-        <div className="flex h-12 w-full items-center justify-between p-3 px-6">
+        <div className="relative flex h-12 w-full items-center justify-between p-3 px-6">
           <div className="flex gap-2">
             <IcHamburgerMenu
               onClick={() => {
@@ -116,22 +143,16 @@ export default function Explore() {
             {cardsHistory.length > 0 && (
               <IcUndo
                 onClick={() => {
-                  if (cardsHistory[0]) {
-                    setCards((prev) => {
-                      return [
-                        ...prev.filter(
-                          (user) => user.id !== cardsHistory[0]?.id,
-                        ),
-                        cardsHistory[0],
-                      ].filter((e) => e);
-                    });
-                    setCardsHistory((prev) => prev.slice(1));
-                  }
+                  handelUndo();
                 }}
               ></IcUndo>
             )}
           </div>
-          <img src={BakiLogo} alt="BakiLogo" />
+          <img
+            className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
+            src={BakiLogo}
+            alt="BakiLogo"
+          />
           <IcTuning2
             onClick={() => {
               history.push(paths.explore.filter);
@@ -227,7 +248,11 @@ export default function Explore() {
       </div>
       <SearchTypeModal
         isOpen={isOpen === 'searchType'}
-        setClose={() => setIsOpen('swipe')}
+        setClose={() => {
+          setIsOpen('swipe');
+          setStart(true);
+          refetch();
+        }}
       ></SearchTypeModal>
       <SearchTypeSidebar
         isSidebarOpen={isSidebarOpen}
@@ -250,7 +275,10 @@ export default function Explore() {
           <Button
             className="h-7 w-16 border-black p-0 font-iransans"
             rounded="rounded-lg"
-            onClick={() => setIsOpen(undefined)}
+            onClick={() => {
+              setIsOpen(undefined);
+              updateFirstEntered({ swapRight: true });
+            }}
           >
             درسته!
           </Button>
@@ -258,14 +286,18 @@ export default function Explore() {
             variant="outline"
             rounded="rounded-lg"
             className="h-y w-16 rounded-lg border-red-500 p-0 font-iransans text-red-500"
-            onClick={() => setIsOpen('searchType')}
+            onClick={() => {
+              setIsOpen(undefined);
+              updateFirstEntered({ swapRight: true });
+              handelUndo();
+            }}
           >
             بازگشت
           </Button>
         </div>
       </Modal>{' '}
       <Modal
-        isOpen={isOpen === 'swipe-right'}
+        isOpen={isOpen === 'swipe-left'}
         onRequestClose={() => setIsOpen(undefined)}
         onCloseEnd={() => setIsOpen(undefined)}
         className="flex w-[70%] flex-col gap-3 rounded-3xl bg-white px-5 py-3"
@@ -281,7 +313,9 @@ export default function Explore() {
           <Button
             className="h-7 w-16 border-black p-0"
             rounded="rounded-lg"
-            onClick={() => setIsOpen(undefined)}
+            onClick={() => {
+              setIsOpen(undefined);
+            }}
           >
             درسته!
           </Button>
@@ -289,7 +323,10 @@ export default function Explore() {
             variant="outline"
             rounded="rounded-lg"
             className="h-y w-16 rounded-lg border-red-500 p-0 text-red-500"
-            onClick={() => setIsOpen('searchType')}
+            onClick={() => {
+              setIsOpen(undefined);
+              handelUndo();
+            }}
           >
             بازگشت
           </Button>

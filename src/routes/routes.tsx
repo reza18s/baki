@@ -45,6 +45,7 @@ import { ContactPage } from '@/pages/chat/contact';
 import { UserProfile } from '@/pages/Profile/UserProfile';
 import { Subs } from './subs';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
+  console.log('lll');
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
     .fromTo('transform', 'scale(0.9)', 'scale(1)')
@@ -54,7 +55,6 @@ export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
     .addElement(opts.leavingEl)
     .fromTo('transform', 'scale(1)', 'scale(0.9)')
     .fromTo('opacity', 1, 0);
-
   const animation = createAnimation()
     .duration(300)
     .addAnimation([enteringAnimation, leavingAnimation]);
@@ -65,7 +65,7 @@ export default function Routes() {
   return (
     <IonReactRouter>
       <Suspense fallback={<LoaderPage></LoaderPage>}>
-        <IonRouterOutlet animated={true} animation={zoomInAnimation} mode="md">
+        <IonRouterOutlet animation={zoomInAnimation} mode="md">
           <AppGuard>
             <Switch>
               {/* Login */}

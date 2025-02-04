@@ -28,6 +28,7 @@ import {
   useAddDeviceTokenMutation,
   useGetMeQuery,
 } from './graphql/generated/graphql.codegen';
+import { App as IApp } from '@capacitor/app';
 
 setupIonicReact();
 
@@ -72,23 +73,23 @@ const App: React.FC = () => {
 
     initializePushNotifications();
   }, []);
-  // useEffect(() => {
-  //   const onBackButtonEvent = (event: any) => {
-  //     event.preventDefault(); // Prevent default behavior
-  //     if (history.length > 1) {
-  //       history.goBack(); // Navigate back
-  //     } else {
-  //       setShowToast(true); // Optional: Show "Press again to exit" message
-  //       setTimeout(() => setShowToast(false), 2000); // Reset toast visibility
-  //     }
-  //   };
 
-  //   document.addEventListener('ionBackButton', onBackButtonEvent);
+  useEffect(() => {
+    const backButtonListener = IApp.addListener('backButton', (e) => {
+      if (!e.canGoBack) {
+        exitApp();
+      }
+    });
 
-  //   return () => {
-  //     document.removeEventListener('ionBackButton', onBackButtonEvent);
-  //   };
-  // }, [history]);
+    // Cleanup listener on component unmount
+    return () => {
+      backButtonListener.then((listener) => listener.remove());
+    };
+  }, []);
+
+  const exitApp = () => {
+    IApp.exitApp(); // Exit the app
+  };
   return (
     <IonApp>
       <Routes />

@@ -140,8 +140,8 @@ export type Mutation = {
   editMessage?: Maybe<Message>;
   logInAsGuest?: Maybe<AuthPayload>;
   refreshAccessToken?: Maybe<AuthPayload>;
-  removeFromBlacklist?: Maybe<Blacklist>;
-  removeFromFavorite?: Maybe<FavoriteList>;
+  removeFromBlacklist?: Maybe<Scalars['String']['output']>;
+  removeFromFavorite?: Maybe<Scalars['String']['output']>;
   removeReport?: Maybe<ViolationReport>;
   removeRequest?: Maybe<Request>;
   requestPay: Scalars['JSON']['output'];
@@ -249,13 +249,12 @@ export type MutationLogInAsGuestArgs = {
 
 
 export type MutationRemoveFromBlacklistArgs = {
-  blockedId: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
+  blockedId: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationRemoveFromFavoriteArgs = {
-  favoriteId: Scalars['String']['input'];
+  favoriteId: Array<Scalars['String']['input']>;
 };
 
 
@@ -384,6 +383,7 @@ export type QueryGetRandomUserArgs = {
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']>>;
   page?: InputMaybe<Scalars['Int']['input']>;
   province?: InputMaybe<Array<Scalars['String']['input']>>;
+  searchType: Scalars['String']['input'];
   travelInterests?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
@@ -709,6 +709,7 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = { updateUser?: { id: string } | null };
 
 export type GetRandomUserQueryVariables = Exact<{
+  searchType: Scalars['String']['input'];
   languages?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   age?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   province?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -1532,8 +1533,9 @@ export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutati
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const GetRandomUserDocument = gql`
-    query GetRandomUser($languages: [String!], $age: [Int!], $province: [String!], $travelInterests: [String!], $mySpecialty: [String!]) {
+    query GetRandomUser($searchType: String!, $languages: [String!], $age: [Int!], $province: [String!], $travelInterests: [String!], $mySpecialty: [String!]) {
   getRandomUser(
+    searchType: $searchType
     languages: $languages
     age: $age
     province: $province
@@ -1581,6 +1583,7 @@ export const GetRandomUserDocument = gql`
  * @example
  * const { data, loading, error } = useGetRandomUserQuery({
  *   variables: {
+ *      searchType: // value for 'searchType'
  *      languages: // value for 'languages'
  *      age: // value for 'age'
  *      province: // value for 'province'
@@ -1589,7 +1592,7 @@ export const GetRandomUserDocument = gql`
  *   },
  * });
  */
-export function useGetRandomUserQuery(baseOptions?: Apollo.QueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables>) {
+export function useGetRandomUserQuery(baseOptions: Apollo.QueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables> & ({ variables: GetRandomUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetRandomUserQuery, GetRandomUserQueryVariables>(GetRandomUserDocument, options);
       }

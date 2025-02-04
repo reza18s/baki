@@ -1,9 +1,9 @@
-import { ModalProps } from "./Modal.type";
-import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
-import clsx from "clsx";
-import React from "react";
-import ReactModal from "react-modal";
+import { ModalProps } from './Modal.type';
+import { motion, useAnimation } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import React from 'react';
+import ReactModal from 'react-modal';
 
 const Modal: React.FC<ModalProps> = ({
   id = undefined,
@@ -17,10 +17,10 @@ const Modal: React.FC<ModalProps> = ({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const animationDuration = 200; //millis
   const controls = useAnimation();
-  const initialState = { transform: "translateY(20px)", opacity: 0 };
+  const initialState = { transform: 'translateY(20px)', opacity: 0 };
 
   const handleClose = () => {
-    controls.start("hidden");
+    controls.start('hidden');
     setTimeout(() => {
       setModalIsOpen(false);
       onCloseEnd?.();
@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({
     if (isOpen) {
       setModalIsOpen(true);
       setTimeout(() => {
-        controls.start("visible");
+        controls.start('visible');
       }, 50);
     } else if (modalIsOpen) {
       handleClose();
@@ -44,15 +44,15 @@ const Modal: React.FC<ModalProps> = ({
       isOpen={modalIsOpen}
       onRequestClose={handleClose}
       shouldCloseOnOverlayClick={closeOnClickOverlay}
-      className={"noClass"}
-      appElement={document.getElementById("root") as HTMLElement}
-      overlayClassName={"noClass"}
+      className={'noClass'}
+      appElement={document.getElementById('root') as HTMLElement}
+      overlayClassName={'noClass'}
     >
       <motion.div
         animate={controls}
         variants={{
-          visible: { backgroundColor: "rgba(0,0,0,0.5)" },
-          hidden: { backgroundColor: "rgba(0,0,0,0)" },
+          visible: { backgroundColor: 'rgba(0,0,0,0.5)' },
+          hidden: { backgroundColor: 'rgba(0,0,0,0)' },
         }}
         transition={{
           duration: animationDuration / 1000,
@@ -61,10 +61,10 @@ const Modal: React.FC<ModalProps> = ({
         onClick={closeOnClickOverlay ? onRequestClose : undefined}
       >
         <motion.div
-          className={clsx("max-h-[90vh] overflow-y-auto", className)}
+          className={clsx('max-h-[90vh] overflow-y-auto', className)}
           initial={initialState}
           variants={{
-            visible: { transform: "translateY(0px)", opacity: 1 },
+            visible: { transform: 'translateY(0px)', opacity: 1 },
             hidden: initialState,
           }}
           transition={{ duration: animationDuration / 1000 }}

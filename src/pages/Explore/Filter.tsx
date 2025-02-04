@@ -20,12 +20,14 @@ import { IFilter, useStore } from '@/store/useStore';
 import { IcExclamationMarkInCircleFill } from '@/components/icons/IcExclamationMarkInCircleFill';
 import { Link } from 'react-router-dom';
 import { paths } from '@/routes/paths';
+import { customToast } from '@/components/base/toast';
 
 export default function Filter() {
   const {
     searchType,
     filters: storeFilters,
     setFilters: setStoreFilters,
+    setSearchStart,
   } = useStore((store) => store);
   const [filters, setFilters] = useState<IFilter>(storeFilters);
   const [isOpen, setIsOpen] = useState(false);
@@ -60,10 +62,7 @@ export default function Filter() {
           : searchType === 'baseOnInterest'
             ? 'علاقه مندی'
             : 'تخصص';
-      toast.custom(
-        <Toast type="error">حداقل یک {missingType} را انتخاب کنید</Toast>,
-        { duration: 1000 },
-      );
+      customToast(`حداقل یک ${missingType} را انتخاب کنید`, 'error');
       return false;
     }
     return true;
@@ -72,6 +71,8 @@ export default function Filter() {
   const handleSaveFilters = () => {
     if (validateFilters()) {
       setStoreFilters(filters);
+      console.log('llll');
+      setSearchStart(true);
       history.goBack();
     }
   };
@@ -149,7 +150,7 @@ export default function Filter() {
         className="sticky bottom-6 w-[calc(100%)]"
         onClick={handleSaveFilters}
       >
-        ذخیره فیلترها
+        ذخیره فیلترها و جستجو
       </Button>
 
       {/* Unsaved Changes Modal */}
