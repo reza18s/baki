@@ -28,10 +28,10 @@ const CustomCard = ({
         {icon}
       </div>
       <div className="flex flex-col items-center justify-start gap-2">
-        <div className="text-center font-['IRANSansXFaNum'] text-base font-bold leading-normal text-brand-black">
+        <div className="text-center font-iransans text-base font-bold leading-normal text-brand-black">
           {title}
         </div>
-        <div className="text-center font-['IRANSansXFaNum'] text-sm font-medium leading-tight text-brand-black">
+        <div className="text-center font-iransans text-sm font-medium leading-tight text-brand-black">
           {description}
         </div>
       </div>

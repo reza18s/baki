@@ -9,6 +9,8 @@ import { Toast } from '@/components/base/toast/toast';
 import Button from '../base/Button/Button';
 import Modal from '../base/Modal/Modal';
 import { calculateAgeFromJalali } from '@/utils/datetime';
+import { IcLockOpen } from '../icons/IcLockOpen';
+import { IcLock } from '../icons/IcLock';
 
 export default function GetBirthdate() {
   const { control, watch, setValue } = useForm<{
@@ -43,7 +45,7 @@ export default function GetBirthdate() {
         <div className="mt-6 flex w-full items-center justify-center gap-x-3">
           <div>
             <h2 className="mr-1 text-sm font-bold text-gray-500">ماه</h2>
-            <MonthPicker name="month" control={control} />
+            <MonthPicker control={control} />
           </div>
           <div>
             <h2 className="mr-1 text-sm font-bold text-gray-500">سال</h2>
@@ -71,9 +73,9 @@ export default function GetBirthdate() {
       </div>
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center justify-between gap-x-[8px]">
-          <IoEye size={24} />
+          <IcLock className="size-8" />
           <p className="pl-[29px] text-xs font-medium leading-none text-brand-black">
-            ما فقط سن شما را به کاربران نشان می دهیم و نه تاریخ تولد .
+            ما فقط سن شما را به کاربران نشان می دهیم و نه تاریخ تولد.
           </p>
         </div>
         <Button
@@ -92,7 +94,7 @@ export default function GetBirthdate() {
               );
             }
           }}
-          className={`px-5 py-4 ${
+          className={`h-12 px-5 py-4 ${
             watch('year')?.length === 4 ? 'bg-brand-yellow' : 'bg-slate-100'
           } rounded-[12px] font-bold leading-none text-brand-black`}
         >

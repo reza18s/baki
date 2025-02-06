@@ -4,7 +4,6 @@ import Button from '../base/Button/Button';
 import { IcCase } from '../icons/IcCase';
 import { IcChair } from '../icons/IcChair';
 import { IcSendMessage } from '../icons/IcSendMessage';
-import CardImage from '../../assets/images/image.png';
 import {
   RandomUser,
   RequestType,
@@ -13,6 +12,9 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { customToast } from '../base/toast';
+import { useHistory } from 'react-router';
+import { paths } from '@/routes/paths';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export const SendMessageModal = ({
   user,
@@ -23,7 +25,10 @@ export const SendMessageModal = ({
   isOpen: boolean;
   setClose: () => void;
 }) => {
+  const hs = useHistory();
   const [createRequest, { loading: requestLoading }] =
+    useCreateRequestMutation();
+  const [createRequest2, { loading: requestLoading2 }] =
     useCreateRequestMutation();
   const { searchType } = useStore((store) => store);
   return (
@@ -34,12 +39,12 @@ export const SendMessageModal = ({
       onRequestClose={() => setClose()}
       className="relative flex flex-col items-center justify-center gap-4 p-4 px-6"
     >
-      <div className="size-20 overflow-hidden rounded-full">
-        <img
-          src={user.mainImage || CardImage}
-          className="size-full rounded-full object-cover"
-        ></img>
-      </div>
+      <Avatar className="size-20">
+        <AvatarImage src={user?.mainImage || ''} className="object-cover" />
+        <AvatarFallback className="3xl">
+          {user?.name?.[0].toUpperCase()}
+        </AvatarFallback>
+      </Avatar>
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <h2 className="text-lg font-bold">دوست داری به {user?.name} چی بگی؟</h2>
         <div className="flex w-full flex-col items-center justify-center gap-2">
@@ -54,7 +59,7 @@ export const SendMessageModal = ({
                   type: 'companionRequest' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: () => {
                   customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
@@ -70,26 +75,27 @@ export const SendMessageModal = ({
             variant="outline"
             className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
             onClick={() => {
-              createRequest({
+              createRequest2({
                 variables: {
                   receiverId: user.id,
                   searchType: searchType,
                   type: 'hostingInvitation' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: (err) => {
                   customToast(err.message, 'error');
                 },
               });
             }}
-            loading={requestLoading}
+            loading={requestLoading2}
           >
             <IcChair></IcChair>ارسال دعوت میزبانی
           </Button>
         </div>
         <Button
+          onClick={() => hs.push(paths.chat.contact.exactPath(user.id))}
           variant="outline"
           className="mt-4 flex h-10 w-full items-center justify-center gap-1 border-gray-300 p-0 text-sm font-medium"
         >

@@ -27,10 +27,16 @@ export type UserInfo = {
   mainImage: string;
   verified: boolean;
 };
+interface IFirstEntered {
+  showSearchType: boolean;
+  swapLeft: boolean;
+  swapRight: boolean;
+  showUndo: boolean;
+}
 interface IStore {
   step: StepsNumber;
   userInfo: UserInfo;
-  ExploreEntered: boolean;
+  firstEntered: IFirstEntered;
 }
 export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
@@ -40,7 +46,11 @@ export type Actions = {
   updateUserInfo: (
     userInfo: ((prev: UserInfo) => Partial<UserInfo>) | Partial<UserInfo>,
   ) => void;
-  setExploreEntered: () => void;
+  updateFirstEntered: (
+    firstEntered:
+      | ((prev: IFirstEntered) => Partial<IFirstEntered>)
+      | Partial<IFirstEntered>,
+  ) => void;
   addItem: (key: string, val: boolean) => void;
   getItem: (key: string) => boolean;
 };
@@ -65,7 +75,12 @@ export const defaultInitState: IStore = {
     username: '',
     bio: '',
   },
-  ExploreEntered: false,
+  firstEntered: {
+    showSearchType: false,
+    showUndo: false,
+    swapLeft: false,
+    swapRight: false,
+  },
 };
 
 export const useLocalStore = create<Store>()(
@@ -126,8 +141,19 @@ export const useLocalStore = create<Store>()(
           set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
         }
       },
-      setExploreEntered() {
-        set({ ExploreEntered: true });
+      updateFirstEntered: (firstEntered) => {
+        if (typeof firstEntered === 'function') {
+          set((prev) => ({
+            firstEntered: {
+              ...prev.firstEntered,
+              ...firstEntered(prev.firstEntered),
+            },
+          }));
+        } else {
+          set((prev) => ({
+            firstEntered: { ...prev.firstEntered, ...firstEntered },
+          }));
+        }
       },
       addItem: (key, val) => {
         set({ [key]: val });

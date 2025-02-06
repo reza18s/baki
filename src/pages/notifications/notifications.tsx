@@ -54,13 +54,15 @@ export const Notifications = () => {
       contentClassName="relative h-full px-6 pb-20 pt-24 "
       header={
         <div className="flex w-full flex-col justify-center gap-3">
-          <h1 className="w-full text-center text-lg font-bold">اعلان ها</h1>
+          <h1 className="w-full text-center font-iransans text-lg font-bold">
+            اعلان ها
+          </h1>
           <div className="scrollbar-hide flex items-center gap-2 overflow-scroll pl-2">
             <div className="w-2" />
             {items.map((val, i) => (
               <div
                 key={i}
-                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
+                className={`${filter === val.value ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black' : 'border border-gray-300 text-gray-500'} flex h-7 items-center rounded-lg px-4 font-iransans text-sm font-bold transition-all duration-300 ease-in-out`} // اضافه کردن transition
                 onClick={() => setFilter(val.value)}
               >
                 {val.title}
@@ -176,16 +178,16 @@ export const Notifications = () => {
                         setNoti(notification);
                         setIsOpen('like');
                       }
+                      if (notification.type === 'likedBack') {
+                        setNoti(notification);
+                        setIsOpen('likeBack');
+                      }
                       if (
                         notification.type === 'hostingInvitation' ||
                         notification.type === 'companionRequest'
                       ) {
                         setNoti(notification);
                         setIsOpen('message');
-                      }
-                      if (notification.type === 'likedBack') {
-                        setNoti(notification);
-                        setIsOpen('likeBack');
                       }
                     }}
                   ></Notification>
@@ -220,13 +222,13 @@ export const Notifications = () => {
           notification={noti}
         ></LikeModal>
       )}
-      {noti && (
+      {noti && isOpen === 'message' && (
         <MessageModal
           isOpen={isOpen === 'message'}
           setClose={() => setIsOpen(undefined)}
           notification={noti}
         ></MessageModal>
-      )}{' '}
+      )}
       {noti && (
         <CommunicationModal
           isOpen={isOpen === 'likeBack'}

@@ -2,6 +2,7 @@ import * as SolarIconSet from 'solar-icon-set';
 import { IoEye } from 'react-icons/io5';
 import TextInput from '../shared/Inputs/TextInput';
 import { useLocalStore } from '../../store/useLocalStore';
+import Button from '../base/Button/Button';
 
 export default function GetName(props: { control: any; value: string }) {
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
@@ -11,7 +12,7 @@ export default function GetName(props: { control: any; value: string }) {
       <div className="flex flex-col gap-4 pt-10">
         <h1 className="text-[32px] font-bold text-brand-black">نام</h1>
         <p className="text-sm font-medium leading-tight text-gray-500">
-          شما می توانید نام خود را در آینده تغییر دهید .
+          شما می توانید نام خود را در آینده تغییر دهید.
         </p>
         <TextInput
           className="mt-6"
@@ -27,21 +28,19 @@ export default function GetName(props: { control: any; value: string }) {
         <div className="flex items-center justify-between gap-x-[8px]">
           <IoEye size={24} />
           <p className="text-xs font-medium text-brand-black">
-            این نام در پروفایل شما نمایش داده خواهد شد .
+            این نام در پروفایل شما نمایش داده خواهد شد.
           </p>
         </div>
-        <button
+        <Button
           disabled={props.value?.length < 1}
           onClick={() => {
             updateUserInfo({ name: props.value });
             handleNextStep();
           }}
-          className={`px-5 py-4 ${
-            props.value?.length > 1 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-brand-black`}
+          className={`h-12 rounded-[12px] px-5 py-4 text-sm font-bold leading-none text-brand-black`}
         >
           بعدی
-        </button>
+        </Button>
       </div>
     </div>
   );

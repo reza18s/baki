@@ -123,7 +123,7 @@ export const CommunicationModal = ({
                   type: 'companionRequest' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: () => {
                   customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
@@ -146,7 +146,7 @@ export const CommunicationModal = ({
                   type: 'hostingInvitation' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: () => {
                   customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');

@@ -65,7 +65,7 @@ export const ContactPage = () => {
     message: string;
   }>();
 
-  const { data: participant, loading } = useGetUserQuery({
+  const { data: participant } = useGetUserQuery({
     variables: { id: id },
     onError() {
       customToast('کاربر موجود نیست', 'error');
@@ -78,10 +78,10 @@ export const ContactPage = () => {
     },
   });
   const chat = data?.getChat;
-  const [sendMessage] = useSendMessageMutation({
+  const [sendMessage, { loading: sendLoading }] = useSendMessageMutation({
     client: socket,
   });
-  const [editMessage] = useEditMessageMutation({
+  const [editMessage, { loading: editLoading }] = useEditMessageMutation({
     client: socket,
   });
 
@@ -158,7 +158,11 @@ export const ContactPage = () => {
     value: { message: string },
     action: 'send' | 'edit',
   ) => {
-    if (!value.message.trim()) {
+    if (
+      (!value.message.trim() && !selectedImage) ||
+      sendLoading ||
+      editLoading
+    ) {
       return;
     }
     try {
@@ -312,7 +316,6 @@ export const ContactPage = () => {
   };
   const onConsoleRecording = async () => {
     if ((await VoiceRecorder.getCurrentStatus()).status === 'RECORDING') {
-      const value = await VoiceRecorder.stopRecording();
       setRecording(false);
       setTime(0);
       if (timerInterval) {
@@ -338,8 +341,9 @@ export const ContactPage = () => {
         <ContactBar
           clearSelect={() => setSelects([])}
           selects={selects}
+          chatId={chat?.id}
           //@ts-expect-error the
-          contact={participant?.getUser}
+          contact={participant?.getUser || { id: id, isOnline: false }}
           setEdit={(message) => {
             setReply(undefined);
             setEdit(message);
@@ -365,7 +369,7 @@ export const ContactPage = () => {
         selects={selects}
         toggleSelect={toggleSelect}
       />
-      <div className="sticky bottom-0 w-screen bg-white transition-all duration-300 ease-in-out">
+      <div className="sticky bottom-0 z-10 w-screen bg-white transition-all duration-300 ease-in-out">
         <div className="px-3 py-[10px]">
           {isSearch ? (
             <div className="flex w-full justify-between">
@@ -517,19 +521,20 @@ export const ContactPage = () => {
                         </div>
                       )}
                     />
-                    <IcChat className="mb-1" />
-                    <label
-                      className="mb-1 cursor-pointer text-white"
-                      title="Upload Image"
-                    >
-                      <IcPaperclip className="h-6 w-6" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="hidden"
-                      />
-                    </label>
+                    {!(watch('message')?.trim().length > 0) && (
+                      <label
+                        className="mb-1 cursor-pointer text-white"
+                        title="Upload Image"
+                      >
+                        <IcPaperclip className="h-6 w-6" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
                   </div>
                 </form>
               )}

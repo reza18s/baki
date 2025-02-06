@@ -6,6 +6,7 @@ import Modal from '@/components/base/Modal/Modal';
 import Button from '../base/Button/Button';
 import { customToast } from '../base/toast';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
+import { IcGallery } from '../icons/IcGallery';
 
 export default function GetPictures({
   update = false,
@@ -24,12 +25,6 @@ export default function GetPictures({
   const { updateUserInfo, userInfo } = useLocalStore((s) => s);
   const [uploadStatus, setUploadStatus] = useState<boolean>(false);
   const uploadImages = async () => {
-    if (!update) {
-      if (!mainImage || !(secondaryImage.length <= 3)) {
-        customToast('لطفا اطلاعات خواسته شده را وارد کنید', 'error');
-        return;
-      }
-    }
     const mainFormData = new FormData();
     const secondaryFormData = new FormData();
     if (mainImage) {
@@ -97,8 +92,9 @@ export default function GetPictures({
             images.splice(0, 1);
             return select;
           });
-          if (imagesUrl.filter((e) => e).length <= 3) {
+          if (imagesUrl.filter((e) => e).length < 3) {
             customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
+            setUploadStatus(false);
             return;
           }
           updateUserInfo({
@@ -142,7 +138,7 @@ export default function GetPictures({
       </div>
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center justify-between gap-x-[8px]">
-          <SolarIconSet.Gallery size={24} />
+          <IcGallery />
           <div className="text-xs font-medium leading-none text-brand-black">
             <p className="font-bold">
               نمی دونی چی آپلود کنی ؟
@@ -156,12 +152,12 @@ export default function GetPictures({
           </div>
         </div>
         <Button
-          disabled={!mainImage || !(secondaryImage.length <= 3) || uploadStatus}
+          disabled={uploadStatus}
           loading={uploadStatus}
           onClick={async () => {
             await uploadImages();
           }}
-          className={`rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
+          className={`h-12 rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >
           بعدی
         </Button>

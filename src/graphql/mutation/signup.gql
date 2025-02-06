@@ -2,8 +2,8 @@ mutation Signup($phoneNumber: String!) {
   Signin(phoneNumber: $phoneNumber)
 }
 
-mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
-  verifyOtp(phoneNumber: $phoneNumber, otp: $otp) {
+mutation VerifyOtp($phoneNumber: String!, $otp: String!, $deviceToken: String) {
+  verifyOtp(phoneNumber: $phoneNumber, otp: $otp, deviceToken: $deviceToken) {
     user {
       name
       gender

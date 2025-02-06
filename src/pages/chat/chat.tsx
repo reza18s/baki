@@ -7,7 +7,6 @@ import {
   useGetRequestsQuery,
   User,
 } from '@/graphql/generated/graphql.codegen';
-import CardImage from '../../assets/images/image.png';
 import CountdownCircle from '@/components/ui/countdownCircle';
 import { Contact } from '@/components/chat/contact';
 import { ChatHeader } from '@/components/chat/chatHeader';
@@ -15,6 +14,7 @@ import { IcUserGroup } from '@/components/icons/IcUserGroup';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
@@ -53,7 +53,9 @@ export const Chat = () => {
     setIsScrolling(false);
     const timeout = setTimeout(() => {
       setIsHold(true);
-      toggleSelect(chat);
+      if (!isScrolling) {
+        toggleSelect(chat);
+      }
     }, 500); // 500ms for long press
     setHoldTimeout(timeout);
   };
@@ -101,11 +103,15 @@ export const Chat = () => {
                       transform: 'translate(-50%,-50%)',
                     }}
                   >
-                    <img
-                      src={req.requester?.mainImage || CardImage}
-                      className="h-full w-full object-cover"
-                      alt="Card"
-                    />
+                    <Avatar className="size-full">
+                      <AvatarImage
+                        src={req.requester?.mainImage || ''}
+                        className="object-cover"
+                      />
+                      <AvatarFallback className="2xl">
+                        {req.requester?.name?.[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
                   <CountdownCircle startDate={req.createdAt}></CountdownCircle>
                 </div>
@@ -161,11 +167,11 @@ export const Chat = () => {
                   onMouseDown={() => handleMouseDown(chat as IChat)}
                   onMouseUp={handleMouseUpOrLeave}
                   onMouseLeave={handleMouseUpOrLeave}
-                  className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
                   checked={selects.some(
                     (selectedChat) => selectedChat.id === chat.id,
                   )}
                   hideChecked={selects.length <= 0}
+                  className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
                   chat={chat as IChat}
                   me={me?.getMe as User}
                 ></Contact>

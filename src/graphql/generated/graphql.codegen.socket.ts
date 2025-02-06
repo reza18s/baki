@@ -128,18 +128,20 @@ export type Mutation = {
   Signin?: Maybe<Scalars['String']['output']>;
   acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
-  addToBlackList?: Maybe<Scalars['JSON']['output']>;
+  addDeviceToken?: Maybe<Scalars['String']['output']>;
+  addToBlackList?: Maybe<Scalars['String']['output']>;
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
   checkDiscount: Discount;
-  createReport?: Maybe<ViolationReport>;
+  createReport?: Maybe<Scalars['String']['output']>;
   createRequest?: Maybe<Request>;
   delChat?: Maybe<Scalars['String']['output']>;
   delMessages?: Maybe<Scalars['String']['output']>;
+  deleteDeviceToken?: Maybe<Scalars['String']['output']>;
   editMessage?: Maybe<Message>;
   logInAsGuest?: Maybe<AuthPayload>;
   refreshAccessToken?: Maybe<AuthPayload>;
-  removeFromBlacklist?: Maybe<Blacklist>;
-  removeFromFavorite?: Maybe<FavoriteList>;
+  removeFromBlacklist?: Maybe<Scalars['String']['output']>;
+  removeFromFavorite?: Maybe<Scalars['String']['output']>;
   removeReport?: Maybe<ViolationReport>;
   removeRequest?: Maybe<Request>;
   requestPay: Scalars['JSON']['output'];
@@ -176,6 +178,11 @@ export type MutationActivePlanArgs = {
 };
 
 
+export type MutationAddDeviceTokenArgs = {
+  token: Scalars['String']['input'];
+};
+
+
 export type MutationAddToBlackListArgs = {
   blockedId: Array<Scalars['String']['input']>;
 };
@@ -192,7 +199,8 @@ export type MutationCheckDiscountArgs = {
 
 
 export type MutationCreateReportArgs = {
-  reason: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  reasons: Array<Scalars['String']['input']>;
   reportedId: Scalars['String']['input'];
 };
 
@@ -206,11 +214,18 @@ export type MutationCreateRequestArgs = {
 
 export type MutationDelChatArgs = {
   chatsId: Array<Scalars['String']['input']>;
+  del?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDelMessagesArgs = {
+  del?: InputMaybe<Scalars['Boolean']['input']>;
   messagesId: Array<Scalars['String']['input']>;
+};
+
+
+export type MutationDeleteDeviceTokenArgs = {
+  deviceToken: Scalars['String']['input'];
 };
 
 
@@ -234,13 +249,12 @@ export type MutationLogInAsGuestArgs = {
 
 
 export type MutationRemoveFromBlacklistArgs = {
-  blockedId: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
+  blockedId: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationRemoveFromFavoriteArgs = {
-  favoriteId: Scalars['String']['input'];
+  favoriteId: Array<Scalars['String']['input']>;
 };
 
 
@@ -296,6 +310,7 @@ export type MutationUpdateUserArgs = {
 
 
 export type MutationVerifyOtpArgs = {
+  deviceToken?: InputMaybe<Scalars['String']['input']>;
   otp: Scalars['String']['input'];
   phoneNumber: Scalars['String']['input'];
 };
@@ -368,6 +383,7 @@ export type QueryGetRandomUserArgs = {
   mySpecialty?: InputMaybe<Array<Scalars['String']['input']>>;
   page?: InputMaybe<Scalars['Int']['input']>;
   province?: InputMaybe<Array<Scalars['String']['input']>>;
+  searchType: Scalars['String']['input'];
   travelInterests?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
@@ -525,7 +541,7 @@ export type AddToBlackListMutationVariables = Exact<{
 }>;
 
 
-export type AddToBlackListMutation = { addToBlackList?: any | null };
+export type AddToBlackListMutation = { addToBlackList?: string | null };
 
 export type SendMessageMutationVariables = Exact<{
   content: Scalars['String']['input'];
@@ -541,6 +557,7 @@ export type SendMessageMutation = { sendMessage?: { id: string, content: string 
 
 export type DelMessagesMutationVariables = Exact<{
   messagesId: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  del?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
@@ -556,10 +573,25 @@ export type EditMessageMutation = { editMessage?: { id: string, content: string 
 
 export type DelChatMutationVariables = Exact<{
   chatsId: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  del?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
 export type DelChatMutation = { delChat?: string | null };
+
+export type DeleteDeviceTokenMutationVariables = Exact<{
+  deviceToken: Scalars['String']['input'];
+}>;
+
+
+export type DeleteDeviceTokenMutation = { deleteDeviceToken?: string | null };
+
+export type AddDeviceTokenMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type AddDeviceTokenMutation = { addDeviceToken?: string | null };
 
 export type AddToFavoriteMutationVariables = Exact<{
   favoriteIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -607,6 +639,15 @@ export type RefreshAccessTokenMutationVariables = Exact<{ [key: string]: never; 
 
 export type RefreshAccessTokenMutation = { refreshAccessToken?: { accessToken?: string | null } | null };
 
+export type CreateReportMutationVariables = Exact<{
+  reportedId: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  reasons: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type CreateReportMutation = { createReport?: string | null };
+
 export type CreateRequestMutationVariables = Exact<{
   receiverId: Scalars['String']['input'];
   type: RequestType;
@@ -635,6 +676,7 @@ export type SignupMutation = { Signin?: string | null };
 export type VerifyOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
   otp: Scalars['String']['input'];
+  deviceToken?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -667,6 +709,7 @@ export type UpdateUserMutationVariables = Exact<{
 export type UpdateUserMutation = { updateUser?: { id: string } | null };
 
 export type GetRandomUserQueryVariables = Exact<{
+  searchType: Scalars['String']['input'];
   languages?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   age?: InputMaybe<Array<Scalars['Int']['input']> | Scalars['Int']['input']>;
   province?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -829,8 +872,8 @@ export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMuta
 export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
 export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
 export const DelMessagesDocument = gql`
-    mutation DelMessages($messagesId: [String!]!) {
-  delMessages(messagesId: $messagesId)
+    mutation DelMessages($messagesId: [String!]!, $del: Boolean) {
+  delMessages(messagesId: $messagesId, del: $del)
 }
     `;
 export type DelMessagesMutationFn = Apollo.MutationFunction<DelMessagesMutation, DelMessagesMutationVariables>;
@@ -849,6 +892,7 @@ export type DelMessagesMutationFn = Apollo.MutationFunction<DelMessagesMutation,
  * const [delMessagesMutation, { data, loading, error }] = useDelMessagesMutation({
  *   variables: {
  *      messagesId: // value for 'messagesId'
+ *      del: // value for 'del'
  *   },
  * });
  */
@@ -895,8 +939,8 @@ export type EditMessageMutationHookResult = ReturnType<typeof useEditMessageMuta
 export type EditMessageMutationResult = Apollo.MutationResult<EditMessageMutation>;
 export type EditMessageMutationOptions = Apollo.BaseMutationOptions<EditMessageMutation, EditMessageMutationVariables>;
 export const DelChatDocument = gql`
-    mutation DelChat($chatsId: [String!]!) {
-  delChat(chatsId: $chatsId)
+    mutation DelChat($chatsId: [String!]!, $del: Boolean) {
+  delChat(chatsId: $chatsId, del: $del)
 }
     `;
 export type DelChatMutationFn = Apollo.MutationFunction<DelChatMutation, DelChatMutationVariables>;
@@ -915,6 +959,7 @@ export type DelChatMutationFn = Apollo.MutationFunction<DelChatMutation, DelChat
  * const [delChatMutation, { data, loading, error }] = useDelChatMutation({
  *   variables: {
  *      chatsId: // value for 'chatsId'
+ *      del: // value for 'del'
  *   },
  * });
  */
@@ -925,6 +970,68 @@ export function useDelChatMutation(baseOptions?: Apollo.MutationHookOptions<DelC
 export type DelChatMutationHookResult = ReturnType<typeof useDelChatMutation>;
 export type DelChatMutationResult = Apollo.MutationResult<DelChatMutation>;
 export type DelChatMutationOptions = Apollo.BaseMutationOptions<DelChatMutation, DelChatMutationVariables>;
+export const DeleteDeviceTokenDocument = gql`
+    mutation DeleteDeviceToken($deviceToken: String!) {
+  deleteDeviceToken(deviceToken: $deviceToken)
+}
+    `;
+export type DeleteDeviceTokenMutationFn = Apollo.MutationFunction<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>;
+
+/**
+ * __useDeleteDeviceTokenMutation__
+ *
+ * To run a mutation, you first call `useDeleteDeviceTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDeviceTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDeviceTokenMutation, { data, loading, error }] = useDeleteDeviceTokenMutation({
+ *   variables: {
+ *      deviceToken: // value for 'deviceToken'
+ *   },
+ * });
+ */
+export function useDeleteDeviceTokenMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>(DeleteDeviceTokenDocument, options);
+      }
+export type DeleteDeviceTokenMutationHookResult = ReturnType<typeof useDeleteDeviceTokenMutation>;
+export type DeleteDeviceTokenMutationResult = Apollo.MutationResult<DeleteDeviceTokenMutation>;
+export type DeleteDeviceTokenMutationOptions = Apollo.BaseMutationOptions<DeleteDeviceTokenMutation, DeleteDeviceTokenMutationVariables>;
+export const AddDeviceTokenDocument = gql`
+    mutation AddDeviceToken($token: String!) {
+  addDeviceToken(token: $token)
+}
+    `;
+export type AddDeviceTokenMutationFn = Apollo.MutationFunction<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>;
+
+/**
+ * __useAddDeviceTokenMutation__
+ *
+ * To run a mutation, you first call `useAddDeviceTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddDeviceTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addDeviceTokenMutation, { data, loading, error }] = useAddDeviceTokenMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useAddDeviceTokenMutation(baseOptions?: Apollo.MutationHookOptions<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>(AddDeviceTokenDocument, options);
+      }
+export type AddDeviceTokenMutationHookResult = ReturnType<typeof useAddDeviceTokenMutation>;
+export type AddDeviceTokenMutationResult = Apollo.MutationResult<AddDeviceTokenMutation>;
+export type AddDeviceTokenMutationOptions = Apollo.BaseMutationOptions<AddDeviceTokenMutation, AddDeviceTokenMutationVariables>;
 export const AddToFavoriteDocument = gql`
     mutation AddToFavorite($favoriteIds: [String!]!) {
   addToFavorite(favoriteIds: $favoriteIds)
@@ -1136,6 +1243,43 @@ export function useRefreshAccessTokenMutation(baseOptions?: Apollo.MutationHookO
 export type RefreshAccessTokenMutationHookResult = ReturnType<typeof useRefreshAccessTokenMutation>;
 export type RefreshAccessTokenMutationResult = Apollo.MutationResult<RefreshAccessTokenMutation>;
 export type RefreshAccessTokenMutationOptions = Apollo.BaseMutationOptions<RefreshAccessTokenMutation, RefreshAccessTokenMutationVariables>;
+export const CreateReportDocument = gql`
+    mutation CreateReport($reportedId: String!, $description: String!, $reasons: [String!]!) {
+  createReport(
+    reportedId: $reportedId
+    description: $description
+    reasons: $reasons
+  )
+}
+    `;
+export type CreateReportMutationFn = Apollo.MutationFunction<CreateReportMutation, CreateReportMutationVariables>;
+
+/**
+ * __useCreateReportMutation__
+ *
+ * To run a mutation, you first call `useCreateReportMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReportMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReportMutation, { data, loading, error }] = useCreateReportMutation({
+ *   variables: {
+ *      reportedId: // value for 'reportedId'
+ *      description: // value for 'description'
+ *      reasons: // value for 'reasons'
+ *   },
+ * });
+ */
+export function useCreateReportMutation(baseOptions?: Apollo.MutationHookOptions<CreateReportMutation, CreateReportMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReportMutation, CreateReportMutationVariables>(CreateReportDocument, options);
+      }
+export type CreateReportMutationHookResult = ReturnType<typeof useCreateReportMutation>;
+export type CreateReportMutationResult = Apollo.MutationResult<CreateReportMutation>;
+export type CreateReportMutationOptions = Apollo.BaseMutationOptions<CreateReportMutation, CreateReportMutationVariables>;
 export const CreateRequestDocument = gql`
     mutation CreateRequest($receiverId: String!, $type: RequestType!, $searchType: String!) {
   createRequest(receiverId: $receiverId, type: $type, searchType: $searchType) {
@@ -1240,8 +1384,8 @@ export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
 export const VerifyOtpDocument = gql`
-    mutation VerifyOtp($phoneNumber: String!, $otp: String!) {
-  verifyOtp(phoneNumber: $phoneNumber, otp: $otp) {
+    mutation VerifyOtp($phoneNumber: String!, $otp: String!, $deviceToken: String) {
+  verifyOtp(phoneNumber: $phoneNumber, otp: $otp, deviceToken: $deviceToken) {
     user {
       name
       gender
@@ -1304,6 +1448,7 @@ export type VerifyOtpMutationFn = Apollo.MutationFunction<VerifyOtpMutation, Ver
  *   variables: {
  *      phoneNumber: // value for 'phoneNumber'
  *      otp: // value for 'otp'
+ *      deviceToken: // value for 'deviceToken'
  *   },
  * });
  */
@@ -1388,8 +1533,9 @@ export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutati
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const GetRandomUserDocument = gql`
-    query GetRandomUser($languages: [String!], $age: [Int!], $province: [String!], $travelInterests: [String!], $mySpecialty: [String!]) {
+    query GetRandomUser($searchType: String!, $languages: [String!], $age: [Int!], $province: [String!], $travelInterests: [String!], $mySpecialty: [String!]) {
   getRandomUser(
+    searchType: $searchType
     languages: $languages
     age: $age
     province: $province
@@ -1437,6 +1583,7 @@ export const GetRandomUserDocument = gql`
  * @example
  * const { data, loading, error } = useGetRandomUserQuery({
  *   variables: {
+ *      searchType: // value for 'searchType'
  *      languages: // value for 'languages'
  *      age: // value for 'age'
  *      province: // value for 'province'
@@ -1445,7 +1592,7 @@ export const GetRandomUserDocument = gql`
  *   },
  * });
  */
-export function useGetRandomUserQuery(baseOptions?: Apollo.QueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables>) {
+export function useGetRandomUserQuery(baseOptions: Apollo.QueryHookOptions<GetRandomUserQuery, GetRandomUserQueryVariables> & ({ variables: GetRandomUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetRandomUserQuery, GetRandomUserQueryVariables>(GetRandomUserDocument, options);
       }

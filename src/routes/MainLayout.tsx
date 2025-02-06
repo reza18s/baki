@@ -1,85 +1,122 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import {
-  Link,
-  RouteComponentProps,
-  useLocation,
-  withRouter,
-} from 'react-router-dom';
-import { paths } from './paths';
-import { IcProfileTap } from '@/components/icons/IcProfileTap';
-import { IcExploreTap } from '@/components/icons/IcExploreTap';
-import { IcHeardTap } from '@/components/icons/IcHeardTap';
-import { IcChatTap } from '@/components/icons/IcChatTap';
-import { BottomNavItem } from '@/components/BottomNav/BottomNavItem';
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+} from '@ionic/react';
+import { useLocation } from 'react-router-dom';
 
-interface MainLayoutProps extends RouteComponentProps {
+import { paths } from './paths';
+import { BottomNavItem } from '@/components/BottomNav/BottomNavItem';
+import { IcChatTap } from '@/components/icons/IcChatTap';
+import { IcHeardTap } from '@/components/icons/IcHeardTap';
+import { IcExploreTap } from '@/components/icons/IcExploreTap';
+import { IcExploreTap2 } from '@/components/icons/IcExploreTap2';
+import { IcProfileTap } from '@/components/icons/IcProfileTap';
+import { zoomInAnimation } from './routes';
+
+interface MainLayoutProps {
   children: ReactNode;
 }
 
 function MainLayout({ children }: MainLayoutProps) {
-  const [activeTab, setActiveTab] = useState<
-    'chat' | 'explore' | 'profile' | 'notifications'
-  >();
   const { pathname } = useLocation();
+  const [activeTab, setActiveTab] = useState<string>('');
+
+  const TAB_MAP = {
+    explore: paths.main.explore,
+    chat: paths.main.chat,
+    profile: paths.main.profile,
+    notifications: paths.main.notifications,
+  };
 
   useEffect(() => {
-    if (pathname === paths.main.explore) {
-      setActiveTab('explore');
-    } else if (pathname.startsWith(paths.main.chat)) {
-      setActiveTab('chat');
-    } else if (pathname.startsWith(paths.main.profile)) {
-      setActiveTab('profile');
-    } else if (pathname.startsWith(paths.main.notifications)) {
-      setActiveTab('notifications');
-    }
+    const matchedTab = Object.keys(TAB_MAP).find(
+      (key) => pathname === TAB_MAP[key as keyof typeof TAB_MAP],
+    );
+    setActiveTab(matchedTab || '');
   }, [pathname]);
+
   return (
-    <div className="relative flex h-[100dvh] w-full flex-col items-center justify-between">
-      <div className="h-full w-full">{children}</div>
-      <div className="fixed bottom-0 z-[101] flex h-14 w-full items-center justify-between bg-white px-5 py-3 shadow-[0_0_5px_#88888875]">
-        <Link to={paths.main.chat}>
+    <IonTabs>
+      {/* Router Outlet for Tab Content */}
+      <IonRouterOutlet animated={false} animation={zoomInAnimation} mode="md">
+        {children}
+      </IonRouterOutlet>
+
+      {/* Tab Bar for Navigation */}
+      <IonTabBar slot="bottom" className="shadow-[0_0_5px_#88888875]">
+        {/* Chat Tab */}
+        <IonTabButton className="bg-white" tab="chat" href={paths.main.chat}>
           <BottomNavItem
             Icon={
               <IcChatTap
-                className={`${activeTab === 'chat' ? 'fill-brand-yellow stroke-brand-yellow stroke-2' : 'fill-none stroke-gray-500 stroke-2'} transition-colors duration-100 ease-in-out`}
-              ></IcChatTap>
+                className={`${
+                  activeTab === 'chat'
+                    ? 'fill-brand-yellow stroke-brand-yellow stroke-2'
+                    : 'fill-none stroke-gray-500 stroke-2'
+                } transition-colors duration-100 ease-in-out`}
+              />
             }
             isActive={activeTab === 'chat'}
           />
-        </Link>
-        <Link to={paths.main.notifications}>
+        </IonTabButton>
+        <IonTabButton
+          className="bg-white"
+          tab="notifications"
+          href={paths.main.notifications}
+        >
           <BottomNavItem
             Icon={
               <IcHeardTap
-                className={`${activeTab === 'notifications' ? 'fill-brand-yellow stroke-brand-yellow stroke-2' : 'fill-none stroke-gray-500 stroke-2'} transition-colors duration-100 ease-in-out`}
+                className={`${
+                  activeTab === 'notifications'
+                    ? 'fill-brand-yellow stroke-brand-yellow stroke-2'
+                    : 'fill-none stroke-gray-500 stroke-2'
+                } transition-colors duration-100 ease-in-out`}
               />
             }
             isActive={activeTab === 'notifications'}
           />
-        </Link>
-        <Link to={paths.main.explore}>
+        </IonTabButton>
+        <IonTabButton
+          className="bg-white"
+          tab="explore"
+          href={paths.main.explore}
+        >
           <BottomNavItem
             Icon={
-              <IcExploreTap
-                className={`${activeTab === 'explore' ? 'fill-brand-yellow' : ''} transition-colors duration-100 ease-in-out`}
-              />
+              activeTab === 'explore' ? (
+                <IcExploreTap className="bg-transparent fill-brand-yellow transition-colors duration-100 ease-in-out" />
+              ) : (
+                <IcExploreTap2 />
+              )
             }
             isActive={activeTab === 'explore'}
           />
-        </Link>
-        <Link className="transition-colors" to={paths.main.profile}>
+        </IonTabButton>
+        <IonTabButton
+          className="bg-white"
+          tab="profile"
+          href={paths.main.profile}
+        >
           <BottomNavItem
             Icon={
               <IcProfileTap
-                className={`${activeTab === 'profile' ? 'fill-brand-yellow stroke-brand-yellow stroke-2' : 'fill-none stroke-gray-500 stroke-2'} transition-colors duration-100 ease-in-out`}
+                className={`${
+                  activeTab === 'profile'
+                    ? 'fill-brand-yellow stroke-brand-yellow stroke-2'
+                    : 'fill-none stroke-gray-500 stroke-2'
+                } transition-colors duration-100 ease-in-out`}
               />
             }
             isActive={activeTab === 'profile'}
           />
-        </Link>
-      </div>
-    </div>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
   );
 }
 
-export default withRouter(MainLayout);
+export default MainLayout;

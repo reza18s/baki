@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
+import Button from '../base/Button/Button';
+import { IcLockOpen } from '../icons/IcLockOpen';
 export default function GetGender() {
   const { control, watch, setValue } = useForm();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
@@ -19,7 +21,7 @@ export default function GetGender() {
       <div className="flex flex-col gap-4 pt-10">
         <h1 className="text-[32px] font-bold text-brand-black">جنسیت</h1>
         <p className="mb-6 text-sm font-medium leading-tight text-gray-500">
-          از بین گزینه های زیر یکی را انتخاب کنید .
+          از بین گزینه های زیر یکی را انتخاب کنید.
         </p>
         <RadioButton
           control={control}
@@ -33,12 +35,12 @@ export default function GetGender() {
       {/* Footer */}
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center justify-between gap-x-[8px]">
-          <IoEye size={24} />
+          <IcLockOpen />
           <p className="text-xs font-medium leading-none text-brand-black">
-            شما میتوانید این بخش را در آینده تغییر دهید.
+            {'شما میتوانید این بخش را در آینده تغییر دهید.'}
           </p>
         </div>
-        <button
+        <Button
           disabled={watch('gender')?.length < 0}
           onClick={() => {
             if (watch('gender')) {
@@ -55,12 +57,10 @@ export default function GetGender() {
               );
             }
           }}
-          className={`px-5 py-4 ${
-            watch('gender')?.length > 0 ? 'bg-brand-yellow' : 'bg-slate-100'
-          } rounded-[12px] font-bold leading-none text-brand-black`}
+          className={`h-12 rounded-[12px] px-5 py-4 text-sm font-bold leading-none text-brand-black`}
         >
           بعدی
-        </button>
+        </Button>
       </div>
     </div>
   );

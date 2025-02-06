@@ -19,9 +19,6 @@ export const SearchTypeSidebar = ({
       isOpen={isSidebarOpen}
       onRequestClose={() => {
         setIsSidebarOpen(false);
-      }}
-      onCloseEnd={() => {
-        setIsSidebarOpen(false);
         toast.custom(
           (t) => (
             <Toast t={t} type="warning">
@@ -30,6 +27,9 @@ export const SearchTypeSidebar = ({
           ),
           { duration: 1500 },
         );
+      }}
+      onCloseEnd={() => {
+        setIsSidebarOpen(false);
       }}
       className="flex w-[80%] items-center justify-center"
     >
@@ -42,6 +42,15 @@ export const SearchTypeSidebar = ({
               className={`flex items-center justify-between rounded-xl px-2 py-3 text-sm ${searchType === el.value && 'bg-warning-50'}`}
               onClick={() => {
                 setSearchType(el.value);
+                setIsSidebarOpen(false);
+                toast.custom(
+                  (t) => (
+                    <Toast t={t} type="warning">
+                      شما وارد حالت جستجوی {el?.label || ''} شدید!
+                    </Toast>
+                  ),
+                  { duration: 1500 },
+                );
               }}
             >
               <div className="flex max-w-[calc(100%-24px)] items-center gap-2">

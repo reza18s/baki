@@ -102,7 +102,7 @@ export default function GetTravelInterests(props: {
         <Button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
-          className={`text-nowrap rounded-[12px] border-0 px-5 py-4 font-bold leading-none text-brand-black`}
+          className={`h-12 text-nowrap rounded-[12px] border-0 px-5 py-4 font-bold leading-none text-brand-black`}
         >
           {props.textAction || 'بعدی'}
         </Button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IcXCircle } from '../icons/IcXCircle';
 import { IcTrash } from '../icons/IcTrash';
 import {
@@ -17,9 +17,16 @@ import {
   Chat,
   useAddToBlackListMutation,
   useAddToFavoriteMutation,
+  useDelChatMutation,
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
 import { Link } from 'react-router-dom';
+import { socket } from '@/graphql/apollo/socket';
+import Button from '../base/Button/Button';
+import Modal from '../base/Modal/Modal';
+import Checkbox from '../base/Input/checkboxSection/checkbox';
+import ViolationReportModal from '../Explore/violationReportModal';
+import { optionTexts } from '@/utils';
 const items = [
   { value: 'all', title: 'همه' },
   { value: 'random', title: 'تصادفی' },
@@ -49,8 +56,11 @@ export const ChatHeader = ({
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const [isOpen, setIsOpen] = useState<'deleteChat' | 'violationReport'>();
   const [addToFavorite] = useAddToFavoriteMutation();
   const [addToBlackList] = useAddToBlackListMutation();
+  const [delChat] = useDelChatMutation({ client: socket });
+  const [del, setDel] = useState(false);
   return (
     <div className="flex w-full flex-col justify-center gap-3">
       <div className="flex w-full justify-between">
@@ -64,7 +74,10 @@ export const ChatHeader = ({
               <span>{selects.length}</span>
             </div>
             <div className="flex items-center">
-              <IcTrash className="ml-4"></IcTrash>
+              <IcTrash
+                className="ml-4"
+                onClick={() => setIsOpen('deleteChat')}
+              ></IcTrash>
               <DropdownMenu dir="rtl">
                 <DropdownMenuTrigger>
                   <IcDotsMenu></IcDotsMenu>
@@ -99,7 +112,7 @@ export const ChatHeader = ({
                             .filter((id) => id) as string[],
                         },
                         onCompleted: (res) => {
-                          customToast(res.addToBlackList.message, 'success');
+                          customToast(res.addToBlackList || '', 'success');
                           clearSelect();
                         },
                       });
@@ -123,7 +136,9 @@ export const ChatHeader = ({
             <Link to={paths.chat.search}>
               <IcSearch className="size-6"></IcSearch>
             </Link>
-            <h1 className="text-center text-lg font-bold">پیام‌ها</h1>
+            <h1 className="text-center font-iransans text-lg font-bold">
+              پیام‌ها
+            </h1>
             <DropdownMenu dir="rtl">
               <DropdownMenuTrigger>
                 <IcDotsMenu></IcDotsMenu>
@@ -156,13 +171,75 @@ export const ChatHeader = ({
               filter === val.value
                 ? 'border border-brand-yellow bg-brand-yellow fill-brand-black text-brand-black'
                 : 'border border-gray-300 text-gray-500'
-            } flex h-7 items-center rounded-lg px-4 text-sm font-bold transition-all duration-300 ease-in-out`}
+            } flex h-7 items-center rounded-lg px-4 font-iransans text-sm font-bold transition-all duration-300 ease-in-out`}
             onClick={() => setFilter(val.value)}
           >
             {val.title}
           </div>
         ))}
       </div>
+      <Modal
+        isOpen={isOpen === 'deleteChat'}
+        onRequestClose={() => setIsOpen(undefined)}
+        className="flex w-[90%] flex-col gap-6 rounded-3xl bg-white p-6"
+      >
+        <div className="flex flex-col gap-2">
+          <h1 className="text-center text-lg font-bold">
+            آیا از حذف این گفتگو اطمینان دارید؟
+          </h1>
+          <span className="text-center text-sm text-gray-500">
+            در صورت حذف گفتگو تمامی اطلاعات به اشتراک گذاشته شده حذف خواهند شد.
+          </span>
+        </div>
+
+        <div className="flex gap-2">
+          <Checkbox
+            checked={del}
+            onChange={() => setDel((prev) => !prev)}
+            className="rounded-lg"
+          ></Checkbox>
+          <span className="text-center text-sm">حذف برای دو طرف</span>
+        </div>
+        <div className="flex w-full flex-col gap-2">
+          <Button
+            variant="danger-outline"
+            className="w-full"
+            onClick={() => {
+              if (selects) {
+                delChat({
+                  variables: {
+                    chatsId: selects.map((chat) => chat.id),
+                    del,
+                  },
+                });
+                clearSelect();
+                setIsOpen(undefined);
+              }
+            }}
+          >
+            حذف {selects.length} گفتگو
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full border-brand-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            لغو
+          </Button>
+        </div>
+      </Modal>
+      {selects.length === 1 && (
+        <ViolationReportModal
+          id={selects[0].id}
+          loading={false}
+          title="گزارش تخلف"
+          options={optionTexts}
+          setClose={() => {
+            setIsOpen(undefined);
+          }}
+          isOpen={isOpen === 'violationReport'}
+        ></ViolationReportModal>
+      )}
     </div>
   );
 };

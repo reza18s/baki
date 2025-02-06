@@ -5,7 +5,6 @@ import {
 import React from 'react';
 import CardImage from '../../assets/images/image.png';
 import { customToast } from '../base/toast';
-import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
 
@@ -22,7 +21,7 @@ export const LikeCard = ({
   showInfo?: boolean;
   className?: string;
 }) => {
-  const { data, loading } = useGetUserQuery({
+  const { data } = useGetUserQuery({
     variables: { id: notification.actionId },
     onError() {
       customToast('کاربر موجود نیست', 'error');
