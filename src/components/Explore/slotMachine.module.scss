@@ -1,0 +1,33 @@
+$icon_width: 65px;
+$icon_height: 65px;
+$num_icons: 9;
+
+.slots_container {
+  overflow: hidden;
+  width: fit-content;
+  height: $icon_height;
+
+  .slots {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    bottom: $icon_height;
+
+    .reel_frame {
+      width: $icon_width;
+      height: $icon_height;
+      top: $icon_height;
+    }
+
+    .reel {
+      position: relative;
+      width: $icon_width;
+      height: 3 * $icon_height;
+      overflow: hidden;
+      background-image: url('/slots-pic.png');
+      background-position: 0 0;
+      background-repeat: repeat-y;
+    }
+  }
+}
