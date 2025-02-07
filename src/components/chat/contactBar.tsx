@@ -30,12 +30,12 @@ import { IcCopy } from '../icons/IcCopy';
 import { socket } from '@/graphql/apollo/socket';
 import { IcPen } from '../icons/IcPen';
 import { useStore } from '@/store/useStore';
-import { useHistory } from 'react-router';
 import { Input } from '../shared/Inputs/input';
 import { Clipboard } from '@capacitor/clipboard';
 import Modal from '../base/Modal/Modal';
 import Button from '../base/Button/Button';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
+import { useIonRouter } from '@ionic/react';
 
 export const ContactBar = ({
   selects,
@@ -67,7 +67,7 @@ export const ContactBar = ({
   const [del, setDel] = useState(false);
   const [delMessages] = useDelMessagesMutation({ client: socket });
   const [delChat] = useDelChatMutation({ client: socket });
-  const hs = useHistory();
+  const hs = useIonRouter();
   return (
     <div className="flex h-full w-full items-center justify-between">
       {isSearch ? (

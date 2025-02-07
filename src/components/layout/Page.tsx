@@ -4,8 +4,9 @@ import {
   IonRefresher,
   IonRefresherContent,
   ScrollDetail,
+  useIonRouter,
 } from '@ionic/react';
-import React, { useEffect, useRef, forwardRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { IonContentCustomEvent } from '@ionic/core/dist/types/components';
 import clsx from 'clsx';
 import { BasePropsWithChildren } from '../base/type/base';
@@ -51,7 +52,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
     const scrollPositionRef = useRef<number>(0); // Persist scroll position
     const { scroll, setLastScroll } = useLocalStore((store) => store);
     const { pathname } = useLocation();
-    const history = useHistory();
+    const history = useIonRouter();
 
     // Save scroll position when leaving the page
     useEffect(() => {

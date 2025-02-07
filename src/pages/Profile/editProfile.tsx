@@ -32,14 +32,14 @@ import {
   getZodiacSignsLabel,
 } from '@/constants';
 import { useStore } from '@/store/useStore';
-import { useHistory } from 'react-router';
+import { useIonRouter } from '@ionic/react';
 
 export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
     'language' | 'livedInPlaces' | 'traveledToPlaces'
   >();
   const containerRef = useRef<HTMLIonContentElement | null>(null);
-  const hs = useHistory();
+  const hs = useIonRouter();
   const userInfo = useLocalStore((store) => store.userInfo);
   const calculateCompletionPercentage = useLocalStore(
     (store) => store.calculateCompletionPercentage,

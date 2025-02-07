@@ -1,12 +1,33 @@
 import { client } from '@/graphql/apollo/client';
 import { socket } from '@/graphql/apollo/socket';
 import {
+  useGetMeQuery,
   useMessageSentSubscription,
   useUserStatusSubscription,
 } from '@/graphql/generated/graphql.codegen';
-import React, { useEffect } from 'react';
+import { useLocalStore } from '@/store/useLocalStore';
+import React, { useEffect, useState } from 'react';
+import { paths } from './paths';
+import { LoaderPage } from '@/components/base/Loader/LoaderPage';
+import { useIonRouter } from '@ionic/react';
+type GuardState = 'normal' | 'loading' | 'offline';
 
 export const Subs = ({ children }: { children: React.ReactNode }) => {
+  const history = useIonRouter();
+  const [state, setState] = useState<GuardState>('loading');
+  const updateUserInfo = useLocalStore((s) => s.updateUserInfo);
+  const setSteps = useLocalStore((s) => s.setSteps);
+
+  const { data: me, refetch } = useGetMeQuery({
+    onError(err) {
+      if (err.message == 'Failed to fetch') {
+        return;
+      }
+      setSteps(0);
+      history.push(paths.welcome.main);
+      setState('normal');
+    },
+  });
   const {
     data,
     restart,
@@ -43,6 +64,14 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     client.refetchQueries({ include: ['GetChat'] });
   }, [messages]);
+  useEffect(() => {
+    if (me?.getMe) {
+      const getMe = me.getMe;
+      // @ts-expect-error the
+      updateUserInfo({ ...getMe });
+      setState('normal');
+    }
+  }, [data, refetch]);
 
-  return <>{children}</>;
+  return <>{state === 'loading' ? <LoaderPage></LoaderPage> : children}</>;
 };

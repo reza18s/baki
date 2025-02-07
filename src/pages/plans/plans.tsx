@@ -42,7 +42,7 @@ export const Plans = () => {
   const [showConditions, setShowConditions] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<string | undefined>();
   const [select, setSelect] = useState<PricePlan>();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data: plans } = useGetPricePlanQuery();
   return (
     <Page contentClassName="min-h-full bg-gray-50 pb-20" scrollY>

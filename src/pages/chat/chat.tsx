@@ -12,9 +12,9 @@ import { Contact } from '@/components/chat/contact';
 import { ChatHeader } from '@/components/chat/chatHeader';
 import { IcUserGroup } from '@/components/icons/IcUserGroup';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useIonRouter } from '@ionic/react';
 
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
@@ -22,7 +22,7 @@ export const Chat = () => {
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const hs = useHistory();
+  const hs = useIonRouter();
 
   const { data: requests } = useGetRequestsQuery();
   const { data: chats, loading: contactLoading } = useGetChatsQuery();

@@ -1,4 +1,5 @@
-import { useHistory, useLocation } from "react-router-dom";
+import { useIonRouter } from '@ionic/react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export function useBooleanQuery(name: string): [boolean, (v: boolean) => void] {
   const history = useHistory();
@@ -25,7 +26,7 @@ export function useStringQuery(
   name: string,
   defaultValue?: string,
 ): [string | undefined, (v?: string) => void] {
-  const history = useHistory();
+  const history = useIonRouter();
   const searchParams = new URLSearchParams(useLocation().search);
 
   const setValue = (newValue?: string) => {

@@ -37,13 +37,9 @@ function MainLayout({ children }: MainLayoutProps) {
     );
     setActiveTab(matchedTab || '');
   }, [pathname]);
-
-  return (
+  return Object.values(TAB_MAP).includes(pathname) ? (
     <IonTabs>
-      {/* Router Outlet for Tab Content */}
-      <IonRouterOutlet animated={false} animation={zoomInAnimation} mode="md">
-        {children}
-      </IonRouterOutlet>
+      {children}
 
       {/* Tab Bar for Navigation */}
       <IonTabBar slot="bottom" className="shadow-[0_0_5px_#88888875]">
@@ -116,6 +112,8 @@ function MainLayout({ children }: MainLayoutProps) {
         </IonTabButton>
       </IonTabBar>
     </IonTabs>
+  ) : (
+    <> {children}</>
   );
 }
 

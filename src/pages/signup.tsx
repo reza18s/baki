@@ -11,10 +11,10 @@ import { Page } from '@/components/layout/Page';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { GetMeQuery } from '@/graphql/generated/graphql.codegen.socket';
 import { IcArrowRightSquare } from '@/components/icons/IcArrowRightSquare';
+import { useIonRouter } from '@ionic/react';
 
 const GetPhoneNumber = lazy(
   () => import('../components/Signup/GetPhoneNumber'),
@@ -73,7 +73,7 @@ export default function Signup() {
   const step = useLocalStore((store) => store.step);
   const setStep = useLocalStore((store) => store.setSteps);
   const [signup, { loading }] = useSignupMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data } = useGetMeQuery();
   useEffect(() => {
     if (checkUserInfo(data?.getMe)) {

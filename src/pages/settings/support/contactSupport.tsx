@@ -33,7 +33,7 @@ export const ContactSupport = () => {
   return (
     <Page
       contentClassName="flex min-h-full flex-col gap-4 bg-gray-50 p-6 pt-20"
-      header={<AppBar title="سوالات متداول"></AppBar>}
+      header={<AppBar title="ارتباط با پشتیبانی"></AppBar>}
     >
       <div className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-xs text-gray-500">
         در صورت بروز هر مشکلی با ما از طریق لینک‌های زیر (اینستاگرام یا ایتا) در

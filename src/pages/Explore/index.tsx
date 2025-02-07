@@ -9,7 +9,6 @@ import Button from '@/components/base/Button/Button';
 import { IcExploreStart } from '@/components/icons/IcExploreStart';
 import { SearchTypeSidebar } from '@/components/Explore/searchTypeSidebar';
 import { SearchTypeModal } from '@/components/Explore/searchTypeModal';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import {
   RandomUser,
@@ -26,9 +25,10 @@ import { IcSwapRight } from '@/components/icons/IcSwapRight';
 import { IcHamburgerMenu } from '@/components/icons/IcHamburgerMenu';
 import { IcUndo } from '@/components/icons/IcUndo';
 import { IcTuning2 } from '@/components/icons/IcTuning2';
+import { useIonRouter } from '@ionic/react';
 
 export default function Explore() {
-  const history = useHistory();
+  const history = useIonRouter();
   const FirstEnter = useLocalStore((store) => store.firstEntered);
   const updateFirstEntered = useLocalStore((store) => store.updateFirstEntered);
   const [isOpen, setIsOpen] = useState<

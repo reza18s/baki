@@ -6,7 +6,7 @@ import {
   useSendMessageMutation,
 } from '@/graphql/generated/graphql.codegen';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import BgChat from '../../assets/images/bg-chat.png';
 import { Page } from '@/components/layout/Page';
@@ -17,7 +17,6 @@ import { socket } from '@/graphql/apollo/socket';
 import { IcSend } from '@/components/icons/IcSend';
 import { IcMicrophone } from '@/components/icons/IcMicrophone';
 import { IcFace } from '@/components/icons/IcFace';
-import { IcChat } from '@/components/icons/IcChat';
 import { IcPaperclip } from '@/components/icons/IcPaperclip';
 import { IcXCircle } from '@/components/icons/IcXCircle';
 import { IcReply } from '@/components/icons/IcReply';
@@ -27,7 +26,6 @@ import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { customToast } from '@/components/base/toast';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
 import { IcX } from '@/components/icons/IcX';
-import EmojiPicker from 'emoji-picker-react';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
 import { IcTrash } from '@/components/icons/IcTrash';
 const formatTime = (time: number): string => {
@@ -38,8 +36,11 @@ const formatTime = (time: number): string => {
 
   return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${tenths}`;
 };
-export const ContactPage = () => {
-  const { id }: { id: string } = useParams();
+type IContactPages = RouteComponentProps<{
+  id: string;
+}>;
+export const ContactPage = ({ match }: IContactPages) => {
+  const id = match.params.id;
   const chatContainerRef = useRef<HTMLIonContentElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const {

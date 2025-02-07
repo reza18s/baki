@@ -7,10 +7,10 @@ import {
   useVerifyOtpMutation,
   VerifyOtpMutation,
 } from '@/graphql/generated/graphql.codegen';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import Button from '../base/Button/Button';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
 
 export default function VerifyOTP(props: {
   path: 'signup' | 'profile';
@@ -21,7 +21,7 @@ export default function VerifyOTP(props: {
 }) {
   const [timer, setTimer] = useState(60);
   const [otp, setOtp] = useState('');
-  const hs = useHistory();
+  const hs = useIonRouter();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const step = useLocalStore((store) => store.step);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);

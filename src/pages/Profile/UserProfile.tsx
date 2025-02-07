@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { MdVerified } from 'react-icons/md';
 import Button from '@/components/base/Button/Button';
-import { useHistory, useParams } from 'react-router-dom';
+import { RouteComponentProps, useHistory, useParams } from 'react-router-dom';
 import { ProfileCard } from '@/components/Profile/profileCard';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import {
@@ -28,10 +28,14 @@ import { optionTexts } from '@/utils';
 import { IcArrowRight } from '@/components/icons/IcArrowRight';
 import { formatLastSeen } from '@/utils/datetime';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useIonRouter } from '@ionic/react';
 
-export const UserProfile = () => {
-  const { id }: { id: string } = useParams();
-  const hs = useHistory();
+type IUserProfile = RouteComponentProps<{
+  id: string;
+}>;
+export const UserProfile = ({ match }: IUserProfile) => {
+  const id = match.params.id;
+  const hs = useIonRouter();
   const { data, loading, refetch } = useGetUserQuery({ variables: { id: id } });
   const [isOpen, setIsOpen] = useState<'sendMessage' | 'violationReport'>();
   const [addToFavorite] = useAddToFavoriteMutation();

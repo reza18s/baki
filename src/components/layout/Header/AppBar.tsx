@@ -1,4 +1,5 @@
 import { IcArrowRight } from '@/components/icons/IcArrowRight';
+import { useIonRouter } from '@ionic/react';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -20,7 +21,7 @@ const AppBar: React.FC<AppBarProps> = ({
   children,
   onBack,
 }) => {
-  const history = useHistory();
+  const history = useIonRouter();
   if (showBackButt) {
     onBack ??= () => {
       history.goBack();
@@ -40,7 +41,7 @@ const AppBar: React.FC<AppBarProps> = ({
       ) : (
         <div />
       )}
-      <div className="absolute inset-x-0 mx-12 font-iransans text-center text-lg font-semibold text-gray-800">
+      <div className="absolute inset-x-0 mx-12 text-center font-iransans text-lg font-semibold text-gray-800">
         {text}
       </div>
       {children}

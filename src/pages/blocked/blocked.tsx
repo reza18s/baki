@@ -11,15 +11,15 @@ import {
   User,
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 export const Blocked = () => {
   const [selects, setSelects] = useState<Chat[]>([]);
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data, loading } = useGetBlockListQuery();
   const { data: me } = useGetMeQuery({
     onError(err) {

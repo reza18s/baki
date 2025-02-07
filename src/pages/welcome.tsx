@@ -8,9 +8,10 @@ import { Page } from '@/components/layout/Page';
 import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
 import { App } from '@capacitor/app';
+import { useIonRouter } from '@ionic/react';
 export default function Welcome() {
   const [showRules, setShowRules] = useState<boolean>(false);
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data } = useGetMeQuery();
   useEffect(() => {
     if (data?.getMe) {

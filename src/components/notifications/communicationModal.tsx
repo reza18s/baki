@@ -18,8 +18,8 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
 import { useStore } from '@/store/useStore';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 
 export const CommunicationModal = ({
   isOpen,
@@ -47,7 +47,7 @@ export const CommunicationModal = ({
       console.error('Error fetching user data:', err);
     },
   });
-  const hs = useHistory();
+  const hs = useIonRouter();
   const user = data?.getUser;
   if (!!loading || !user) {
     return (

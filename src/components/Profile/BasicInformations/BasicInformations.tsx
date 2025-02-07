@@ -13,6 +13,7 @@ import { IBasicInformationsStep, useStore } from '@/store/useStore';
 import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '@/components/base/toast';
+import { useIonRouter } from '@ionic/react';
 
 const HeadStep = ({
   stepNum,
@@ -36,7 +37,7 @@ export default function BasicInformations({ all = false }: { all?: boolean }) {
   );
   const [updateUser, { loading }] = useUpdateUserMutation();
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-  const hs = useHistory();
+  const hs = useIonRouter();
   const handleNextStep = (user?: Partial<UserInfo>) => {
     updateUserInfo({ ...user });
     updateUser({

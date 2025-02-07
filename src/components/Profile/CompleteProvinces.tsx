@@ -4,10 +4,11 @@ import AppBar from '../layout/Header/AppBar';
 import { Page } from '../layout/Page';
 import GetProvinces from '../Signup/GetProvinces';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
 
 export default function CompleteProvinces() {
   const [updateUser] = useUpdateUserMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
 
   const handleSubmit = (data: { city?: string; province?: string }) => {
     updateUser({

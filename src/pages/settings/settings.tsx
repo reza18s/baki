@@ -99,7 +99,7 @@ export const Settings = () => {
       <Modal
         isOpen={showRules}
         onRequestClose={() => setShowRules(false)}
-        className="w-[90%] rounded-3xl"
+        className="flex w-[90%] flex-col items-center rounded-3xl bg-white py-4"
       >
         <Rules hideRules={() => setShowRules(false)}></Rules>
       </Modal>

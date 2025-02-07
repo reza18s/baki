@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 import toast from 'react-hot-toast';
 import Button from '@/components/base/Button/Button';
 import Modal from '@/components/base/Modal/Modal';
@@ -23,6 +22,7 @@ import { paths } from '@/routes/paths';
 import { customToast } from '@/components/base/toast';
 import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';
 import SlotMachine from '@/components/Explore/slotMachine';
+import { useIonRouter } from '@ionic/react';
 
 export default function Filter() {
   const {
@@ -33,7 +33,7 @@ export default function Filter() {
   } = useStore((store) => store);
   const [filters, setFilters] = useState<IFilter>(storeFilters);
   const [isOpen, setIsOpen] = useState(false);
-  const history = useHistory();
+  const history = useIonRouter();
   const { data } = useGetMeQuery();
   const me = data?.getMe;
   const SearchType = SearchTypes.find((val) => val.value === searchType);

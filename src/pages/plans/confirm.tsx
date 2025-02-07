@@ -18,7 +18,7 @@ import BazarPlugin from '@/plugins/BazarPlugin';
 import { calculatePriceWithDiscount } from '@/utils/price';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useParams } from 'react-router';
+import { RouteComponentProps, useParams } from 'react-router';
 import { onBazarPaymentException } from './helper';
 import { Capacitor } from '@capacitor/core';
 import { IcDiscount } from '@/components/icons/IcDiscount';
@@ -27,7 +27,10 @@ export interface PaymentVariables {
   authority?: string;
   transactionsId?: string;
 }
-export const Confirm = () => {
+type IConfirm = RouteComponentProps<{
+  id: string;
+}>;
+export const Confirm = ({ match }: IConfirm) => {
   const {
     control,
     handleSubmit,
@@ -36,7 +39,7 @@ export const Confirm = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm<{ code: string }>();
   const [purchasing, setPurchasing] = useState(false);
-  const { id }: { id: string } = useParams();
+  const id = match.params.id;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [discount, setDiscount] = useState<Discount>();
   const { data, loading } = useGetPricePlanQuery();

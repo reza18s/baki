@@ -12,9 +12,9 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { customToast } from '../base/toast';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useIonRouter } from '@ionic/react';
 
 export const SendMessageModal = ({
   user,
@@ -25,7 +25,7 @@ export const SendMessageModal = ({
   isOpen: boolean;
   setClose: () => void;
 }) => {
-  const hs = useHistory();
+  const hs = useIonRouter();
   const [createRequest, { loading: requestLoading }] =
     useCreateRequestMutation();
   const [createRequest2, { loading: requestLoading2 }] =

@@ -9,13 +9,13 @@ import {
   useGetMeQuery,
   User,
 } from '@/graphql/generated/graphql.codegen';
+import { useIonRouter } from '@ionic/react';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 export const Search = () => {
   const { data, loading: contactLoading } = useGetChatsQuery();
   const [search, setSearch] = useState<string>('');
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {
@@ -36,7 +36,7 @@ export const Search = () => {
           ></Input>
           <Button
             variant="text"
-            className="text-brand-red font-iransans"
+            className="font-iransans text-brand-red"
             onClick={() => hs.goBack()}
           >
             بازگشت

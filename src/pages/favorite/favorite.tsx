@@ -12,7 +12,6 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 export const Favorite = () => {
   const [selects, setSelects] = useState<Chat[]>([]);
@@ -20,7 +19,7 @@ export const Favorite = () => {
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const { data, loading } = useGetFavoriteQuery();
-  const hs = useHistory();
+  const hs = useIonRouter();
 
   const { data: me } = useGetMeQuery({
     onError(err) {

@@ -16,8 +16,8 @@ import { cn } from '@/lib/utils';
 import { CommunicationModal } from '@/components/notifications/communicationModal';
 import { IcCrownStar } from '@/components/icons/IcCrownStar';
 import Button from '@/components/base/Button/Button';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 const items = [
   { value: 'all', title: 'همه' },
   {
@@ -40,7 +40,7 @@ export const Notifications = () => {
   const [isOpen, setIsOpen] = useState<'like' | 'message' | 'likeBack'>();
   const [noti, setNoti] = useState<INotification>();
   const { data, loading } = useGetNotificationsQuery();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {

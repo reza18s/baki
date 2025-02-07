@@ -22,23 +22,20 @@ export const paths = {
   profile: {
     main: '/profile', // User profile page
     userProfile: {
-      main: '/profile/:id',
-      exactPath: (id: string) => `/profile/${id}`,
+      main: '/profile/user/:id',
+      exactPath: (id: string) => `/profile/user/${id}`,
     },
-    editProfile: '/profile/edit_profile',
-    completeProfile: '/profile/complete_profile', // Complete profile page
-    identityVerification: '/profile/complete_profile/identify_verification', // Identity verification
-    completePictures: '/profile/complete_profile/complete_pictures', // Complete pictures
-    completeTravelInterests:
-      '/profile/complete_profile/complete_generalinterests', // General interests
-    completePersonalInterests:
-      '/profile/complete_profile/complete_personalInterests', // Personal interests
-    completeProvinces: '/profile/complete_profile/complete_provinces', // Residence city
-    completeSpecialty: '/profile/complete_profile/complete_specialty', // Specialty
-    basicInformations: '/profile/complete_profile/complete_basicinformations', // Basic information
-    basicInformationsAll:
-      '/profile/complete_profile/complete_basicinformations/all', // Basic information
-    languagesKnow: '/profile/complete_profile/complete_languagesknow', // Language skills
+    editProfile: '/profile/edit',
+    completeProfile: '/profile/complete', // Complete profile page
+    identityVerification: '/profile/complete/identify_verification', // Identity verification
+    completePictures: '/profile/complete/pictures', // Complete pictures
+    completeTravelInterests: '/profile/complete/generalinterests', // General interests
+    completePersonalInterests: '/profile/complete/complete_personalInterests', // Personal interests
+    completeProvinces: '/profile/complete/provinces', // Residence city
+    completeSpecialty: '/profile/complete/specialty', // Specialty
+    basicInformations: '/profile/complete/basicinformations', // Basic information
+    basicInformationsAll: '/profile/complete/basicinformations/all', // Basic information
+    languagesKnow: '/profile/complete/languagesknow', // Language skills
   },
   favorite: {
     main: '/favorite',
@@ -47,8 +44,8 @@ export const paths = {
     main: '/chat',
     search: '/chat/search',
     contact: {
-      main: '/chat/:id',
-      exactPath: (id: string) => `/chat/${id}`,
+      main: '/chat/contact/:id',
+      exactPath: (id: string) => `/chat/contact/${id}`,
     },
   },
   blocked: {
@@ -63,12 +60,12 @@ export const paths = {
     },
   },
   explore: {
-    main: '/', // Explore page
+    main: '/explore', // Explore page
     filter: '/explore/filters', // Explore filters
   },
   main: {
-    main: '/',
-    explore: '/',
+    main: '/explore',
+    explore: '/explore',
     profile: '/profile', // Complete profile within Explore
     chat: '/chat', // Chat page in Explore
     notifications: '/notifications',
