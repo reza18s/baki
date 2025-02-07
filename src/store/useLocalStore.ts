@@ -37,6 +37,9 @@ interface IStore {
   step: StepsNumber;
   userInfo: UserInfo;
   firstEntered: IFirstEntered;
+  scroll?: {
+    [key: string]: number;
+  };
 }
 export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
@@ -53,6 +56,7 @@ export type Actions = {
   ) => void;
   addItem: (key: string, val: boolean) => void;
   getItem: (key: string) => boolean;
+  setLastScroll: (key: string, val: number) => void;
 };
 
 export type Store = IStore & Actions;
@@ -161,6 +165,9 @@ export const useLocalStore = create<Store>()(
       getItem: (key) => {
         // @ts-expect-error the
         return get()[key];
+      },
+      setLastScroll: (key, val) => {
+        set((prev) => ({ scroll: { ...prev.scroll, [key]: val } }));
       },
     }),
     { name: 'store' },

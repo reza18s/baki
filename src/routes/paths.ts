@@ -36,6 +36,8 @@ export const paths = {
     completeProvinces: '/profile/complete_profile/complete_provinces', // Residence city
     completeSpecialty: '/profile/complete_profile/complete_specialty', // Specialty
     basicInformations: '/profile/complete_profile/complete_basicinformations', // Basic information
+    basicInformationsAll:
+      '/profile/complete_profile/complete_basicinformations/all', // Basic information
     languagesKnow: '/profile/complete_profile/complete_languagesknow', // Language skills
   },
   favorite: {

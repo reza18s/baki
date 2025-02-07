@@ -159,7 +159,7 @@ export default function GetPictures({
           }}
           className={`h-12 rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >
-          بعدی
+          {update ? 'ذخیره' : 'بعدی'}
         </Button>
       </div>
       {/* Help */}

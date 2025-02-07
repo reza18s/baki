@@ -1,13 +1,8 @@
 import clsx from 'clsx';
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import styles from './slotMachine.module.scss';
 import { set } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 
 const icon_width = 79;
 const icon_height = 65;
@@ -69,11 +64,11 @@ const reset = (reel: HTMLDivElement) => {
 
 const Reel = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <div ref={ref} className={styles.reel}>
+    <div ref={ref} className={cn(styles.reel, 'rounded-3xl')}>
       <div
         className={clsx(
           styles.reel_frame,
-          'relative z-20 rounded-2xl border-2 border-gray-400',
+          'relative z-20 overflow-hidden rounded-2xl border-2 border-gray-400',
         )}
       ></div>
     </div>
@@ -84,9 +79,8 @@ export const SlotMachine = () => {
   const [isRolling, setIsRolling] = useState(false);
   const [indexes, setIndexes] = useState([0, 0, 0]);
   const reelsRef = useRef<(HTMLDivElement | null)[]>([]);
-
   return (
-    <div className="p-20">
+    <div className="">
       <div className={styles.slots_container}>
         <div className={clsx(styles.slots)}>
           {indexes.map((_, i) => (
@@ -125,11 +119,16 @@ export const SlotMachine = () => {
             if (isRolling) {
               return;
             }
+            reelsRef.current.forEach((reel) => {
+              if (reel) {
+                reset(reel);
+              }
+            });
             setIsRolling(true);
             await Promise.all([
-              roll(reelsRef.current[0]!, 0, 6),
-              roll(reelsRef.current[1]!, 1, 7),
-              roll(reelsRef.current[2]!, 2, 8),
+              roll(reelsRef.current[0]!, 0, 1),
+              roll(reelsRef.current[1]!, 1, 1),
+              roll(reelsRef.current[2]!, 2, 1),
             ]);
             setIsRolling(false);
           }}

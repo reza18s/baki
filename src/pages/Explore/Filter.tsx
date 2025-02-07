@@ -21,6 +21,8 @@ import { IcExclamationMarkInCircleFill } from '@/components/icons/IcExclamationM
 import { Link } from 'react-router-dom';
 import { paths } from '@/routes/paths';
 import { customToast } from '@/components/base/toast';
+import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';
+import SlotMachine from '@/components/Explore/slotMachine';
 
 export default function Filter() {
   const {
@@ -32,7 +34,8 @@ export default function Filter() {
   const [filters, setFilters] = useState<IFilter>(storeFilters);
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
-
+  const { data } = useGetMeQuery();
+  const me = data?.getMe;
   const SearchType = SearchTypes.find((val) => val.value === searchType);
 
   const handleFilterChange = (key: keyof IFilter, value: string) => {
@@ -79,7 +82,7 @@ export default function Filter() {
 
   return (
     <Page
-      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col h-full"
+      contentClassName="p-6 bg-gray-100 flex gap-5 flex-col min-h-full"
       header={
         <AppBar
           title="فیلتر جستجو"
@@ -94,22 +97,24 @@ export default function Filter() {
       }
     >
       {/* Subscription Section */}
-      <div className="mt-3 flex flex-col items-center gap-2 rounded-xl border border-gray-300 bg-white p-3">
-        <h1 className="flex items-center gap-1 text-sm font-bold text-black">
-          <IcExclamationMarkInCircleFill className="rounded-full fill-brand-yellow" />
-          {SearchType?.label}
-        </h1>
-        <span className="text-center text-xs text-gray-500">
-          در حالت رایگان هر 24 ساعت می‌توانید{' '}
-          {SearchType?.value === 'random' ? '3 بار' : 'یکبار'} از “
-          {SearchType?.label}” استفاده کنید.
-        </span>
-        <Link to={paths.plans.main}>
-          <Button className="h-10 w-[90px] p-0 px-2 text-sm">
-            تهیه اشتراک
-          </Button>
-        </Link>
-      </div>
+      {!me?.plan && (
+        <div className="mt-3 flex flex-col items-center gap-2 rounded-xl border border-gray-300 bg-white p-3">
+          <h1 className="flex items-center gap-1 text-sm font-bold text-black">
+            <IcExclamationMarkInCircleFill className="rounded-full fill-brand-yellow" />
+            {SearchType?.label}
+          </h1>
+          <span className="text-center text-xs text-gray-500">
+            در حالت رایگان هر 24 ساعت می‌توانید{' '}
+            {SearchType?.value === 'random' ? '3 بار' : 'یکبار'} از “
+            {SearchType?.label}” استفاده کنید.
+          </span>
+          <Link to={paths.plans.main}>
+            <Button className="h-10 w-[90px] p-0 px-2 text-sm">
+              تهیه اشتراک
+            </Button>
+          </Link>
+        </div>
+      )}
 
       {/* Dynamic Filters */}
       {searchType === 'random' && (
@@ -144,7 +149,7 @@ export default function Filter() {
         value={filters.status}
         setValue={(val) => handleFilterChange('status', val)}
       />
-
+      <SlotMachine></SlotMachine>
       {/* Save Button */}
       <Button
         className="sticky bottom-6 w-[calc(100%)]"

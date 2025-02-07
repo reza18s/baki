@@ -29,7 +29,7 @@ export default function CompletePictures() {
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh] p-6"
-      header={<AppBar title="تایید"></AppBar>}
+      header={<AppBar title="بارگذاری تصاویر"></AppBar>}
     >
       <GetPictures update handleSubmit={handleSubmit} />
     </Page>

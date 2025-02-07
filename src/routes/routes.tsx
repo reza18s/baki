@@ -81,6 +81,11 @@ export default function Routes() {
                     />
                     <Route
                       exact
+                      path={paths.profile.basicInformationsAll}
+                      component={() => <BasicInformations all />}
+                    />
+                    <Route
+                      exact
                       path={paths.profile.editProfile}
                       component={EditProfile}
                     />
