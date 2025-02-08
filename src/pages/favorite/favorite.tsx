@@ -11,6 +11,7 @@ import {
   User,
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 import React, { useState } from 'react';
 
 export const Favorite = () => {

@@ -15,6 +15,7 @@ import { PlanCard } from '@/components/plan/planCard';
 import Accordion from '@/components/accordion/Accordion';
 import { Link, useHistory } from 'react-router-dom';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 const faq: { question: string; answer: string }[] = [
   {
     question: 'چرا باید اشتراک تهیه کنم؟',
