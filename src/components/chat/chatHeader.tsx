@@ -122,7 +122,10 @@ export const ChatHeader = ({
                     <h1 className="text-sm">افزودن به لیست سیاه</h1>
                   </DropdownMenuItem>{' '}
                   {selects.length === 1 && (
-                    <DropdownMenuItem className="flex items-center gap-2 p-0 py-2">
+                    <DropdownMenuItem
+                      className="flex items-center gap-2 p-0 py-2"
+                      onClick={() => setIsOpen('violationReport')}
+                    >
                       <IcFlag></IcFlag>
                       <h1 className="text-sm text-brand-red">گزارش تخلف</h1>
                     </DropdownMenuItem>

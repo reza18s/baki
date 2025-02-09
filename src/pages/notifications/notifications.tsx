@@ -92,7 +92,7 @@ export const Notifications = () => {
         <>
           <div className="absolute z-[1] h-[calc(100vh-48px)] w-[calc(100%-48px)]">
             <div className="flex h-full w-full items-center justify-center">
-              <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+              <div className="flex w-full flex-col items-center justify-center gap-4 rounded-lg bg-white px-6 py-4">
                 <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
                   <IcCrownStar className="size-8 fill-none stroke-black"></IcCrownStar>
                 </div>

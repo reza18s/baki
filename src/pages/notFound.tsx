@@ -3,9 +3,10 @@ import { IcDangerTriangle } from '@/components/icons/IcDangerTriangle';
 import { Page } from '@/components/layout/Page';
 import { useIonRouter } from '@ionic/react';
 import React from 'react';
+import { useHistory } from 'react-router';
 
 export default function NotFound() {
-  const hs = useIonRouter();
+  const hs = useHistory();
   return (
     <Page contentClassName="items-center flex flex-col justify-center gap-4 h-full">
       <div className="flex size-16 items-center justify-center rounded-full bg-brand-yellow">

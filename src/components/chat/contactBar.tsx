@@ -36,6 +36,7 @@ import Modal from '../base/Modal/Modal';
 import Button from '../base/Button/Button';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
 import { useIonRouter } from '@ionic/react';
+import { paths } from '@/routes/paths';
 
 export const ContactBar = ({
   selects,
@@ -93,58 +94,64 @@ export const ContactBar = ({
             <span>{selects.length}</span>
           </div>
           <div className="flex items-center gap-4">
-            {selects.length === 1 && selects?.[0].senderId !== contact.id && (
-              <IcPen onClick={() => setEdit(selects?.[0])}></IcPen>
-            )}
-            <IcCopy
-              className="size-6"
-              onClick={() => {
-                if (selects.length === 0) {
-                  customToast('No messages selected to copy', 'warning');
-                  return;
-                }
+            {selects.length === 1 &&
+              selects?.[0].senderId !== contact.id &&
+              selects[0].type !== 'audio' && (
+                <IcPen onClick={() => setEdit(selects?.[0])}></IcPen>
+              )}
+            {selects.filter((message) => message.type == 'audio').length !==
+              selects.length && (
+              <IcCopy
+                className="size-6"
+                onClick={() => {
+                  if (selects.length === 0) {
+                    customToast('No messages selected to copy', 'warning');
+                    return;
+                  }
 
-                // Sort selected messages by creation date
-                const sortedMessages = selects
-                  .slice()
-                  .sort(
-                    (a, b) =>
-                      new Date(a.createdAt).getTime() -
-                      new Date(b.createdAt).getTime(),
-                  );
-
-                // Format messages with sender?.name grouped
-                let lastSenderName: string;
-                const textToCopy = sortedMessages
-                  .map((message) => {
-                    const isNewGroup = message.sender?.name !== lastSenderName;
-                    lastSenderName = message.sender?.name as string;
-
-                    const title = isNewGroup
-                      ? `${message.sender?.name || 'Unknown User'}:\n`
-                      : '';
-                    const content = `${message.content}\n`;
-
-                    return `${title}${content}`;
-                  })
-                  .join('\n');
-
-                // Copy to clipboard
-                Clipboard.write({
-                  string: textToCopy,
-                })
-                  .then(() =>
-                    customToast('Messages copied to clipboard!', 'success'),
-                  )
-                  .catch(() => {
-                    customToast(
-                      'Failed to copy messages. Please try again.',
-                      'error',
+                  // Sort selected messages by creation date
+                  const sortedMessages = selects
+                    .slice()
+                    .sort(
+                      (a, b) =>
+                        new Date(a.createdAt).getTime() -
+                        new Date(b.createdAt).getTime(),
                     );
-                  });
-                clearSelect();
-              }}
-            ></IcCopy>
+
+                  // Format messages with sender?.name grouped
+                  let lastSenderName: string;
+                  const textToCopy = sortedMessages
+                    .map((message) => {
+                      const isNewGroup =
+                        message.sender?.name !== lastSenderName;
+                      lastSenderName = message.sender?.name as string;
+
+                      const title = isNewGroup
+                        ? `${message.sender?.name || 'Unknown User'}:\n`
+                        : '';
+                      const content = `${message.content}\n`;
+
+                      return `${title}${content}`;
+                    })
+                    .join('\n');
+
+                  // Copy to clipboard
+                  Clipboard.write({
+                    string: textToCopy,
+                  })
+                    .then(() =>
+                      customToast('Messages copied to clipboard!', 'success'),
+                    )
+                    .catch(() => {
+                      customToast(
+                        'Failed to copy messages. Please try again.',
+                        'error',
+                      );
+                    });
+                  clearSelect();
+                }}
+              ></IcCopy>
+            )}
 
             <IcTrash
               className="size-6 active:bg-gray-100"
@@ -156,7 +163,11 @@ export const ContactBar = ({
         <>
           <div className="flex items-center gap-2">
             <IcArrowRight onClick={() => hs.goBack()}></IcArrowRight>
-            <Avatar>
+            <Avatar
+              onClick={() =>
+                hs.push(paths.profile.userProfile.exactPath(contact.id))
+              }
+            >
               <AvatarImage
                 src={contact?.mainImage || ''}
                 className="object-cover"
@@ -215,7 +226,7 @@ export const ContactBar = ({
                 onClick={() => {
                   addToBlackList({
                     variables: {
-                      blockedId: contact!.id,
+                      blockedId: [contact!.id],
                     },
                     onCompleted: (res) => {
                       customToast(res.addToBlackList || '', 'success');
@@ -291,6 +302,7 @@ export const ContactBar = ({
               });
               clearSelect();
               setIsOpen(undefined);
+              hs.goBack();
             }}
           >
             حذف

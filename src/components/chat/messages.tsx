@@ -17,10 +17,12 @@ export const Messages = ({
   messages,
   selects,
   setReply,
+  handleImageLoad,
 }: {
   toggleSelect: (message: IMessage) => void;
   messages: IMessage[];
   selects: IMessage[];
+  handleImageLoad: (event: React.SyntheticEvent<HTMLImageElement>) => void;
   setReply: (message: IMessage) => void;
 }) => {
   const { selectSearch, isSearch } = useStore((s) => s);
@@ -80,6 +82,7 @@ export const Messages = ({
   };
   return (
     <div
+      id="message-body"
       className="relative flex h-full w-full flex-1 flex-col justify-end"
       onTouchMove={handleTouchMove}
       ref={messagesRef}
@@ -111,6 +114,7 @@ export const Messages = ({
                 }
               }
             }}
+            handleImageLoad={handleImageLoad}
             setReply={setReply}
             handleMouseDown={handleMouseDown}
             handleMouseUpOrLeave={handleMouseUpOrLeave}
@@ -133,6 +137,7 @@ const Message = ({
   isHold,
   setReply,
   clickReply,
+  handleImageLoad,
 }: {
   toggleSelect: (message: IMessage) => void;
   handleMouseDown: (message: IMessage) => void;
@@ -140,6 +145,7 @@ const Message = ({
   isHold: boolean;
   message: IMessage;
   selects: IMessage[];
+  handleImageLoad: (event: React.SyntheticEvent<HTMLImageElement>) => void;
   clickReply?: (id: string) => void;
   setReply: (message: IMessage) => void;
 }) => {
@@ -174,9 +180,7 @@ const Message = ({
         id={message.id}
         className={cn(
           'relative flex w-full items-center justify-end px-4 py-1 transition-all duration-300 ease-in-out',
-          selects.length > 0 && 'justify-between',
           selects.some((val) => val.id === message.id) && 'bg-brand-yellow/10',
-          message.senderId === me?.getMe?.id && 'justify-start gap-4',
         )}
         onTouchStart={() => handleMouseDown(message)}
         onTouchEnd={handleMouseUpOrLeave}
@@ -189,14 +193,6 @@ const Message = ({
         }
       >
         {/* Checkbox for Selection */}
-        <Checkbox
-          readOnly
-          className={cn(
-            'flex rounded-lg border-[1.25px] border-brand-black',
-            selects.length === 0 && 'hidden',
-          )}
-          checked={selects.some((val) => val.id === message.id)}
-        />
         <motion.div
           key={message.id}
           drag={selects.length > 0 ? false : 'x'}
@@ -223,67 +219,87 @@ const Message = ({
             });
           }}
           className={cn(
-            'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl rounded-bl-sm bg-white text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
-            selects.some((val) => val.id === message.id) &&
-              'bg-brand-yellow/10',
-            message.senderId === me?.getMe?.id &&
-              'rounded-xl rounded-br-sm bg-brand-yellow',
+            'relative flex w-full items-center justify-end',
+            selects.length > 0 && 'justify-between',
+            message.senderId === me?.getMe?.id && 'justify-start gap-4',
           )}
         >
-          {message.type == 'message' && message.url && (
-            <div className="my-auto flex items-center justify-center overflow-hidden bg-black">
-              <img className="max-h-96 object-cover" src={message.url}></img>
-            </div>
-          )}
-          {message.type == 'audio' && message.url && (
-            <VoicePlayer
-              url={message.url}
-              me={message.senderId === me?.getMe?.id}
-            ></VoicePlayer>
-          )}
-          <div className="px-3 py-2">
-            {message.reply && (
-              <div
-                className={cn(
-                  'mb-1 flex w-full overflow-hidden rounded-lg bg-gray-100',
-                  message.senderId === me?.getMe?.id && 'bg-warning-100',
-                )}
-                onClick={() => clickReply?.(message.reply!.id)}
-              >
-                <div
-                  className={cn(
-                    'flex max-h-full w-1 overflow-hidden bg-gray-400 text-transparent',
-                    message.senderId === me?.getMe?.id && '',
-                  )}
-                >
-                  mmm
-                </div>
-                <div className="max-w-[calc(100%-4px)] p-1 px-2">
-                  <h1 className="truncate text-sm font-bold">
-                    {message.reply?.sender?.name}
-                  </h1>
-                  <div className="overflow-hidden truncate text-xs text-gray-500">
-                    {message.reply?.type == 'message'
-                      ? 'عکس'
-                      : message.reply?.type == 'voice'
-                        ? 'پیام صوتی'
-                        : message.reply?.content}
-                  </div>
-                </div>
+          <Checkbox
+            readOnly
+            className={cn(
+              'flex rounded-lg border-[1.25px] border-brand-black',
+              selects.length === 0 && 'hidden',
+            )}
+            checked={selects.some((val) => val.id === message.id)}
+          />
+          <div
+            className={cn(
+              'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl rounded-bl-sm bg-white text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
+              selects.some((val) => val.id === message.id) &&
+                'bg-brand-yellow/10',
+              message.senderId === me?.getMe?.id &&
+                'rounded-xl rounded-br-sm bg-brand-yellow',
+            )}
+          >
+            {message.type == 'message' && message.url && (
+              <div className="my-auto flex items-center justify-center overflow-hidden bg-black">
+                <img
+                  className="max-h-96 object-cover"
+                  src={message.url}
+                  onLoad={handleImageLoad}
+                ></img>
               </div>
             )}
-            <p className="whitespace-pre-wrap leading-normal">
-              {message.content.trim()}
-            </p>
-            <div
-              className={cn(
-                'w-full text-end text-[9px]',
-                message.senderId === me?.getMe?.id && 'text-start',
+            {message.type == 'audio' && message.url && (
+              <VoicePlayer
+                url={message.url}
+                me={message.senderId === me?.getMe?.id}
+              ></VoicePlayer>
+            )}
+            <div className="px-3 py-2">
+              {message.reply && (
+                <div
+                  className={cn(
+                    'mb-1 flex w-full overflow-hidden rounded-lg bg-gray-100',
+                    message.senderId === me?.getMe?.id && 'bg-warning-100',
+                  )}
+                  onClick={() => clickReply?.(message.reply!.id)}
+                >
+                  <div
+                    className={cn(
+                      'flex max-h-full w-1 overflow-hidden bg-gray-400 text-transparent',
+                      message.senderId === me?.getMe?.id && '',
+                    )}
+                  >
+                    mmm
+                  </div>
+                  <div className="max-w-[calc(100%-4px)] p-1 px-2">
+                    <h1 className="truncate text-sm font-bold">
+                      {message.reply?.sender?.name}
+                    </h1>
+                    <div className="overflow-hidden truncate text-xs text-gray-500">
+                      {message.reply?.type == 'message'
+                        ? 'عکس'
+                        : message.reply?.type == 'audio'
+                          ? 'پیام صوتی'
+                          : message.reply?.content}
+                    </div>
+                  </div>
+                </div>
               )}
-            >
-              {DateTime.fromISO(message.createdAt)
-                .setZone('Asia/Tehran')
-                .toFormat('HH:mm')}
+              <p className="whitespace-pre-wrap leading-normal">
+                {message.content.trim()}
+              </p>
+              <div
+                className={cn(
+                  'w-full text-end text-[9px]',
+                  message.senderId === me?.getMe?.id && 'text-start',
+                )}
+              >
+                {DateTime.fromISO(message.createdAt)
+                  .setZone('Asia/Tehran')
+                  .toFormat('HH:mm')}
+              </div>
             </div>
           </div>
         </motion.div>

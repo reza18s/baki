@@ -4,6 +4,7 @@ import { IcInstagram } from '@/components/icons/IcInstagram';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import ArrowButton from '@/components/shared/Buttons/ArrowButton';
+import { Browser } from '@capacitor/browser';
 import React, { useState } from 'react';
 const faq: { question: string; answer: string }[] = [
   {
@@ -57,11 +58,19 @@ export const ContactSupport = () => {
 
       <div className="flex flex-col gap-2">
         <ArrowButton
+          onClick={async () => {
+            await Browser.open({
+              url: 'https://www.instagram.com/bakidotapp?igsh=enNjY2J5anJmcWty',
+            });
+          }}
           className="bg-white"
           text="پشتیبانی اینستاگرام"
           icon={<IcInstagram></IcInstagram>}
         ></ArrowButton>
         <ArrowButton
+          onClick={async () => {
+            await Browser.open({ url: 'https://eitaa.com/baki_support' });
+          }}
           className="bg-white"
           text="پشتیبانی ایتا"
           icon={<IcEitaa></IcEitaa>}

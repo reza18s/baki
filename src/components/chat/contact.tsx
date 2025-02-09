@@ -1,10 +1,17 @@
-import { Chat, User } from '@/graphql/generated/graphql.codegen';
+import {
+  Chat,
+  useAddToFavoriteMutation,
+  useGetFavoriteQuery,
+  User,
+} from '@/graphql/generated/graphql.codegen';
 import { getLastMessageTime } from '@/utils/datetime';
 import React, { FC } from 'react';
 import { IcStar } from '../icons/IcStar';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { customToast } from '../base/toast';
+import { Star2 } from 'solar-icon-set/astronomy';
 
 export const Contact: FC<
   React.HTMLAttributes<HTMLSpanElement> & {
@@ -16,6 +23,12 @@ export const Contact: FC<
   }
 > = ({ chat, me, checked, hideChecked = true, ...props }) => {
   const user = chat.participants?.filter((user) => user?.id !== me?.id)[0];
+  const { data, loading } = useGetFavoriteQuery();
+  const [addToFavorite] = useAddToFavoriteMutation();
+  const notRead =
+    chat.Message?.filter(
+      (message) => message?.senderId !== me?.id && !message?.read,
+    ).length || 0;
   return (
     <div {...props}>
       <Checkbox
@@ -41,15 +54,38 @@ export const Contact: FC<
                 {chat.Message?.[chat.Message?.length - 1]?.content}
               </span>
             </div>
-            <div>
-              <span className="text-xs text-gray-500">
+            <div className="flex flex-col gap-1">
+              <span className="text-end text-xs text-gray-500">
                 {chat.Message?.[chat.Message?.length - 1]?.createdAt &&
                   getLastMessageTime(
                     chat.Message?.[chat.Message?.length - 1]?.createdAt,
                   )}
               </span>
-              <div className="flex justify-end">
-                <IcStar className="size-4 fill-gray-400"></IcStar>
+              <div className="flex justify-end gap-1">
+                {notRead > 0 && (
+                  <span className="flex size-4 items-center justify-center rounded-full bg-brand-yellow text-center text-xs text-black">
+                    {notRead}
+                  </span>
+                )}
+                <IcStar
+                  className={cn(
+                    'size-4 stroke-gray-400',
+                    data?.getFavorite.favorites
+                      ?.map((ob) => ob?.favoriteUserId)
+                      .includes(user?.id) &&
+                      'fill-brand-yellow stroke-brand-yellow',
+                  )}
+                  onClick={() => {
+                    addToFavorite({
+                      variables: {
+                        favoriteIds: [user!.id],
+                      },
+                      onCompleted: (res) => {
+                        customToast(res.addToFavorite.message, 'success');
+                      },
+                    });
+                  }}
+                ></IcStar>
               </div>
             </div>
           </div>

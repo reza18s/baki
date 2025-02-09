@@ -2,10 +2,11 @@ import {
   Message,
   useEditMessageMutation,
   useGetChatQuery,
+  useGetMeQuery,
   useGetUserQuery,
   useSendMessageMutation,
 } from '@/graphql/generated/graphql.codegen';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import BgChat from '../../assets/images/bg-chat.png';
@@ -28,6 +29,7 @@ import { VoiceRecorder } from 'capacitor-voice-recorder';
 import { IcX } from '@/components/icons/IcX';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
 import { IcTrash } from '@/components/icons/IcTrash';
+import { useLocalStore } from '@/store/useLocalStore';
 const formatTime = (time: number): string => {
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
@@ -62,10 +64,11 @@ export const ContactPage = ({ match }: IContactPages) => {
   const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(
     null,
   );
+  const scroll = useLocalStore((s) => s.scroll);
   const { control, watch, handleSubmit, reset, setValue } = useForm<{
     message: string;
   }>();
-
+  const { data: me } = useGetMeQuery({});
   const { data: participant } = useGetUserQuery({
     variables: { id: id },
     onError() {
@@ -85,7 +88,6 @@ export const ContactPage = ({ match }: IContactPages) => {
   const [editMessage, { loading: editLoading }] = useEditMessageMutation({
     client: socket,
   });
-
   useEffect(() => {
     if (isSearch && search.length) {
       const searches = messages
@@ -102,35 +104,38 @@ export const ContactPage = ({ match }: IContactPages) => {
     }
   }, [chat?.Message]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Scroll to the bottom when messages are loaded
-    if (chatContainerRef.current && messages.length > 0) {
-      if (!once) {
-        chatContainerRef.current.scrollToPoint(
-          null,
-          (chatContainerRef.current.children.item(1)?.clientHeight || 0) -
-            chatContainerRef.current.clientHeight -
-            100,
-          0,
-        );
-        setOnce(true);
+    (async () => {
+      if (chatContainerRef.current && messages.length > 0) {
+        if (!once) {
+          chatContainerRef.current.scrollToPoint(null, scroll?.[match.url], 0);
+          setOnce(true);
+        } else {
+          const messageBody = chatContainerRef.current?.children
+            .item(1)
+            ?.children.item(0)?.children;
+          const lastMessageH =
+            messageBody?.item(messageBody.length - 1)?.clientHeight || 0;
+          const scrollH =
+            (await chatContainerRef.current?.getScrollElement())
+              ?.scrollHeight || 0;
+          if (messages[messages.length - 1].senderId === me?.getMe.id) {
+            chatContainerRef.current?.scrollToBottom(300);
+          } else if (
+            (chatContainerRef.current?.clientHeight || 0) +
+              ((await chatContainerRef.current?.getScrollElement())
+                ?.scrollTop || 0) +
+              500 >
+            scrollH - lastMessageH
+          ) {
+            chatContainerRef.current?.scrollToBottom(300);
+          }
+        }
       }
-      chatContainerRef.current.scrollToBottom(0);
-    }
+    })();
   }, [messages]);
 
-  const handleInput = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      textarea.style.height = 'auto';
-      const lineHeight = parseInt(
-        getComputedStyle(textarea).lineHeight || '20',
-        10,
-      );
-      const maxHeight = lineHeight * 5;
-      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
-    }
-  };
   useEffect(() => {
     if (watch('message')) {
       handleInput();
@@ -155,6 +160,18 @@ export const ContactPage = ({ match }: IContactPages) => {
     });
   };
 
+  const handleInput = () => {
+    if (textareaRef.current) {
+      const textarea = textareaRef.current;
+      textarea.style.height = 'auto';
+      const lineHeight = parseInt(
+        getComputedStyle(textarea).lineHeight || '20',
+        10,
+      );
+      const maxHeight = lineHeight * 5;
+      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
+    }
+  };
   const onSubmit = async (
     value: { message: string },
     action: 'send' | 'edit',
@@ -335,6 +352,21 @@ export const ContactPage = ({ match }: IContactPages) => {
       reader.readAsDataURL(file);
     }
   };
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    const imageHeight = img.clientHeight; // Get the natural height of the image
+
+    // if (chatContainerRef.current) {
+    //   (async () => {
+    //     console.log(imageHeight);
+    //     chatContainerRef.current?.scrollToPoint(
+    //       null,
+    //       (await chatContainerRef.current?.getScrollElement())?.scrollTop +
+    //         imageHeight,
+    //     );
+    //   })();
+    // }
+  };
   return (
     <Page
       headerClassName="py-2 px-4"
@@ -366,6 +398,7 @@ export const ContactPage = ({ match }: IContactPages) => {
           setEdit(undefined);
           setReply(message);
         }}
+        handleImageLoad={handleImageLoad}
         messages={messages}
         selects={selects}
         toggleSelect={toggleSelect}
@@ -400,6 +433,21 @@ export const ContactPage = ({ match }: IContactPages) => {
                   }
                 ></IcArrowLeft>
               </div>
+            </div>
+          ) : selects.length > 0 ? (
+            <div className="flex min-h-6 w-full justify-between">
+              {selects.length === 1 && (
+                <div
+                  className="flex items-center gap-2 text-sm"
+                  onClick={() => {
+                    setReply(selects?.[0]);
+                    setSelects([]);
+                  }}
+                >
+                  <IcReply></IcReply>
+                  پاسخ
+                </div>
+              )}
             </div>
           ) : (
             <>

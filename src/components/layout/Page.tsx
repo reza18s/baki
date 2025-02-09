@@ -6,13 +6,16 @@ import {
   ScrollDetail,
   useIonRouter,
 } from '@ionic/react';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { IonContentCustomEvent } from '@ionic/core/dist/types/components';
 import clsx from 'clsx';
 import { BasePropsWithChildren } from '../base/type/base';
 import { CircleSpinner } from '../base/Loader/Loader';
 import { useLocalStore } from '@/store/useLocalStore';
 import { useHistory, useLocation } from 'react-router';
+import { PluginListenerHandle } from '@capacitor/core';
+import { Network } from '@capacitor/network';
+import { paths } from '@/routes/paths';
 
 interface PageProps extends BasePropsWithChildren {
   contentClassName?: string;
@@ -45,6 +48,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
     },
     ref,
   ) => {
+    const [isOnline, setIsOnline] = useState<boolean | null>(null);
     let contentRef = useRef<HTMLIonContentElement | null>(null);
     contentRef =
       (ref as React.MutableRefObject<HTMLIonContentElement | null>) ??
@@ -53,6 +57,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
     const { scroll, setLastScroll } = useLocalStore((store) => store);
     const { pathname } = useLocation();
     const history = useIonRouter();
+    const hs = useHistory();
 
     // Save scroll position when leaving the page
     useEffect(() => {
@@ -66,16 +71,60 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
     // Restore the scroll position when the component mounts
     useEffect(() => {
       if (contentRef.current) {
-        contentRef.current.getScrollElement().then((scrollElement) => {
-          if (scroll?.[pathname] !== undefined) {
-            scrollElement.scrollTo({
-              top: scroll[pathname],
-              behavior: 'auto', // Use 'smooth' for smooth scrolling
-            });
-          }
-        });
+        if (scroll?.[pathname] !== undefined) {
+          contentRef.current?.scrollToPoint(null, scroll[pathname]);
+        }
       }
     }, []); // Runs when pathname or scroll changes
+
+    useEffect(() => {
+      let listener: PluginListenerHandle;
+
+      // Check initial network status
+      Network.getStatus().then((status) => {
+        setIsOnline(status.connected);
+        if (status.connected && history.routeInfo.pathname === '/no-internet') {
+          if (history.canGoBack()) {
+            history.goBack();
+          } else {
+            history.push(paths.main.explore);
+          }
+        } else if (!status.connected) {
+          history.push('/no-internet');
+        }
+      });
+
+      // Listen for network status changes
+      const setupListener = async () => {
+        listener = await Network.addListener(
+          'networkStatusChange',
+          (status) => {
+            setIsOnline(status.connected);
+            if (
+              status.connected &&
+              history.routeInfo.pathname === '/no-internet'
+            ) {
+              if (history.canGoBack()) {
+                history.goBack();
+              } else {
+                history.push(paths.main.explore);
+              }
+            } else if (!status.connected) {
+              history.push('/no-internet');
+            }
+          },
+        );
+      };
+
+      setupListener();
+
+      // Cleanup listener
+      return () => {
+        if (listener) {
+          listener.remove();
+        }
+      };
+    }, []);
 
     return (
       <IonPage
@@ -102,7 +151,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
 
         <IonContent
           id="ion-content"
-          className="max-h-screen overflow-scroll"
+          // className="max-h-screen overflow-scroll"
           onIonScroll={(e) => {
             scrollPositionRef.current = e.detail.scrollTop; // Save scroll position
             onScroll?.(e);
@@ -130,7 +179,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
             <IonRefresher
               slot="fixed"
               onIonRefresh={() => {
-                history.go(0);
+                hs.go(0);
               }}
             >
               <IonRefresherContent />
@@ -138,6 +187,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
           )}
 
           <div
+            id="body"
             className={clsx('w-full', header && 'pt-14', contentClassName)}
             ref={devRef}
           >

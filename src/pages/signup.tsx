@@ -85,6 +85,7 @@ export default function Signup() {
       variables: { phoneNumber: watch('phoneNumber') },
       onCompleted: () => setStep(1),
       onError: (error) => {
+        console.log(error);
         toast.custom(
           (t) => (
             <Toast t={t} type="error">

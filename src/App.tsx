@@ -65,9 +65,7 @@ const App: React.FC = () => {
       // Handle notification action
       PushNotifications.addListener(
         'pushNotificationActionPerformed',
-        (action) => {
-          customToast(`Notification Ation: ${action}`, 'warning');
-        },
+        (action) => {},
       );
     };
 

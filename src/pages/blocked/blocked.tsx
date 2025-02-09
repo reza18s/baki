@@ -101,12 +101,13 @@ export const Blocked = () => {
                 selects.length > 0
                   ? () => !isHold && toggleSelect(chat as Chat)
                   : () => {
-                      if (chat?.participants?.[0]?.id) {
-                        hs.push(
-                          paths.chat.contact.exactPath(
-                            chat.participants[0]!.id,
-                          ),
-                        );
+                      if (chat?.participants) {
+                        const contactId = chat.participants?.filter(
+                          (user) => user?.id !== me?.getMe.id,
+                        )[0]?.id;
+                        if (contactId) {
+                          hs.push(paths.chat.contact.exactPath(contactId));
+                        }
                       }
                     }
               }

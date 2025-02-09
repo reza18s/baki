@@ -18,7 +18,7 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
   const updateUserInfo = useLocalStore((s) => s.updateUserInfo);
   const setSteps = useLocalStore((s) => s.setSteps);
 
-  const { data: me, refetch } = useGetMeQuery({
+  const { data, refetch } = useGetMeQuery({
     onError(err) {
       if (err.message == 'Failed to fetch') {
         return;
@@ -28,8 +28,17 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
       setState('normal');
     },
   });
+
+  useEffect(() => {
+    if (data?.getMe) {
+      const getMe = data.getMe;
+      // @ts-expect-error the
+      updateUserInfo({ ...getMe });
+      setState('normal');
+    }
+  }, [data, refetch]);
   const {
-    data,
+    data: isOnline,
     restart,
     error: userStatusError,
   } = useUserStatusSubscription({
@@ -43,7 +52,6 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
     client: socket,
     shouldResubscribe: true,
   });
-
   useEffect(() => {
     if (userStatusError) {
       setTimeout(() => {
@@ -59,19 +67,11 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     client.refetchQueries({ include: ['GetChats'] });
-  }, [data, messages]);
+  }, [isOnline, messages]);
 
   useEffect(() => {
     client.refetchQueries({ include: ['GetChat'] });
   }, [messages]);
-  useEffect(() => {
-    if (me?.getMe) {
-      const getMe = me.getMe;
-      // @ts-expect-error the
-      updateUserInfo({ ...getMe });
-      setState('normal');
-    }
-  }, [data, refetch]);
 
   return <>{state === 'loading' ? <LoaderPage></LoaderPage> : children}</>;
 };

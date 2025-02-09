@@ -55,12 +55,12 @@ export default function VerifyOTP(props: {
           localStorage.setItem('token', data.verifyOtp?.accessToken as string);
           props.onSuccess?.();
           if (props.path === 'signup') {
-            // if (checkUserInfo(data.verifyOtp)) {
-            //   window.location.replace(paths.main.explore);
-            //   // hs.push();
-            // } else {
-            handleNextStep();
-            // }
+            if (checkUserInfo(data.verifyOtp)) {
+              window.location.replace(paths.main.explore);
+              // hs.push();
+            } else {
+              handleNextStep();
+            }
           }
         },
         onError: () => {

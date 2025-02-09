@@ -1,6 +1,5 @@
 import { Controller } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
-import { IoMdLock } from 'react-icons/io';
 import Button from '../base/Button/Button';
 import { IcLock } from '../icons/IcLock';
 
