@@ -11,7 +11,13 @@ export default function BirthdateStep(props: {
   handleNextStep: (user?: Partial<UserInfo>) => void;
   loading: boolean;
 }) {
-  const { control, watch, register, setValue } = useForm();
+  const { control, watch, register, setValue } = useForm<{
+    month?: {
+      label: string;
+      key: number;
+    };
+    year: string;
+  }>();
 
   const userInfo = useLocalStore((store) => store.userInfo);
 
@@ -47,7 +53,7 @@ export default function BirthdateStep(props: {
         <div className="flex w-full items-center justify-center gap-3">
           <div>
             <h2 className="mr-1 text-sm font-bold text-gray-500">ماه</h2>
-            <MonthPicker name="month" control={control} />
+            <MonthPicker control={control} />
           </div>
           <div>
             <h2 className="mr-1 text-sm font-bold text-gray-500">سال</h2>

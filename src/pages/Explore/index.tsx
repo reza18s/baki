@@ -76,6 +76,7 @@ export default function Explore() {
     },
 
     onError: (err) => {
+      //@ts-expect-error the
       if (err.graphQLErrors[0].code === 'PLAN_LIMIT') {
         refetchMe();
       } else {

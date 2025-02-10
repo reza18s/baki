@@ -26,7 +26,7 @@ export function useStringQuery(
   name: string,
   defaultValue?: string,
 ): [string | undefined, (v?: string) => void] {
-  const history = useIonRouter();
+  const history = useHistory();
   const searchParams = new URLSearchParams(useLocation().search);
 
   const setValue = (newValue?: string) => {
