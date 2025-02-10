@@ -130,7 +130,7 @@ export default function EditProfile() {
           تکمیل پروفایل:
         </h2>
         <ArrowButton
-          url="/profile/complete_profile"
+          url={paths.profile.completeProfile}
           text={`${calculateCompletionPercentage()} درصد کامل شده`}
           className={`${
             calculateCompletionPercentage() === 100
@@ -148,9 +148,7 @@ export default function EditProfile() {
             />
           }
           url={
-            !userInfo.verified
-              ? '/profile/complete_profile/identify_verification'
-              : undefined
+            !userInfo.verified ? paths.profile.identityVerification : undefined
           }
           text={userInfo.verified ? ' تایید شده' : 'تایید شماره موبایل'}
         />

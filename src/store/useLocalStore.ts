@@ -6,6 +6,7 @@ export type UserInfo = {
   phoneNumber: string;
   name: string;
   gender?: Gender;
+  avatar?: string;
   birthdate: string;
   city?: string;
   traveledToPlaces: string[];

@@ -22,7 +22,7 @@ export const getCardsData = (userInfo: UserInfo) => [
     icon: <SolarIconSet.Gallery size={32} />,
     title: 'تصاویر',
     description: `${userInfo.images?.length + (userInfo.mainImage ? 1 : 0)} از 4 آپلود شده`,
-    url: '/profile/complete_profile/complete_pictures',
+    url: paths.profile.completePictures,
     status: userInfo.images?.length + (userInfo.mainImage ? 1 : 0) === 4,
   },
   {
@@ -40,6 +40,20 @@ export const getCardsData = (userInfo: UserInfo) => [
         userInfo?.sportsStatus,
         userInfo?.AmountOfEarlyRising,
       ].filter((e) => e).length === 7,
+  },
+  {
+    icon: <SolarIconSet.StickerSmileSquare size={32} />,
+    title: 'آواتار',
+    description: userInfo.avatar ? 'انتخاب شده' : 'انتخاب نشده',
+    url: paths.profile.completePictures,
+    status: !!userInfo.avatar,
+  },
+  {
+    icon: <SolarIconSet.Microphone size={32} />,
+    title: 'پیام خوش‌آمد گویی',
+    description: userInfo.avatar ? 'ضبط شده' : 'ضبط نشده',
+    url: paths.profile.record,
+    status: !!userInfo.avatar,
   },
   {
     icon: <CiStar size={32} />,
