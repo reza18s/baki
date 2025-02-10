@@ -123,6 +123,8 @@ export const useLocalStore = create<Store>()(
           userInfo.mySpecialty.length > 0,
           userInfo.maritalStatus,
           userInfo.AmountOfEarlyRising,
+          userInfo.record,
+          userInfo.avatar,
           userInfo.smokeStatus,
           userInfo.spiritStatus,
           userInfo.sportsStatus,

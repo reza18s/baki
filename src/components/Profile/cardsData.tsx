@@ -51,9 +51,9 @@ export const getCardsData = (userInfo: UserInfo) => [
   {
     icon: <SolarIconSet.Microphone size={32} />,
     title: 'پیام خوش‌آمد گویی',
-    description: userInfo.avatar ? 'ضبط شده' : 'ضبط نشده',
+    description: userInfo.record ? 'ضبط شده' : 'ضبط نشده',
     url: paths.profile.record,
-    status: !!userInfo.avatar,
+    status: !!userInfo.record,
   },
   {
     icon: <CiStar size={32} />,

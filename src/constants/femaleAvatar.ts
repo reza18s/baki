@@ -26,15 +26,7 @@ import { default as Memoji25 } from '../assets/female/Memoji25.png';
 import { default as Memoji26 } from '../assets/female/Memoji26.png';
 import { default as Memoji27 } from '../assets/female/Memoji27.png';
 import { default as Memoji28 } from '../assets/female/Memoji28.png';
-import { default as Memoji29 } from '../assets/female/Memoji29.png';
-import { default as Memoji30 } from '../assets/female/Memoji30.png';
-import { default as Memoji31 } from '../assets/female/Memoji31.png';
-import { default as Memoji32 } from '../assets/female/Memoji32.png';
-import { default as Memoji33 } from '../assets/female/Memoji33.png';
-import { default as Memoji34 } from '../assets/female/Memoji34.png';
-import { default as Memoji35 } from '../assets/female/Memoji35.png';
-import { default as Memoji36 } from '../assets/female/Memoji36.png';
-export const MaleAvatar = [
+export const FemaleAvatar = [
   { path: '../assets/female/Memoji1.png', avatar: Memoji1 },
   { path: '../assets/female/Memoji2.png', avatar: Memoji2 },
   { path: '../assets/female/Memoji3.png', avatar: Memoji3 },
@@ -63,12 +55,4 @@ export const MaleAvatar = [
   { path: '../assets/female/Memoji26.png', avatar: Memoji26 },
   { path: '../assets/female/Memoji27.png', avatar: Memoji27 },
   { path: '../assets/female/Memoji28.png', avatar: Memoji28 },
-  { path: '../assets/female/Memoji29.png', avatar: Memoji29 },
-  { path: '../assets/female/Memoji30.png', avatar: Memoji30 },
-  { path: '../assets/female/Memoji31.png', avatar: Memoji31 },
-  { path: '../assets/female/Memoji32.png', avatar: Memoji32 },
-  { path: '../assets/female/Memoji33.png', avatar: Memoji33 },
-  { path: '../assets/female/Memoji34.png', avatar: Memoji34 },
-  { path: '../assets/female/Memoji35.png', avatar: Memoji35 },
-  { path: '../assets/female/Memoji36.png', avatar: Memoji36 },
 ];

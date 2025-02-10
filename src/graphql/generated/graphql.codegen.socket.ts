@@ -713,6 +713,7 @@ export type UpdateUserMutationVariables = Exact<{
   province?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
   record?: InputMaybe<Scalars['String']['input']>;
+  avatar?: InputMaybe<Scalars['String']['input']>;
   mainImage?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   travelInterests?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -1546,7 +1547,7 @@ export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation
 export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
 export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($name: String, $gender: Gender, $birthdate: String, $province: String, $city: String, $record: String, $mainImage: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $AmountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthdate: String, $province: String, $city: String, $record: String, $avatar: String, $mainImage: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $AmountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
   updateUser(
     name: $name
     gender: $gender
@@ -1554,6 +1555,7 @@ export const UpdateUserDocument = gql`
     province: $province
     city: $city
     record: $record
+    avatar: $avatar
     mainImage: $mainImage
     images: $images
     travelInterests: $travelInterests
@@ -1595,6 +1597,7 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *      province: // value for 'province'
  *      city: // value for 'city'
  *      record: // value for 'record'
+ *      avatar: // value for 'avatar'
  *      mainImage: // value for 'mainImage'
  *      images: // value for 'images'
  *      travelInterests: // value for 'travelInterests'

@@ -5,6 +5,7 @@ mutation UpdateUser(
   $province: String
   $city: String
   $record: String
+  $avatar: String
   $mainImage: String
   $images: [String!]
   $travelInterests: [String!]
@@ -28,6 +29,7 @@ mutation UpdateUser(
     province: $province
     city: $city
     record: $record
+    avatar: $avatar
     mainImage: $mainImage
     images: $images
     travelInterests: $travelInterests

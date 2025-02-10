@@ -64,8 +64,8 @@ export const Record = () => {
       setRecording(true);
 
       const intervalId = setInterval(() => {
-        setTime((prevTime) => +(prevTime + 0.1).toFixed(2));
-      }, 100); // Update every second
+        setTime((prevTime) => +(prevTime + 1).toFixed(2));
+      }, 1000); // Update every second
 
       setTimerInterval(intervalId);
     }
@@ -73,6 +73,7 @@ export const Record = () => {
   const onStopRecording = async () => {
     if ((await VoiceRecorder.getCurrentStatus()).status === 'RECORDING') {
       const value = await VoiceRecorder.stopRecording();
+      setIsLoading(true);
       setRecording(false);
       setTime(0);
       if (timerInterval) {
@@ -114,9 +115,11 @@ export const Record = () => {
           updateUserInfo({ record: voiceUrl });
           updateUser({ variables: { record: voiceUrl } });
         }
+        setIsLoading(false);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (ignored) {
         customToast('مشکلی در اپلود ', 'error');
+        setIsLoading(false);
       }
     }
   };
@@ -148,7 +151,6 @@ export const Record = () => {
   const handleAudioEnd = () => {
     if (wavesurfer.current) {
       setCurrentTime(0);
-
       wavesurfer.current.seekTo(0); // Seek to the start
       setIsPlaying(false); // Stop playing state
     }
@@ -158,7 +160,7 @@ export const Record = () => {
       wavesurfer.current = WaveSurfer.create({
         container: waveformRef.current,
         height: 39,
-        width: 180,
+        width: 220,
         normalize: true,
         waveColor: '#535353',
         progressColor: '#000',
@@ -181,8 +183,12 @@ export const Record = () => {
       // Load the audio URL into WaveSurfer
       wavesurfer.current.load(record);
 
+      wavesurfer.current.on('loading', () => setIsLoading(true));
       // Add event listeners
-      wavesurfer.current.on('ready', handleAudioReady);
+      wavesurfer.current.on('ready', () => {
+        handleAudioReady();
+        setIsLoading(false);
+      });
       wavesurfer.current.on('audioprocess', handleTimeUpdate);
       wavesurfer.current.on('seeking', handleTimeUpdate);
       wavesurfer.current.on('finish', handleAudioEnd); // Listen for the end of the audio
@@ -192,14 +198,11 @@ export const Record = () => {
       };
     }
   }, [record]); // Ensure the useEffect runs when the URL changes
-
-  // Ensure that the audio is ready before starting playback
-  useEffect(() => {
-    if (wavesurfer.current) {
-      wavesurfer.current.on('loading', () => setIsLoading(true));
-      wavesurfer.current.on('ready', () => setIsLoading(false));
-    }
-  }, []);
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
   return (
     <Page header={<AppBar title="ضبط صدا"></AppBar>} contentClassName="p-6">
       <div className="flex flex-col items-center gap-4 pt-10">
@@ -210,14 +213,24 @@ export const Record = () => {
           با صدای خود یک شعر، متن و یا پیام خوشامد گویی ضبط کنید.
         </p>
         <div className="flex w-full flex-col items-center gap-8 rounded-2xl bg-warning-50 p-4">
-          <span>0:30 / 0:{time < 10 ? `0${time}` : time}</span>
+          <span>
+            {record ? formatTime(duration) : '0:30'} /
+            {record
+              ? formatTime(currentTime)
+              : time < 10
+                ? `0:0${time}`
+                : `0:${time}`}
+          </span>
           <div
             ref={waveformRef}
             style={{ height: '40px', position: 'relative' }}
-            className={`w-full ${isLoading ? 'opacity-50' : ''}`} // Show loading effect
+            className={`flex items-center ${isLoading ? 'opacity-50' : ''}`} // Show loading effect
           />
         </div>
-        <div className="flex size-16 items-center justify-center rounded-full bg-brand-yellow">
+        <Button
+          className="flex size-16 items-center justify-center rounded-full bg-brand-yellow"
+          loading={isLoading}
+        >
           {record ? (
             isPlaying ? (
               <IcStop onClick={togglePlayPause}></IcStop>
@@ -229,7 +242,7 @@ export const Record = () => {
           ) : (
             <IcRecord onClick={onStartRecording}></IcRecord>
           )}
-        </div>
+        </Button>
         {record && (
           <Button
             variant="outline"
