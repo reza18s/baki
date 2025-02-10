@@ -12,6 +12,7 @@ import { SearchTypeModal } from '@/components/Explore/searchTypeModal';
 import { paths } from '@/routes/paths';
 import {
   RandomUser,
+  useGetMeQuery,
   useGetRandomUserLazyQuery,
   useLikeMutation,
 } from '@/graphql/generated/graphql.codegen';
@@ -26,6 +27,9 @@ import { IcHamburgerMenu } from '@/components/icons/IcHamburgerMenu';
 import { IcUndo } from '@/components/icons/IcUndo';
 import { IcTuning2 } from '@/components/icons/IcTuning2';
 import { useIonRouter } from '@ionic/react';
+import { IcSearchTypeIntrests } from '@/components/icons/IcSearchTypeIntrests';
+import { RenderPlanLimitMessage } from '@/components/Explore/renderPlanLimitMessage';
+import { isNotToday } from '@/utils/datetime';
 
 export default function Explore() {
   const history = useIonRouter();
@@ -42,6 +46,16 @@ export default function Explore() {
   const { filters, searchType, searchStart, setSearchStart } = useStore(
     (store) => store,
   );
+  const { data: me, refetch: refetchMe } = useGetMeQuery();
+  const planUse: { [key: string]: number } =
+    me?.getMe.planUse?.updateAt &&
+    !isNotToday(new Date(me?.getMe.planUse.updateAt))
+      ? me?.getMe.planUse
+      : {
+          random: 0,
+          baseOnInterest: 0,
+          famous: 0,
+        };
   const [getUser, { loading, refetch }] = useGetRandomUserLazyQuery({
     variables: {
       searchType: searchType,
@@ -62,9 +76,22 @@ export default function Explore() {
     },
 
     onError: (err) => {
-      customToast(err.message, 'error');
+      if (err.graphQLErrors[0].code === 'PLAN_LIMIT') {
+        refetchMe();
+      } else {
+        customToast(err.message, 'error');
+      }
     },
   });
+  const randomRefetch = () => {
+    if (
+      (searchType === 'random' && 3 > (planUse?.random || 0)) ||
+      (searchType === 'baseOnInterest' && 1 > (planUse?.baseOnInterest || 0)) ||
+      (searchType === 'famous' && 1 > (planUse?.famous || 0))
+    ) {
+      return refetch();
+    }
+  };
   const [Like] = useLikeMutation();
 
   useEffect(() => {
@@ -75,20 +102,20 @@ export default function Explore() {
   }, [FirstEnter]);
   useEffect(() => {
     if (start) {
-      refetch();
+      randomRefetch();
     }
   }, [filters]);
   useEffect(() => {
     setTimeout(() => {
       if (start && cards.length <= 1) {
-        refetch().then(({ data }) => {
+        randomRefetch()?.then((data) => {
           setCards((prev) =>
-            [...(data.getRandomUser as RandomUser[]), ...prev].filter(
+            [...(data?.data?.getRandomUser as RandomUser[]), ...prev].filter(
               (item, index, self) =>
                 index === self.findIndex((t) => t?.id === item?.id),
             ),
           );
-          setNoResult(data.getRandomUser?.length === 0);
+          setNoResult(data?.data?.getRandomUser?.length === 0);
         });
       }
     }, 200);
@@ -97,7 +124,7 @@ export default function Explore() {
     if (searchStart) {
       setStart(searchStart);
       setCards([]);
-      refetch();
+      randomRefetch();
       setSearchStart(false);
     }
   }, [searchStart]);
@@ -162,7 +189,45 @@ export default function Explore() {
       }
     >
       <div className="relative flex h-full w-full flex-row-reverse p-4">
-        {start ? (
+        {cards.length === 0 && !me?.getMe.plan ? (
+          searchType === 'random' && (planUse?.random || 0) >= 3 ? (
+            <RenderPlanLimitMessage
+              searchType={searchType}
+            ></RenderPlanLimitMessage>
+          ) : searchType === 'baseOnInterest' &&
+            (planUse?.baseOnInterest || 0) >= 1 ? (
+            <RenderPlanLimitMessage
+              searchType={searchType}
+            ></RenderPlanLimitMessage>
+          ) : searchType === 'famous' && (planUse?.famous || 0) >= 1 ? (
+            <RenderPlanLimitMessage
+              searchType={searchType}
+            ></RenderPlanLimitMessage>
+          ) : (
+            <div
+              className="size-full bg-warning-50 p-4"
+              onClick={() => {
+                setStart(true);
+                randomRefetch();
+              }}
+            >
+              <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
+                <IcExploreStart></IcExploreStart>
+                برای شروع ماجراجویی روی صفحه کلیک کنید.
+              </div>
+              <Button
+                className="h-12 w-full p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  history.push(paths.explore.filter);
+                }}
+                type="button"
+              >
+                تغییر فیلترها
+              </Button>
+            </div>
+          )
+        ) : start ? (
           loading ? (
             <div
               className="size-full bg-warning-50 p-4"
@@ -226,7 +291,7 @@ export default function Explore() {
             className="size-full bg-warning-50 p-4"
             onClick={() => {
               setStart(true);
-              refetch();
+              randomRefetch();
             }}
           >
             <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
@@ -251,7 +316,7 @@ export default function Explore() {
         setClose={() => {
           setIsOpen('swipe');
           setStart(true);
-          refetch();
+          randomRefetch();
         }}
       ></SearchTypeModal>
       <SearchTypeSidebar

@@ -125,6 +125,7 @@ export type Message = {
 
 export type Mutation = {
   Like?: Maybe<Liked>;
+  Roll: Scalars['Boolean']['output'];
   Signin?: Maybe<Scalars['String']['output']>;
   acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
@@ -139,6 +140,7 @@ export type Mutation = {
   deleteDeviceToken?: Maybe<Scalars['String']['output']>;
   editMessage?: Maybe<Message>;
   logInAsGuest?: Maybe<AuthPayload>;
+  readMessages?: Maybe<Scalars['String']['output']>;
   refreshAccessToken?: Maybe<AuthPayload>;
   removeFromBlacklist?: Maybe<Scalars['String']['output']>;
   removeFromFavorite?: Maybe<Scalars['String']['output']>;
@@ -245,6 +247,11 @@ export type MutationLogInAsGuestArgs = {
   personalInterests: Array<Scalars['String']['input']>;
   province: Scalars['String']['input'];
   travelInterests: Array<Scalars['String']['input']>;
+};
+
+
+export type MutationReadMessagesArgs = {
+  content?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -508,6 +515,7 @@ export type User = {
   personalInterests?: Maybe<Array<Scalars['String']['output']>>;
   phoneNumber: Scalars['String']['output'];
   plan?: Maybe<Plan>;
+  planUse?: Maybe<Scalars['JSON']['output']>;
   province?: Maybe<Scalars['String']['output']>;
   receivedRequests?: Maybe<Array<Maybe<Request>>>;
   reportsMade?: Maybe<Array<Maybe<ViolationReport>>>;
@@ -528,8 +536,9 @@ export type User = {
 
 export type ViolationReport = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description: Scalars['String']['output'];
   id: Scalars['String']['output'];
-  reason: Scalars['String']['output'];
+  reasons: Array<Scalars['String']['output']>;
   reportedId: Scalars['String']['output'];
   reporter?: Maybe<User>;
   reporterId: Scalars['String']['output'];
@@ -578,6 +587,13 @@ export type DelChatMutationVariables = Exact<{
 
 
 export type DelChatMutation = { delChat?: string | null };
+
+export type ReadMessagesMutationVariables = Exact<{
+  content: Scalars['String']['input'];
+}>;
+
+
+export type ReadMessagesMutation = { readMessages?: string | null };
 
 export type DeleteDeviceTokenMutationVariables = Exact<{
   deviceToken: Scalars['String']['input'];
@@ -666,6 +682,11 @@ export type AcceptRequestMutationVariables = Exact<{
 
 export type AcceptRequestMutation = { acceptRequest?: { id: string } | null };
 
+export type RollMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RollMutation = { Roll: boolean };
+
 export type SignupMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
 }>;
@@ -746,7 +767,7 @@ export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, crea
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, verified: boolean, AmountOfEarlyRising?: string | null, plan?: { id: string, title: string, expireAt: any, createdAt: any, updatedAt: any } | null } };
+export type GetMeQuery = { getMe: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, verified: boolean, AmountOfEarlyRising?: string | null, planUse?: any | null, plan?: { id: string, title: string, expireAt: any, createdAt: any, updatedAt: any } | null } };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -781,7 +802,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, planUse?: any | null } | null };
 
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -970,6 +991,37 @@ export function useDelChatMutation(baseOptions?: Apollo.MutationHookOptions<DelC
 export type DelChatMutationHookResult = ReturnType<typeof useDelChatMutation>;
 export type DelChatMutationResult = Apollo.MutationResult<DelChatMutation>;
 export type DelChatMutationOptions = Apollo.BaseMutationOptions<DelChatMutation, DelChatMutationVariables>;
+export const ReadMessagesDocument = gql`
+    mutation ReadMessages($content: String!) {
+  readMessages(content: $content)
+}
+    `;
+export type ReadMessagesMutationFn = Apollo.MutationFunction<ReadMessagesMutation, ReadMessagesMutationVariables>;
+
+/**
+ * __useReadMessagesMutation__
+ *
+ * To run a mutation, you first call `useReadMessagesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReadMessagesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [readMessagesMutation, { data, loading, error }] = useReadMessagesMutation({
+ *   variables: {
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useReadMessagesMutation(baseOptions?: Apollo.MutationHookOptions<ReadMessagesMutation, ReadMessagesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ReadMessagesMutation, ReadMessagesMutationVariables>(ReadMessagesDocument, options);
+      }
+export type ReadMessagesMutationHookResult = ReturnType<typeof useReadMessagesMutation>;
+export type ReadMessagesMutationResult = Apollo.MutationResult<ReadMessagesMutation>;
+export type ReadMessagesMutationOptions = Apollo.BaseMutationOptions<ReadMessagesMutation, ReadMessagesMutationVariables>;
 export const DeleteDeviceTokenDocument = gql`
     mutation DeleteDeviceToken($deviceToken: String!) {
   deleteDeviceToken(deviceToken: $deviceToken)
@@ -1352,6 +1404,36 @@ export function useAcceptRequestMutation(baseOptions?: Apollo.MutationHookOption
 export type AcceptRequestMutationHookResult = ReturnType<typeof useAcceptRequestMutation>;
 export type AcceptRequestMutationResult = Apollo.MutationResult<AcceptRequestMutation>;
 export type AcceptRequestMutationOptions = Apollo.BaseMutationOptions<AcceptRequestMutation, AcceptRequestMutationVariables>;
+export const RollDocument = gql`
+    mutation Roll {
+  Roll
+}
+    `;
+export type RollMutationFn = Apollo.MutationFunction<RollMutation, RollMutationVariables>;
+
+/**
+ * __useRollMutation__
+ *
+ * To run a mutation, you first call `useRollMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRollMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [rollMutation, { data, loading, error }] = useRollMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRollMutation(baseOptions?: Apollo.MutationHookOptions<RollMutation, RollMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RollMutation, RollMutationVariables>(RollDocument, options);
+      }
+export type RollMutationHookResult = ReturnType<typeof useRollMutation>;
+export type RollMutationResult = Apollo.MutationResult<RollMutation>;
+export type RollMutationOptions = Apollo.BaseMutationOptions<RollMutation, RollMutationVariables>;
 export const SignupDocument = gql`
     mutation Signup($phoneNumber: String!) {
   Signin(phoneNumber: $phoneNumber)
@@ -1925,6 +2007,7 @@ export const GetMeDocument = gql`
       createdAt
       updatedAt
     }
+    planUse
   }
 }
     `;
@@ -2229,6 +2312,7 @@ export const GetUserDocument = gql`
     lastSeen
     AmountOfEarlyRising
     createdAt
+    planUse
   }
 }
     `;

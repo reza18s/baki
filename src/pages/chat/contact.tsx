@@ -4,6 +4,7 @@ import {
   useGetChatQuery,
   useGetMeQuery,
   useGetUserQuery,
+  useReadMessagesMutation,
   useSendMessageMutation,
 } from '@/graphql/generated/graphql.codegen';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -88,6 +89,7 @@ export const ContactPage = ({ match }: IContactPages) => {
   const [editMessage, { loading: editLoading }] = useEditMessageMutation({
     client: socket,
   });
+  const [readMessages] = useReadMessagesMutation({ client: socket });
   useEffect(() => {
     if (isSearch && search.length) {
       const searches = messages
@@ -134,6 +136,16 @@ export const ContactPage = ({ match }: IContactPages) => {
         }
       }
     })();
+  }, [messages]);
+  useEffect(() => {
+    if (
+      messages.filter((message) => message.senderId === id && !message.read)
+        .length > 0
+    ) {
+      readMessages({
+        variables: { content: id },
+      });
+    }
   }, [messages]);
 
   useEffect(() => {

@@ -10,6 +10,16 @@ export const ceilTime = (timeMinute: number) => {
   }
   return timeMinute;
 };
+export function isNotToday(date: Date): boolean {
+  // Get the current date
+  const today = new Date();
+  // Compare year, month, and day
+  return (
+    date.getFullYear() !== today.getFullYear() ||
+    date.getMonth() !== today.getMonth() ||
+    date.getDate() !== today.getDate()
+  );
+}
 export function calculateElapsedTime(
   pastDate: string | Date,
   returnAsString: boolean = true,

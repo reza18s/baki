@@ -28,5 +28,6 @@ query GetUser($id: String!) {
     lastSeen
     AmountOfEarlyRising
     createdAt
+    planUse
   }
 }

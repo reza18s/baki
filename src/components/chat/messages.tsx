@@ -9,6 +9,7 @@ import { motion, useAnimation } from 'framer-motion';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
 import { useStore } from '@/store/useStore';
 import VoicePlayer from './voice';
+import { IcCheckRead } from '../icons/IcCheckRead';
 
 let lastDate = '';
 
@@ -292,13 +293,16 @@ const Message = ({
               </p>
               <div
                 className={cn(
-                  'w-full text-end text-[9px]',
+                  'flex w-full items-center gap-1 text-end text-[9px]',
                   message.senderId === me?.getMe?.id && 'text-start',
                 )}
               >
                 {DateTime.fromISO(message.createdAt)
                   .setZone('Asia/Tehran')
                   .toFormat('HH:mm')}
+                <IcCheckRead
+                  className={cn(!message.read && 'fill-gray-500')}
+                ></IcCheckRead>
               </div>
             </div>
           </div>

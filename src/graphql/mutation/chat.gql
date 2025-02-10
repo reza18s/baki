@@ -30,3 +30,6 @@ mutation EditMessage($messageId: String!, $content: String!) {
 mutation DelChat($chatsId: [String!]!, $del: Boolean) {
   delChat(chatsId: $chatsId, del: $del)
 }
+mutation ReadMessages($content: String!) {
+  readMessages(content: $content)
+}

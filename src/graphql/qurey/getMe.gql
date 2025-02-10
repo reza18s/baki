@@ -35,5 +35,6 @@ query GetMe {
       createdAt
       updatedAt
     }
+    planUse
   }
 }
