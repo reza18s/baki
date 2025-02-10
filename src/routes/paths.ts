@@ -26,11 +26,12 @@ export const paths = {
       exactPath: (id: string) => `/profile/user/${id}`,
     },
     editProfile: '/profile/edit',
+    record: '/profile/complete/record',
     completeProfile: '/profile/complete', // Complete profile page
     identityVerification: '/profile/complete/identify_verification', // Identity verification
     completePictures: '/profile/complete/pictures', // Complete pictures
     completeTravelInterests: '/profile/complete/generalinterests', // General interests
-    completePersonalInterests: '/profile/complete/complete_personalInterests', // Personal interests
+    completePersonalInterests: '/profile/complete/personalInterests', // Personal interests
     completeProvinces: '/profile/complete/provinces', // Residence city
     completeSpecialty: '/profile/complete/specialty', // Specialty
     basicInformations: '/profile/complete/basicinformations', // Basic information

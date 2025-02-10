@@ -26,6 +26,7 @@ export type UserInfo = {
   bio: string;
   mainImage: string;
   verified: boolean;
+  record?: string;
 };
 interface IFirstEntered {
   showSearchType: boolean;

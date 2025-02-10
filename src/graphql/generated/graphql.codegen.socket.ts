@@ -307,6 +307,7 @@ export type MutationUpdateUserArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   personalInterests?: InputMaybe<Array<Scalars['String']['input']>>;
   province?: InputMaybe<Scalars['String']['input']>;
+  record?: InputMaybe<Scalars['String']['input']>;
   smokeStatus?: InputMaybe<Scalars['String']['input']>;
   spiritStatus?: InputMaybe<Scalars['String']['input']>;
   sportsStatus?: InputMaybe<Scalars['String']['input']>;
@@ -432,6 +433,7 @@ export type RandomUser = {
   personalInterests: Array<Scalars['String']['output']>;
   phoneNumber: Scalars['String']['output'];
   province: Scalars['String']['output'];
+  record?: Maybe<Scalars['String']['output']>;
   role: Role;
   smokeStatus: Scalars['String']['output'];
   spiritStatus: Scalars['String']['output'];
@@ -518,6 +520,7 @@ export type User = {
   planUse?: Maybe<Scalars['JSON']['output']>;
   province?: Maybe<Scalars['String']['output']>;
   receivedRequests?: Maybe<Array<Maybe<Request>>>;
+  record?: Maybe<Scalars['String']['output']>;
   reportsMade?: Maybe<Array<Maybe<ViolationReport>>>;
   requests?: Maybe<Array<Maybe<Request>>>;
   role: Role;
@@ -709,6 +712,7 @@ export type UpdateUserMutationVariables = Exact<{
   birthdate?: InputMaybe<Scalars['String']['input']>;
   province?: InputMaybe<Scalars['String']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
+  record?: InputMaybe<Scalars['String']['input']>;
   mainImage?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   travelInterests?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
@@ -739,7 +743,7 @@ export type GetRandomUserQueryVariables = Exact<{
 }>;
 
 
-export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, isOnline: boolean, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImage?: string | null, images: Array<string>, city: string, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, isOnline: boolean, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImage?: string | null, images: Array<string>, city: string, record?: string | null, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
 
 export type GetBlockListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -767,7 +771,7 @@ export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, crea
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { getMe: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, verified: boolean, AmountOfEarlyRising?: string | null, planUse?: any | null, plan?: { id: string, title: string, expireAt: any, createdAt: any, updatedAt: any } | null } };
+export type GetMeQuery = { getMe: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, verified: boolean, record?: string | null, AmountOfEarlyRising?: string | null, planUse?: any | null, plan?: { id: string, title: string, expireAt: any, createdAt: any, updatedAt: any } | null } };
 
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -802,7 +806,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, planUse?: any | null } | null };
+export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, record?: string | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, planUse?: any | null } | null };
 
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -1542,13 +1546,14 @@ export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation
 export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
 export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($name: String, $gender: Gender, $birthdate: String, $province: String, $city: String, $mainImage: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $AmountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
+    mutation UpdateUser($name: String, $gender: Gender, $birthdate: String, $province: String, $city: String, $record: String, $mainImage: String, $images: [String!], $travelInterests: [String!], $personalInterests: [String!], $mySpecialty: [String!], $username: String, $bio: String, $maritalStatus: String, $smokeStatus: String, $sportsStatus: String, $AmountOfEarlyRising: String, $languages: [String!], $traveledToPlaces: [String!], $livedInPlaces: [String!], $spiritStatus: String) {
   updateUser(
     name: $name
     gender: $gender
     birthdate: $birthdate
     province: $province
     city: $city
+    record: $record
     mainImage: $mainImage
     images: $images
     travelInterests: $travelInterests
@@ -1589,6 +1594,7 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *      birthdate: // value for 'birthdate'
  *      province: // value for 'province'
  *      city: // value for 'city'
+ *      record: // value for 'record'
  *      mainImage: // value for 'mainImage'
  *      images: // value for 'images'
  *      travelInterests: // value for 'travelInterests'
@@ -1638,6 +1644,7 @@ export const GetRandomUserDocument = gql`
     mainImage
     images
     city
+    record
     zodiacSign
     travelInterests
     personalInterests
@@ -1999,6 +2006,7 @@ export const GetMeDocument = gql`
     sportsStatus
     lastSeen
     verified
+    record
     AmountOfEarlyRising
     plan {
       id
@@ -2298,6 +2306,7 @@ export const GetUserDocument = gql`
     livedInPlaces
     province
     age
+    record
     city
     mainImage
     images
