@@ -27,6 +27,7 @@ export const paths = {
     },
     editProfile: '/profile/edit',
     record: '/profile/complete/record',
+    avatar: '/profile/complete/avatar',
     completeProfile: '/profile/complete', // Complete profile page
     identityVerification: '/profile/complete/identify_verification', // Identity verification
     completePictures: '/profile/complete/pictures', // Complete pictures

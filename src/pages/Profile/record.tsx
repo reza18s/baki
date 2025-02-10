@@ -206,7 +206,7 @@ export const Record = () => {
         <h1 className="w-full text-[32px] font-bold text-brand-black">
           پیام خوشامد گویی
         </h1>
-        <p className="text-sm font-medium leading-tight text-gray-500">
+        <p className="w-full text-sm font-medium leading-tight text-gray-500">
           با صدای خود یک شعر، متن و یا پیام خوشامد گویی ضبط کنید.
         </p>
         <div className="flex w-full flex-col items-center gap-8 rounded-2xl bg-warning-50 p-4">

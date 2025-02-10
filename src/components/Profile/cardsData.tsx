@@ -45,7 +45,7 @@ export const getCardsData = (userInfo: UserInfo) => [
     icon: <SolarIconSet.StickerSmileSquare size={32} />,
     title: 'آواتار',
     description: userInfo.avatar ? 'انتخاب شده' : 'انتخاب نشده',
-    url: paths.profile.completePictures,
+    url: paths.profile.avatar,
     status: !!userInfo.avatar,
   },
   {

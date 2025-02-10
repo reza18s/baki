@@ -53,6 +53,7 @@ import { UserProfile } from '@/pages/Profile/UserProfile';
 import { Subs } from './subs';
 import NotFound from '@/pages/notFound';
 import { Record } from '@/pages/Profile/record';
+import { Avatar } from '@/pages/Profile/avatar';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -137,6 +138,7 @@ export default function Routes() {
                     component={UserProfile}
                   />
                   <Route exact path={paths.profile.record} component={Record} />
+                  <Route exact path={paths.profile.avatar} component={Avatar} />
 
                   {/* Settings Routes */}
                   <Route
