@@ -412,7 +412,7 @@ export type QueryGetUserArgs = {
 
 
 export type QueryGetUsersArgs = {
-  count: Scalars['Int']['input'];
+  ids: Array<Scalars['String']['input']>;
 };
 
 export type RandomUser = {
@@ -836,6 +836,13 @@ export type RecommendedUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RecommendedUsersQuery = { recommendedUsers: Array<{ id: string, name?: string | null, username?: string | null, isOnline?: boolean | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, birthdate?: string | null, languages?: Array<string> | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, zodiacSign?: string | null, city?: string | null, images?: Array<string> | null, mainImage?: string | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, record?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, updatedAt: any, deletedAt?: any | null, otp?: string | null, otpExpiresAt?: any | null, verified: boolean, role: Role, score?: number | null, planUse?: any | null }> };
+
+export type GetUsersQueryVariables = Exact<{
+  ids: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type GetUsersQuery = { getUsers: Array<{ id: string, name?: string | null, username?: string | null, isOnline?: boolean | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, birthdate?: string | null, languages?: Array<string> | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, zodiacSign?: string | null, city?: string | null, images?: Array<string> | null, mainImage?: string | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, record?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, updatedAt: any, deletedAt?: any | null, otp?: string | null, otpExpiresAt?: any | null, verified: boolean, role: Role, score?: number | null, planUse?: any | null }> };
 
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2574,6 +2581,82 @@ export type RecommendedUsersQueryHookResult = ReturnType<typeof useRecommendedUs
 export type RecommendedUsersLazyQueryHookResult = ReturnType<typeof useRecommendedUsersLazyQuery>;
 export type RecommendedUsersSuspenseQueryHookResult = ReturnType<typeof useRecommendedUsersSuspenseQuery>;
 export type RecommendedUsersQueryResult = Apollo.QueryResult<RecommendedUsersQuery, RecommendedUsersQueryVariables>;
+export const GetUsersDocument = gql`
+    query GetUsers($ids: [String!]!) {
+  getUsers(ids: $ids) {
+    id
+    name
+    username
+    isOnline
+    avatar
+    phoneNumber
+    gender
+    birthdate
+    languages
+    traveledToPlaces
+    livedInPlaces
+    province
+    age
+    zodiacSign
+    city
+    images
+    mainImage
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    record
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+    createdAt
+    updatedAt
+    deletedAt
+    otp
+    otpExpiresAt
+    verified
+    role
+    score
+    planUse
+  }
+}
+    `;
+
+/**
+ * __useGetUsersQuery__
+ *
+ * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersQuery({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useGetUsersQuery(baseOptions: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables> & ({ variables: GetUsersQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+      }
+export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
+export function useGetUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
+export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
+export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
+export type GetUsersSuspenseQueryHookResult = ReturnType<typeof useGetUsersSuspenseQuery>;
+export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
 export const MessageSentDocument = gql`
     subscription MessageSent {
   messageSent

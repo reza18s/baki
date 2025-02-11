@@ -1,11 +1,14 @@
 import { IcHeardTap } from '@/components/icons/IcHeardTap';
 import { Page } from '@/components/layout/Page';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IcChatPage } from '@/components/icons/IcChatPage';
 import {
   Notification as INotification,
   useGetMeQuery,
   useGetNotificationsQuery,
+  useGetUsersLazyQuery,
+  useGetUsersQuery,
+  User,
 } from '@/graphql/generated/graphql.codegen';
 import { LikeModal } from '@/components/notifications/likeModal';
 import { Notification } from '@/components/notifications/notification';
@@ -48,6 +51,15 @@ export const Notifications = () => {
       }
     },
   });
+  const [getUsers, { data: users, loading: usersLoading }] =
+    useGetUsersLazyQuery();
+  useEffect(() => {
+    if (data?.getNotifications) {
+      getUsers({
+        variables: { ids: data?.getNotifications.map((n) => n.actionId) },
+      });
+    }
+  }, [data?.getNotifications]);
   return (
     <Page
       headerClassName="py-3  h-[88px]"
@@ -73,7 +85,7 @@ export const Notifications = () => {
           </div>
         </div>
       }
-      isLoading={loading}
+      isLoading={!users || usersLoading || !data?.getNotifications || loading}
       scrollY
     >
       {(data?.getNotifications.filter(
@@ -128,6 +140,11 @@ export const Notifications = () => {
                         setIsOpen('like');
                       }
                     }}
+                    user={
+                      users?.getUsers.find(
+                        (user) => user.id === notification.actionId,
+                      ) as User
+                    }
                     showInfo={!!me?.getMe?.plan}
                     className="blur-sm"
                   ></LikeCard>
@@ -148,6 +165,11 @@ export const Notifications = () => {
                 )
                 .map((notification) => (
                   <LikeCard
+                    user={
+                      users?.getUsers.find(
+                        (user) => user.id === notification.actionId,
+                      ) as User
+                    }
                     key={notification.id}
                     disabled
                     showInfo={!!me?.getMe?.plan}
@@ -169,6 +191,11 @@ export const Notifications = () => {
                 )
                 .map((notification) => (
                   <Notification
+                    user={
+                      users?.getUsers.find(
+                        (user) => user.id === notification.actionId,
+                      ) as User
+                    }
                     key={notification.id}
                     notification={notification}
                     onClick={() => {
@@ -204,6 +231,11 @@ export const Notifications = () => {
                 )
                 .map((notification) => (
                   <Notification
+                    user={
+                      users?.getUsers.find(
+                        (user) => user.id === notification.actionId,
+                      ) as User
+                    }
                     key={notification.id}
                     notification={notification}
                     disabled
