@@ -48,7 +48,6 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
     },
     ref,
   ) => {
-    const [isOnline, setIsOnline] = useState<boolean | null>(null);
     let contentRef = useRef<HTMLIonContentElement | null>(null);
     contentRef =
       (ref as React.MutableRefObject<HTMLIonContentElement | null>) ??
@@ -82,7 +81,6 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
 
       // Check initial network status
       Network.getStatus().then((status) => {
-        setIsOnline(status.connected);
         if (status.connected && history.routeInfo.pathname === '/no-internet') {
           if (history.canGoBack()) {
             history.goBack();
@@ -99,13 +97,12 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
         listener = await Network.addListener(
           'networkStatusChange',
           (status) => {
-            setIsOnline(status.connected);
             if (
               status.connected &&
               history.routeInfo.pathname === '/no-internet'
             ) {
               if (history.canGoBack()) {
-                history.goBack();
+                hs.goBack();
               } else {
                 history.push(paths.main.explore);
               }

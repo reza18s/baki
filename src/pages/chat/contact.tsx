@@ -1,5 +1,7 @@
 import {
   Message,
+  RequestType,
+  useCreateRequestMutation,
   useEditMessageMutation,
   useGetChatQuery,
   useGetMeQuery,
@@ -31,6 +33,9 @@ import { IcX } from '@/components/icons/IcX';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
 import { IcTrash } from '@/components/icons/IcTrash';
 import { useLocalStore } from '@/store/useLocalStore';
+import { IcCase } from '@/components/icons/IcCase';
+import { IcChair } from '@/components/icons/IcChair';
+import { Request } from '../Explore/request';
 const formatTime = (time: number): string => {
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
@@ -62,6 +67,7 @@ export const ContactPage = ({ match }: IContactPages) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [recording, setRecording] = useState(false);
   const [time, setTime] = useState<number>(0);
+
   const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(
     null,
   );
@@ -405,6 +411,7 @@ export const ContactPage = ({ match }: IContactPages) => {
       ref={chatContainerRef}
       bgImage={BgChat}
     >
+      <Request id={id} searchType={chat?.searchType}></Request>
       <Messages
         setReply={(message) => {
           setEdit(undefined);

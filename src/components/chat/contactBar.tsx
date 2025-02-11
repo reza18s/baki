@@ -302,7 +302,6 @@ export const ContactBar = ({
               });
               clearSelect();
               setIsOpen(undefined);
-              hs.goBack();
             }}
           >
             حذف
@@ -343,6 +342,7 @@ export const ContactBar = ({
                 });
                 clearSelect();
                 setIsOpen(undefined);
+                hs.goBack();
               }
             }}
           >

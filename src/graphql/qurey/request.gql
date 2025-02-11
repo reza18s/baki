@@ -1,5 +1,5 @@
-query GetRequests {
-  getRequests {
+query GetRequests($me: Boolean) {
+  getRequests(me: $me) {
     id
     receiverId
     requesterId

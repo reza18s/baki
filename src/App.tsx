@@ -31,12 +31,13 @@ import {
 import { App as IApp } from '@capacitor/app';
 import Modal from './components/base/Modal/Modal';
 import Button from './components/base/Button/Button';
+import { IcCrownStar } from './components/icons/IcCrownStar';
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const { data } = useGetMeQuery();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<'update' | 'exit' | undefined>('update');
   const [addDeviceToken] = useAddDeviceTokenMutation();
   useEffect(() => {
     const initializePushNotifications = async () => {
@@ -78,7 +79,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const backButtonListener = IApp.addListener('backButton', (e) => {
       if (!e.canGoBack) {
-        setIsOpen(true);
+        setIsOpen('exit');
       }
     });
 
@@ -103,8 +104,8 @@ const App: React.FC = () => {
         }}
       />
       <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
+        isOpen={isOpen === 'exit'}
+        onRequestClose={() => setIsOpen(undefined)}
         className="flex w-[90%] flex-col gap-6 rounded-3xl bg-white p-6"
       >
         <div className="flex flex-col gap-2">
@@ -125,9 +126,35 @@ const App: React.FC = () => {
           <Button
             variant="outline"
             className="h-10 w-full border-brand-black"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpen(undefined)}
           >
             نه می‌خوام بمونم
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        className="flex w-[85%] flex-col items-center justify-center gap-4 rounded-3xl bg-white px-6 py-4"
+        isOpen={isOpen === 'update'}
+        onRequestClose={() => setIsOpen(undefined)}
+      >
+        <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
+          <IcCrownStar className="size-8 fill-none stroke-black"></IcCrownStar>
+        </div>
+
+        <h1 className="text-center text-lg font-bold">آپدیت جدید منتشر شد!</h1>
+        <span className="text-center text-sm text-gray-500">
+          برای استفاده از آخرین ویژگی‌های باکی لطفا اقدام به بروزرسانی کنید.
+        </span>
+        <div className="flex w-full gap-2">
+          <Button className="h-10 w-full" onClick={() => {}}>
+            بروزرسانی
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            بعدا یادآوری کن
           </Button>
         </div>
       </Modal>

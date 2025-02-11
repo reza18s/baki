@@ -48,6 +48,7 @@ import NotFound from '@/pages/notFound';
 import { Record } from '@/pages/Profile/record';
 import { Avatar } from '@/pages/Profile/avatar';
 import { RecommendedUsers } from '@/pages/recommendedUsers';
+import NoInternet from '@/pages/noInternet';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -218,7 +219,7 @@ export default function Routes() {
                     component={Favorite}
                   />
                   <Route exact path={paths.blocked.main} component={Blocked} />
-                  <Route exact path={'/no-interne'} component={NotFound} />
+                  <Route exact path={'/no-internet'} component={NoInternet} />
 
                   {/* Main Layout Routes */}
                   <MainLayout>

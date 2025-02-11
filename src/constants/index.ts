@@ -1,5 +1,7 @@
 import { IcAries } from '@/components/icons/IcAries';
 import { zodiacSigns } from './zodiacSigns';
+import { MaleAvatar } from './maleAvatar';
+import { FemaleAvatar } from './femaleAvatar';
 
 export { allIcon } from './allIcons';
 export { languages } from './languages';
@@ -25,7 +27,7 @@ export const months = [
   { label: 'بهمن', key: 11 },
   { label: 'اسفند', key: 12 },
 ];
-
+export const allAvatars = [...MaleAvatar, ...FemaleAvatar];
 export const spiritStatus = [
   { label: 'درون‌گرا', value: 'introvert' },
   { label: 'برون‌گرا', value: 'extroverted' },

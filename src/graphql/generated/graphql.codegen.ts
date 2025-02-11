@@ -404,6 +404,11 @@ export type QueryGetRequestArgs = {
 };
 
 
+export type QueryGetRequestsArgs = {
+  me?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
 export type QueryGetUserArgs = {
   id: Scalars['String']['input'];
   include?: InputMaybe<Includes>;
@@ -806,7 +811,9 @@ export type GetPricePlanQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetPricePlanQuery = { getPricePlan: Array<{ id: number, title: string, price: number, discount: number, months: number, bazarId: string }> };
 
-export type GetRequestsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetRequestsQueryVariables = Exact<{
+  me?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
 
 
 export type GetRequestsQuery = { getRequests: Array<{ id: string, receiverId: string, requesterId: string, type: string, createdAt?: any | null, updatedAt?: any | null, status: string, requester?: { id: string, name?: string | null, mainImage?: string | null } | null, receiver?: { id: string, name?: string | null, mainImage?: string | null } | null }> };
@@ -2288,8 +2295,8 @@ export type GetPricePlanLazyQueryHookResult = ReturnType<typeof useGetPricePlanL
 export type GetPricePlanSuspenseQueryHookResult = ReturnType<typeof useGetPricePlanSuspenseQuery>;
 export type GetPricePlanQueryResult = Apollo.QueryResult<GetPricePlanQuery, GetPricePlanQueryVariables>;
 export const GetRequestsDocument = gql`
-    query GetRequests {
-  getRequests {
+    query GetRequests($me: Boolean) {
+  getRequests(me: $me) {
     id
     receiverId
     requesterId
@@ -2323,6 +2330,7 @@ export const GetRequestsDocument = gql`
  * @example
  * const { data, loading, error } = useGetRequestsQuery({
  *   variables: {
+ *      me: // value for 'me'
  *   },
  * });
  */
