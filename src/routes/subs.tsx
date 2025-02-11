@@ -67,11 +67,15 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     client.refetchQueries({ include: ['GetChats'] });
+    client.cache.evict({ fieldName: 'getChats' });
   }, [isOnline, messages]);
-
   useEffect(() => {
     client.refetchQueries({ include: ['GetChat'] });
+    client.cache.evict({ fieldName: 'getChat' });
   }, [messages]);
-
+  client.cache.evict({
+    fieldName: 'getChat',
+    args: { participantId: 'cm6cbq4fx000q4zo1i1lij95c' },
+  });
   return <>{state === 'loading' ? <LoaderPage></LoaderPage> : children}</>;
 };

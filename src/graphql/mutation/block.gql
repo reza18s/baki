@@ -1,3 +1,6 @@
 mutation AddToBlackList($blockedId: [String!]!) {
   addToBlackList(blockedId: $blockedId)
 }
+mutation RemoveFromBlacklist($blockedId: [String!]!) {
+  removeFromBlacklist(blockedId: $blockedId)
+}

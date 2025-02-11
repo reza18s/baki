@@ -85,10 +85,13 @@ export default function Explore() {
     },
   });
   const randomRefetch = () => {
+    console.log(me?.getMe.planUse);
     if (
-      (searchType === 'random' && 3 > (planUse?.random || 0)) ||
-      (searchType === 'baseOnInterest' && 1 > (planUse?.baseOnInterest || 0)) ||
-      (searchType === 'famous' && 1 > (planUse?.famous || 0))
+      !me?.getMe.plan &&
+      ((searchType === 'random' && 3 > (planUse?.random || 0)) ||
+        (searchType === 'baseOnInterest' &&
+          1 > (planUse?.baseOnInterest || 0)) ||
+        (searchType === 'famous' && 1 > (planUse?.famous || 0)))
     ) {
       return refetch();
     }
@@ -205,28 +208,30 @@ export default function Explore() {
               searchType={searchType}
             ></RenderPlanLimitMessage>
           ) : (
-            <div
-              className="size-full bg-warning-50 p-4"
-              onClick={() => {
-                setStart(true);
-                randomRefetch();
-              }}
-            >
-              <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
-                <IcExploreStart></IcExploreStart>
-                برای شروع ماجراجویی روی صفحه کلیک کنید.
-              </div>
-              <Button
-                className="h-12 w-full p-0"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  history.push(paths.explore.filter);
+            !start && (
+              <div
+                className="size-full bg-warning-50 p-4"
+                onClick={() => {
+                  setStart(true);
+                  randomRefetch();
                 }}
-                type="button"
               >
-                تغییر فیلترها
-              </Button>
-            </div>
+                <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
+                  <IcExploreStart></IcExploreStart>
+                  برای شروع ماجراجویی روی صفحه کلیک کنید.
+                </div>
+                <Button
+                  className="h-12 w-full p-0"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    history.push(paths.explore.filter);
+                  }}
+                  type="button"
+                >
+                  تغییر فیلترها
+                </Button>
+              </div>
+            )
           )
         ) : start ? (
           loading ? (

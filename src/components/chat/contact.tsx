@@ -11,12 +11,11 @@ import Checkbox from '../base/Input/checkboxSection/checkbox';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { customToast } from '../base/toast';
-import { Star2 } from 'solar-icon-set/astronomy';
 
 export const Contact: FC<
   React.HTMLAttributes<HTMLSpanElement> & {
     chat: Chat;
-    me?: User;
+    me: User;
     className?: string;
     checked?: boolean;
     hideChecked?: boolean;
@@ -29,6 +28,7 @@ export const Contact: FC<
     chat.Message?.filter(
       (message) => message?.senderId !== me?.id && !message?.read,
     ).length || 0;
+
   return (
     <div {...props}>
       <Checkbox
@@ -61,9 +61,9 @@ export const Contact: FC<
                     chat.Message?.[chat.Message?.length - 1]?.createdAt,
                   )}
               </span>
-              <div className="flex justify-end gap-1">
+              <div className="flex items-center justify-end gap-1">
                 {notRead > 0 && (
-                  <span className="flex size-4 items-center justify-center rounded-full bg-brand-yellow text-center text-xs text-black">
+                  <span className="flex items-center justify-center rounded-full bg-brand-yellow px-1 text-center text-xs text-black">
                     {notRead}
                   </span>
                 )}

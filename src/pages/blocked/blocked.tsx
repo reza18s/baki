@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import { customToast } from '@/components/base/toast';
 import { Contact } from '@/components/chat/contact';
 import { IcUserBlackList } from '@/components/icons/IcUserBlackList';
 import { IcXCircle } from '@/components/icons/IcXCircle';
@@ -9,6 +10,7 @@ import {
   useGetBlockListQuery,
   useGetMeQuery,
   User,
+  useRemoveFromBlacklistMutation,
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
 import { useIonRouter } from '@ionic/react';
@@ -21,6 +23,7 @@ export const Blocked = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const hs = useIonRouter();
   const { data, loading } = useGetBlockListQuery();
+  const [removeFromBlack] = useRemoveFromBlacklistMutation();
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {
@@ -75,10 +78,30 @@ export const Blocked = () => {
         ) : (
           <div className="flex w-full items-center justify-between px-4 py-3">
             <div className="flex items-center gap-2 text-lg">
-              <IcXCircle className="size-5 stroke-black"></IcXCircle>
+              <IcXCircle
+                className="size-5 stroke-black"
+                onClick={() => setSelects([])}
+              ></IcXCircle>
               {selects.length}
             </div>
-            <Button variant="text" className="py-2 text-brand-red">
+            <Button
+              variant="text"
+              className="py-2 text-brand-red"
+              onClick={() => {
+                setSelects([]);
+                removeFromBlack({
+                  variables: {
+                    blockedId: selects.map((e) => e.id),
+                  },
+                  onCompleted: (res) => {
+                    customToast(res.removeFromBlacklist, 'success');
+                  },
+                  onError: (err) => {
+                    customToast(err.message, 'error');
+                  },
+                });
+              }}
+            >
               حذف از لیست سیاه
             </Button>
           </div>

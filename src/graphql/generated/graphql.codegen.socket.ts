@@ -126,24 +126,24 @@ export type Message = {
 export type Mutation = {
   Like?: Maybe<Liked>;
   Roll: Scalars['Boolean']['output'];
-  Signin?: Maybe<Scalars['String']['output']>;
+  Signin: Scalars['String']['output'];
   acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
-  addDeviceToken?: Maybe<Scalars['String']['output']>;
-  addToBlackList?: Maybe<Scalars['String']['output']>;
+  addDeviceToken: Scalars['String']['output'];
+  addToBlackList: Scalars['String']['output'];
   addToFavorite?: Maybe<Scalars['JSON']['output']>;
   checkDiscount: Discount;
-  createReport?: Maybe<Scalars['String']['output']>;
+  createReport: Scalars['String']['output'];
   createRequest?: Maybe<Request>;
-  delChat?: Maybe<Scalars['String']['output']>;
-  delMessages?: Maybe<Scalars['String']['output']>;
-  deleteDeviceToken?: Maybe<Scalars['String']['output']>;
+  delChat: Scalars['String']['output'];
+  delMessages: Scalars['String']['output'];
+  deleteDeviceToken: Scalars['String']['output'];
   editMessage?: Maybe<Message>;
   logInAsGuest?: Maybe<AuthPayload>;
-  readMessages?: Maybe<Scalars['String']['output']>;
+  readMessages: Scalars['String']['output'];
   refreshAccessToken?: Maybe<AuthPayload>;
-  removeFromBlacklist?: Maybe<Scalars['String']['output']>;
-  removeFromFavorite?: Maybe<Scalars['String']['output']>;
+  removeFromBlacklist: Scalars['String']['output'];
+  removeFromFavorite: Scalars['String']['output'];
   removeReport?: Maybe<ViolationReport>;
   removeRequest?: Maybe<Request>;
   requestPay: Scalars['JSON']['output'];
@@ -251,7 +251,7 @@ export type MutationLogInAsGuestArgs = {
 
 
 export type MutationReadMessagesArgs = {
-  content?: InputMaybe<Scalars['String']['input']>;
+  content: Scalars['String']['input'];
 };
 
 
@@ -469,7 +469,7 @@ export enum Role {
 }
 
 export type Subscription = {
-  messageSent?: Maybe<Message>;
+  messageSent: Array<Maybe<Scalars['String']['output']>>;
   userStatus?: Maybe<User>;
 };
 
@@ -553,7 +553,14 @@ export type AddToBlackListMutationVariables = Exact<{
 }>;
 
 
-export type AddToBlackListMutation = { addToBlackList?: string | null };
+export type AddToBlackListMutation = { addToBlackList: string };
+
+export type RemoveFromBlacklistMutationVariables = Exact<{
+  blockedId: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type RemoveFromBlacklistMutation = { removeFromBlacklist: string };
 
 export type SendMessageMutationVariables = Exact<{
   content: Scalars['String']['input'];
@@ -573,7 +580,7 @@ export type DelMessagesMutationVariables = Exact<{
 }>;
 
 
-export type DelMessagesMutation = { delMessages?: string | null };
+export type DelMessagesMutation = { delMessages: string };
 
 export type EditMessageMutationVariables = Exact<{
   messageId: Scalars['String']['input'];
@@ -589,28 +596,28 @@ export type DelChatMutationVariables = Exact<{
 }>;
 
 
-export type DelChatMutation = { delChat?: string | null };
+export type DelChatMutation = { delChat: string };
 
 export type ReadMessagesMutationVariables = Exact<{
   content: Scalars['String']['input'];
 }>;
 
 
-export type ReadMessagesMutation = { readMessages?: string | null };
+export type ReadMessagesMutation = { readMessages: string };
 
 export type DeleteDeviceTokenMutationVariables = Exact<{
   deviceToken: Scalars['String']['input'];
 }>;
 
 
-export type DeleteDeviceTokenMutation = { deleteDeviceToken?: string | null };
+export type DeleteDeviceTokenMutation = { deleteDeviceToken: string };
 
 export type AddDeviceTokenMutationVariables = Exact<{
   token: Scalars['String']['input'];
 }>;
 
 
-export type AddDeviceTokenMutation = { addDeviceToken?: string | null };
+export type AddDeviceTokenMutation = { addDeviceToken: string };
 
 export type AddToFavoriteMutationVariables = Exact<{
   favoriteIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -618,6 +625,13 @@ export type AddToFavoriteMutationVariables = Exact<{
 
 
 export type AddToFavoriteMutation = { addToFavorite?: any | null };
+
+export type RemoveFromFavoriteMutationVariables = Exact<{
+  favoriteId: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type RemoveFromFavoriteMutation = { removeFromFavorite: string };
 
 export type LikeMutationVariables = Exact<{
   likedUserId: Scalars['String']['input'];
@@ -665,7 +679,7 @@ export type CreateReportMutationVariables = Exact<{
 }>;
 
 
-export type CreateReportMutation = { createReport?: string | null };
+export type CreateReportMutation = { createReport: string };
 
 export type CreateRequestMutationVariables = Exact<{
   receiverId: Scalars['String']['input'];
@@ -695,7 +709,7 @@ export type SignupMutationVariables = Exact<{
 }>;
 
 
-export type SignupMutation = { Signin?: string | null };
+export type SignupMutation = { Signin: string };
 
 export type VerifyOtpMutationVariables = Exact<{
   phoneNumber: Scalars['String']['input'];
@@ -749,7 +763,7 @@ export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: str
 export type GetBlockListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ id: string, content: string, createdAt: any, sender?: { username?: string | null, name?: string | null, id: string } | null } | null> | null } | null> | null, blacklists?: Array<{ id: string, userId: string, blockedId: string, createdAt?: any | null } | null> | null } };
+export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ id: string, content: string, senderId: string, createdAt: any, read: boolean, sender?: { username?: string | null, name?: string | null, id: string } | null } | null> | null } | null> | null, blacklists?: Array<{ id: string, userId: string, blockedId: string, createdAt?: any | null } | null> | null } };
 
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -767,7 +781,7 @@ export type GetChatQuery = { getChat: { id: string, searchType: string, particip
 export type GetFavoriteQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, createdAt?: any | null, Message?: Array<{ id: string, content: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null, isOnline?: boolean | null } | null> | null } | null> | null, favorites?: Array<{ id: string, userId: string, favoriteUserId: string, createdAt?: any | null, updatedAt?: any | null } | null> | null } };
+export type GetFavoriteQuery = { getFavorite: { chats?: Array<{ id: string, createdAt?: any | null, Message?: Array<{ id: string, content: string, createdAt: any, read: boolean, senderId: string, sender?: { id: string, name?: string | null, username?: string | null } | null } | null> | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, images?: Array<string> | null, isOnline?: boolean | null } | null> | null } | null> | null, favorites?: Array<{ id: string, userId: string, favoriteUserId: string, createdAt?: any | null, updatedAt?: any | null } | null> | null } };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -812,7 +826,7 @@ export type GetUserQuery = { getUser?: { id: string, name?: string | null, usern
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MessageSentSubscription = { messageSent?: { id: string, content: string, senderId: string } | null };
+export type MessageSentSubscription = { messageSent: Array<string | null> };
 
 export type UserStatusSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -851,6 +865,37 @@ export function useAddToBlackListMutation(baseOptions?: Apollo.MutationHookOptio
 export type AddToBlackListMutationHookResult = ReturnType<typeof useAddToBlackListMutation>;
 export type AddToBlackListMutationResult = Apollo.MutationResult<AddToBlackListMutation>;
 export type AddToBlackListMutationOptions = Apollo.BaseMutationOptions<AddToBlackListMutation, AddToBlackListMutationVariables>;
+export const RemoveFromBlacklistDocument = gql`
+    mutation RemoveFromBlacklist($blockedId: [String!]!) {
+  removeFromBlacklist(blockedId: $blockedId)
+}
+    `;
+export type RemoveFromBlacklistMutationFn = Apollo.MutationFunction<RemoveFromBlacklistMutation, RemoveFromBlacklistMutationVariables>;
+
+/**
+ * __useRemoveFromBlacklistMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromBlacklistMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromBlacklistMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromBlacklistMutation, { data, loading, error }] = useRemoveFromBlacklistMutation({
+ *   variables: {
+ *      blockedId: // value for 'blockedId'
+ *   },
+ * });
+ */
+export function useRemoveFromBlacklistMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromBlacklistMutation, RemoveFromBlacklistMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromBlacklistMutation, RemoveFromBlacklistMutationVariables>(RemoveFromBlacklistDocument, options);
+      }
+export type RemoveFromBlacklistMutationHookResult = ReturnType<typeof useRemoveFromBlacklistMutation>;
+export type RemoveFromBlacklistMutationResult = Apollo.MutationResult<RemoveFromBlacklistMutation>;
+export type RemoveFromBlacklistMutationOptions = Apollo.BaseMutationOptions<RemoveFromBlacklistMutation, RemoveFromBlacklistMutationVariables>;
 export const SendMessageDocument = gql`
     mutation SendMessage($content: String!, $replyId: String, $receiverId: String, $type: String, $url: String, $chatId: String) {
   sendMessage(
@@ -1120,6 +1165,37 @@ export function useAddToFavoriteMutation(baseOptions?: Apollo.MutationHookOption
 export type AddToFavoriteMutationHookResult = ReturnType<typeof useAddToFavoriteMutation>;
 export type AddToFavoriteMutationResult = Apollo.MutationResult<AddToFavoriteMutation>;
 export type AddToFavoriteMutationOptions = Apollo.BaseMutationOptions<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
+export const RemoveFromFavoriteDocument = gql`
+    mutation RemoveFromFavorite($favoriteId: [String!]!) {
+  removeFromFavorite(favoriteId: $favoriteId)
+}
+    `;
+export type RemoveFromFavoriteMutationFn = Apollo.MutationFunction<RemoveFromFavoriteMutation, RemoveFromFavoriteMutationVariables>;
+
+/**
+ * __useRemoveFromFavoriteMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromFavoriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromFavoriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromFavoriteMutation, { data, loading, error }] = useRemoveFromFavoriteMutation({
+ *   variables: {
+ *      favoriteId: // value for 'favoriteId'
+ *   },
+ * });
+ */
+export function useRemoveFromFavoriteMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromFavoriteMutation, RemoveFromFavoriteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromFavoriteMutation, RemoveFromFavoriteMutationVariables>(RemoveFromFavoriteDocument, options);
+      }
+export type RemoveFromFavoriteMutationHookResult = ReturnType<typeof useRemoveFromFavoriteMutation>;
+export type RemoveFromFavoriteMutationResult = Apollo.MutationResult<RemoveFromFavoriteMutation>;
+export type RemoveFromFavoriteMutationOptions = Apollo.BaseMutationOptions<RemoveFromFavoriteMutation, RemoveFromFavoriteMutationVariables>;
 export const LikeDocument = gql`
     mutation Like($likedUserId: String!, $searchType: String!) {
   Like(likedUserId: $likedUserId, searchType: $searchType) {
@@ -1721,7 +1797,9 @@ export const GetBlockListDocument = gql`
           name
           id
         }
+        senderId
         createdAt
+        read
       }
     }
     blacklists {
@@ -1928,6 +2006,8 @@ export const GetFavoriteDocument = gql`
           name
           username
         }
+        read
+        senderId
       }
       participants {
         id
@@ -2363,11 +2443,7 @@ export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspens
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const MessageSentDocument = gql`
     subscription MessageSent {
-  messageSent {
-    id
-    content
-    senderId
-  }
+  messageSent
 }
     `;
 
