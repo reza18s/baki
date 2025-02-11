@@ -3,6 +3,7 @@ import {
   useAddToBlackListMutation,
   useAddToFavoriteMutation,
   useGetLikesQuery,
+  useGetMeQuery,
   useGetUserQuery,
   useLikeMutation,
   User,
@@ -41,10 +42,14 @@ type IUserProfile = RouteComponentProps<{
 export const UserProfile = ({ match, recommended = false }: IUserProfile) => {
   const id = match.params.id;
   const hs = useIonRouter();
+  const { refetch: refetchMe } = useGetMeQuery();
   const { data, loading, refetch } = useGetUserQuery({
     variables: { id: id, recommended: recommended },
     onError(error) {
       customToast(error.message, 'error');
+      if (recommended) {
+        refetchMe();
+      }
       hs.goBack();
     },
   });
