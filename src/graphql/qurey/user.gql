@@ -1,5 +1,5 @@
-query GetUser($id: String!) {
-  getUser(id: $id) {
+query GetUser($id: String!, $recommended: Boolean) {
+  getUser(id: $id, recommended: $recommended) {
     id
     name
     username
@@ -29,6 +29,47 @@ query GetUser($id: String!) {
     lastSeen
     AmountOfEarlyRising
     createdAt
+    planUse
+  }
+}
+query RecommendedUsers {
+  recommendedUsers {
+    id
+    name
+    username
+    isOnline
+    avatar
+    phoneNumber
+    gender
+    birthdate
+    languages
+    traveledToPlaces
+    livedInPlaces
+    province
+    age
+    zodiacSign
+    city
+    images
+    mainImage
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    record
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+    createdAt
+    updatedAt
+    deletedAt
+    otp
+    otpExpiresAt
+    verified
+    role
+    score
     planUse
   }
 }

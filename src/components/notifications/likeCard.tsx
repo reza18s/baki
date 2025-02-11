@@ -1,38 +1,26 @@
-import {
-  Notification as INotification,
-  useGetUserQuery,
-} from '@/graphql/generated/graphql.codegen';
+import { User } from '@/graphql/generated/graphql.codegen';
 import React from 'react';
 import CardImage from '../../assets/images/image.png';
-import { customToast } from '../base/toast';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
 
 export const LikeCard = ({
-  notification,
   onClick,
+  user,
   disabled,
   showInfo = true,
   className,
 }: {
-  notification: INotification;
+  user: User;
   onClick?: () => void;
   disabled?: boolean;
   showInfo?: boolean;
   className?: string;
 }) => {
-  const { data } = useGetUserQuery({
-    variables: { id: notification.actionId },
-    onError() {
-      customToast('کاربر موجود نیست', 'error');
-    },
-  });
-
-  const user = data?.getUser;
   return (
     <div
       className={cn(
-        'flex h-60 items-end gap-2 rounded-lg p-2',
+        'flex h-60 items-end gap-2 rounded-xl p-2',
         className,
         !showInfo && 'blur-sm',
       )}
@@ -54,13 +42,13 @@ export const LikeCard = ({
             </div>
             <div className="flex items-center gap-x-1 text-xs text-white">
               <RiMapPin2Fill size={16} fill="#fff" className="-mr-[2px]" />
-              {user?.province}
+              {user?.province}, {user?.city}
             </div>
             <div className="flex items-center gap-x-1 text-xs text-white">
               <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
                 <div
                   className={`h-[8px] w-[8px] rounded-full ${
-                    user ? 'bg-brand-green' : 'bg-red-500'
+                    user?.isOnline ? 'bg-brand-green' : 'bg-red-500'
                   }`}
                 />
               </div>

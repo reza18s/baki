@@ -122,7 +122,6 @@ export const Notifications = () => {
                 .map((notification) => (
                   <LikeCard
                     key={notification.id}
-                    notification={notification}
                     onClick={() => {
                       if (notification.type === 'liked') {
                         setNoti(notification);
@@ -150,7 +149,6 @@ export const Notifications = () => {
                 .map((notification) => (
                   <LikeCard
                     key={notification.id}
-                    notification={notification}
                     disabled
                     showInfo={!!me?.getMe?.plan}
                   ></LikeCard>

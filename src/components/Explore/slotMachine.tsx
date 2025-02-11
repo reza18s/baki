@@ -193,7 +193,7 @@ export const SlotMachine = () => {
       <div className="w-full">
         <Button className="w-full" onClick={handleRoll}>
           {data?.getMe.planUse?.lastRoll
-            ? timeLeft < 0
+            ? timeLeft <= 0
               ? 'شانس مجدد'
               : `${formatTime(timeLeft)}`
             : ' شانس مجدد'}

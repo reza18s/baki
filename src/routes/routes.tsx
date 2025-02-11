@@ -2,17 +2,10 @@ import {
   AnimationBuilder,
   createAnimation,
   IonRouterOutlet,
-  useIonRouter,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Suspense, useEffect, useState } from 'react';
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-} from 'react-router-dom';
+import { Suspense } from 'react';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import MainLayout from './MainLayout';
 import { paths } from './paths';
 import Explore from '@/pages/Explore';
@@ -54,6 +47,7 @@ import { Subs } from './subs';
 import NotFound from '@/pages/notFound';
 import { Record } from '@/pages/Profile/record';
 import { Avatar } from '@/pages/Profile/avatar';
+import { RecommendedUsers } from '@/pages/recommendedUsers';
 export const zoomInAnimation: AnimationBuilder = (baseEl, opts) => {
   const enteringAnimation = createAnimation()
     .addElement(opts.enteringEl)
@@ -204,6 +198,20 @@ export default function Routes() {
                   />
 
                   {/* Other Routes */}
+                  <Route
+                    exact
+                    path={paths.recommendedUsers.main}
+                    component={RecommendedUsers}
+                  />
+                  <Route
+                    exact
+                    path={paths.recommendedUsers.profile.main}
+                    component={(
+                      props: RouteComponentProps<{
+                        id: string;
+                      }>,
+                    ) => <UserProfile {...props} recommended />}
+                  />
                   <Route
                     exact
                     path={paths.favorite.main}

@@ -22,7 +22,7 @@ export const Blocked = () => {
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const hs = useIonRouter();
-  const { data, loading } = useGetBlockListQuery();
+  const { data, loading, refetch } = useGetBlockListQuery();
   const [removeFromBlack] = useRemoveFromBlacklistMutation();
   const { data: me } = useGetMeQuery({
     onError(err) {
@@ -91,10 +91,17 @@ export const Blocked = () => {
                 setSelects([]);
                 removeFromBlack({
                   variables: {
-                    blockedId: selects.map((e) => e.id),
+                    blockedId: selects
+                      .map(
+                        (e) =>
+                          e.participants?.find((user) => user?.id !== me?.getMe)
+                            ?.id,
+                      )
+                      .filter((e) => e) as string[],
                   },
                   onCompleted: (res) => {
                     customToast(res.removeFromBlacklist, 'success');
+                    refetch();
                   },
                   onError: (err) => {
                     customToast(err.message, 'error');

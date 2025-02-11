@@ -19,6 +19,14 @@ export const paths = {
     searchTypeGuide: '/settings/guide/search-type',
     communicationGuide: '/settings/guide/communication',
   },
+  recommendedUsers: {
+    main: '/recommended-user',
+    profile: {
+      main: '/recommended-user/:id',
+      exactPath: (id: string) => `/recommended-user/${id}`,
+    },
+  },
+
   profile: {
     main: '/profile', // User profile page
     userProfile: {
@@ -29,15 +37,15 @@ export const paths = {
     record: '/profile/complete/record',
     avatar: '/profile/complete/avatar',
     completeProfile: '/profile/complete', // Complete profile page
-    identityVerification: '/profile/complete/identify_verification', // Identity verification
+    identityVerification: '/profile/complete/identify-verification', // Identity verification
     completePictures: '/profile/complete/pictures', // Complete pictures
-    completeTravelInterests: '/profile/complete/generalinterests', // General interests
-    completePersonalInterests: '/profile/complete/personalInterests', // Personal interests
+    completeTravelInterests: '/profile/complete/general-interests', // General interests
+    completePersonalInterests: '/profile/complete/personal-interests', // Personal interests
     completeProvinces: '/profile/complete/provinces', // Residence city
     completeSpecialty: '/profile/complete/specialty', // Specialty
-    basicInformations: '/profile/complete/basicinformations', // Basic information
-    basicInformationsAll: '/profile/complete/basicinformations/all', // Basic information
-    languagesKnow: '/profile/complete/languagesknow', // Language skills
+    basicInformations: '/profile/complete/basic-informations', // Basic information
+    basicInformationsAll: '/profile/complete/basic-informations/all', // Basic information
+    languagesKnow: '/profile/complete/languages-know', // Language skills
   },
   favorite: {
     main: '/favorite',

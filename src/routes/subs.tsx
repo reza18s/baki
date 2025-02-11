@@ -77,5 +77,6 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
     fieldName: 'getChat',
     args: { participantId: 'cm6cbq4fx000q4zo1i1lij95c' },
   });
+  console.log(data?.getMe.planUse);
   return <>{state === 'loading' ? <LoaderPage></LoaderPage> : children}</>;
 };

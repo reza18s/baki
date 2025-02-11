@@ -63,7 +63,7 @@ export const RenderPlanLimitMessage = ({
         >
           مشاهده اشتراک‌های ویژه
         </Button>
-        {data?.getMe.planUse?.lastRoll && (
+        {data?.getMe.planUse?.lastRoll && timeLeft > 0 && (
           <Button variant="outline" className="border-black">
             {formatTime(timeLeft)} تا شانس مجدد
           </Button>

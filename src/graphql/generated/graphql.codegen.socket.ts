@@ -357,6 +357,7 @@ export type Query = {
   getChat: Chat;
   getChats: Array<Chat>;
   getFavorite: User;
+  getLikes: Array<Maybe<Liked>>;
   getMe: User;
   getNotifications: Array<Notification>;
   getPricePlan: Array<PricePlan>;
@@ -367,6 +368,7 @@ export type Query = {
   getUser?: Maybe<User>;
   getUsers: Array<User>;
   ok: Scalars['Boolean']['output'];
+  recommendedUsers: Array<User>;
 };
 
 
@@ -405,6 +407,7 @@ export type QueryGetRequestArgs = {
 export type QueryGetUserArgs = {
   id: Scalars['String']['input'];
   include?: InputMaybe<Includes>;
+  recommended?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -788,6 +791,11 @@ export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetMeQuery = { getMe: { name?: string | null, username?: string | null, id: string, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, verified: boolean, record?: string | null, AmountOfEarlyRising?: string | null, planUse?: any | null, plan?: { id: string, title: string, expireAt: any, createdAt: any, updatedAt: any } | null } };
 
+export type GetLikesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLikesQuery = { getLikes: Array<{ id: string, userId: string, LikedUserId: string, createdAt?: any | null, updatedAt?: any | null } | null> };
+
 export type GetNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -818,10 +826,16 @@ export type GetTransactionQuery = { getTransaction: Array<{ id: string, amount: 
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['String']['input'];
+  recommended?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
 export type GetUserQuery = { getUser?: { id: string, name?: string | null, username?: string | null, avatar?: string | null, isOnline?: boolean | null, phoneNumber: string, gender?: Gender | null, languages?: Array<string> | null, birthdate?: string | null, zodiacSign?: string | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, record?: string | null, city?: string | null, mainImage?: string | null, images?: Array<string> | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, planUse?: any | null } | null };
+
+export type RecommendedUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecommendedUsersQuery = { recommendedUsers: Array<{ id: string, name?: string | null, username?: string | null, isOnline?: boolean | null, avatar?: string | null, phoneNumber: string, gender?: Gender | null, birthdate?: string | null, languages?: Array<string> | null, traveledToPlaces?: Array<string> | null, livedInPlaces?: Array<string> | null, province?: string | null, age?: number | null, zodiacSign?: string | null, city?: string | null, images?: Array<string> | null, mainImage?: string | null, travelInterests?: Array<string> | null, personalInterests?: Array<string> | null, mySpecialty?: Array<string> | null, bio?: string | null, record?: string | null, maritalStatus?: string | null, smokeStatus?: string | null, spiritStatus?: string | null, sportsStatus?: string | null, lastSeen?: any | null, AmountOfEarlyRising?: string | null, createdAt: any, updatedAt: any, deletedAt?: any | null, otp?: string | null, otpExpiresAt?: any | null, verified: boolean, role: Role, score?: number | null, planUse?: any | null }> };
 
 export type MessageSentSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2134,6 +2148,49 @@ export type GetMeQueryHookResult = ReturnType<typeof useGetMeQuery>;
 export type GetMeLazyQueryHookResult = ReturnType<typeof useGetMeLazyQuery>;
 export type GetMeSuspenseQueryHookResult = ReturnType<typeof useGetMeSuspenseQuery>;
 export type GetMeQueryResult = Apollo.QueryResult<GetMeQuery, GetMeQueryVariables>;
+export const GetLikesDocument = gql`
+    query GetLikes {
+  getLikes {
+    id
+    userId
+    LikedUserId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetLikesQuery__
+ *
+ * To run a query within a React component, call `useGetLikesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLikesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLikesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLikesQuery(baseOptions?: Apollo.QueryHookOptions<GetLikesQuery, GetLikesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLikesQuery, GetLikesQueryVariables>(GetLikesDocument, options);
+      }
+export function useGetLikesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLikesQuery, GetLikesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLikesQuery, GetLikesQueryVariables>(GetLikesDocument, options);
+        }
+export function useGetLikesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLikesQuery, GetLikesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLikesQuery, GetLikesQueryVariables>(GetLikesDocument, options);
+        }
+export type GetLikesQueryHookResult = ReturnType<typeof useGetLikesQuery>;
+export type GetLikesLazyQueryHookResult = ReturnType<typeof useGetLikesLazyQuery>;
+export type GetLikesSuspenseQueryHookResult = ReturnType<typeof useGetLikesSuspenseQuery>;
+export type GetLikesQueryResult = Apollo.QueryResult<GetLikesQuery, GetLikesQueryVariables>;
 export const GetNotificationsDocument = gql`
     query GetNotifications {
   getNotifications {
@@ -2373,8 +2430,8 @@ export type GetTransactionLazyQueryHookResult = ReturnType<typeof useGetTransact
 export type GetTransactionSuspenseQueryHookResult = ReturnType<typeof useGetTransactionSuspenseQuery>;
 export type GetTransactionQueryResult = Apollo.QueryResult<GetTransactionQuery, GetTransactionQueryVariables>;
 export const GetUserDocument = gql`
-    query GetUser($id: String!) {
-  getUser(id: $id) {
+    query GetUser($id: String!, $recommended: Boolean) {
+  getUser(id: $id, recommended: $recommended) {
     id
     name
     username
@@ -2422,6 +2479,7 @@ export const GetUserDocument = gql`
  * const { data, loading, error } = useGetUserQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      recommended: // value for 'recommended'
  *   },
  * });
  */
@@ -2441,6 +2499,81 @@ export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserSuspenseQueryHookResult = ReturnType<typeof useGetUserSuspenseQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const RecommendedUsersDocument = gql`
+    query RecommendedUsers {
+  recommendedUsers {
+    id
+    name
+    username
+    isOnline
+    avatar
+    phoneNumber
+    gender
+    birthdate
+    languages
+    traveledToPlaces
+    livedInPlaces
+    province
+    age
+    zodiacSign
+    city
+    images
+    mainImage
+    travelInterests
+    personalInterests
+    mySpecialty
+    bio
+    record
+    maritalStatus
+    smokeStatus
+    spiritStatus
+    sportsStatus
+    lastSeen
+    AmountOfEarlyRising
+    createdAt
+    updatedAt
+    deletedAt
+    otp
+    otpExpiresAt
+    verified
+    role
+    score
+    planUse
+  }
+}
+    `;
+
+/**
+ * __useRecommendedUsersQuery__
+ *
+ * To run a query within a React component, call `useRecommendedUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecommendedUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecommendedUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRecommendedUsersQuery(baseOptions?: Apollo.QueryHookOptions<RecommendedUsersQuery, RecommendedUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecommendedUsersQuery, RecommendedUsersQueryVariables>(RecommendedUsersDocument, options);
+      }
+export function useRecommendedUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecommendedUsersQuery, RecommendedUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecommendedUsersQuery, RecommendedUsersQueryVariables>(RecommendedUsersDocument, options);
+        }
+export function useRecommendedUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<RecommendedUsersQuery, RecommendedUsersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<RecommendedUsersQuery, RecommendedUsersQueryVariables>(RecommendedUsersDocument, options);
+        }
+export type RecommendedUsersQueryHookResult = ReturnType<typeof useRecommendedUsersQuery>;
+export type RecommendedUsersLazyQueryHookResult = ReturnType<typeof useRecommendedUsersLazyQuery>;
+export type RecommendedUsersSuspenseQueryHookResult = ReturnType<typeof useRecommendedUsersSuspenseQuery>;
+export type RecommendedUsersQueryResult = Apollo.QueryResult<RecommendedUsersQuery, RecommendedUsersQueryVariables>;
 export const MessageSentDocument = gql`
     subscription MessageSent {
   messageSent

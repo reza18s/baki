@@ -21,7 +21,7 @@ export const Favorite = () => {
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const { data, loading } = useGetFavoriteQuery();
+  const { data, loading, refetch } = useGetFavoriteQuery();
   const [removeFromFavorite] = useRemoveFromFavoriteMutation();
   const hs = useIonRouter();
 
@@ -93,10 +93,17 @@ export const Favorite = () => {
                 setSelects([]);
                 removeFromFavorite({
                   variables: {
-                    favoriteId: selects.map((e) => e.id),
+                    favoriteId: selects
+                      .map(
+                        (e) =>
+                          e.participants?.find((user) => user?.id !== me?.getMe)
+                            ?.id,
+                      )
+                      .filter((e) => e) as string[],
                   },
                   onCompleted: (res) => {
                     customToast(res.removeFromFavorite, 'success');
+                    refetch();
                   },
                   onError: (err) => {
                     customToast(err.message, 'error');
