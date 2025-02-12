@@ -415,15 +415,6 @@ export const ContactPage = ({ match }: IContactPages) => {
     //   })();
     // }
   };
-  useEffect(() => {
-    const handleResize = () => {
-      const isOpen = window.innerHeight < window.outerHeight * 0.7;
-      setIsOpen(undefined);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
   return (
     <Page
       headerClassName="py-2 px-4"
@@ -622,6 +613,9 @@ export const ContactPage = ({ match }: IContactPages) => {
                             onInput={handleInput}
                             className="flex-1 resize-none bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
                             {...field}
+                            onClick={() => {
+                              setIsOpen(undefined);
+                            }}
                             ref={textareaRef}
                           />
                           <IcFace
