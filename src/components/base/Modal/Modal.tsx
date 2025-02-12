@@ -4,9 +4,12 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import React from 'react';
 import ReactModal from 'react-modal';
+import { cn } from '@/lib/utils';
 
 const Modal: React.FC<ModalProps> = ({
   id = undefined,
+  positionX = 'center',
+  positionY = 'center',
   isOpen,
   closeOnClickOverlay = true,
   onRequestClose,
@@ -57,7 +60,9 @@ const Modal: React.FC<ModalProps> = ({
         transition={{
           duration: animationDuration / 1000,
         }}
-        className="fixed inset-0 flex items-center justify-center"
+        className={cn(
+          `fixed inset-0 flex items-${positionY} justify-${positionX}`,
+        )}
         onClick={closeOnClickOverlay ? onRequestClose : undefined}
       >
         <motion.div

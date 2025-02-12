@@ -3,7 +3,8 @@ export interface ModalProps {
   closeOnClickOverlay?: boolean;
   disableDrag?: boolean;
   className?: string;
-
+  positionY?: 'center' | 'start' | 'end';
+  positionX?: 'center' | 'start' | 'end';
   onRequestClose: () => void;
   onCloseEnd?: () => void;
 

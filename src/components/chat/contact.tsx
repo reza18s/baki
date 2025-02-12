@@ -28,7 +28,6 @@ export const Contact: FC<
     chat.Message?.filter(
       (message) => message?.senderId !== me?.id && !message?.read,
     ).length || 0;
-
   return (
     <div {...props}>
       <Checkbox
