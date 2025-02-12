@@ -776,7 +776,7 @@ export type GetBlockListQuery = { getBlockList: { chats?: Array<{ id: string, cr
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ replyId?: string | null, senderId: string, read: boolean, type: string, url?: string | null, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, sender?: { id: string, name?: string | null, username?: string | null } | null } | null } | null> | null }> };
+export type GetChatsQuery = { getChats: Array<{ id: string, searchType: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ replyId?: string | null, senderId: string, read: boolean, type: string, url?: string | null, content: string, id: string, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, sender?: { id: string, name?: string | null, username?: string | null } | null } | null } | null> | null }> };
 
 export type GetChatQueryVariables = Exact<{
   chatId?: InputMaybe<Scalars['String']['input']>;
@@ -784,7 +784,7 @@ export type GetChatQueryVariables = Exact<{
 }>;
 
 
-export type GetChatQuery = { getChat: { id: string, searchType: string, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ senderId: string, read: boolean, content: string, id: string, type: string, url?: string | null, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, type: string, url?: string | null, sender?: { id: string, name?: string | null } | null } | null } | null> | null } };
+export type GetChatQuery = { getChat: { id: string, searchType: string, createdAt?: any | null, participants?: Array<{ id: string, name?: string | null, username?: string | null, phoneNumber: string, mainImage?: string | null, lastSeen?: any | null, isOnline?: boolean | null } | null> | null, Message?: Array<{ senderId: string, read: boolean, content: string, id: string, type: string, url?: string | null, createdAt: any, sender?: { id: string, name?: string | null, username?: string | null } | null, reply?: { id: string, content: string, type: string, url?: string | null, sender?: { id: string, name?: string | null } | null } | null } | null> | null } };
 
 export type GetFavoriteQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1909,6 +1909,7 @@ export const GetChatsDocument = gql`
       id
       createdAt
     }
+    createdAt
   }
 }
     `;
@@ -1949,6 +1950,7 @@ export const GetChatDocument = gql`
   getChat(chatId: $chatId, participantId: $participantId) {
     id
     searchType
+    createdAt
     participants {
       id
       name

@@ -35,12 +35,14 @@ query GetChats {
       id
       createdAt
     }
+    createdAt
   }
 }
 query GetChat($chatId: String, $participantId: String) {
   getChat(chatId: $chatId, participantId: $participantId) {
     id
     searchType
+    createdAt
     participants {
       id
       name

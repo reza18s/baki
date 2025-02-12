@@ -27,7 +27,6 @@ export const Request = ({
     useCreateRequestMutation();
   const [createRequest2, { loading: requestLoading2 }] =
     useCreateRequestMutation();
-  console.log(request);
   return request?.status !== 'accept' ? (
     <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
       {request ? (

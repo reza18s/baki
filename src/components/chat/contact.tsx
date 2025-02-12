@@ -75,7 +75,8 @@ export const Contact: FC<
                       .includes(user?.id) &&
                       'fill-brand-yellow stroke-brand-yellow',
                   )}
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation();
                     addToFavorite({
                       variables: {
                         favoriteIds: [user!.id],
