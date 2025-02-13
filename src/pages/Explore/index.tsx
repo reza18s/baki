@@ -30,13 +30,25 @@ import { useIonRouter } from '@ionic/react';
 import { IcSearchTypeIntrests } from '@/components/icons/IcSearchTypeIntrests';
 import { RenderPlanLimitMessage } from '@/components/Explore/renderPlanLimitMessage';
 import { isNotToday } from '@/utils/datetime';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { IcCrownStar } from '@/components/icons/IcCrownStar';
+import { IcStars } from '@/components/icons/IcStars';
+import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 
 export default function Explore() {
   const history = useIonRouter();
+  const queryParams = new URLSearchParams(history.routeInfo.search);
   const FirstEnter = useLocalStore((store) => store.firstEntered);
   const updateFirstEntered = useLocalStore((store) => store.updateFirstEntered);
   const [isOpen, setIsOpen] = useState<
-    'searchType' | 'swipe' | 'swipe-left' | 'swipe-right'
+    | 'searchType'
+    | 'swipe'
+    | 'swipe-left'
+    | 'swipe-right'
+    | 'mo-image'
+    | 'new-plan'
+    | 'extend-plan'
+    | 'failed-plan'
   >();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [noResult, setNoResult] = useState(false);
@@ -56,7 +68,7 @@ export default function Explore() {
           baseOnInterest: 0,
           famous: 0,
         };
-  const [getUser, { loading, refetch }] = useGetRandomUserLazyQuery({
+  const [__, { loading, refetch }] = useGetRandomUserLazyQuery({
     variables: {
       searchType: searchType,
       age: filters.age,
@@ -97,7 +109,18 @@ export default function Explore() {
     }
   };
   const [Like] = useLikeMutation();
-
+  useEffect(() => {
+    if (me?.getMe) {
+      const pay = queryParams.get('pay');
+      if (pay === 'success' && me.getMe.plan) {
+        setIsOpen('new-plan');
+      } else if (pay === 'failed') {
+        setIsOpen('failed-plan');
+      }
+      const newUrl = `${history.routeInfo.pathname}?${queryParams.toString()}`;
+      history.push(newUrl, 'forward', 'replace');
+    }
+  }, [queryParams.get('pay'), me?.getMe]);
   useEffect(() => {
     if (!FirstEnter.showSearchType) {
       setIsOpen('searchType');
@@ -366,7 +389,7 @@ export default function Explore() {
             بازگشت
           </Button>
         </div>
-      </Modal>{' '}
+      </Modal>
       <Modal
         isOpen={isOpen === 'swipe-left'}
         onRequestClose={() => setIsOpen(undefined)}
@@ -398,6 +421,139 @@ export default function Explore() {
               setIsOpen(undefined);
               handelUndo();
             }}
+          >
+            بازگشت
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={isOpen === 'new-plan'}
+        positionY="end"
+        onRequestClose={() => setIsOpen(undefined)}
+        className="mb-6 flex w-[85%] flex-col items-center gap-4 rounded-3xl bg-brand-yellow px-6 py-4"
+      >
+        <div className="relative rounded-full bg-white p-1">
+          <Avatar className="size-[78px]">
+            <AvatarImage
+              src={me?.getMe?.mainImage || ''}
+              className="object-cover"
+            />
+            <AvatarFallback className="3xl">
+              {me?.getMe.name?.[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="absolute bottom-0 right-0 flex size-6 items-center justify-center rounded-full bg-white">
+            <IcCrownStar className="size-4 fill-brand-black"></IcCrownStar>
+          </div>{' '}
+          <div className="absolute -left-5 bottom-0 flex">
+            <IcStars className="size-7 -rotate-12"></IcStars>
+          </div>
+          <div className="absolute -left-5 top-0 flex opacity-50">
+            <IcStars className="size-7"></IcStars>
+          </div>
+          <div className="absolute -right-5 top-[5px] flex rotate-12">
+            <IcStars className="size-8"></IcStars>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 text-center text-lg font-bold">
+          به خانواده ویژه باکی خوش اومدین!
+          <span className="text-sm font-medium">
+            باکی فقط یه اپلیکیشن نیست، یه همراه همیشگی برای سفرهای توئه!
+            <br></br>و از حالا به بعد بهتر می‌تونی برنامه سفر بچینی.
+          </span>
+        </div>
+        <Button
+          variant="white"
+          className="h-10 w-full"
+          onClick={() => {
+            setIsOpen('extend-plan');
+          }}
+        >
+          متوجه شدم!
+        </Button>
+      </Modal>
+      <Modal
+        isOpen={isOpen === 'extend-plan'}
+        positionY="end"
+        onRequestClose={() => setIsOpen(undefined)}
+        className="mb-6 flex w-[85%] flex-col items-center gap-4 rounded-3xl bg-brand-yellow px-6 py-4"
+      >
+        <div className="relative rounded-full bg-white p-1">
+          <Avatar className="size-[78px]">
+            <AvatarImage
+              src={me?.getMe?.mainImage || ''}
+              className="object-cover"
+            />
+            <AvatarFallback className="3xl">
+              {me?.getMe.name?.[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="absolute bottom-0 right-0 flex size-6 items-center justify-center rounded-full bg-white">
+            <IcCrownStar className="size-4 fill-brand-black"></IcCrownStar>
+          </div>{' '}
+          <div className="absolute -left-5 bottom-0 flex">
+            <IcStars className="size-7 -rotate-12"></IcStars>
+          </div>
+          <div className="absolute -left-5 top-0 flex opacity-50">
+            <IcStars className="size-7"></IcStars>
+          </div>
+          <div className="absolute -right-5 top-[5px] flex rotate-12">
+            <IcStars className="size-8"></IcStars>
+          </div>
+        </div>
+
+        <h1 className="flex flex-col gap-4 text-center text-lg font-bold">
+          اشتراک شما با موفقیت تمدید شد!
+        </h1>
+        <div className="flex w-full gap-2">
+          <Button
+            variant="white"
+            className="h-10 w-full"
+            onClick={() => {
+              setIsOpen(undefined);
+              history.push(paths.main.explore, 'forward', 'replace');
+            }}
+          >
+            رفتن به صفحه اصلی
+          </Button>{' '}
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black"
+            onClick={() => {
+              setIsOpen(undefined);
+            }}
+          >
+            بستن
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        className="flex w-[85%] flex-col items-center justify-center gap-4 rounded-3xl bg-white px-6 py-4"
+        isOpen={isOpen === 'failed-plan'}
+        onRequestClose={() => setIsOpen(undefined)}
+      >
+        <div className="flex items-center justify-center rounded-full bg-brand-red p-4">
+          <IcExclamationMarkInCircle className="size-8 fill-white"></IcExclamationMarkInCircle>
+        </div>
+
+        <h1 className="text-center text-lg font-bold">پرداخت ناموفق</h1>
+        <span className="text-center text-sm text-gray-500">
+          درصورتی که مبلغ از حساب شما کسر شده است به پشتیبانی اطلاع دهید.
+        </span>
+        <div className="flex w-full flex-col gap-2">
+          <Button
+            className="h-10 w-full"
+            onClick={() => {
+              history.push(paths.settings.support, 'forward', 'replace');
+            }}
+          >
+            ارتباط با پشتیبانی
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black"
+            onClick={() => setIsOpen(undefined)}
           >
             بازگشت
           </Button>

@@ -37,7 +37,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const { data } = useGetMeQuery();
-  const [isOpen, setIsOpen] = useState<'update' | 'exit' | undefined>('update');
+  const [isOpen, setIsOpen] = useState<'update' | 'exit' | undefined>();
   const [addDeviceToken] = useAddDeviceTokenMutation();
   useEffect(() => {
     const initializePushNotifications = async () => {

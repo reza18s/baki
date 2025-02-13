@@ -23,6 +23,7 @@ const achievements = [
       {
         stepNumber: 2,
         icon: Image2,
+
         title: 'چادر',
       },
       {
@@ -117,7 +118,7 @@ export const FreePlan = () => {
             }}
             dir="ltr"
           >
-            https://www.figma.com/design/2EbpuvNHeX5rWnrLECsoPq/%F0%9F%94%8E-BaKi---UI%2FUX?node-id=20-14473&t=QkUv2Vqr3mBtH4iK-0
+            {}
           </h2>
         </div>
         <div className="flex w-full flex-col gap-4 rounded-xl border border-gray-300 p-4">

@@ -7,7 +7,7 @@ import Button from '../base/Button/Button';
 import { IcTick } from '../icons/IcTick';
 import { IcX } from '../icons/IcX';
 import { User } from '@/graphql/generated/graphql.codegen';
-import CardAvatar from '../../assets/images/avatar.png';
+import CardAvatar from '../../assets/male/Memoji1.png';
 import clsx from 'clsx';
 import { getBaseInfo } from '@/utils/getBaseInfo';
 import { SendMessageModal } from '../Explore/sendMessageModal';
@@ -172,7 +172,10 @@ export const ProfileCard = ({
         ></Info>
       </div>
       {user?.images?.map((image) => (
-        <div key={image} className="bg-brand-black">
+        <div
+          key={image}
+          className="flex items-center justify-center bg-brand-black"
+        >
           <img src={image} className="max-h-96"></img>
         </div>
       ))}

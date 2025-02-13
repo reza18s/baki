@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as SolarIconSet from 'solar-icon-set';
+import Button from '../base/Button/Button';
 export const Rules = ({ hideRules }: { hideRules: () => void }) => {
   return (
     <>
@@ -101,12 +102,12 @@ export const Rules = ({ hideRules }: { hideRules: () => void }) => {
           </p>
         </div>
       </div>
-      <button
+      <Button
         onClick={hideRules}
         className="sticky bottom-2 mt-[22px] h-12 w-[calc(100%-48px)] rounded-[12px] bg-brand-yellow py-4 font-bold text-brand-black"
       >
         تایید و ادامه
-      </button>
+      </Button>
     </>
   );
 };
