@@ -1,9 +1,9 @@
 import { FaCirclePlay } from 'react-icons/fa6';
-import CardAvatar from '../../assets/images/avatar.png';
+import CardAvatar from '../../assets/male/Memoji1.png';
 import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bio, Info } from './card';
 import Button from '@/components/base/Button/Button';
 import { IcX } from '@/components/icons/IcX';
@@ -16,6 +16,9 @@ import ViolationReportModal from './violationReportModal';
 import { optionTexts } from '@/utils';
 import { cn } from '@/lib/utils';
 import { IcNoImage } from '../icons/IcNoImage';
+import { allAvatars } from '@/constants';
+import Modal from '../base/Modal/Modal';
+import { IcXCircle } from '../icons/IcXCircle';
 export default function ExploreCard({
   user,
   drag = true,
@@ -34,7 +37,39 @@ export default function ExploreCard({
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(
     null,
   );
-  const [isOpen, setIsOpen] = useState<'sendMessage' | 'violationReport'>();
+  const [isOpen, setIsOpen] = useState<
+    'sendMessage' | 'violationReport' | 'avatar' | 'record'
+  >();
+
+  const [audio, setAudio] = useState(
+    user.record ? new Audio(user.record) : undefined,
+  );
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playAudio = () => {
+    setIsOpen('record');
+    audio?.play();
+    setIsPlaying(true);
+  };
+  const pauseAudio = () => {
+    setIsOpen(undefined);
+    audio?.pause();
+    setIsPlaying(false);
+  };
+  useEffect(() => {
+    if (user.record) {
+      setAudio(new Audio(user.record));
+    }
+  }, [user.record]);
+  useEffect(() => {
+    const handleAudioEnd = () => {
+      setIsOpen(undefined);
+      setIsPlaying(false);
+    };
+    audio?.addEventListener('ended', handleAudioEnd);
+    return () => {
+      audio?.removeEventListener('ended', handleAudioEnd);
+    };
+  }, [audio]);
   const [rotation, setRotation] = useState<number>(0);
   return (
     <>
@@ -134,9 +169,15 @@ export default function ExploreCard({
                 </div>
               </div>
               <div className="flex items-center gap-x-[8px]">
-                <div className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow">
+                <div
+                  className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow"
+                  onClick={() => setIsOpen('avatar')}
+                >
                   <img
-                    src={CardAvatar}
+                    src={
+                      allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+                      CardAvatar
+                    }
                     alt="CardAvatar"
                     className="size-10 rounded-full"
                   />
@@ -200,10 +241,16 @@ export default function ExploreCard({
             </div>
           ))}
           <div className="my-8 flex justify-between px-8">
-            <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+            <div
+              className="flex size-20 items-center justify-center rounded-full bg-brand-yellow"
+              onClick={() => handleSwipe(user.id, 'right')}
+            >
               <IcTick></IcTick>
             </div>
-            <div className="flex size-20 items-center justify-center rounded-full bg-brand-yellow">
+            <div
+              className="flex size-20 items-center justify-center rounded-full bg-brand-yellow"
+              onClick={() => handleSwipe(user.id, 'left')}
+            >
               <IcX></IcX>
             </div>
           </div>
@@ -230,6 +277,41 @@ export default function ExploreCard({
       >
         {rotation > 0 ? <IcTick></IcTick> : <IcX></IcX>}
       </div>
+
+      <Modal
+        isOpen={isOpen === 'avatar'}
+        onRequestClose={() => setIsOpen(undefined)}
+      >
+        <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
+          <div
+            className="absolute right-0 top-0"
+            onClick={() => setIsOpen(undefined)}
+          >
+            <IcXCircle className="size-5 stroke-1"></IcXCircle>
+          </div>
+          <img
+            src={
+              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+              CardAvatar
+            }
+            className="size-48"
+          ></img>
+        </div>
+      </Modal>
+      <Modal isOpen={isOpen === 'record'} onRequestClose={() => pauseAudio()}>
+        <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
+          <div className="absolute right-0 top-0" onClick={() => pauseAudio()}>
+            <IcXCircle className="size-5 stroke-1"></IcXCircle>
+          </div>
+          <img
+            src={
+              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+              CardAvatar
+            }
+            className="size-48"
+          ></img>
+        </div>
+      </Modal>
       <SendMessageModal
         isOpen={isOpen === 'sendMessage'}
         user={user}

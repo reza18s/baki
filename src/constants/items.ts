@@ -358,7 +358,7 @@ export const PersonalInterestsItems = [
         icon: MovieIcon,
       },
       {
-        title: 'دام',
+        title: 'درام',
         icon: MovieIcon,
       },
       {

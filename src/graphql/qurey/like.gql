@@ -1,0 +1,9 @@
+query GetLikes {
+  getLikes {
+    id
+    userId
+    LikedUserId
+    createdAt
+    updatedAt
+  }
+}

@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import { customToast } from '@/components/base/toast';
 import { Contact } from '@/components/chat/contact';
 import { IcStar } from '@/components/icons/IcStar';
 import { IcXCircle } from '@/components/icons/IcXCircle';
@@ -9,18 +10,20 @@ import {
   useGetFavoriteQuery,
   useGetMeQuery,
   User,
+  useRemoveFromFavoriteMutation,
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 export const Favorite = () => {
   const [selects, setSelects] = useState<Chat[]>([]);
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const { data, loading } = useGetFavoriteQuery();
-  const hs = useHistory();
+  const { data, loading, refetch } = useGetFavoriteQuery();
+  const [removeFromFavorite] = useRemoveFromFavoriteMutation();
+  const hs = useIonRouter();
 
   const { data: me } = useGetMeQuery({
     onError(err) {
@@ -77,17 +80,44 @@ export const Favorite = () => {
         ) : (
           <div className="flex w-full items-center justify-between px-4 py-3">
             <div className="flex items-center gap-2 text-lg">
-              <IcXCircle className="size-5 stroke-black"></IcXCircle>
+              <IcXCircle
+                className="size-5 stroke-black"
+                onClick={() => setSelects([])}
+              ></IcXCircle>
               {selects.length}
             </div>
-            <Button variant="text" className="py-2 text-brand-red">
+            <Button
+              variant="text"
+              className="py-2 text-brand-red"
+              onClick={() => {
+                setSelects([]);
+                removeFromFavorite({
+                  variables: {
+                    favoriteId: selects
+                      .map(
+                        (e) =>
+                          e.participants?.find((user) => user?.id !== me?.getMe)
+                            ?.id,
+                      )
+                      .filter((e) => e) as string[],
+                  },
+                  onCompleted: (res) => {
+                    customToast(res.removeFromFavorite, 'success');
+                    refetch();
+                  },
+                  onError: (err) => {
+                    customToast(err.message, 'error');
+                  },
+                });
+              }}
+            >
               حذف از علاقه مندی ها
             </Button>
           </div>
         )
       }
       contentClassName="p-6 pt-20 bg-gray-50 min-h-full h-full"
-      isLoading={loading}
+      isLoading={!data?.getFavorite || loading}
     >
       {(data?.getFavorite.chats?.length || 0) > 0 ? (
         <div
@@ -104,12 +134,13 @@ export const Favorite = () => {
                 selects.length > 0
                   ? () => !isHold && toggleSelect(chat as Chat)
                   : () => {
-                      if (chat?.participants?.[0]?.id) {
-                        hs.push(
-                          paths.chat.contact.exactPath(
-                            chat.participants[0]!.id,
-                          ),
-                        );
+                      if (chat?.participants) {
+                        const contactId = chat.participants?.filter(
+                          (user) => user?.id !== me?.getMe.id,
+                        )[0]?.id;
+                        if (contactId) {
+                          hs.push(paths.chat.contact.exactPath(contactId));
+                        }
                       }
                     }
               }

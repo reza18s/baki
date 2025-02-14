@@ -17,7 +17,9 @@ import { paths } from '@/routes/paths';
 import { share } from '@/utils/share';
 import { useState } from 'react';
 export const Settings = () => {
-  const [showRules, setShowRules] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<'logout' | 'role' | undefined>(
+    undefined,
+  );
   return (
     <Page
       contentClassName="pt-20 p-6 flex flex-col gap-2 h-full justify-between pb-2 bg-gray-50"
@@ -67,7 +69,7 @@ export const Settings = () => {
         ></ArrowButton>
         <ArrowButton
           onClick={() => {
-            setShowRules(true);
+            setIsOpen('role');
           }}
           text="قوانین و مقررات"
           icon={<IcDocument></IcDocument>}
@@ -75,7 +77,7 @@ export const Settings = () => {
         <Button
           variant="danger-outline"
           onClick={() => {
-            clientLogout();
+            setIsOpen('logout');
           }}
         >
           خروج از حساب کاربری
@@ -97,11 +99,43 @@ export const Settings = () => {
         <span className="relative bottom-0 text-[10px]">نسخه 1.0.0</span>
       </div>
       <Modal
-        isOpen={showRules}
-        onRequestClose={() => setShowRules(false)}
-        className="w-[90%] rounded-3xl"
+        isOpen={isOpen === 'role'}
+        onRequestClose={() => setIsOpen(undefined)}
+        className="flex w-[90%] flex-col items-center rounded-3xl bg-white py-4"
       >
-        <Rules hideRules={() => setShowRules(false)}></Rules>
+        <Rules hideRules={() => setIsOpen(undefined)}></Rules>
+      </Modal>
+      <Modal
+        isOpen={isOpen === 'logout'}
+        onRequestClose={() => setIsOpen(undefined)}
+        className="flex w-[90%] flex-col gap-6 rounded-3xl bg-white p-6"
+      >
+        <div className="flex flex-col gap-2">
+          <h1 className="text-center text-lg font-bold">
+            از حساب کاربری خود خارج می‌شوید؟
+          </h1>
+          <span className="text-center text-sm text-gray-500">
+            برای ورود مجدد نیاز به تایید شماره همراه خود خواهید داشت.
+          </span>
+        </div>
+        <div className="flex w-full flex-col gap-2">
+          <Button
+            variant="danger"
+            className="h-10 w-full"
+            onClick={() => {
+              clientLogout();
+            }}
+          >
+            خروج از حساب کاربری
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-brand-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            بازگشت
+          </Button>
+        </div>
       </Modal>
     </Page>
   );

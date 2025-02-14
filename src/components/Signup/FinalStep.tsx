@@ -3,10 +3,11 @@ import BakiLogo from '../../assets/img/signup/BakiLogo.svg';
 import { useUpdateUserMutation } from '../../graphql/generated/graphql.codegen';
 import { useLocalStore } from '../../store/useLocalStore';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 
 export default function FinalStep() {
   const [updateUser, { loading }] = useUpdateUserMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const userInfo = useLocalStore((store) => store.userInfo);
   const setSteps = useLocalStore((store) => store.setSteps);
 

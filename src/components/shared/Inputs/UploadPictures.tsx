@@ -162,7 +162,7 @@ export default function UploadPictures({
             key={index}
             className="relative aspect-square w-full rounded-2xl bg-gray-100"
           >
-            <p className="absolute right-[15.83px] top-[16.15px] z-10 rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs">
+            <p className="absolute right-[8px] top-[8px] z-10 rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs">
               {num}
             </p>
             <input

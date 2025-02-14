@@ -4,14 +4,19 @@ import {
   IonRefresher,
   IonRefresherContent,
   ScrollDetail,
+  useIonRouter,
 } from '@ionic/react';
-
-import React from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { IonContentCustomEvent } from '@ionic/core/dist/types/components';
 import clsx from 'clsx';
-import { forwardRef } from 'react';
 import { BasePropsWithChildren } from '../base/type/base';
 import { CircleSpinner } from '../base/Loader/Loader';
+import { useLocalStore } from '@/store/useLocalStore';
+import { useHistory, useLocation } from 'react-router';
+import { PluginListenerHandle } from '@capacitor/core';
+import { Network } from '@capacitor/network';
+import { paths } from '@/routes/paths';
+
 interface PageProps extends BasePropsWithChildren {
   contentClassName?: string;
   headerClassName?: string;
@@ -22,6 +27,7 @@ interface PageProps extends BasePropsWithChildren {
   isLoading?: boolean;
   loading?: React.ReactNode;
   bgImage?: any;
+  devRef?: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 export const Page = forwardRef<HTMLIonContentElement, PageProps>(
@@ -38,15 +44,89 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
       loading,
       bgImage,
       isLoading,
+      devRef,
     },
     ref,
   ) => {
+    let contentRef = useRef<HTMLIonContentElement | null>(null);
+    contentRef =
+      (ref as React.MutableRefObject<HTMLIonContentElement | null>) ??
+      contentRef;
+    const scrollPositionRef = useRef<number>(0); // Persist scroll position
+    const { scroll, setLastScroll } = useLocalStore((store) => store);
+    const { pathname } = useLocation();
+    const history = useIonRouter();
+    const hs = useHistory();
+
+    // Save scroll position when leaving the page
+    useEffect(() => {
+      return () => {
+        if (scrollPositionRef.current?.toString()) {
+          setLastScroll(pathname, scrollPositionRef.current);
+        }
+      };
+    }, []); // Runs when pathname changes (before unmount)
+
+    // Restore the scroll position when the component mounts
+    useEffect(() => {
+      if (contentRef.current) {
+        if (scroll?.[pathname] !== undefined) {
+          contentRef.current?.scrollToPoint(null, scroll[pathname]);
+        }
+      }
+    }, []); // Runs when pathname or scroll changes
+
+    useEffect(() => {
+      let listener: PluginListenerHandle;
+
+      // Check initial network status
+      Network.getStatus().then((status) => {
+        if (status.connected && history.routeInfo.pathname === '/no-internet') {
+          if (history.canGoBack()) {
+            history.goBack();
+          } else {
+            history.push(paths.main.explore);
+          }
+        } else if (!status.connected) {
+          history.push('/no-internet');
+        }
+      });
+
+      // Listen for network status changes
+      const setupListener = async () => {
+        listener = await Network.addListener(
+          'networkStatusChange',
+          (status) => {
+            if (
+              status.connected &&
+              history.routeInfo.pathname === '/no-internet'
+            ) {
+              if (history.canGoBack()) {
+                hs.goBack();
+              } else {
+                history.push(paths.main.explore);
+              }
+            } else if (!status.connected) {
+              history.push('/no-internet');
+            }
+          },
+        );
+      };
+
+      setupListener();
+
+      // Cleanup listener
+      return () => {
+        if (listener) {
+          listener.remove();
+        }
+      };
+    }, []);
+
     return (
       <IonPage
         className={'h-dvh ' + className}
-        style={{
-          position: 'relative',
-        }}
+        style={{ position: 'relative' }}
       >
         {header && (
           <div
@@ -62,22 +142,33 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
         {bgImage && (
           <div
             className="absolute inset-0 z-0 bg-gray-50 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url(${bgImage})`, // Replace with your image source
-            }}
+            style={{ backgroundImage: `url(${bgImage})` }}
           ></div>
         )}
+
         <IonContent
           id="ion-content"
-          className={contentClassName}
-          onIonScroll={onScroll}
-          ref={ref}
+          // className="max-h-screen overflow-scroll"
+          onIonScroll={(e) => {
+            scrollPositionRef.current = e.detail.scrollTop; // Save scroll position
+            onScroll?.(e);
+          }}
+          ref={(el) => {
+            contentRef.current = el;
+            if (typeof ref === 'function') {
+              ref(el);
+            } else if (ref) {
+              (
+                ref as React.MutableRefObject<HTMLIonContentElement | null>
+              ).current = el;
+            }
+          }}
           scrollY={scrollY}
-          scrollEvents={!!onScroll} // Converts to a boolean
+          scrollEvents={true} // Enable scroll events if onScroll is provided
           style={
             bgImage && {
-              backgroundColor: 'transparent', // Inline style to override Ionic's default
-              '--background': 'transparent', // Ionic CSS variable for transparency
+              backgroundColor: 'transparent',
+              '--background': 'transparent',
             }
           }
         >
@@ -85,24 +176,25 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
             <IonRefresher
               slot="fixed"
               onIonRefresh={() => {
-                history.go(0);
+                hs.go(0);
               }}
             >
               <IonRefresherContent />
             </IonRefresher>
           )}
-          <div className={clsx('w-full', header && 'pt-14', contentClassName)}>
-            {isLoading ? (
-              <>
-                {loading || (
+
+          <div
+            id="body"
+            className={clsx('w-full', header && 'pt-14', contentClassName)}
+            ref={devRef}
+          >
+            {isLoading
+              ? loading || (
                   <div className="flex h-full w-full justify-center">
-                    <CircleSpinner></CircleSpinner>
+                    <CircleSpinner />
                   </div>
-                )}
-              </>
-            ) : (
-              children
-            )}
+                )
+              : children}
           </div>
         </IonContent>
       </IonPage>

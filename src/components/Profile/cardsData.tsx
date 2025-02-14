@@ -22,14 +22,14 @@ export const getCardsData = (userInfo: UserInfo) => [
     icon: <SolarIconSet.Gallery size={32} />,
     title: 'تصاویر',
     description: `${userInfo.images?.length + (userInfo.mainImage ? 1 : 0)} از 4 آپلود شده`,
-    url: '/profile/complete_profile/complete_pictures',
+    url: paths.profile.completePictures,
     status: userInfo.images?.length + (userInfo.mainImage ? 1 : 0) === 4,
   },
   {
     icon: <SolarIconSet.InfoCircle size={32} />,
     title: 'اطلاعات اولیه',
     description: `${[userInfo?.gender, userInfo?.spiritStatus, userInfo?.maritalStatus, userInfo?.birthdate, userInfo.smokeStatus, userInfo.sportsStatus, userInfo.AmountOfEarlyRising].filter((e) => e).length} از 7 اضافه شده`,
-    url: paths.profile.basicInformations,
+    url: paths.profile.basicInformationsAll,
     status:
       [
         userInfo?.gender,
@@ -40,6 +40,20 @@ export const getCardsData = (userInfo: UserInfo) => [
         userInfo?.sportsStatus,
         userInfo?.AmountOfEarlyRising,
       ].filter((e) => e).length === 7,
+  },
+  {
+    icon: <SolarIconSet.StickerSmileSquare size={32} />,
+    title: 'آواتار',
+    description: userInfo.avatar ? 'انتخاب شده' : 'انتخاب نشده',
+    url: paths.profile.avatar,
+    status: !!userInfo.avatar,
+  },
+  {
+    icon: <SolarIconSet.Microphone size={32} />,
+    title: 'پیام خوش‌آمد گویی',
+    description: userInfo.record ? 'ضبط شده' : 'ضبط نشده',
+    url: paths.profile.record,
+    status: !!userInfo.record,
   },
   {
     icon: <CiStar size={32} />,

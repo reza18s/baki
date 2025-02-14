@@ -6,6 +6,7 @@ export type UserInfo = {
   phoneNumber: string;
   name: string;
   gender?: Gender;
+  avatar?: string;
   birthdate: string;
   city?: string;
   traveledToPlaces: string[];
@@ -26,11 +27,22 @@ export type UserInfo = {
   bio: string;
   mainImage: string;
   verified: boolean;
+  record?: string;
 };
+interface IFirstEntered {
+  showSearchType: boolean;
+  swapLeft: boolean;
+  swapRight: boolean;
+  showUndo: boolean;
+  noImage: { id?: string; time: number };
+}
 interface IStore {
   step: StepsNumber;
   userInfo: UserInfo;
-  ExploreEntered: boolean;
+  firstEntered: IFirstEntered;
+  scroll?: {
+    [key: string]: number;
+  };
 }
 export type Actions = {
   setSteps: (step: ((step: StepsNumber) => StepsNumber) | StepsNumber) => void;
@@ -40,9 +52,14 @@ export type Actions = {
   updateUserInfo: (
     userInfo: ((prev: UserInfo) => Partial<UserInfo>) | Partial<UserInfo>,
   ) => void;
-  setExploreEntered: () => void;
+  updateFirstEntered: (
+    firstEntered:
+      | ((prev: IFirstEntered) => Partial<IFirstEntered>)
+      | Partial<IFirstEntered>,
+  ) => void;
   addItem: (key: string, val: boolean) => void;
   getItem: (key: string) => boolean;
+  setLastScroll: (key: string, val: number) => void;
 };
 
 export type Store = IStore & Actions;
@@ -65,7 +82,13 @@ export const defaultInitState: IStore = {
     username: '',
     bio: '',
   },
-  ExploreEntered: false,
+  firstEntered: {
+    showSearchType: false,
+    showUndo: false,
+    swapLeft: false,
+    swapRight: false,
+    noImage: { time: 0 },
+  },
 };
 
 export const useLocalStore = create<Store>()(
@@ -102,6 +125,8 @@ export const useLocalStore = create<Store>()(
           userInfo.mySpecialty.length > 0,
           userInfo.maritalStatus,
           userInfo.AmountOfEarlyRising,
+          userInfo.record,
+          userInfo.avatar,
           userInfo.smokeStatus,
           userInfo.spiritStatus,
           userInfo.sportsStatus,
@@ -126,8 +151,19 @@ export const useLocalStore = create<Store>()(
           set((prev) => ({ userInfo: { ...prev.userInfo, ...userInfo } }));
         }
       },
-      setExploreEntered() {
-        set({ ExploreEntered: true });
+      updateFirstEntered: (firstEntered) => {
+        if (typeof firstEntered === 'function') {
+          set((prev) => ({
+            firstEntered: {
+              ...prev.firstEntered,
+              ...firstEntered(prev.firstEntered),
+            },
+          }));
+        } else {
+          set((prev) => ({
+            firstEntered: { ...prev.firstEntered, ...firstEntered },
+          }));
+        }
       },
       addItem: (key, val) => {
         set({ [key]: val });
@@ -135,6 +171,9 @@ export const useLocalStore = create<Store>()(
       getItem: (key) => {
         // @ts-expect-error the
         return get()[key];
+      },
+      setLastScroll: (key, val) => {
+        set((prev) => ({ scroll: { ...prev.scroll, [key]: val } }));
       },
     }),
     { name: 'store' },

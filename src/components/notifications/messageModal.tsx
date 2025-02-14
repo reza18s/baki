@@ -18,9 +18,9 @@ import { IcChair } from '../icons/IcChair';
 import { LikeModal } from './likeModal';
 import { formatLastSeen } from '@/utils/datetime';
 import { cn } from '@/lib/utils';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useIonRouter } from '@ionic/react';
 
 export const MessageModal = ({
   isOpen,
@@ -40,7 +40,7 @@ export const MessageModal = ({
     },
   });
   const user = data?.getUser;
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data: chat } = useGetChatQuery({
     variables: { participantId: notification.actionId },
   });

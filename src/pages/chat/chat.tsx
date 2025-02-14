@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Page } from '@/components/layout/Page';
 import {
   Chat as IChat,
   useGetChatsQuery,
+  useGetFavoriteQuery,
   useGetMeQuery,
   useGetRequestsQuery,
   User,
@@ -12,20 +13,45 @@ import { Contact } from '@/components/chat/contact';
 import { ChatHeader } from '@/components/chat/chatHeader';
 import { IcUserGroup } from '@/components/icons/IcUserGroup';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
+import { useIonRouter } from '@ionic/react';
+import { IcTuning2 } from '@/components/icons/IcTuning2';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
+const chatFilterItem = [
+  { label: 'همه', key: 'all' },
+  { label: 'جدید', key: 'new' },
+  { label: 'خوانده نشده', key: 'notRead' },
+  { label: 'علاقه مندی', key: 'favorite' },
+  { label: 'انلاین', key: 'online' },
+];
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
+  const [chatsFilter, setChatsFilter] = useState<{
+    new: boolean;
+    online: boolean;
+    favorite: boolean;
+    notRead: boolean;
+  }>({
+    new: false,
+    online: false,
+    favorite: false,
+    notRead: false,
+  });
   const [selects, setSelects] = useState<IChat[]>([]);
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const hs = useHistory();
+  const hs = useIonRouter();
 
   const { data: requests } = useGetRequestsQuery();
   const { data: chats, loading: contactLoading } = useGetChatsQuery();
+  const { data: favorites, loading } = useGetFavoriteQuery();
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {
@@ -88,34 +114,50 @@ export const Chat = () => {
       <div className="flex flex-col gap-4">
         <h1 className="text-base font-bold">درخواست‌های جدید</h1>
         <div className="flex h-fit max-w-full gap-2 overflow-scroll border-b pb-6">
-          {(requests?.getRequests.length || 0) > 0 ? (
+          {(requests?.getRequests.filter((r) => {
+            const chat = chats?.getChats.find((chat) =>
+              chat.participants?.find((user) => user?.id === r.requesterId),
+            );
+
+            return (
+              r.status !== 'accept' &&
+              (!chat ||
+                (chat?.Message?.filter(
+                  (message) => message?.senderId === me?.getMe.id,
+                ).length || 0) === 0)
+            );
+          }).length || 0) > 0 ? (
             <>
-              {requests?.getRequests.map((req) => (
-                <div
-                  key={req.id}
-                  className="relative size-[75px] items-center justify-center rounded-full"
-                >
+              {requests?.getRequests
+                .filter((r) => r.status !== 'accept')
+                .map((req) => (
                   <div
-                    className="absolute size-16 overflow-hidden rounded-full"
-                    style={{
-                      left: `calc(50%)`,
-                      top: `calc(50%)`,
-                      transform: 'translate(-50%,-50%)',
-                    }}
+                    key={req.id}
+                    className="relative size-[75px] items-center justify-center rounded-full"
                   >
-                    <Avatar className="size-full">
-                      <AvatarImage
-                        src={req.requester?.mainImage || ''}
-                        className="object-cover"
-                      />
-                      <AvatarFallback className="2xl">
-                        {req.requester?.name?.[0].toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                    <div
+                      className="absolute size-16 overflow-hidden rounded-full"
+                      style={{
+                        left: `calc(50%)`,
+                        top: `calc(50%)`,
+                        transform: 'translate(-50%,-50%)',
+                      }}
+                    >
+                      <Avatar className="size-full">
+                        <AvatarImage
+                          src={req.requester?.mainImage || ''}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="2xl">
+                          {req.requester?.name?.[0].toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                    <CountdownCircle
+                      startDate={req.createdAt}
+                    ></CountdownCircle>
                   </div>
-                  <CountdownCircle startDate={req.createdAt}></CountdownCircle>
-                </div>
-              ))}
+                ))}
             </>
           ) : (
             <>
@@ -139,13 +181,87 @@ export const Chat = () => {
           (el) => filter === 'all' || el.searchType === filter,
         ).length || 0) > 0 ? (
         <div className="flex flex-col gap-4 pt-4">
-          <h1 className="text-base font-bold">مخاطبین</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-base font-bold">مخاطبین</h1>
+            <Popover>
+              <PopoverTrigger>
+                <IcTuning2 />
+              </PopoverTrigger>
+              <PopoverContent className="ml-5 flex w-fit flex-col gap-2 divide-y rounded-xl p-4 pt-2">
+                {chatFilterItem.map(({ key, label }) => (
+                  <div
+                    className="flex items-center gap-1 text-nowrap pt-2 text-xs"
+                    key={key}
+                    onClick={() => {
+                      if (key !== 'all') {
+                        setChatsFilter((prev) => ({
+                          ...prev,
+                          //@ts-expect-error the
+                          [key]: !prev[key],
+                        }));
+                      } else {
+                        setChatsFilter({
+                          favorite: true,
+                          new: true,
+                          notRead: true,
+                          online: true,
+                        });
+                      }
+                    }}
+                  >
+                    <Checkbox
+                      white
+                      checked={
+                        key === 'all'
+                          ? Object.values(chatsFilter).every((val) => val) ||
+                            Object.values(chatsFilter).every((val) => !val)
+                          : //@ts-expect-error the
+                            chatsFilter[key]
+                      }
+                      className="size-4 border border-brand-black text-xs"
+                    ></Checkbox>
+                    {label}
+                  </div>
+                ))}
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <div
             className="flex w-full flex-col items-center gap-1"
             onTouchMove={handleTouchMove}
           >
             {chats?.getChats
               .filter((el) => filter === 'all' || el.searchType === filter)
+              .filter((chat) => {
+                if (
+                  Object.values(chatsFilter).every((val) => val) ||
+                  Object.values(chatsFilter).every((val) => !val)
+                ) {
+                  return true;
+                }
+                const newChat =
+                  new Date().getTime() - new Date(chat.createdAt).getTime() <
+                  1000 * 60 * 60 * 24;
+                const contact = chat.participants?.find(
+                  (user) => user?.id !== me?.getMe.id,
+                );
+                if (
+                  (chatsFilter.new && newChat) ||
+                  (chatsFilter.favorite &&
+                    favorites?.getFavorite.favorites?.map(
+                      (f) => f?.favoriteUserId === contact?.id,
+                    )) ||
+                  (chatsFilter.notRead &&
+                    chat.Message?.find(
+                      (m) => m?.senderId === contact?.id && !m?.read,
+                    )) ||
+                  (chatsFilter.online && contact?.isOnline)
+                ) {
+                  return true;
+                }
+              })
+
               .map((chat) => (
                 <Contact
                   key={chat.id}
@@ -153,12 +269,11 @@ export const Chat = () => {
                     selects.length > 0
                       ? () => !isHold && toggleSelect(chat as IChat)
                       : () => {
-                          if (chat.participants?.[0]?.id) {
-                            hs.push(
-                              paths.chat.contact.exactPath(
-                                chat.participants[0]!.id,
-                              ),
-                            );
+                          const contactId = chat.participants?.filter(
+                            (user) => user?.id !== me?.getMe.id,
+                          )[0]?.id;
+                          if (contactId) {
+                            hs.push(paths.chat.contact.exactPath(contactId));
                           }
                         }
                   }

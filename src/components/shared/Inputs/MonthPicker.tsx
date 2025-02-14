@@ -1,62 +1,72 @@
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { months } from '@/constants';
+import { Dropdown } from 'antd';
+import { useEffect, useState } from 'react';
 
-export default function MonthPicker(props: { control: any; name: string }) {
+export default function MonthPicker(props: {
+  control: Control<
+    {
+      month?: {
+        label: string;
+        key: number;
+      };
+      year: string;
+    },
+    any
+  >;
+}) {
+  const [search, setSearch] = useState<string | undefined>();
+  useEffect(() => {
+    setSearch(props.control._formValues?.month?.label);
+  }, [props.control._formValues?.month?.label]);
   return (
     <Controller
       control={props.control}
-      name={props.name}
-      defaultValue={null}
+      name={'month'}
+      defaultValue={undefined}
       render={({ field }) => (
-        <Autocomplete
-          {...field}
-          options={months}
-          getOptionLabel={(option) => option.label}
-          isOptionEqualToValue={(option, value) => option.key === value?.key}
-          disablePortal
-          onChange={(_, selectedOption) => field.onChange(selectedOption)}
-          value={field.value || null}
-          className="h-[48px] !text-center font-iransans text-base font-bold text-brand-black"
-          classes={{
-            option: 'font-iransans',
-            noOptions: 'font-iransans',
-            input: 'font-iransans',
-          }}
-          clearIcon={null} // حذف علامت ضربدر
-          popupIcon={null} // حذف علامت فلش
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '12px',
-              borderWidth: '1.5px',
-              borderColor: '#1a1d1e',
-              paddingRight: '0 !important',
-              height: '48px',
-              width: '120px',
-            },
-            '& .MuiAutocomplete-input': {
-              textAlign: 'right', // تنظیم متن به راست
-            },
-            '& .MuiInputBase-input': {
-              padding: '8px 14px', // تنظیم پدینگ برای ظاهری بهتر
-              textAlign: 'right', // تنظیم متن به راست
+        <Dropdown
+          menu={{
+            items: months
+              .filter((e) => e.label.includes(search || ''))
+              .map((val) => ({
+                label: (
+                  <div
+                    onClick={() => {
+                      setSearch(val.label);
+                      field.onChange(val);
+                    }}
+                    className="w-full border-b p-2 font-iransans font-semibold"
+                  >
+                    {val.label}
+                  </div>
+                ),
+                key: val.key,
+              })),
+            style: {
+              maxHeight: '30vh', // Limit the height of the dropdown
+              overflowY: 'auto', // Enable scrolling
             },
           }}
-          noOptionsText="موردی یافت نشد"
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              className="h-[48px] !text-center"
-              placeholder="انتخاب کنید"
-              variant="outlined"
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: null, // حذف آیکون های پایانی
-              }}
-            />
-          )}
-        />
+          trigger={['click']}
+          className="w-[110px]"
+          rootClassName="border-2 rounded-lg border-black"
+        >
+          <input
+            onClick={(e) => e.preventDefault()}
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              if (months.find((ob) => ob.label === e.target.value)) {
+                field.onChange(
+                  months.find((ob) => ob.label === e.target.value),
+                );
+              }
+            }}
+            className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold"
+            placeholder=""
+          />
+        </Dropdown>
       )}
     />
   );

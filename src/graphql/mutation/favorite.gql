@@ -1,3 +1,7 @@
 mutation AddToFavorite($favoriteIds: [String!]!) {
   addToFavorite(favoriteIds: $favoriteIds)
 }
+
+mutation RemoveFromFavorite($favoriteId: [String!]!) {
+  removeFromFavorite(favoriteId: $favoriteId)
+}

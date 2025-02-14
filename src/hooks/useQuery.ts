@@ -1,4 +1,5 @@
-import { useHistory, useLocation } from "react-router-dom";
+import { useIonRouter } from '@ionic/react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export function useBooleanQuery(name: string): [boolean, (v: boolean) => void] {
   const history = useHistory();

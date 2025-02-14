@@ -31,7 +31,16 @@ export const LikeModal = ({
   });
 
   const [Like] = useLikeMutation();
-
+  const handleSwipe = (id: string, direction: 'left' | 'right') => {
+    if (direction === 'right') {
+      Like({
+        variables: { likedUserId: id, searchType: notification.searchType },
+      });
+      setClose();
+    } else {
+      setClose();
+    }
+  };
   const user = data?.getUser;
   if (loading || !user) {
     return (
@@ -66,11 +75,12 @@ export const LikeModal = ({
         <AnimatePresence>
           <ExploreCard
             className="h-[calc(100%-72px)] w-[calc(100%-16px)]"
-            handleSwipe={() => {}}
+            handleSwipe={handleSwipe}
             inView={true}
             searchMethod={
               getSearchTypeLabel(notification.searchType) || 'تصادفی'
             }
+            drag
             // @ts-expect-error the
             user={user}
           ></ExploreCard>
@@ -84,6 +94,9 @@ export const LikeModal = ({
               variables: {
                 likedUserId: notification.actionId,
                 searchType: notification.searchType,
+              },
+              onCompleted() {
+                customToast('کاربر لایک شد', 'success');
               },
             });
           }}

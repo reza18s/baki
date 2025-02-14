@@ -12,9 +12,9 @@ import {
 } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { customToast } from '../base/toast';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useIonRouter } from '@ionic/react';
 
 export const SendMessageModal = ({
   user,
@@ -25,7 +25,7 @@ export const SendMessageModal = ({
   isOpen: boolean;
   setClose: () => void;
 }) => {
-  const hs = useHistory();
+  const hs = useIonRouter();
   const [createRequest, { loading: requestLoading }] =
     useCreateRequestMutation();
   const [createRequest2, { loading: requestLoading2 }] =
@@ -59,7 +59,7 @@ export const SendMessageModal = ({
                   type: 'companionRequest' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: () => {
                   customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
@@ -82,7 +82,7 @@ export const SendMessageModal = ({
                   type: 'hostingInvitation' as RequestType,
                 },
                 onCompleted: () => {
-                  customToast('دعودت با موفقیت ارسال شد', 'success');
+                  customToast('دعوت با موفقیت ارسال شد', 'success');
                 },
                 onError: (err) => {
                   customToast(err.message, 'error');

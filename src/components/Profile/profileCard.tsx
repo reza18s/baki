@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCirclePlay } from 'react-icons/fa6';
 import { MdVerified } from 'react-icons/md';
 import { RiMapPin2Fill } from 'react-icons/ri';
@@ -7,7 +7,7 @@ import Button from '../base/Button/Button';
 import { IcTick } from '../icons/IcTick';
 import { IcX } from '../icons/IcX';
 import { User } from '@/graphql/generated/graphql.codegen';
-import CardAvatar from '../../assets/images/avatar.png';
+import CardAvatar from '../../assets/male/Memoji1.png';
 import clsx from 'clsx';
 import { getBaseInfo } from '@/utils/getBaseInfo';
 import { SendMessageModal } from '../Explore/sendMessageModal';
@@ -15,6 +15,9 @@ import ViolationReportModal from '../Explore/violationReportModal';
 import { optionTexts } from '@/utils';
 import { cn } from '@/lib/utils';
 import { IcNoImage } from '../icons/IcNoImage';
+import { allAvatars } from '@/constants';
+import Modal from '../base/Modal/Modal';
+import { IcXCircle } from '../icons/IcXCircle';
 
 export const ProfileCard = ({
   user,
@@ -25,7 +28,38 @@ export const ProfileCard = ({
   user: User;
   className?: string;
 }) => {
-  const [isOpen, setIsOpen] = useState<'sendMessage' | 'violationReport'>();
+  const [isOpen, setIsOpen] = useState<
+    'sendMessage' | 'violationReport' | 'avatar' | 'record'
+  >();
+  const [audio, setAudio] = useState(
+    user.record ? new Audio(user.record) : undefined,
+  );
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playAudio = () => {
+    setIsOpen('record');
+    audio?.play();
+    setIsPlaying(true);
+  };
+  const pauseAudio = () => {
+    setIsOpen(undefined);
+    audio?.pause();
+    setIsPlaying(false);
+  };
+  useEffect(() => {
+    if (user.record) {
+      setAudio(new Audio(user.record));
+    }
+  }, [user.record]);
+  useEffect(() => {
+    const handleAudioEnd = () => {
+      setIsOpen(undefined);
+      setIsPlaying(false);
+    };
+    audio?.addEventListener('ended', handleAudioEnd);
+    return () => {
+      audio?.removeEventListener('ended', handleAudioEnd);
+    };
+  }, [audio]);
   return (
     <div
       className={clsx(
@@ -81,12 +115,21 @@ export const ProfileCard = ({
           <div className="flex items-center gap-x-[8px]">
             <div className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow">
               <img
-                src={CardAvatar}
+                src={
+                  allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+                  CardAvatar
+                }
+                onClick={() => setIsOpen('avatar')}
                 alt="CardAvatar"
                 className="size-10 rounded-full"
               />
             </div>
-            <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]">
+            <div
+              className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]"
+              onClick={() => {
+                playAudio();
+              }}
+            >
               <FaCirclePlay fill="#000" size={24} />
             </div>
           </div>
@@ -129,7 +172,10 @@ export const ProfileCard = ({
         ></Info>
       </div>
       {user?.images?.map((image) => (
-        <div key={image} className="bg-brand-black">
+        <div
+          key={image}
+          className="flex items-center justify-center bg-brand-black"
+        >
           <img src={image} className="max-h-96"></img>
         </div>
       ))}
@@ -162,6 +208,40 @@ export const ProfileCard = ({
         </>
       )}
 
+      <Modal
+        isOpen={isOpen === 'avatar'}
+        onRequestClose={() => setIsOpen(undefined)}
+      >
+        <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
+          <div
+            className="absolute right-0 top-0"
+            onClick={() => setIsOpen(undefined)}
+          >
+            <IcXCircle className="size-5 stroke-1"></IcXCircle>
+          </div>
+          <img
+            src={
+              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+              CardAvatar
+            }
+            className="size-48"
+          ></img>
+        </div>
+      </Modal>
+      <Modal isOpen={isOpen === 'record'} onRequestClose={() => pauseAudio()}>
+        <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
+          <div className="absolute right-0 top-0" onClick={() => pauseAudio()}>
+            <IcXCircle className="size-5 stroke-1"></IcXCircle>
+          </div>
+          <img
+            src={
+              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+              CardAvatar
+            }
+            className="size-48"
+          ></img>
+        </div>
+      </Modal>
       <SendMessageModal
         isOpen={isOpen === 'sendMessage'}
         user={user}

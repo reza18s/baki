@@ -22,17 +22,22 @@ import './theme/variables.css';
 import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { customToast } from './components/base/toast';
 import {
   useAddDeviceTokenMutation,
   useGetMeQuery,
 } from './graphql/generated/graphql.codegen';
+import { App as IApp } from '@capacitor/app';
+import Modal from './components/base/Modal/Modal';
+import Button from './components/base/Button/Button';
+import { IcCrownStar } from './components/icons/IcCrownStar';
 
 setupIonicReact();
 
 const App: React.FC = () => {
   const { data } = useGetMeQuery();
+  const [isOpen, setIsOpen] = useState<'update' | 'exit' | undefined>();
   const [addDeviceToken] = useAddDeviceTokenMutation();
   useEffect(() => {
     const initializePushNotifications = async () => {
@@ -64,31 +69,29 @@ const App: React.FC = () => {
       // Handle notification action
       PushNotifications.addListener(
         'pushNotificationActionPerformed',
-        (action) => {
-          customToast(`Notification Ation: ${action}`, 'warning');
-        },
+        (action) => {},
       );
     };
 
     initializePushNotifications();
   }, []);
-  // useEffect(() => {
-  //   const onBackButtonEvent = (event: any) => {
-  //     event.preventDefault(); // Prevent default behavior
-  //     if (history.length > 1) {
-  //       history.goBack(); // Navigate back
-  //     } else {
-  //       setShowToast(true); // Optional: Show "Press again to exit" message
-  //       setTimeout(() => setShowToast(false), 2000); // Reset toast visibility
-  //     }
-  //   };
 
-  //   document.addEventListener('ionBackButton', onBackButtonEvent);
+  useEffect(() => {
+    const backButtonListener = IApp.addListener('backButton', (e) => {
+      if (!e.canGoBack) {
+        setIsOpen('exit');
+      }
+    });
 
-  //   return () => {
-  //     document.removeEventListener('ionBackButton', onBackButtonEvent);
-  //   };
-  // }, [history]);
+    // Cleanup listener on component unmount
+    return () => {
+      backButtonListener.then((listener) => listener.remove());
+    };
+  }, []);
+
+  const exitApp = () => {
+    IApp.exitApp(); // Exit the app
+  };
   return (
     <IonApp>
       <Routes />
@@ -100,6 +103,61 @@ const App: React.FC = () => {
           duration: 1500,
         }}
       />
+      <Modal
+        isOpen={isOpen === 'exit'}
+        onRequestClose={() => setIsOpen(undefined)}
+        className="flex w-[90%] flex-col gap-6 rounded-3xl bg-white p-6"
+      >
+        <div className="flex flex-col gap-2">
+          <h1 className="text-center text-lg font-bold">
+            از اپلیکیشن خارج می‌شوید؟
+          </h1>
+        </div>
+        <div className="flex w-full gap-2">
+          <Button
+            variant="danger"
+            className="h-10 w-full"
+            onClick={() => {
+              exitApp();
+            }}
+          >
+            بله خارج میشوم
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-brand-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            نه می‌خوام بمونم
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        className="flex w-[85%] flex-col items-center justify-center gap-4 rounded-3xl bg-white px-6 py-4"
+        isOpen={isOpen === 'update'}
+        onRequestClose={() => setIsOpen(undefined)}
+      >
+        <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
+          <IcCrownStar className="size-8 fill-none stroke-black"></IcCrownStar>
+        </div>
+
+        <h1 className="text-center text-lg font-bold">آپدیت جدید منتشر شد!</h1>
+        <span className="text-center text-sm text-gray-500">
+          برای استفاده از آخرین ویژگی‌های باکی لطفا اقدام به بروزرسانی کنید.
+        </span>
+        <div className="flex w-full gap-2">
+          <Button className="h-10 w-full" onClick={() => {}}>
+            بروزرسانی
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            بعدا یادآوری کن
+          </Button>
+        </div>
+      </Modal>
     </IonApp>
   );
 };

@@ -13,6 +13,7 @@ import { IBasicInformationsStep, useStore } from '@/store/useStore';
 import { useLocalStore, UserInfo } from '@/store/useLocalStore';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '@/components/base/toast';
+import { useIonRouter } from '@ionic/react';
 
 const HeadStep = ({
   stepNum,
@@ -30,13 +31,13 @@ const HeadStep = ({
   );
 };
 
-export default function BasicInformations() {
+export default function BasicInformations({ all = false }: { all?: boolean }) {
   const { setBasicInformationsStep, basicInformationsStep } = useStore(
     (s) => s,
   );
   const [updateUser, { loading }] = useUpdateUserMutation();
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
-  const hs = useHistory();
+  const hs = useIonRouter();
   const handleNextStep = (user?: Partial<UserInfo>) => {
     updateUserInfo({ ...user });
     updateUser({
@@ -45,21 +46,26 @@ export default function BasicInformations() {
       },
       onCompleted: () => {
         customToast('اطلاعات شما با موفقیت ثبت شد', 'success');
-        setTimeout(() => {
-          hs.goBack();
-        }, 1000);
+        if (!all) {
+          setTimeout(() => {
+            hs.goBack();
+          }, 1000);
+        }
       },
       onError: () => {
         customToast('مشکلی پیش آمده است لطفا دوباره امتحان کنید', 'error');
       },
     });
-    // setBasicInformationsStep((prevStep: IBasicInformationsStep) => {
-    //   if (prevStep < 6) {
-    //     return (prevStep + 1) as IBasicInformationsStep;
-    //   } else {
-    //     return prevStep;
-    //   }
-    // });
+    if (all) {
+      setBasicInformationsStep((prevStep: IBasicInformationsStep) => {
+        if (prevStep < 6) {
+          return (prevStep + 1) as IBasicInformationsStep;
+        } else {
+          hs.goBack();
+          return prevStep;
+        }
+      });
+    }
   };
 
   return (

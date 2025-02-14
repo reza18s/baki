@@ -6,6 +6,7 @@ import Modal from '@/components/base/Modal/Modal';
 import Button from '../base/Button/Button';
 import { customToast } from '../base/toast';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
+import { IcGallery } from '../icons/IcGallery';
 
 export default function GetPictures({
   update = false,
@@ -137,7 +138,7 @@ export default function GetPictures({
       </div>
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center justify-between gap-x-[8px]">
-          <SolarIconSet.Gallery size={24} />
+          <IcGallery />
           <div className="text-xs font-medium leading-none text-brand-black">
             <p className="font-bold">
               نمی دونی چی آپلود کنی ؟
@@ -156,9 +157,9 @@ export default function GetPictures({
           onClick={async () => {
             await uploadImages();
           }}
-          className={`rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
+          className={`h-12 rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >
-          بعدی
+          {update ? 'ذخیره' : 'بعدی'}
         </Button>
       </div>
       {/* Help */}

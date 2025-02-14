@@ -11,9 +11,10 @@ import { Page } from '@/components/layout/Page';
 import toast from 'react-hot-toast';
 import { Toast } from '@/components/base/toast/toast';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import { GetMeQuery } from '@/graphql/generated/graphql.codegen.socket';
+import { IcArrowRightSquare } from '@/components/icons/IcArrowRightSquare';
+import { useIonRouter } from '@ionic/react';
 
 const GetPhoneNumber = lazy(
   () => import('../components/Signup/GetPhoneNumber'),
@@ -55,7 +56,7 @@ const HeadStep = ({
   activeStep: StepsNumber;
 }) => (
   <div
-    className={`h-[3.62px] w-[27.16px] ${
+    className={`h-[3.62px] w-full min-w-2 ${
       activeStep >= stepNum ? 'bg-brand-yellow' : 'bg-slate-100'
     } rounded-xl`}
   />
@@ -72,7 +73,7 @@ export default function Signup() {
   const step = useLocalStore((store) => store.step);
   const setStep = useLocalStore((store) => store.setSteps);
   const [signup, { loading }] = useSignupMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data } = useGetMeQuery();
   useEffect(() => {
     if (checkUserInfo(data?.getMe)) {
@@ -84,6 +85,7 @@ export default function Signup() {
       variables: { phoneNumber: watch('phoneNumber') },
       onCompleted: () => setStep(1),
       onError: (error) => {
+        console.log(error);
         toast.custom(
           (t) => (
             <Toast t={t} type="error">
@@ -146,15 +148,14 @@ export default function Signup() {
       headerClassName="shadow-none"
       header={
         <div className="flex w-full items-center justify-between gap-2 p-6 pt-8">
-          <SolarIconSet.SquareArrowRight
-            className="text-gray-500"
-            size={32}
+          <IcArrowRightSquare
+            className="min-size-8"
             onClick={() =>
               setStep((prev) => (prev > 0 ? ((prev - 1) as StepsNumber) : prev))
             }
-          />
+          ></IcArrowRightSquare>
           {/* Progress bar */}
-          <div className="flex w-full justify-around gap-x-[1.81px]">
+          <div className="flex flex-1 justify-around gap-x-[1.81px]">
             {[...Array(11)].map((_, i) => (
               <HeadStep key={i} stepNum={i as StepsNumber} activeStep={step} />
             ))}

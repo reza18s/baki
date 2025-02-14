@@ -1,7 +1,3 @@
 subscription MessageSent {
-  messageSent {
-    id
-    content
-    senderId
-  }
+  messageSent
 }

@@ -4,6 +4,8 @@ mutation UpdateUser(
   $birthdate: String
   $province: String
   $city: String
+  $record: String
+  $avatar: String
   $mainImage: String
   $images: [String!]
   $travelInterests: [String!]
@@ -26,6 +28,8 @@ mutation UpdateUser(
     birthdate: $birthdate
     province: $province
     city: $city
+    record: $record
+    avatar: $avatar
     mainImage: $mainImage
     images: $images
     travelInterests: $travelInterests
@@ -46,6 +50,7 @@ mutation UpdateUser(
   }
 }
 query GetRandomUser(
+  $searchType: String!
   $languages: [String!]
   $age: [Int!]
   $province: [String!]
@@ -53,6 +58,7 @@ query GetRandomUser(
   $mySpecialty: [String!]
 ) {
   getRandomUser(
+    searchType: $searchType
     languages: $languages
     age: $age
     province: $province
@@ -73,6 +79,7 @@ query GetRandomUser(
     mainImage
     images
     city
+    record
     zodiacSign
     travelInterests
     personalInterests

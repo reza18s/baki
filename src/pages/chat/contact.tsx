@@ -1,12 +1,16 @@
 import {
   Message,
+  RequestType,
+  useCreateRequestMutation,
   useEditMessageMutation,
   useGetChatQuery,
+  useGetMeQuery,
   useGetUserQuery,
+  useReadMessagesMutation,
   useSendMessageMutation,
 } from '@/graphql/generated/graphql.codegen';
-import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import BgChat from '../../assets/images/bg-chat.png';
 import { Page } from '@/components/layout/Page';
@@ -17,7 +21,6 @@ import { socket } from '@/graphql/apollo/socket';
 import { IcSend } from '@/components/icons/IcSend';
 import { IcMicrophone } from '@/components/icons/IcMicrophone';
 import { IcFace } from '@/components/icons/IcFace';
-import { IcChat } from '@/components/icons/IcChat';
 import { IcPaperclip } from '@/components/icons/IcPaperclip';
 import { IcXCircle } from '@/components/icons/IcXCircle';
 import { IcReply } from '@/components/icons/IcReply';
@@ -27,9 +30,14 @@ import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { customToast } from '@/components/base/toast';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
 import { IcX } from '@/components/icons/IcX';
-import EmojiPicker from 'emoji-picker-react';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
 import { IcTrash } from '@/components/icons/IcTrash';
+import { useLocalStore } from '@/store/useLocalStore';
+import EmojiPicker from 'emoji-picker-react';
+import { Request } from '../Explore/request';
+import { cn } from '@/lib/utils';
+import Modal from '@/components/base/Modal/Modal';
+import { IcChat } from '@/components/icons/IcChat';
 const formatTime = (time: number): string => {
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
@@ -38,10 +46,38 @@ const formatTime = (time: number): string => {
 
   return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${tenths}`;
 };
-export const ContactPage = () => {
-  const { id }: { id: string } = useParams();
+type IContactPages = RouteComponentProps<{
+  id: string;
+}>;
+const removeLastGrapheme = (str: string) => {
+  const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+  const segments = Array.from(segmenter.segment(str)); // Split into graphemes
+  return segments
+    .slice(0, -1)
+    .map((seg) => seg.segment)
+    .join(''); // Remove the last grapheme
+};
+const defaultQs = [
+  `اگر الان می تونستی جایی باشی دوست داشتی کجا بودی؟
+`,
+  `اگر پول زیادی در بخت آزمایی برنده بشی باهاش چکار میکردی؟`,
+  `هدفت از مسافرت بیشتر چه چیزیه؟استراحت و ریلکس کردن یا آزادی!! میتونی بهم بگی؟`,
+  `به نظرت یه همسفر خوب چه ویژگی باید داشته باشه؟
+`,
+  `اگر یک میلیون دلار داشتی می‌تونستی باهاش یک نفر رو ببری دور دنیا، چه کسی رو میبردی؟
+`,
+  `برای یک مسافرت چه چیزی رو میتونی با بقیه به اشتراک بزاری؟
+`,
+  `جالب ترین پیامی که تا حالا دریافت کردی چی بوده؟`,
+];
+
+export const ContactPage = ({ match }: IContactPages) => {
+  const id = match.params.id;
   const chatContainerRef = useRef<HTMLIonContentElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [isOpen, setIsOpen] = useState<'emoji' | 'defaultMessages' | undefined>(
+    undefined,
+  );
   const {
     isSearch,
     search,
@@ -50,6 +86,9 @@ export const ContactPage = () => {
     setSelectSearch,
     selectSearch,
   } = useStore((s) => s);
+  const [defaultQ, setDefaultQ] = useState<string>(
+    defaultQs[+(Math.random() * (defaultQs.length - 1)).toFixed(0)],
+  );
   const [selects, setSelects] = useState<Message[]>([]);
   const [reply, setReply] = useState<Message>();
   const [edit, setEdit] = useState<Message>();
@@ -58,13 +97,15 @@ export const ContactPage = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [recording, setRecording] = useState(false);
   const [time, setTime] = useState<number>(0);
+
   const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(
     null,
   );
+  const scroll = useLocalStore((s) => s.scroll);
   const { control, watch, handleSubmit, reset, setValue } = useForm<{
     message: string;
   }>();
-
+  const { data: me } = useGetMeQuery({});
   const { data: participant } = useGetUserQuery({
     variables: { id: id },
     onError() {
@@ -84,7 +125,7 @@ export const ContactPage = () => {
   const [editMessage, { loading: editLoading }] = useEditMessageMutation({
     client: socket,
   });
-
+  const [readMessages] = useReadMessagesMutation({ client: socket });
   useEffect(() => {
     if (isSearch && search.length) {
       const searches = messages
@@ -101,35 +142,48 @@ export const ContactPage = () => {
     }
   }, [chat?.Message]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Scroll to the bottom when messages are loaded
-    if (chatContainerRef.current && messages.length > 0) {
-      if (!once) {
-        chatContainerRef.current.scrollToPoint(
-          null,
-          (chatContainerRef.current.children.item(1)?.clientHeight || 0) -
-            chatContainerRef.current.clientHeight -
-            100,
-          0,
-        );
-        setOnce(true);
+    (async () => {
+      if (chatContainerRef.current && messages.length > 0) {
+        if (!once) {
+          chatContainerRef.current.scrollToPoint(null, scroll?.[match.url], 0);
+          setOnce(true);
+        } else {
+          const messageBody = chatContainerRef.current?.children
+            .item(1)
+            ?.children.item(0)?.children;
+          const lastMessageH =
+            messageBody?.item(messageBody.length - 1)?.clientHeight || 0;
+          const scrollH =
+            (await chatContainerRef.current?.getScrollElement())
+              ?.scrollHeight || 0;
+          if (messages[messages.length - 1].senderId === me?.getMe.id) {
+            chatContainerRef.current?.scrollToBottom(300);
+          } else if (
+            (chatContainerRef.current?.clientHeight || 0) +
+              ((await chatContainerRef.current?.getScrollElement())
+                ?.scrollTop || 0) +
+              500 >
+            scrollH - lastMessageH
+          ) {
+            chatContainerRef.current?.scrollToBottom(300);
+          }
+        }
       }
-      chatContainerRef.current.scrollToBottom(0);
+    })();
+  }, [messages]);
+  useEffect(() => {
+    if (
+      messages.filter((message) => message.senderId === id && !message.read)
+        .length > 0
+    ) {
+      readMessages({
+        variables: { content: id },
+      });
     }
   }, [messages]);
 
-  const handleInput = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      textarea.style.height = 'auto';
-      const lineHeight = parseInt(
-        getComputedStyle(textarea).lineHeight || '20',
-        10,
-      );
-      const maxHeight = lineHeight * 5;
-      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
-    }
-  };
   useEffect(() => {
     if (watch('message')) {
       handleInput();
@@ -154,6 +208,18 @@ export const ContactPage = () => {
     });
   };
 
+  const handleInput = () => {
+    if (textareaRef.current) {
+      const textarea = textareaRef.current;
+      textarea.style.height = 'auto';
+      const lineHeight = parseInt(
+        getComputedStyle(textarea).lineHeight || '20',
+        10,
+      );
+      const maxHeight = lineHeight * 5;
+      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
+    }
+  };
   const onSubmit = async (
     value: { message: string },
     action: 'send' | 'edit',
@@ -334,6 +400,21 @@ export const ContactPage = () => {
       reader.readAsDataURL(file);
     }
   };
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    const imageHeight = img.clientHeight; // Get the natural height of the image
+
+    // if (chatContainerRef.current) {
+    //   (async () => {
+    //     console.log(imageHeight);
+    //     chatContainerRef.current?.scrollToPoint(
+    //       null,
+    //       (await chatContainerRef.current?.getScrollElement())?.scrollTop +
+    //         imageHeight,
+    //     );
+    //   })();
+    // }
+  };
   return (
     <Page
       headerClassName="py-2 px-4"
@@ -360,11 +441,13 @@ export const ContactPage = () => {
       ref={chatContainerRef}
       bgImage={BgChat}
     >
+      <Request id={id} searchType={chat?.searchType}></Request>
       <Messages
         setReply={(message) => {
           setEdit(undefined);
           setReply(message);
         }}
+        handleImageLoad={handleImageLoad}
         messages={messages}
         selects={selects}
         toggleSelect={toggleSelect}
@@ -399,6 +482,21 @@ export const ContactPage = () => {
                   }
                 ></IcArrowLeft>
               </div>
+            </div>
+          ) : selects.length > 0 ? (
+            <div className="flex min-h-6 w-full justify-between">
+              {selects.length === 1 && (
+                <div
+                  className="flex items-center gap-2 text-sm"
+                  onClick={() => {
+                    setReply(selects?.[0]);
+                    setSelects([]);
+                  }}
+                >
+                  <IcReply></IcReply>
+                  پاسخ
+                </div>
+              )}
             </div>
           ) : (
             <>
@@ -515,12 +613,25 @@ export const ContactPage = () => {
                             onInput={handleInput}
                             className="flex-1 resize-none bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
                             {...field}
+                            onClick={() => {
+                              setIsOpen(undefined);
+                            }}
                             ref={textareaRef}
                           />
-                          <IcFace />
+                          <IcFace
+                            onClick={() =>
+                              setIsOpen((prev) =>
+                                prev === 'emoji' ? undefined : 'emoji',
+                              )
+                            }
+                          />
                         </div>
                       )}
                     />
+                    <IcChat
+                      className="mb-1"
+                      onClick={() => setIsOpen('defaultMessages')}
+                    ></IcChat>
                     {!(watch('message')?.trim().length > 0) && (
                       <label
                         className="mb-1 cursor-pointer text-white"
@@ -542,7 +653,107 @@ export const ContactPage = () => {
           )}
         </div>
 
-        {/* <EmojiPicker width={'100%'} /> */}
+        <div className={cn('flex flex-col')}>
+          <EmojiPicker
+            width={'100%'}
+            height={isOpen === 'emoji' ? 300 : 0}
+            // className={cn('transition-all delay-0 duration-300')}
+            searchDisabled
+            onEmojiClick={({ emoji }) => {
+              setValue('message', `${watch('message')}${emoji}`);
+            }}
+            skinTonesDisabled // Disable skin tone picker
+            previewConfig={{ showPreview: false }}
+          />
+          <div
+            className={cn(
+              'p-2 px-4 transition-all delay-300 duration-300',
+              isOpen !== 'emoji' && 'hidden',
+            )}
+          >
+            <svg
+              onClick={() => {
+                console.log(watch('message'));
+                setValue('message', removeLastGrapheme(watch('message')));
+              }}
+              fill="#000000"
+              height="20px"
+              width="20px"
+              version="1.1"
+              id="Capa_1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 489.425 489.425"
+            >
+              <g>
+                <g>
+                  <path
+                    d="M122.825,394.663c17.8,19.4,43.2,30.6,69.5,30.6h216.9c44.2,0,80.2-36,80.2-80.2v-200.7c0-44.2-36-80.2-80.2-80.2h-216.9
+			c-26.4,0-51.7,11.1-69.5,30.6l-111.8,121.7c-14.7,16.1-14.7,40.3,0,56.4L122.825,394.663z M29.125,233.063l111.8-121.8
+			c13.2-14.4,32-22.6,51.5-22.6h216.9c30.7,0,55.7,25,55.7,55.7v200.6c0,30.7-25,55.7-55.7,55.7h-217c-19.5,0-38.3-8.2-51.5-22.6
+			l-111.7-121.8C23.025,249.663,23.025,239.663,29.125,233.063z"
+                  />
+                  <path
+                    d="M225.425,309.763c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l47.8-47.8l47.8,47.8c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6
+			c4.8-4.8,4.8-12.5,0-17.3l-47.9-47.8l47.8-47.8c4.8-4.8,4.8-12.5,0-17.3s-12.5-4.8-17.3,0l-47.8,47.8l-47.8-47.8
+			c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l47.8,47.8l-47.8,47.8C220.725,297.263,220.725,304.962,225.425,309.763z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <Modal
+          positionY="end"
+          className="mb-10 flex w-[85%] flex-col overflow-hidden rounded-2xl bg-white"
+          isOpen={isOpen === 'defaultMessages'}
+          onRequestClose={() => setIsOpen(undefined)}
+        >
+          <div className="flex h-48 w-full flex-col items-center justify-between p-4 text-center">
+            <span className="w-full text-sm">
+              پیام مدنظر خودتون رو انتخاب کنید.
+            </span>
+            <h1 className="text-lg font-bold">{defaultQ}</h1>
+            <Button
+              variant="outline"
+              className="flex items-center justify-center gap-2 px-4 py-2 text-sm"
+              onClick={() =>
+                setDefaultQ(
+                  (prev) =>
+                    defaultQs.filter((q) => q !== prev)[
+                      +(Math.random() * (defaultQs.length - 2)).toFixed(0)
+                    ],
+                )
+              }
+            >
+              <svg
+                width="21"
+                height="20"
+                viewBox="0 0 21 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.5657 1.875C6.57112 1.875 3.28727 4.9275 2.96709 8.81944H2.16664C1.91341 8.81944 1.6852 8.97225 1.58875 9.2064C1.4923 9.44055 1.54668 9.70976 1.72644 9.88812L3.12629 11.277C3.36996 11.5188 3.76302 11.5188 4.00669 11.277L5.40653 9.88812C5.5863 9.70976 5.64067 9.44055 5.54422 9.2064C5.44777 8.97225 5.21957 8.81944 4.96633 8.81944H4.22229C4.53872 5.62639 7.25395 3.125 10.5657 3.125C12.8736 3.125 14.8939 4.34037 16.0129 6.16066C16.1937 6.45471 16.5786 6.54654 16.8727 6.36576C17.1668 6.18499 17.2586 5.80006 17.0778 5.50601C15.7392 3.32856 13.3227 1.875 10.5657 1.875Z"
+                  fill="#1A1D1E"
+                />
+                <path
+                  d="M17.8676 8.72215C17.6241 8.4815 17.2323 8.4815 16.9889 8.72215L15.5837 10.111C15.4034 10.2892 15.3486 10.5586 15.4449 10.793C15.5412 11.0275 15.7696 11.1806 16.023 11.1806H16.7723C16.4546 14.3718 13.7299 16.875 10.4023 16.875C8.08351 16.875 6.05485 15.6586 4.93159 13.8384C4.75031 13.5447 4.36523 13.4535 4.07149 13.6348C3.77774 13.8161 3.68657 14.2012 3.86784 14.4949C5.21169 16.6725 7.63667 18.125 10.4023 18.125C14.4088 18.125 17.7062 15.0744 18.0275 11.1806H18.8334C19.0869 11.1806 19.3152 11.0275 19.4115 10.793C19.5078 10.5586 19.453 10.2892 19.2728 10.111L17.8676 8.72215Z"
+                  fill="#1A1D1E"
+                />
+              </svg>
+              دریافت سوال جدید
+            </Button>
+          </div>
+          <Button
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-t-none"
+            onClick={() => {
+              onSubmit({ message: defaultQ || '' }, 'send');
+              setIsOpen(undefined);
+            }}
+          >
+            <IcSend className="fill-brand-black"></IcSend> ارسال سوال
+          </Button>
+        </Modal>
       </div>
     </Page>
   );

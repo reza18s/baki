@@ -4,10 +4,11 @@ import { Page } from '../layout/Page';
 import AppBar from '../layout/Header/AppBar';
 import GetPersonalInterests from '../Signup/GetPersonalInterests';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
 
 export default function CompletePersonalInterests() {
   const [updateUser] = useUpdateUserMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const handleSubmit = (data: { personalInterests?: string[] }) => {
     updateUser({
       variables: {

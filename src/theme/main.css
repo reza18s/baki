@@ -80,12 +80,11 @@ input:-webkit-autofill:focus {
 
 .custom-checkbox:checked::after {
   appearance: none;
-  content: url('../assets/images/tick.svg');
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 20px; /* Adjust the tick size */
+  font-size: 10px; /* Adjust the tick size */
 }
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */

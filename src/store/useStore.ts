@@ -15,6 +15,7 @@ interface IStore {
   filters: IFilter;
   isSearch: boolean;
   search: string;
+  searchStart: boolean;
   searches: string[];
   selectSearch: string;
 }
@@ -27,6 +28,7 @@ export type Actions = {
       | IBasicInformationsStep,
   ) => void;
   setIsSearch: (e: ((prev: boolean) => boolean) | boolean) => void;
+  setSearchStart: (e: ((prev: boolean) => boolean) | boolean) => void;
   setSearch: (e: ((prev: string) => string) | string) => void;
   setSelectSearch: (e: ((prev: string) => string) | string) => void;
   setSearches: (e: ((prev: string[]) => string[]) | string[]) => void;
@@ -41,6 +43,7 @@ export const defaultInitState: IStore = {
   isSearch: false,
   search: '',
   searches: [],
+  searchStart: false,
   selectSearch: '',
 };
 
@@ -75,6 +78,13 @@ export const useStore = create<Store>()((set, get) => ({
       set({ isSearch: e });
     } else if (typeof e === 'function') {
       set({ isSearch: e(get().isSearch) });
+    }
+  },
+  setSearchStart: (e) => {
+    if (typeof e == 'boolean') {
+      set({ searchStart: e });
+    } else if (typeof e === 'function') {
+      set({ searchStart: e(get().isSearch) });
     }
   },
   setSearch: (e) => {

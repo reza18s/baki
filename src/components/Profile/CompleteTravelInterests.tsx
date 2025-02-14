@@ -4,10 +4,11 @@ import { Page } from '../layout/Page';
 import AppBar from '../layout/Header/AppBar';
 import GetTravelInterests from '../Signup/GetTravelInterests';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
 
 export default function CompleteTravelInterests() {
   const [updateUser] = useUpdateUserMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const handleSubmit = (data: { travelInterests?: string[] }) => {
     updateUser({
       variables: {

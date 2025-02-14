@@ -78,7 +78,7 @@ export default function GetSpecialty(props: {
         <Button
           disabled={selectedSpecialty.length === 0}
           onClick={handleSubmit}
-          className={`text-nowrap rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
+          className={`h-12 text-nowrap rounded-[12px] px-5 py-4 font-bold leading-none text-brand-black`}
         >
           {props.textAction || 'بعدی'}
         </Button>

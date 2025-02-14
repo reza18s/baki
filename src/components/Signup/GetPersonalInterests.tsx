@@ -96,7 +96,7 @@ export default function GetPersonalInterests(props: {
         <Button
           disabled={selectedInterests.length < 5}
           onClick={handleSubmit}
-          className={`text-nowrap px-5 py-4 font-bold leading-none text-brand-black`}
+          className={`h-12 text-nowrap px-5 py-4 font-bold leading-none text-brand-black`}
         >
           {props.textAction || 'بعدی'}
         </Button>

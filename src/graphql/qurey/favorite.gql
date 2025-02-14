@@ -12,6 +12,8 @@ query GetFavorite {
           name
           username
         }
+        read
+        senderId
       }
       participants {
         id

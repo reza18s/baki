@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import { customToast } from '@/components/base/toast';
 import { Contact } from '@/components/chat/contact';
 import { IcUserBlackList } from '@/components/icons/IcUserBlackList';
 import { IcXCircle } from '@/components/icons/IcXCircle';
@@ -9,18 +10,20 @@ import {
   useGetBlockListQuery,
   useGetMeQuery,
   User,
+  useRemoveFromBlacklistMutation,
 } from '@/graphql/generated/graphql.codegen';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
 export const Blocked = () => {
   const [selects, setSelects] = useState<Chat[]>([]);
   const [holdTimeout, setHoldTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isHold, setIsHold] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const hs = useHistory();
-  const { data, loading } = useGetBlockListQuery();
+  const hs = useIonRouter();
+  const { data, loading, refetch } = useGetBlockListQuery();
+  const [removeFromBlack] = useRemoveFromBlacklistMutation();
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {
@@ -75,10 +78,37 @@ export const Blocked = () => {
         ) : (
           <div className="flex w-full items-center justify-between px-4 py-3">
             <div className="flex items-center gap-2 text-lg">
-              <IcXCircle className="size-5 stroke-black"></IcXCircle>
+              <IcXCircle
+                className="size-5 stroke-black"
+                onClick={() => setSelects([])}
+              ></IcXCircle>
               {selects.length}
             </div>
-            <Button variant="text" className="py-2 text-brand-red">
+            <Button
+              variant="text"
+              className="py-2 text-brand-red"
+              onClick={() => {
+                setSelects([]);
+                removeFromBlack({
+                  variables: {
+                    blockedId: selects
+                      .map(
+                        (e) =>
+                          e.participants?.find((user) => user?.id !== me?.getMe)
+                            ?.id,
+                      )
+                      .filter((e) => e) as string[],
+                  },
+                  onCompleted: (res) => {
+                    customToast(res.removeFromBlacklist, 'success');
+                    refetch();
+                  },
+                  onError: (err) => {
+                    customToast(err.message, 'error');
+                  },
+                });
+              }}
+            >
               حذف از لیست سیاه
             </Button>
           </div>
@@ -101,12 +131,13 @@ export const Blocked = () => {
                 selects.length > 0
                   ? () => !isHold && toggleSelect(chat as Chat)
                   : () => {
-                      if (chat?.participants?.[0]?.id) {
-                        hs.push(
-                          paths.chat.contact.exactPath(
-                            chat.participants[0]!.id,
-                          ),
-                        );
+                      if (chat?.participants) {
+                        const contactId = chat.participants?.filter(
+                          (user) => user?.id !== me?.getMe.id,
+                        )[0]?.id;
+                        if (contactId) {
+                          hs.push(paths.chat.contact.exactPath(contactId));
+                        }
                       }
                     }
               }

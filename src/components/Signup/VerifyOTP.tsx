@@ -7,10 +7,11 @@ import {
   useVerifyOtpMutation,
   VerifyOtpMutation,
 } from '@/graphql/generated/graphql.codegen';
-import { useHistory } from 'react-router';
 import { paths } from '@/routes/paths';
 import Button from '../base/Button/Button';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
+
 export default function VerifyOTP(props: {
   path: 'signup' | 'profile';
   editPhone: () => void;
@@ -20,11 +21,12 @@ export default function VerifyOTP(props: {
 }) {
   const [timer, setTimer] = useState(60);
   const [otp, setOtp] = useState('');
-  const hs = useHistory();
+  const hs = useIonRouter();
   const handleNextStep = useLocalStore((store) => store.handleNextStep);
   const step = useLocalStore((store) => store.step);
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const { setValue, trigger, watch } = useForm();
+
   const handleChange = (enteredOtp: string) => {
     const numericOtp = enteredOtp.replace(/\D/g, ''); // Remove non-numeric characters
     setOtp(numericOtp);
@@ -35,6 +37,7 @@ export default function VerifyOTP(props: {
   };
 
   const [verifyOtp, { loading }] = useVerifyOtpMutation();
+
   const handleSubmit = async () => {
     const validate = await trigger('token');
     if (validate) {
@@ -68,18 +71,22 @@ export default function VerifyOTP(props: {
   };
 
   useEffect(() => {
-    setTimer(60);
-    const timeInterval = setInterval(() => {
-      setTimer((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timeInterval);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
+    let timeInterval: NodeJS.Timeout;
+
+    if (timer > 0) {
+      timeInterval = setInterval(() => {
+        setTimer((prevTime) => prevTime - 1);
+      }, 1000);
+    }
+
     return () => clearInterval(timeInterval);
-  }, [step]);
+  }, [timer]);
+
+  const handleResendOtp = () => {
+    setTimer(60); // Reset the timer to 60 seconds
+    props.resendOtp(); // Call the resendOtp function passed from props
+    customToast('کد تاییذ برای شما ارسال شد', 'success');
+  };
 
   return (
     <div className="flex h-[calc(100%)] w-full flex-col items-center justify-between">
@@ -94,9 +101,7 @@ export default function VerifyOTP(props: {
             <span className="px-1 text-brand-black">{props.phone}</span>
             ارسال کردیم را وارد کنید.
             <span
-              onClick={() => {
-                props.editPhone();
-              }}
+              onClick={props.editPhone}
               className="cursor-pointer px-1 font-bold text-brand-black underline"
             >
               تغییر شماره
@@ -114,6 +119,7 @@ export default function VerifyOTP(props: {
             renderInput={(props: any) => (
               <input
                 {...props}
+                className="appearance-none rounded-xl border-[1.9px] outline-none focus:border-black focus:bg-white focus:shadow-[0px_2px_#000]"
                 type="tel" // Ensures numeric input
                 inputMode="numeric" // Provides numeric keyboard on mobile devices
                 pattern="[0-9]*" // Enforces numeric input
@@ -128,8 +134,6 @@ export default function VerifyOTP(props: {
               width: '38px',
               height: '48px',
               margin: '0 4px',
-              fontSize: '12pt',
-              borderRadius: '12px',
               textAlign: 'center',
               backgroundColor: '#F1F5F9',
             }}
@@ -140,11 +144,17 @@ export default function VerifyOTP(props: {
       {/* Resend */}
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-x-3">
-          <MdTimer />
+          <MdTimer className="size-6" />
           {timer === 0 ? (
-            <p className="text-xs font-bold text-brand-black underline">
-              ارسال مجدد کد تایید
-            </p>
+            <div className="flex text-xs">
+              کدی دریافت نکردید؟
+              <p
+                className="text-xs font-bold text-brand-black underline"
+                onClick={handleResendOtp}
+              >
+                ارسال مجدد
+              </p>
+            </div>
           ) : (
             <p className="text-xs text-brand-black">
               کد تایید نهایتا تا {timer} ثانیه دیگر بدست شما میرسه!
@@ -153,11 +163,9 @@ export default function VerifyOTP(props: {
         </div>
         <Button
           loading={loading}
-          onClick={props.resendOtp}
-          disabled={timer !== 0}
-          className={`rounded-[12px] bg-slate-100 ${
-            timer === 0 ? 'bg-[#FFCC4E]' : 'text-brand-black'
-          } px-5 py-4 font-bold`}
+          onClick={handleResendOtp}
+          disabled={true}
+          className={`h-12 rounded-[12px] bg-slate-100 px-5 py-4 font-bold`}
         >
           تایید
         </Button>
@@ -165,6 +173,7 @@ export default function VerifyOTP(props: {
     </div>
   );
 }
+
 const checkUserInfo = (VerifyOtp: VerifyOtpMutation['verifyOtp']) => {
   return (
     VerifyOtp?.user?.name &&

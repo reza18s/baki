@@ -2,12 +2,12 @@ import { Page } from '../layout/Page';
 import AppBar from '../layout/Header/AppBar';
 import GetPictures from '../Signup/GetPictures';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
-import { useHistory } from 'react-router';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
 
 export default function CompletePictures() {
   const [updateUser] = useUpdateUserMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
 
   const handleSubmit = (data: { images?: string[]; mainImage?: string }) => {
     updateUser({
@@ -29,7 +29,7 @@ export default function CompletePictures() {
     <Page
       className="flex h-full w-full flex-col items-center"
       contentClassName="h-[100dvh] p-6"
-      header={<AppBar title="تایید"></AppBar>}
+      header={<AppBar title="بارگذاری تصاویر"></AppBar>}
     >
       <GetPictures update handleSubmit={handleSubmit} />
     </Page>

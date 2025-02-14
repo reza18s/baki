@@ -15,16 +15,17 @@ import { PlanCard } from '@/components/plan/planCard';
 import Accordion from '@/components/accordion/Accordion';
 import { Link, useHistory } from 'react-router-dom';
 import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 const faq: { question: string; answer: string }[] = [
-  {
-    question: 'چرا باید اشتراک تهیه کنم؟',
-    answer:
-      'با تهیه اشتراک باکی به تمامی امکانات جستجوی همسفر، پیام رسانی نامحدود، درصد تطابق شما با مخاطب، مشاهده لایک کنندگان، نبود محدودیت مدت زمان پاسخگویی دسترسی خواهید داشت.',
-  },
   {
     question: 'اگر اشتراك نخرم چه می شود؟',
     answer:
       'شما هنوز هم قادر خواهید بود از بسیاری از خدمات اپلیکیشن استفاده کنید',
+  },
+  {
+    question: 'چرا باید اشتراک تهیه کنم؟',
+    answer:
+      'با تهیه اشتراک باکی به تمامی امکانات جستجوی همسفر، پیام رسانی نامحدود، درصد تطابق شما با مخاطب، مشاهده لایک کنندگان، نبود محدودیت مدت زمان پاسخگویی دسترسی خواهید داشت.',
   },
   {
     question: 'چرا پس از خرید اشتراک برایم فعال نشده است؟',
@@ -42,7 +43,7 @@ export const Plans = () => {
   const [showConditions, setShowConditions] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<string | undefined>();
   const [select, setSelect] = useState<PricePlan>();
-  const hs = useHistory();
+  const hs = useIonRouter();
   const { data: plans } = useGetPricePlanQuery();
   return (
     <Page contentClassName="min-h-full bg-gray-50 pb-20" scrollY>

@@ -18,7 +18,9 @@ query GetBlockList {
           name
           id
         }
+        senderId
         createdAt
+        read
       }
     }
     blacklists {

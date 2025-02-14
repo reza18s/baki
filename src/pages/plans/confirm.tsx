@@ -4,7 +4,7 @@ import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { customToast } from '@/components/base/toast';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
-import { PlanCard } from '@/components/plan/planCard';
+import { bakiPrice, PlanCard } from '@/components/plan/planCard';
 import {
   Discount,
   PricePlan,
@@ -18,26 +18,32 @@ import BazarPlugin from '@/plugins/BazarPlugin';
 import { calculatePriceWithDiscount } from '@/utils/price';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useParams } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { onBazarPaymentException } from './helper';
 import { Capacitor } from '@capacitor/core';
 import { IcDiscount } from '@/components/icons/IcDiscount';
+import Modal from '@/components/base/Modal/Modal';
+import { IcExclamationMarkInCircleFill } from '@/components/icons/IcExclamationMarkInCircleFill';
+import { paths } from '@/routes/paths';
+import { useIonRouter } from '@ionic/react';
 export interface PaymentVariables {
   bazarPurchaseToken?: string;
   authority?: string;
   transactionsId?: string;
 }
-export const Confirm = () => {
+type IConfirm = RouteComponentProps<{
+  id: string;
+}>;
+export const Confirm = ({ match }: IConfirm) => {
   const {
     control,
     handleSubmit,
     setError,
-
     formState: { errors, isSubmitSuccessful },
   } = useForm<{ code: string }>();
   const [purchasing, setPurchasing] = useState(false);
-  const { id }: { id: string } = useParams();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const id = match.params.id;
+  const [isOpen, setIsOpen] = useState<'discount' | 'failed-plan'>();
   const [discount, setDiscount] = useState<Discount>();
   const { data, loading } = useGetPricePlanQuery();
   const plan = data?.getPricePlan.find((plan) => plan.id === +id);
@@ -45,6 +51,7 @@ export const Confirm = () => {
     useCheckDiscountMutation();
   const [requestPayMut, { loading: requestLoading }] = useRequestPayMutation();
   const [activePlanMut] = useActivePlanMutation();
+  const history = useIonRouter();
 
   const calculatePrice = (): string => {
     return calculatePriceWithDiscount(
@@ -72,12 +79,14 @@ export const Confirm = () => {
             BazarPlugin.consumePurchase({
               purchaseToken: bazarPurchaseToken,
             });
+            history.push(`${paths.main.explore}?pay=success`);
           }
         } else if (tryCount < 3) {
           setTimeout(() => {
             activePlan(planId, paymentVars, tryCount + 1);
           }, 1000);
         } else {
+          setIsOpen('failed-plan');
           setPurchasing(false);
         }
       },
@@ -87,6 +96,7 @@ export const Confirm = () => {
             activePlan(planId, paymentVars, tryCount + 1);
           }, 1000);
         } else {
+          setIsOpen('failed-plan');
           setPurchasing(false);
         }
       },
@@ -107,7 +117,6 @@ export const Confirm = () => {
         dynamicPriceToken: discount?.code,
       });
       if (result.purchaseToken) {
-        console.log('ConfirmPurchase:: bazar result', JSON.stringify(result));
         activePlan(plan!.id, {
           bazarPurchaseToken: result.purchaseToken,
         });
@@ -130,7 +139,6 @@ export const Confirm = () => {
           },
           onCompleted(data) {
             const paymentData = data.requestPay;
-
             if (paymentData) {
               if (paymentData.paymentURL.length > 0) {
                 window.location.href = data.requestPay.paymentURL;
@@ -141,54 +149,59 @@ export const Confirm = () => {
               }
             }
           },
+          onError: (err) => {
+            console.log(err);
+            setPurchasing(false);
+            customToast('مشکلی پیش امد لطفا  دوباره امتحان کنید', 'error');
+          },
         });
       }
     } catch (e) {
-      console.log(e);
+      setPurchasing(false);
     }
   };
   return (
     <Page
       contentClassName="p-6 pt-20 flex gap-4 flex-col items-center bg-gray-50 min-h-full"
       header={<AppBar title="تایید خرید"></AppBar>}
+      loading={loading || !plan}
     >
-      {loading && !plan ? (
-        <CircleSpinner></CircleSpinner>
-      ) : (
-        <>
-          <PlanCard
-            className="shadow-[0px_1px_#0000001f]"
-            plan={plan as PricePlan}
-          ></PlanCard>
+      <>
+        <PlanCard
+          className="shadow-[0px_1px_#0000001f]"
+          plan={plan as PricePlan}
+          discount={discount}
+        ></PlanCard>
 
-          <h2
-            className="w-full px-4 text-sm font-bold"
-            onClick={() => setIsOpen(true)}
-          >
-            کد تخفیف دارید؟
-          </h2>
-          <Button
-            loading={requestLoading}
-            variant="success"
-            onClick={() => {
-              if (plan && !purchasing) {
-                if (Capacitor.getPlatform() === 'android') {
-                  handleAndroidPurchase();
-                } else {
-                  handleZarinpalPurchase();
-                }
+        <h2
+          className="w-full px-4 text-sm font-bold"
+          onClick={() => setIsOpen(undefined)}
+        >
+          کد تخفیف دارید؟
+        </h2>
+        <Button
+          loading={requestLoading}
+          variant="success"
+          onClick={() => {
+            if (plan && !purchasing) {
+              if (Capacitor.getPlatform() === 'android') {
+                handleAndroidPurchase();
+              } else {
+                handleZarinpalPurchase();
               }
-            }}
-            className="h-12 w-full text-white"
-          >
-            پرداخت {(plan?.price || 0) * 10000} تومان
-          </Button>
-        </>
-      )}
+            }
+          }}
+          className="h-12 w-full text-white"
+        >
+          پرداخت{' '}
+          {bakiPrice(plan!.price, plan!.discount + (discount?.percent || 0))}{' '}
+          تومان
+        </Button>
+      </>
       <BottomSheetModal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        className="p-6"
+        isOpen={isOpen === 'discount'}
+        onRequestClose={() => setIsOpen(undefined)}
+        className="p-6 pt-0"
       >
         <form
           className="flex flex-col gap-4"
@@ -256,11 +269,42 @@ export const Confirm = () => {
               </div>
             )}
           />
-          <Button className="mt-4 w-full" onClick={() => setIsOpen(false)}>
+          <Button className="mt-4 w-full" onClick={() => setIsOpen(undefined)}>
             تایید و بازگشت
           </Button>
         </form>
       </BottomSheetModal>
+      <Modal
+        className="flex w-[85%] flex-col items-center justify-center gap-4 rounded-3xl bg-white px-6 py-4"
+        isOpen={isOpen === 'failed-plan'}
+        onRequestClose={() => setIsOpen(undefined)}
+      >
+        <div className="flex items-center justify-center rounded-full bg-brand-red p-4">
+          <IcExclamationMarkInCircleFill className="size-8 fill-white"></IcExclamationMarkInCircleFill>
+        </div>
+
+        <h1 className="text-center text-lg font-bold">پرداخت ناموفق</h1>
+        <span className="text-center text-sm text-gray-500">
+          درصورتی که مبلغ از حساب شما کسر شده است به پشتیبانی اطلاع دهید.
+        </span>
+        <div className="flex w-full flex-col gap-2">
+          <Button
+            className="h-10 w-full"
+            onClick={() => {
+              history.push(paths.settings.support, 'forward', 'replace');
+            }}
+          >
+            ارتباط با پشتیبانی
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black"
+            onClick={() => setIsOpen(undefined)}
+          >
+            بازگشت
+          </Button>
+        </div>
+      </Modal>
     </Page>
   );
 };

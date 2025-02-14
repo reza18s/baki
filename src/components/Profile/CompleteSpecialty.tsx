@@ -4,10 +4,11 @@ import { Page } from '../layout/Page';
 import AppBar from '../layout/Header/AppBar';
 import GetSpecialty from '../Signup/GetSpecialty';
 import { customToast } from '../base/toast';
+import { useIonRouter } from '@ionic/react';
 
 export default function CompleteSpecialty() {
   const [updateUser] = useUpdateUserMutation();
-  const hs = useHistory();
+  const hs = useIonRouter();
 
   const handleSubmit = (data: { mySpecialty?: string[] }) => {
     updateUser({
