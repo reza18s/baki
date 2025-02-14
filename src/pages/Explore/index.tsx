@@ -140,7 +140,7 @@ export default function Explore() {
   }, [filters]);
   useEffect(() => {
     setTimeout(() => {
-      if (start && cards.length <= 1 && !sameResult) {
+      if (start && cards.length <= 1) {
         randomRefetch()?.then((data) => {
           const newResult = [
             ...(data?.data?.getRandomUser as RandomUser[]),
@@ -149,9 +149,6 @@ export default function Explore() {
             (item, index, self) =>
               index === self.findIndex((t) => t?.id === item?.id),
           );
-          if (newResult.length === 1) {
-            setSameResult(true);
-          }
           setCards(newResult);
         });
       }
