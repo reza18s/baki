@@ -1,0 +1,10 @@
+query GetUserInvitationCode {
+  getUserInvitationCode {
+    id
+    code
+    steps
+    usedBy
+    createdAt
+    userId
+  }
+}

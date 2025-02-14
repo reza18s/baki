@@ -99,6 +99,16 @@ export type Includes = {
   reportsMade?: Scalars['Boolean']['input'];
 };
 
+export type InvitationCode = {
+  code: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['Date']['output']>;
+  id: Scalars['ID']['output'];
+  steps?: Maybe<Scalars['JSON']['output']>;
+  usedBy: Scalars['JSON']['output'];
+  user?: Maybe<User>;
+  userId: Scalars['String']['output'];
+};
+
 export type Liked = {
   LikedUserId: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -139,6 +149,7 @@ export type Mutation = {
   delMessages: Scalars['String']['output'];
   deleteDeviceToken: Scalars['String']['output'];
   editMessage?: Maybe<Message>;
+  getFreePlan?: Maybe<User>;
   logInAsGuest?: Maybe<AuthPayload>;
   readMessages: Scalars['String']['output'];
   refreshAccessToken?: Maybe<AuthPayload>;
@@ -149,6 +160,7 @@ export type Mutation = {
   requestPay: Scalars['JSON']['output'];
   sendMessage?: Maybe<Message>;
   updateUser?: Maybe<User>;
+  verifyInvitationCode: InvitationCode;
   verifyOtp?: Maybe<AuthPayload>;
 };
 
@@ -237,6 +249,11 @@ export type MutationEditMessageArgs = {
 };
 
 
+export type MutationGetFreePlanArgs = {
+  step: Scalars['Int']['input'];
+};
+
+
 export type MutationLogInAsGuestArgs = {
   birthday: Scalars['DateTime']['input'];
   city: Scalars['String']['input'];
@@ -317,6 +334,11 @@ export type MutationUpdateUserArgs = {
 };
 
 
+export type MutationVerifyInvitationCodeArgs = {
+  invitationCode: Scalars['String']['input'];
+};
+
+
 export type MutationVerifyOtpArgs = {
   deviceToken?: InputMaybe<Scalars['String']['input']>;
   otp: Scalars['String']['input'];
@@ -366,6 +388,7 @@ export type Query = {
   getRequests: Array<Request>;
   getTransaction: Array<Transaction>;
   getUser?: Maybe<User>;
+  getUserInvitationCode: InvitationCode;
   getUsers: Array<User>;
   ok: Scalars['Boolean']['output'];
   recommendedUsers: Array<User>;
@@ -641,6 +664,20 @@ export type RemoveFromFavoriteMutationVariables = Exact<{
 
 export type RemoveFromFavoriteMutation = { removeFromFavorite: string };
 
+export type VerifyInvitationCodeMutationVariables = Exact<{
+  invitationCode: Scalars['String']['input'];
+}>;
+
+
+export type VerifyInvitationCodeMutation = { verifyInvitationCode: { id: string, code: string } };
+
+export type GetFreePlanMutationVariables = Exact<{
+  step: Scalars['Int']['input'];
+}>;
+
+
+export type GetFreePlanMutation = { getFreePlan?: { id: string, name?: string | null, mainImage?: string | null, isOnline?: boolean | null } | null };
+
 export type LikeMutationVariables = Exact<{
   likedUserId: Scalars['String']['input'];
   searchType: Scalars['String']['input'];
@@ -767,6 +804,11 @@ export type GetRandomUserQueryVariables = Exact<{
 
 
 export type GetRandomUserQuery = { getRandomUser?: Array<{ id: string, name: string, username: string, phoneNumber: string, gender: Gender, isOnline: boolean, languages: Array<string>, birthdate: string, traveledToPlaces: Array<string>, livedInPlaces: Array<string>, province: string, mainImage?: string | null, images: Array<string>, city: string, record?: string | null, zodiacSign?: string | null, travelInterests: Array<string>, personalInterests: Array<string>, mySpecialty: Array<string>, bio: string, maritalStatus: string, smokeStatus: string, spiritStatus: string, sportsStatus: string, AmountOfEarlyRising: string, age?: number | null } | null> | null };
+
+export type GetUserInvitationCodeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserInvitationCodeQuery = { getUserInvitationCode: { id: string, code: string, steps?: any | null, usedBy: any, createdAt?: any | null, userId: string } };
 
 export type GetBlockListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1224,6 +1266,76 @@ export function useRemoveFromFavoriteMutation(baseOptions?: Apollo.MutationHookO
 export type RemoveFromFavoriteMutationHookResult = ReturnType<typeof useRemoveFromFavoriteMutation>;
 export type RemoveFromFavoriteMutationResult = Apollo.MutationResult<RemoveFromFavoriteMutation>;
 export type RemoveFromFavoriteMutationOptions = Apollo.BaseMutationOptions<RemoveFromFavoriteMutation, RemoveFromFavoriteMutationVariables>;
+export const VerifyInvitationCodeDocument = gql`
+    mutation VerifyInvitationCode($invitationCode: String!) {
+  verifyInvitationCode(invitationCode: $invitationCode) {
+    id
+    code
+  }
+}
+    `;
+export type VerifyInvitationCodeMutationFn = Apollo.MutationFunction<VerifyInvitationCodeMutation, VerifyInvitationCodeMutationVariables>;
+
+/**
+ * __useVerifyInvitationCodeMutation__
+ *
+ * To run a mutation, you first call `useVerifyInvitationCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyInvitationCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyInvitationCodeMutation, { data, loading, error }] = useVerifyInvitationCodeMutation({
+ *   variables: {
+ *      invitationCode: // value for 'invitationCode'
+ *   },
+ * });
+ */
+export function useVerifyInvitationCodeMutation(baseOptions?: Apollo.MutationHookOptions<VerifyInvitationCodeMutation, VerifyInvitationCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyInvitationCodeMutation, VerifyInvitationCodeMutationVariables>(VerifyInvitationCodeDocument, options);
+      }
+export type VerifyInvitationCodeMutationHookResult = ReturnType<typeof useVerifyInvitationCodeMutation>;
+export type VerifyInvitationCodeMutationResult = Apollo.MutationResult<VerifyInvitationCodeMutation>;
+export type VerifyInvitationCodeMutationOptions = Apollo.BaseMutationOptions<VerifyInvitationCodeMutation, VerifyInvitationCodeMutationVariables>;
+export const GetFreePlanDocument = gql`
+    mutation getFreePlan($step: Int!) {
+  getFreePlan(step: $step) {
+    id
+    name
+    mainImage
+    isOnline
+  }
+}
+    `;
+export type GetFreePlanMutationFn = Apollo.MutationFunction<GetFreePlanMutation, GetFreePlanMutationVariables>;
+
+/**
+ * __useGetFreePlanMutation__
+ *
+ * To run a mutation, you first call `useGetFreePlanMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGetFreePlanMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [getFreePlanMutation, { data, loading, error }] = useGetFreePlanMutation({
+ *   variables: {
+ *      step: // value for 'step'
+ *   },
+ * });
+ */
+export function useGetFreePlanMutation(baseOptions?: Apollo.MutationHookOptions<GetFreePlanMutation, GetFreePlanMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GetFreePlanMutation, GetFreePlanMutationVariables>(GetFreePlanDocument, options);
+      }
+export type GetFreePlanMutationHookResult = ReturnType<typeof useGetFreePlanMutation>;
+export type GetFreePlanMutationResult = Apollo.MutationResult<GetFreePlanMutation>;
+export type GetFreePlanMutationOptions = Apollo.BaseMutationOptions<GetFreePlanMutation, GetFreePlanMutationVariables>;
 export const LikeDocument = gql`
     mutation Like($likedUserId: String!, $searchType: String!) {
   Like(likedUserId: $likedUserId, searchType: $searchType) {
@@ -1804,6 +1916,50 @@ export type GetRandomUserQueryHookResult = ReturnType<typeof useGetRandomUserQue
 export type GetRandomUserLazyQueryHookResult = ReturnType<typeof useGetRandomUserLazyQuery>;
 export type GetRandomUserSuspenseQueryHookResult = ReturnType<typeof useGetRandomUserSuspenseQuery>;
 export type GetRandomUserQueryResult = Apollo.QueryResult<GetRandomUserQuery, GetRandomUserQueryVariables>;
+export const GetUserInvitationCodeDocument = gql`
+    query GetUserInvitationCode {
+  getUserInvitationCode {
+    id
+    code
+    steps
+    usedBy
+    createdAt
+    userId
+  }
+}
+    `;
+
+/**
+ * __useGetUserInvitationCodeQuery__
+ *
+ * To run a query within a React component, call `useGetUserInvitationCodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserInvitationCodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserInvitationCodeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserInvitationCodeQuery(baseOptions?: Apollo.QueryHookOptions<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>(GetUserInvitationCodeDocument, options);
+      }
+export function useGetUserInvitationCodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>(GetUserInvitationCodeDocument, options);
+        }
+export function useGetUserInvitationCodeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>(GetUserInvitationCodeDocument, options);
+        }
+export type GetUserInvitationCodeQueryHookResult = ReturnType<typeof useGetUserInvitationCodeQuery>;
+export type GetUserInvitationCodeLazyQueryHookResult = ReturnType<typeof useGetUserInvitationCodeLazyQuery>;
+export type GetUserInvitationCodeSuspenseQueryHookResult = ReturnType<typeof useGetUserInvitationCodeSuspenseQuery>;
+export type GetUserInvitationCodeQueryResult = Apollo.QueryResult<GetUserInvitationCodeQuery, GetUserInvitationCodeQueryVariables>;
 export const GetBlockListDocument = gql`
     query GetBlockList {
   getBlockList {

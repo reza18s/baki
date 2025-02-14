@@ -1,0 +1,14 @@
+mutation VerifyInvitationCode($invitationCode: String!) {
+  verifyInvitationCode(invitationCode: $invitationCode) {
+    id
+    code
+  }
+}
+mutation getFreePlan($step: Int!) {
+  getFreePlan(step: $step) {
+    id
+    name
+    mainImage
+    isOnline
+  }
+}

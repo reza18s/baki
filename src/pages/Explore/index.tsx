@@ -34,6 +34,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { IcCrownStar } from '@/components/icons/IcCrownStar';
 import { IcStars } from '@/components/icons/IcStars';
 import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
+import { IcNoImage } from '@/components/icons/IcNoImage';
 
 export default function Explore() {
   const history = useIonRouter();
@@ -45,19 +46,20 @@ export default function Explore() {
     | 'swipe'
     | 'swipe-left'
     | 'swipe-right'
-    | 'mo-image'
+    | 'no-image'
     | 'new-plan'
     | 'extend-plan'
     | 'failed-plan'
   >();
+  const [sameResult, setSameResult] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [noResult, setNoResult] = useState(false);
   const [start, setStart] = useState(false);
   const [cardsHistory, setCardsHistory] = useState<RandomUser[]>([]);
   const [cards, setCards] = useState<RandomUser[]>([]);
   const { filters, searchType, searchStart, setSearchStart } = useStore(
     (store) => store,
   );
+  console.log(cardsHistory);
   const { data: me, refetch: refetchMe } = useGetMeQuery();
   const planUse: { [key: string]: number } =
     me?.getMe.planUse?.updateAt &&
@@ -84,7 +86,6 @@ export default function Explore() {
             index === self.findIndex((t) => t?.id === item?.id),
         ) as RandomUser[],
       );
-      setNoResult(data.getRandomUser?.length === 0);
     },
 
     onError: (err) => {
@@ -97,14 +98,13 @@ export default function Explore() {
     },
   });
   const randomRefetch = () => {
-    console.log(me?.getMe.planUse);
     if (
-      !me?.getMe.plan &&
-      ((searchType === 'random' && 3 > (planUse?.random || 0)) ||
-        (searchType === 'baseOnInterest' &&
-          1 > (planUse?.baseOnInterest || 0)) ||
-        (searchType === 'famous' && 1 > (planUse?.famous || 0)))
+      me?.getMe.plan ||
+      (searchType === 'random' && 3 > (planUse?.random || 0)) ||
+      (searchType === 'baseOnInterest' && 1 > (planUse?.baseOnInterest || 0)) ||
+      (searchType === 'famous' && 1 > (planUse?.famous || 0))
     ) {
+      setSameResult(false);
       return refetch();
     }
   };
@@ -125,6 +125,12 @@ export default function Explore() {
     if (!FirstEnter.showSearchType) {
       setIsOpen('searchType');
       updateFirstEntered({ showSearchType: true });
+    } else if (
+      !me?.getMe.mainImage ||
+      !me?.getMe.images ||
+      me.getMe.images.length > 3
+    ) {
+      setIsOpen('no-image');
     }
   }, [FirstEnter]);
   useEffect(() => {
@@ -134,15 +140,19 @@ export default function Explore() {
   }, [filters]);
   useEffect(() => {
     setTimeout(() => {
-      if (start && cards.length <= 1) {
+      if (start && cards.length <= 1 && !sameResult) {
         randomRefetch()?.then((data) => {
-          setCards((prev) =>
-            [...(data?.data?.getRandomUser as RandomUser[]), ...prev].filter(
-              (item, index, self) =>
-                index === self.findIndex((t) => t?.id === item?.id),
-            ),
+          const newResult = [
+            ...(data?.data?.getRandomUser as RandomUser[]),
+            ...cards,
+          ].filter(
+            (item, index, self) =>
+              index === self.findIndex((t) => t?.id === item?.id),
           );
-          setNoResult(data?.data?.getRandomUser?.length === 0);
+          if (newResult.length === 1) {
+            setSameResult(true);
+          }
+          setCards(newResult);
         });
       }
     }, 200);
@@ -216,57 +226,49 @@ export default function Explore() {
       }
     >
       <div className="relative flex h-full w-full flex-row-reverse p-4">
-        {cards.length === 0 && !me?.getMe.plan ? (
-          searchType === 'random' && (planUse?.random || 0) >= 3 ? (
+        {cards.length === 0 ? (
+          !me?.getMe.plan &&
+          searchType === 'random' &&
+          (planUse?.random || 0) >= 3 ? (
             <RenderPlanLimitMessage
               searchType={searchType}
             ></RenderPlanLimitMessage>
-          ) : searchType === 'baseOnInterest' &&
+          ) : !me?.getMe.plan &&
+            searchType === 'baseOnInterest' &&
             (planUse?.baseOnInterest || 0) >= 1 ? (
             <RenderPlanLimitMessage
               searchType={searchType}
             ></RenderPlanLimitMessage>
-          ) : searchType === 'famous' && (planUse?.famous || 0) >= 1 ? (
+          ) : !me?.getMe.plan &&
+            searchType === 'famous' &&
+            (planUse?.famous || 0) >= 1 ? (
             <RenderPlanLimitMessage
               searchType={searchType}
             ></RenderPlanLimitMessage>
-          ) : (
-            !start && (
-              <div
-                className="size-full bg-warning-50 p-4"
-                onClick={() => {
-                  setStart(true);
-                  randomRefetch();
-                }}
-              >
-                <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
-                  <IcExploreStart></IcExploreStart>
-                  برای شروع ماجراجویی روی صفحه کلیک کنید.
-                </div>
-                <Button
-                  className="h-12 w-full p-0"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    history.push(paths.explore.filter);
-                  }}
-                  type="button"
-                >
-                  تغییر فیلترها
-                </Button>
-              </div>
-            )
-          )
-        ) : start ? (
-          loading ? (
+          ) : !start ? (
             <div
               className="size-full bg-warning-50 p-4"
-              onClick={() => setStart(true)}
+              onClick={() => {
+                setStart(true);
+                randomRefetch();
+              }}
             >
               <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
-                <CircleSpinner></CircleSpinner>در حال پیدا کردن همسفر...
+                <IcExploreStart></IcExploreStart>
+                برای شروع ماجراجویی روی صفحه کلیک کنید.
               </div>
+              <Button
+                className="h-12 w-full p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  history.push(paths.explore.filter);
+                }}
+                type="button"
+              >
+                تغییر فیلترها
+              </Button>
             </div>
-          ) : noResult ? (
+          ) : (
             <div
               className="size-full bg-warning-50 p-4"
               onClick={() => setStart(true)}
@@ -287,6 +289,17 @@ export default function Explore() {
                 >
                   تغییر فیلترها
                 </Button>
+              </div>
+            </div>
+          )
+        ) : start ? (
+          loading ? (
+            <div
+              className="size-full bg-warning-50 p-4"
+              onClick={() => setStart(true)}
+            >
+              <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
+                <CircleSpinner></CircleSpinner>در حال پیدا کردن همسفر...
               </div>
             </div>
           ) : (
@@ -554,6 +567,77 @@ export default function Explore() {
             variant="outline"
             className="h-10 w-full border-black"
             onClick={() => setIsOpen(undefined)}
+          >
+            بازگشت
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        className="flex w-[85%] flex-col items-center justify-center gap-4 rounded-3xl bg-white px-6 py-4"
+        isOpen={isOpen === 'no-image'}
+        onRequestClose={() => {
+          if (
+            FirstEnter.noImage?.time <= 3 ||
+            FirstEnter.noImage?.id !== me?.getMe.id
+          ) {
+            updateFirstEntered((prev) => ({
+              noImage: {
+                time:
+                  prev.noImage.id === me?.getMe.id ? prev.noImage.time + 1 : 1,
+                id: me?.getMe.id,
+              },
+            }));
+            setIsOpen(undefined);
+          }
+        }}
+      >
+        <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
+          <IcNoImage className="size-8 fill-none stroke-black"></IcNoImage>
+        </div>
+
+        <h1 className="text-center text-lg font-bold">
+          هنوز تصویری آپلود نکردی؟
+        </h1>
+        <span className="text-center text-sm text-gray-500">
+          داشتن تصویر پروفایل باعث پیدا شدن همسفرهای بیشتری میشه!
+        </span>
+        <div className="flex w-full gap-2">
+          <Button
+            className="h-10 w-full"
+            onClick={() => {
+              history.push(paths.profile.completePictures);
+            }}
+          >
+            آپلود تصویر
+          </Button>
+          <Button
+            variant="outline"
+            className="h-10 w-full border-black"
+            onClick={() => {
+              if (!FirstEnter.noImage) {
+                updateFirstEntered(() => ({
+                  noImage: {
+                    time: 0,
+                    id: me?.getMe.id,
+                  },
+                }));
+              }
+              if (
+                FirstEnter.noImage?.time <= 3 ||
+                FirstEnter.noImage?.id !== me?.getMe.id
+              ) {
+                updateFirstEntered((prev) => ({
+                  noImage: {
+                    time:
+                      prev.noImage.id === me?.getMe.id
+                        ? prev.noImage.time + 1
+                        : 1,
+                    id: me?.getMe.id,
+                  },
+                }));
+                setIsOpen(undefined);
+              }
+            }}
           >
             بازگشت
           </Button>

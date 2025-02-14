@@ -102,26 +102,28 @@ export const Notifications = () => {
         </div>
       ) : filter === 'liked' ? (
         <>
-          <div className="absolute z-[1] h-[calc(100vh-48px)] w-[calc(100%-48px)]">
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="flex w-full flex-col items-center justify-center gap-4 rounded-lg bg-white px-6 py-4">
-                <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
-                  <IcCrownStar className="size-8 fill-none stroke-black"></IcCrownStar>
-                </div>
+          {!me?.getMe.plan && (
+            <div className="absolute z-[1] h-[calc(100vh-48px)] w-[calc(100%-48px)]">
+              <div className="flex h-full w-full items-center justify-center">
+                <div className="flex w-full flex-col items-center justify-center gap-4 rounded-lg bg-white px-6 py-4">
+                  <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
+                    <IcCrownStar className="size-8 fill-none stroke-black"></IcCrownStar>
+                  </div>
 
-                <h1 className="text-center text-base font-bold">
-                  برای مشاهده لیست کسانی که شما رو لایک کردند، نیاز به تهیه
-                  اشتراک ویژه دارید.
-                </h1>
-                <Button
-                  className="w-full"
-                  onClick={() => hs.push(paths.plans.main)}
-                >
-                  مشاهده اشتراک‌های ویژه
-                </Button>
+                  <h1 className="text-center text-base font-bold">
+                    برای مشاهده لیست کسانی که شما رو لایک کردند، نیاز به تهیه
+                    اشتراک ویژه دارید.
+                  </h1>
+                  <Button
+                    className="w-full"
+                    onClick={() => hs.push(paths.plans.main)}
+                  >
+                    مشاهده اشتراک‌های ویژه
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="flex flex-col gap-4">
             <h1 className="text-lg font-bold">جدید</h1>
             <div className="grid grid-cols-2 gap-4">
@@ -151,12 +153,9 @@ export const Notifications = () => {
                 ))}
             </div>
           </div>
-          <div className="relative flex flex-col gap-4 pt-6">
+          <div className="relative flex flex-col gap-4 pt-6 opacity-50">
             <h1 className="text-lg font-bold">منقضی شده</h1>
             <div className="relative grid grid-cols-2 gap-4">
-              {!!me?.getMe?.plan && (
-                <div className="absolute z-10 h-full w-full bg-white/50"></div>
-              )}
               {data?.getNotifications
                 .filter(
                   (val) =>
@@ -219,10 +218,9 @@ export const Notifications = () => {
                 ))}
             </div>
           </div>
-          <div className="relative flex flex-col gap-4 pt-6">
+          <div className="relative flex flex-col gap-4 pt-6 opacity-50">
             <h1 className="text-lg font-bold">منقضی شده</h1>
             <div className="flex flex-1 flex-col gap-2">
-              <div className="absolute z-10 h-full w-full bg-white/50"></div>
               {data?.getNotifications
                 .filter(
                   (val) =>

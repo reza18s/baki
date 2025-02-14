@@ -79,7 +79,7 @@ export const Confirm = ({ match }: IConfirm) => {
             BazarPlugin.consumePurchase({
               purchaseToken: bazarPurchaseToken,
             });
-            history.push(paths.main.explore);
+            history.push(`${paths.main.explore}?pay=success`);
           }
         } else if (tryCount < 3) {
           setTimeout(() => {
@@ -201,7 +201,7 @@ export const Confirm = ({ match }: IConfirm) => {
       <BottomSheetModal
         isOpen={isOpen === 'discount'}
         onRequestClose={() => setIsOpen(undefined)}
-        className="p-6"
+        className="p-6 pt-0"
       >
         <form
           className="flex flex-col gap-4"

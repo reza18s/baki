@@ -34,7 +34,7 @@ interface IFirstEntered {
   swapLeft: boolean;
   swapRight: boolean;
   showUndo: boolean;
-  noImage: 0;
+  noImage: { id?: string; time: number };
 }
 interface IStore {
   step: StepsNumber;
@@ -87,7 +87,7 @@ export const defaultInitState: IStore = {
     showUndo: false,
     swapLeft: false,
     swapRight: false,
-    noImage: 0,
+    noImage: { time: 0 },
   },
 };
 
