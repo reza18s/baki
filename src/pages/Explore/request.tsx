@@ -28,7 +28,7 @@ export const Request = ({
   const [createRequest2, { loading: requestLoading2 }] =
     useCreateRequestMutation();
   return request?.status !== 'accept' ? (
-    <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6">
+    <div className="flex min-h-full flex-1 flex-col items-center justify-center gap-2 p-6">
       {request ? (
         <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white py-4">
           {request.type === 'companionRequest' && (

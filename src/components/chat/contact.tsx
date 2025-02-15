@@ -28,6 +28,10 @@ export const Contact: FC<
     chat.Message?.filter(
       (message) => message?.senderId !== me?.id && !message?.read,
     ).length || 0;
+  const lastMessage = chat.Message?.slice().sort(
+    (a, b) =>
+      new Date(a?.createdAt).getTime() - new Date(b?.createdAt).getTime(),
+  )[chat.Message?.length - 1];
   return (
     <div {...props}>
       <Checkbox
@@ -50,15 +54,13 @@ export const Contact: FC<
             <div>
               <h2 className="text-sm font-bold">{user?.name}</h2>
               <span className="text-xs text-gray-400">
-                {chat.Message?.[chat.Message?.length - 1]?.content}
+                {lastMessage?.content}
               </span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-end text-xs text-gray-500">
-                {chat.Message?.[chat.Message?.length - 1]?.createdAt &&
-                  getLastMessageTime(
-                    chat.Message?.[chat.Message?.length - 1]?.createdAt,
-                  )}
+                {lastMessage?.createdAt &&
+                  getLastMessageTime(lastMessage?.createdAt)}
               </span>
               <div className="flex items-center justify-end gap-1">
                 {notRead > 0 && (

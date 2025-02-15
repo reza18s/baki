@@ -84,7 +84,7 @@ export const Messages = ({
   return (
     <div
       id="message-body"
-      className="relative flex h-fit w-full flex-col justify-end"
+      className="relative flex h-fit min-h-full w-full flex-col justify-end"
       onTouchMove={handleTouchMove}
       ref={messagesRef}
     >

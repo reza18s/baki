@@ -14,7 +14,9 @@ import {
   RequestType,
   useCreateRequestMutation,
   useGetMeQuery,
+  useGetRequestsQuery,
   useGetUserQuery,
+  User,
 } from '@/graphql/generated/graphql.codegen';
 import { customToast } from '../base/toast';
 import { useStore } from '@/store/useStore';
@@ -30,6 +32,12 @@ export const CommunicationModal = ({
   isOpen: boolean;
   setClose: () => void;
 }) => {
+  const { data: me } = useGetMeQuery();
+  const { data: requests } = useGetRequestsQuery({ variables: { me: true } });
+  const request = requests?.getRequests.find(
+    (r) =>
+      r.requesterId === me?.getMe.id && r.receiverId === notification.actionId,
+  );
   const [createRequest, { loading: requestLoading }] =
     useCreateRequestMutation();
   const [createRequest2, { loading: requestLoading2 }] =
@@ -40,11 +48,6 @@ export const CommunicationModal = ({
     onError() {
       customToast('کاربر موجود نیست', 'error');
       setClose();
-    },
-  });
-  const { data: me } = useGetMeQuery({
-    onError: (err) => {
-      console.error('Error fetching user data:', err);
     },
   });
   const hs = useIonRouter();
@@ -94,8 +97,18 @@ export const CommunicationModal = ({
                   className="h-full w-full object-cover"
                 ></img>
               </div>
-              <div className="absolute bottom-0 left-[calc(50%-32px)] z-10 flex size-16 items-center justify-center rounded-full bg-white">
-                <IcTick className="size-7"></IcTick>
+              <div className="absolute bottom-0 left-[calc(50%-32px)] z-10 flex size-16 items-center justify-center rounded-full bg-white text-center">
+                {me?.getMe.plan ? (
+                  <>
+                    {
+                      //@ts-expect-error the
+
+                      <h1>{similarity(me.getMe, user)}% شباهت</h1>
+                    }
+                  </>
+                ) : (
+                  <IcTick className="size-7"></IcTick>
+                )}
               </div>
               <div className="aspect-square size-32 -rotate-[15deg] overflow-hidden rounded-[27px] border-4 border-white">
                 <img
@@ -111,52 +124,75 @@ export const CommunicationModal = ({
           <IcStars></IcStars>
           <div className="h-[2px] flex-1 bg-white"></div>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-2 pb-4 pt-6">
-          <Button
-            variant="outline"
-            className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
-            onClick={() => {
-              createRequest({
-                variables: {
-                  receiverId: user.id,
-                  searchType: searchType,
-                  type: 'companionRequest' as RequestType,
-                },
-                onCompleted: () => {
-                  customToast('دعوت با موفقیت ارسال شد', 'success');
-                },
-                onError: () => {
-                  customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
-                },
-              });
-            }}
-            loading={requestLoading}
-          >
-            <IcCase></IcCase>
-            ارسال درخواست همسفری
-          </Button>
-          <Button
-            variant="outline"
-            className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
-            onClick={() => {
-              createRequest2({
-                variables: {
-                  receiverId: user.id,
-                  searchType: searchType,
-                  type: 'hostingInvitation' as RequestType,
-                },
-                onCompleted: () => {
-                  customToast('دعوت با موفقیت ارسال شد', 'success');
-                },
-                onError: () => {
-                  customToast('مشکلی پیش امد لطفا دوباره امتحان کنید', 'error');
-                },
-              });
-            }}
-            loading={requestLoading2}
-          >
-            <IcChair></IcChair>ارسال دعوت میزبانی
-          </Button>
+        <div className="flex flex-1 flex-col items-center justify-center gap-2">
+          {request ? (
+            <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white py-4">
+              {request.type === 'companionRequest' && (
+                <IcChair className="size-12"></IcChair>
+              )}
+              {request.type === 'hostingInvitation' && (
+                <IcCase className="size-12"></IcCase>
+              )}
+              <h1 className="text-sm font-bold">
+                {request.type === 'companionRequest'
+                  ? 'درخواست همسفری شما ارسال شد.'
+                  : request.type === 'hostingInvitation'
+                    ? 'درخواست میزبانی شما ارسال شد.'
+                    : 'درخواست شما ارسال شد.'}
+              </h1>
+            </div>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
+                onClick={() => {
+                  createRequest({
+                    variables: {
+                      receiverId: notification.actionId,
+                      searchType: notification.searchType || 'random',
+                      type: 'companionRequest' as RequestType,
+                    },
+                    onCompleted: () => {
+                      customToast('دعوت با موفقیت ارسال شد', 'success');
+                    },
+                    onError: () => {
+                      customToast(
+                        'مشکلی پیش امد لطفا دوباره امتحان کنید',
+                        'error',
+                      );
+                    },
+                  });
+                }}
+                loading={requestLoading}
+              >
+                <IcCase></IcCase>
+                ارسال درخواست همسفری
+              </Button>
+              <Button
+                variant="outline"
+                className="flex h-10 w-full items-center justify-center gap-1 border-gray-300 bg-white p-0 text-sm font-medium"
+                onClick={() => {
+                  createRequest2({
+                    variables: {
+                      receiverId: notification.actionId,
+                      searchType: notification.searchType || 'random',
+                      type: 'hostingInvitation' as RequestType,
+                    },
+                    onCompleted: () => {
+                      customToast('دعوت با موفقیت ارسال شد', 'success');
+                    },
+                    onError: (err) => {
+                      customToast(err.message, 'error');
+                    },
+                  });
+                }}
+                loading={requestLoading2}
+              >
+                <IcChair></IcChair>ارسال دعوت میزبانی
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <div className="flex w-full items-center gap-2">
@@ -178,4 +214,37 @@ export const CommunicationModal = ({
       </div>
     </Modal>
   );
+};
+const similarity = (user1: User, user2: User) => {
+  let similarityPercent = 0;
+  if (user1?.birthdate?.split('/')[1] === user2?.birthdate?.split('/')[1]) {
+    similarityPercent += 10;
+  }
+  if (user1?.smokeStatus == user2?.smokeStatus) {
+    similarityPercent += 5;
+  }
+  if (user1?.sportsStatus == user2?.sportsStatus) {
+    similarityPercent += 10;
+  }
+  if (user1?.AmountOfEarlyRising == user2?.AmountOfEarlyRising) {
+    similarityPercent += 5;
+  }
+  if (user1?.spiritStatus == user2?.spiritStatus) {
+    similarityPercent += 40;
+  }
+  if (
+    user1?.personalInterests?.every((item) =>
+      user2?.personalInterests?.includes(item),
+    )
+  ) {
+    similarityPercent += 15;
+  }
+  if (
+    user1?.travelInterests?.every((item) =>
+      user2?.travelInterests?.includes(item),
+    )
+  ) {
+    similarityPercent += 15;
+  }
+  return similarityPercent;
 };
