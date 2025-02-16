@@ -18,7 +18,10 @@ import { cn } from '@/lib/utils';
 import { IcNoImage } from '../icons/IcNoImage';
 import { allAvatars } from '@/constants';
 import Modal from '../base/Modal/Modal';
+import { Player } from '@lottiefiles/react-lottie-player';
 import { IcXCircle } from '../icons/IcXCircle';
+import RecordAnimation from '@/assets/recordA.json';
+import { customToast } from '../base/toast';
 export default function ExploreCard({
   user,
   drag = true,
@@ -44,16 +47,17 @@ export default function ExploreCard({
   const [audio, setAudio] = useState(
     user.record ? new Audio(user.record) : undefined,
   );
-  const [isPlaying, setIsPlaying] = useState(false);
   const playAudio = () => {
-    setIsOpen('record');
-    audio?.play();
-    setIsPlaying(true);
+    if (audio) {
+      setIsOpen('record');
+      audio?.play();
+    } else {
+      customToast('کاربر ریکورد نداد', 'error');
+    }
   };
   const pauseAudio = () => {
     setIsOpen(undefined);
     audio?.pause();
-    setIsPlaying(false);
   };
   useEffect(() => {
     if (user.record) {
@@ -63,7 +67,6 @@ export default function ExploreCard({
   useEffect(() => {
     const handleAudioEnd = () => {
       setIsOpen(undefined);
-      setIsPlaying(false);
     };
     audio?.addEventListener('ended', handleAudioEnd);
     return () => {
@@ -182,7 +185,12 @@ export default function ExploreCard({
                     className="size-10 rounded-full"
                   />
                 </div>
-                <div className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]">
+                <div
+                  className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]"
+                  onClick={() => {
+                    playAudio();
+                  }}
+                >
                   <FaCirclePlay fill="#000" size={24} />
                 </div>
               </div>
@@ -284,7 +292,7 @@ export default function ExploreCard({
       >
         <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
           <div
-            className="absolute right-0 top-0"
+            className="absolute right-0 top-0 z-10"
             onClick={() => setIsOpen(undefined)}
           >
             <IcXCircle className="size-5 stroke-1"></IcXCircle>
@@ -300,16 +308,18 @@ export default function ExploreCard({
       </Modal>
       <Modal isOpen={isOpen === 'record'} onRequestClose={() => pauseAudio()}>
         <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
-          <div className="absolute right-0 top-0" onClick={() => pauseAudio()}>
+          <div
+            className="absolute right-0 top-0 z-10"
+            onClick={() => pauseAudio()}
+          >
             <IcXCircle className="size-5 stroke-1"></IcXCircle>
           </div>
-          <img
-            src={
-              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
-              CardAvatar
-            }
-            className="size-48"
-          ></img>
+          <Player
+            autoplay
+            loop
+            src={RecordAnimation}
+            style={{ height: '256px', width: '256px' }}
+          ></Player>
         </div>
       </Modal>
       <SendMessageModal

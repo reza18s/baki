@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { Formik } from 'formik';
 import BottomSheetModal from '../base/Modal/BottomSheetModal';
 import Button from '../base/Button/Button';
-import { DotesLoading } from '../base/Loader/Loader';
 import Checkbox from '../base/Input/checkboxSection/checkbox';
 import {
   useAddToBlackListMutation,
@@ -26,17 +25,16 @@ interface ViolationReportModalProps {
 const ViolationReportModal: FC<ViolationReportModalProps> = ({
   options,
   isOpen,
-  loading,
   title,
   id,
   setClose,
   onReportSubmit,
 }) => {
   const [optionState, setOptionState] = useState<boolean[]>(
-    options.map((_) => false),
+    options.map(() => false),
   );
-  const [Report, { loading: reportLoading }] = useCreateReportMutation();
-  const [addToBlackList] = useAddToBlackListMutation();
+  const [Report, { loading }] = useCreateReportMutation();
+  const [addToBlackList, { loading: blocking }] = useAddToBlackListMutation();
   return (
     <BottomSheetModal
       closeOnClickOverlay
@@ -55,7 +53,6 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
           onSubmit={(values) => {
             if (!loading) {
               if (onReportSubmit) {
-                console.log('lll');
                 onReportSubmit(
                   values.message,
                   options
@@ -72,7 +69,7 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
                       .filter((_, index) => optionState[index])
                       .map((val) => val.label),
                   },
-                  onCompleted(data) {
+                  onCompleted() {
                     customToast('گزارش با موفقیت ثبت شد', 'success');
                   },
                   onError: (err) => {
@@ -82,7 +79,7 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
                 if (values.block) {
                   addToBlackList({
                     variables: { blockedId: id },
-                    onCompleted(data) {
+                    onCompleted() {
                       customToast('کاربر به لیست  سیاه اضافه شد', 'success');
                     },
                     onError: (err) => {
@@ -156,12 +153,9 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
                   setValues({ block: false, message: values.message });
                   handleSubmit();
                 }}
+                loading={loading}
               >
-                {loading ? (
-                  <DotesLoading size="h-2 w-2" className="bg-white" />
-                ) : (
-                  'گزارش کاربر '
-                )}
+                گزارش کاربر
               </Button>
               <Button
                 variant="danger-outline"
@@ -171,12 +165,9 @@ const ViolationReportModal: FC<ViolationReportModalProps> = ({
                   setValues({ block: true, message: values.message });
                   handleSubmit();
                 }}
+                loading={loading || blocking}
               >
-                {loading ? (
-                  <DotesLoading size="h-2 w-2" className="bg-white" />
-                ) : (
-                  'گزارش و مسدودکردن کاربر'
-                )}
+                گزارش و مسدودکردن کاربر
               </Button>
             </div>
           )}

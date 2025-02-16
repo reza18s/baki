@@ -18,6 +18,8 @@ import { IcNoImage } from '../icons/IcNoImage';
 import { allAvatars } from '@/constants';
 import Modal from '../base/Modal/Modal';
 import { IcXCircle } from '../icons/IcXCircle';
+import { Player } from '@lottiefiles/react-lottie-player';
+import RecordAnimation from '@/assets/recordA.json';
 
 export const ProfileCard = ({
   user,
@@ -34,16 +36,13 @@ export const ProfileCard = ({
   const [audio, setAudio] = useState(
     user.record ? new Audio(user.record) : undefined,
   );
-  const [isPlaying, setIsPlaying] = useState(false);
   const playAudio = () => {
     setIsOpen('record');
     audio?.play();
-    setIsPlaying(true);
   };
   const pauseAudio = () => {
     setIsOpen(undefined);
     audio?.pause();
-    setIsPlaying(false);
   };
   useEffect(() => {
     if (user.record) {
@@ -53,7 +52,6 @@ export const ProfileCard = ({
   useEffect(() => {
     const handleAudioEnd = () => {
       setIsOpen(undefined);
-      setIsPlaying(false);
     };
     audio?.addEventListener('ended', handleAudioEnd);
     return () => {
@@ -214,7 +212,7 @@ export const ProfileCard = ({
       >
         <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
           <div
-            className="absolute right-0 top-0"
+            className="absolute right-0 top-0 z-10"
             onClick={() => setIsOpen(undefined)}
           >
             <IcXCircle className="size-5 stroke-1"></IcXCircle>
@@ -230,16 +228,18 @@ export const ProfileCard = ({
       </Modal>
       <Modal isOpen={isOpen === 'record'} onRequestClose={() => pauseAudio()}>
         <div className="relative flex size-64 items-center justify-center rounded-full bg-gray-100">
-          <div className="absolute right-0 top-0" onClick={() => pauseAudio()}>
+          <div
+            className="absolute right-0 top-0 z-10"
+            onClick={() => pauseAudio()}
+          >
             <IcXCircle className="size-5 stroke-1"></IcXCircle>
           </div>
-          <img
-            src={
-              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
-              CardAvatar
-            }
-            className="size-48"
-          ></img>
+          <Player
+            autoplay
+            loop
+            src={RecordAnimation}
+            style={{ height: '256px', width: '256px' }}
+          ></Player>
         </div>
       </Modal>
       <SendMessageModal

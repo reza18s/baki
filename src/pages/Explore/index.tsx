@@ -1,6 +1,5 @@
 import ExploreCard from '../../components/Explore/exploreCard';
 import BakiLogo from '../../assets/img/Explore/BakiLogo.svg';
-import * as SolarIconSet from 'solar-icon-set';
 import { Page } from '@/components/layout/Page';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
@@ -27,7 +26,6 @@ import { IcHamburgerMenu } from '@/components/icons/IcHamburgerMenu';
 import { IcUndo } from '@/components/icons/IcUndo';
 import { IcTuning2 } from '@/components/icons/IcTuning2';
 import { useIonRouter } from '@ionic/react';
-import { IcSearchTypeIntrests } from '@/components/icons/IcSearchTypeIntrests';
 import { RenderPlanLimitMessage } from '@/components/Explore/renderPlanLimitMessage';
 import { isNotToday } from '@/utils/datetime';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -51,15 +49,14 @@ export default function Explore() {
     | 'extend-plan'
     | 'failed-plan'
   >();
-  const [sameResult, setSameResult] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [start, setStart] = useState(false);
   const [cardsHistory, setCardsHistory] = useState<RandomUser[]>([]);
   const [cards, setCards] = useState<RandomUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const { filters, searchType, searchStart, setSearchStart } = useStore(
     (store) => store,
   );
-  console.log(cardsHistory);
   const { data: me, refetch: refetchMe } = useGetMeQuery();
   const planUse: { [key: string]: number } =
     me?.getMe.planUse?.updateAt &&
@@ -70,7 +67,7 @@ export default function Explore() {
           baseOnInterest: 0,
           famous: 0,
         };
-  const [__, { loading, refetch }] = useGetRandomUserLazyQuery({
+  const [__, { refetch }] = useGetRandomUserLazyQuery({
     variables: {
       searchType: searchType,
       age: filters.age,
@@ -86,6 +83,7 @@ export default function Explore() {
             index === self.findIndex((t) => t?.id === item?.id),
         ) as RandomUser[],
       );
+      setLoading(false);
     },
 
     onError: (err) => {
@@ -104,8 +102,15 @@ export default function Explore() {
       (searchType === 'baseOnInterest' && 1 > (planUse?.baseOnInterest || 0)) ||
       (searchType === 'famous' && 1 > (planUse?.famous || 0))
     ) {
-      setSameResult(false);
-      return refetch();
+      setLoading(true);
+      return refetch({
+        searchType: searchType,
+        age: filters.age,
+        languages: filters.language,
+        mySpecialty: filters.mySpecialty,
+        province: filters.provinces,
+        travelInterests: filters.interest,
+      });
     }
   };
   const [Like] = useLikeMutation();
@@ -150,6 +155,7 @@ export default function Explore() {
               index === self.findIndex((t) => t?.id === item?.id),
           );
           setCards(newResult);
+          setLoading(false);
         });
       }
     }, 200);
@@ -265,6 +271,15 @@ export default function Explore() {
                 تغییر فیلترها
               </Button>
             </div>
+          ) : loading ? (
+            <div
+              className="size-full bg-warning-50 p-4"
+              onClick={() => setStart(true)}
+            >
+              <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
+                <CircleSpinner></CircleSpinner>در حال پیدا کردن همسفر...
+              </div>
+            </div>
           ) : (
             <div
               className="size-full bg-warning-50 p-4"
@@ -290,41 +305,30 @@ export default function Explore() {
             </div>
           )
         ) : start ? (
-          loading ? (
-            <div
-              className="size-full bg-warning-50 p-4"
-              onClick={() => setStart(true)}
-            >
-              <div className="text flex h-[90%] flex-col items-center justify-center gap-4 text-base font-bold text-black">
-                <CircleSpinner></CircleSpinner>در حال پیدا کردن همسفر...
-              </div>
-            </div>
-          ) : (
-            <>
-              {isOpen === 'swipe' && (
-                <div
-                  className="absolute z-[10] h-[calc(100%-16px)] w-[calc(100%-32px)] bg-white/70"
-                  onClick={() => setIsOpen(undefined)}
-                >
-                  <div className="flex h-full w-full items-center justify-center gap-24">
-                    <IcSwapRight></IcSwapRight>
-                    <IcSwapLeft></IcSwapLeft>
-                  </div>
+          <>
+            {isOpen === 'swipe' && (
+              <div
+                className="absolute z-[10] h-[calc(100%-16px)] w-[calc(100%-32px)] bg-white/70"
+                onClick={() => setIsOpen(undefined)}
+              >
+                <div className="flex h-full w-full items-center justify-center gap-24">
+                  <IcSwapRight></IcSwapRight>
+                  <IcSwapLeft></IcSwapLeft>
                 </div>
-              )}
-              <AnimatePresence>
-                {cards.map((card, index) => (
-                  <ExploreCard
-                    key={card?.id}
-                    inView={index == cards.length - 1}
-                    handleSwipe={handleSwipe}
-                    user={card}
-                    searchMethod="تصادفی"
-                  />
-                ))}
-              </AnimatePresence>
-            </>
-          )
+              </div>
+            )}
+            <AnimatePresence>
+              {cards.map((card, index) => (
+                <ExploreCard
+                  key={card?.id}
+                  inView={index == cards.length - 1}
+                  handleSwipe={handleSwipe}
+                  user={card}
+                  searchMethod="تصادفی"
+                />
+              ))}
+            </AnimatePresence>
+          </>
         ) : (
           <div
             className="size-full bg-warning-50 p-4"

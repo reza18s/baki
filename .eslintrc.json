@@ -21,7 +21,6 @@
   ],
   "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "rules": {
-    "no-console": "warn",
     // Best practices
     "dot-notation": "error",
     "no-floating-decimal": "error",

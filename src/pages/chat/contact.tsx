@@ -115,7 +115,7 @@ export const ContactPage = ({ match }: IContactPages) => {
   const { data } = useGetChatQuery({
     variables: { participantId: id },
     onError(error) {
-      console.log(error);
+      console.error(error);
     },
   });
   const chat = data?.getChat;
@@ -288,6 +288,7 @@ export const ContactPage = ({ match }: IContactPages) => {
       }
     } catch (err) {
       setSelectedImage(null);
+      // eslint-disable-next-line no-console
       console.error('Error sending message:', err);
     }
   };
@@ -354,7 +355,6 @@ export const ContactPage = ({ match }: IContactPages) => {
           },
         );
         const responseJson = await response.json();
-        console.log('responseJson', responseJson);
         if (response.ok && responseJson?.file?.url) {
           voiceUrl = responseJson?.file?.url;
         } else if (responseJson.code === 'INVALID_TOKEN') {
@@ -400,10 +400,9 @@ export const ContactPage = ({ match }: IContactPages) => {
       reader.readAsDataURL(file);
     }
   };
-  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = event.currentTarget;
-    const imageHeight = img.clientHeight; // Get the natural height of the image
-
+  const handleImageLoad = (_event: React.SyntheticEvent<HTMLImageElement>) => {
+    // const img = event.currentTarget;
+    // const imageHeight = img.clientHeight; // Get the natural height of the image
     // if (chatContainerRef.current) {
     //   (async () => {
     //     console.log(imageHeight);
@@ -673,7 +672,6 @@ export const ContactPage = ({ match }: IContactPages) => {
           >
             <svg
               onClick={() => {
-                console.log(watch('message'));
                 setValue('message', removeLastGrapheme(watch('message')));
               }}
               fill="#000000"

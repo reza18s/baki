@@ -74,7 +74,6 @@ export default function Filter() {
   const handleSaveFilters = () => {
     if (validateFilters()) {
       setStoreFilters(filters);
-      console.log('llll');
       setSearchStart(true);
       history.goBack();
     }
