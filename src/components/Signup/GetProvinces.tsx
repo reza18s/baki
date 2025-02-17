@@ -87,7 +87,7 @@ export default function GetProvinces(props: {
               },
             }}
             trigger={['click']}
-            className="w-full"
+            className="w-[90vw]"
             rootClassName="border-2 rounded-lg border-black"
           >
             <Input
@@ -113,7 +113,7 @@ export default function GetProvinces(props: {
                   setSelectCity('');
                 }
               }}
-              className="flex h-[48px] w-full cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold"
+              className="flex h-[48px] w-[90vw] cursor-pointer items-center justify-start rounded-[12px] border-[1.5px] border-brand-black bg-white p-2 text-base font-bold"
               placeholder="استان محل زندگی خود را انتخاب کنید..."
             />
           </Dropdown>
@@ -147,7 +147,7 @@ export default function GetProvinces(props: {
                 },
               }}
               trigger={['click']}
-              className="w-full"
+              className="w-[90vw]"
               rootClassName="border-2 rounded-lg border-black"
             >
               <Input

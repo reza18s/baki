@@ -2,8 +2,14 @@ mutation CreateRequest(
   $receiverId: String!
   $type: RequestType!
   $searchType: String!
+  $message: String!
 ) {
-  createRequest(receiverId: $receiverId, type: $type, searchType: $searchType) {
+  createRequest(
+    receiverId: $receiverId
+    type: $type
+    searchType: $searchType
+    message: $message
+  ) {
     id
     receiverId
     requesterId

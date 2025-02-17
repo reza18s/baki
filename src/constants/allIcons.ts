@@ -1,4 +1,4 @@
-import { IcAries } from '@/components/icons/IcAries';
+import Aries from '../assets/img/Astronomy/Ghuch Aries.svg';
 import {
   AdventoreIcon,
   AmountOfEarlyRisingSvg,
@@ -77,66 +77,66 @@ import {
   WineIcon,
   WritingIcon,
 } from './icons';
-import IcTaurus from '../assets/img/Astronomy/Tarazoo libra.svg';
-import IcGemini from '../assets/img/Astronomy/Do Peikar gemini.svg';
-import IcCancer from '../assets/img/Astronomy/Kharchang cancer.svg';
-import IcCapricorn from '../assets/img/Astronomy/Boz capricorn.svg';
-import IcLeo from '../assets/img/Astronomy/Shir leo.svg';
-import IcVirgo from '../assets/img/Astronomy/Khooshe virgo.svg';
-import IcLibra from '../assets/img/Astronomy/Tarazoo libra.svg';
-import IcScorpio from '../assets/img/Astronomy/Aghrab Scorpio.svg';
-import IcSagittarius from '../assets/img/Astronomy/Kaman sagittarius.svg';
-import IcAquarius from '../assets/img/Astronomy/Abriz aquarius.svg';
-import IcPisces from '../assets/img/Astronomy/Mahi pisces.svg';
+import Taurus from '../assets/img/Astronomy/Tarazoo libra.svg';
+import Gemini from '../assets/img/Astronomy/Do Peikar gemini.svg';
+import Cancer from '../assets/img/Astronomy/Kharchang cancer.svg';
+import Capricorn from '../assets/img/Astronomy/Boz capricorn.svg';
+import Leo from '../assets/img/Astronomy/Shir leo.svg';
+import Virgo from '../assets/img/Astronomy/Khooshe virgo.svg';
+import Libra from '../assets/img/Astronomy/Tarazoo libra.svg';
+import Scorpio from '../assets/img/Astronomy/Aghrab Scorpio.svg';
+import Sagittarius from '../assets/img/Astronomy/Kaman sagittarius.svg';
+import Aquarius from '../assets/img/Astronomy/Abriz aquarius.svg';
+import Pisces from '../assets/img/Astronomy/Mahi pisces.svg';
 
 export const allIcon = [
   {
     title: 'حمل',
-    icon: IcAries,
+    icon: Aries,
   },
   {
     title: 'ثور',
-    icon: IcTaurus,
+    icon: Taurus,
   },
   {
     title: 'جوزا',
-    icon: IcGemini,
+    icon: Gemini,
   },
   {
     title: 'سرطان',
-    icon: IcCancer,
+    icon: Cancer,
   },
   {
     title: 'اسد',
-    icon: IcLeo,
+    icon: Leo,
   },
   {
     title: 'سنبله',
-    icon: IcVirgo,
+    icon: Virgo,
   },
   {
     title: 'میزان',
-    icon: IcLibra,
+    icon: Libra,
   },
   {
     title: 'عقرب',
-    icon: IcScorpio,
+    icon: Scorpio,
   },
   {
     title: 'قوس',
-    icon: IcSagittarius,
+    icon: Sagittarius,
   },
   {
     title: 'جدی',
-    icon: IcCapricorn,
+    icon: Capricorn,
   },
   {
     title: 'دلو',
-    icon: IcAquarius,
+    icon: Aquarius,
   },
   {
     title: 'حوت',
-    icon: IcPisces,
+    icon: Pisces,
   },
   { title: 'البرز', flag: '🇮🇷' },
   { title: 'اردبیل', flag: '🇮🇷' },

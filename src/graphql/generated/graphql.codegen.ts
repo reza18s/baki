@@ -25,6 +25,13 @@ export type Scalars = {
   PositiveFloat: { input: any; output: any; }
 };
 
+export type Admin = {
+  cratedAt?: Maybe<Scalars['Date']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  phoneNumber?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
+};
+
 export type AuthPayload = {
   accessToken?: Maybe<Scalars['String']['output']>;
   guest?: Maybe<Guest>;
@@ -137,6 +144,7 @@ export type Mutation = {
   Like?: Maybe<Liked>;
   Roll: Scalars['Boolean']['output'];
   Signin: Scalars['String']['output'];
+  SigninAdmin: Scalars['String']['output'];
   acceptRequest?: Maybe<Request>;
   activePlan?: Maybe<User>;
   addDeviceToken: Scalars['String']['output'];
@@ -153,6 +161,7 @@ export type Mutation = {
   logInAsGuest?: Maybe<AuthPayload>;
   readMessages: Scalars['String']['output'];
   refreshAccessToken?: Maybe<AuthPayload>;
+  refreshAdminAccessToken: Scalars['String']['output'];
   removeFromBlacklist: Scalars['String']['output'];
   removeFromFavorite: Scalars['String']['output'];
   removeReport?: Maybe<ViolationReport>;
@@ -172,6 +181,12 @@ export type MutationLikeArgs = {
 
 
 export type MutationSigninArgs = {
+  phoneNumber: Scalars['String']['input'];
+};
+
+
+export type MutationSigninAdminArgs = {
+  password: Scalars['String']['input'];
   phoneNumber: Scalars['String']['input'];
 };
 
@@ -220,6 +235,7 @@ export type MutationCreateReportArgs = {
 
 
 export type MutationCreateRequestArgs = {
+  message: Scalars['String']['input'];
   receiverId: Scalars['String']['input'];
   searchType: Scalars['String']['input'];
   type: RequestType;
@@ -375,6 +391,8 @@ export type PricePlan = {
 };
 
 export type Query = {
+  getAdmin: Admin;
+  getAllUsers: Array<User>;
   getBlockList: User;
   getChat: Chat;
   getChats: Array<Chat>;
@@ -392,6 +410,13 @@ export type Query = {
   getUsers: Array<User>;
   ok: Scalars['Boolean']['output'];
   recommendedUsers: Array<User>;
+};
+
+
+export type QueryGetAllUsersArgs = {
+  ids?: InputMaybe<Array<Scalars['String']['input']>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -478,6 +503,7 @@ export type RandomUser = {
 export type Request = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
+  message: Scalars['String']['output'];
   receiver?: Maybe<User>;
   receiverId: Scalars['String']['output'];
   requester?: Maybe<User>;
@@ -730,6 +756,7 @@ export type CreateRequestMutationVariables = Exact<{
   receiverId: Scalars['String']['input'];
   type: RequestType;
   searchType: Scalars['String']['input'];
+  message: Scalars['String']['input'];
 }>;
 
 
@@ -858,7 +885,7 @@ export type GetRequestsQueryVariables = Exact<{
 }>;
 
 
-export type GetRequestsQuery = { getRequests: Array<{ id: string, receiverId: string, requesterId: string, type: string, createdAt?: any | null, updatedAt?: any | null, status: string, requester?: { id: string, name?: string | null, mainImage?: string | null } | null, receiver?: { id: string, name?: string | null, mainImage?: string | null } | null }> };
+export type GetRequestsQuery = { getRequests: Array<{ id: string, receiverId: string, requesterId: string, type: string, createdAt?: any | null, updatedAt?: any | null, status: string, message: string, requester?: { id: string, name?: string | null, mainImage?: string | null } | null, receiver?: { id: string, name?: string | null, mainImage?: string | null } | null }> };
 
 export type GetRequestQueryVariables = Exact<{
   requesterId: Scalars['String']['input'];
@@ -866,7 +893,7 @@ export type GetRequestQueryVariables = Exact<{
 }>;
 
 
-export type GetRequestQuery = { getRequest?: { id: string, receiverId: string, requesterId: string, status: string, type: string, createdAt?: any | null, updatedAt?: any | null } | null };
+export type GetRequestQuery = { getRequest?: { id: string, receiverId: string, requesterId: string, status: string, type: string, message: string, createdAt?: any | null, updatedAt?: any | null } | null };
 
 export type GetTransactionQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1554,8 +1581,13 @@ export type CreateReportMutationHookResult = ReturnType<typeof useCreateReportMu
 export type CreateReportMutationResult = Apollo.MutationResult<CreateReportMutation>;
 export type CreateReportMutationOptions = Apollo.BaseMutationOptions<CreateReportMutation, CreateReportMutationVariables>;
 export const CreateRequestDocument = gql`
-    mutation CreateRequest($receiverId: String!, $type: RequestType!, $searchType: String!) {
-  createRequest(receiverId: $receiverId, type: $type, searchType: $searchType) {
+    mutation CreateRequest($receiverId: String!, $type: RequestType!, $searchType: String!, $message: String!) {
+  createRequest(
+    receiverId: $receiverId
+    type: $type
+    searchType: $searchType
+    message: $message
+  ) {
     id
     receiverId
     requesterId
@@ -1580,6 +1612,7 @@ export type CreateRequestMutationFn = Apollo.MutationFunction<CreateRequestMutat
  *      receiverId: // value for 'receiverId'
  *      type: // value for 'type'
  *      searchType: // value for 'searchType'
+ *      message: // value for 'message'
  *   },
  * });
  */
@@ -2462,6 +2495,7 @@ export const GetRequestsDocument = gql`
     createdAt
     updatedAt
     status
+    message
     requester {
       id
       name
@@ -2516,6 +2550,7 @@ export const GetRequestDocument = gql`
     requesterId
     status
     type
+    message
     createdAt
     updatedAt
   }

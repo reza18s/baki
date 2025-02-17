@@ -13,7 +13,7 @@ import { Features } from '../../components/plan/features';
 import { FeaturesCarousel } from '@/components/plan/featuresCarousel';
 import { PlanCard } from '@/components/plan/planCard';
 import Accordion from '@/components/accordion/Accordion';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { paths } from '@/routes/paths';
 import { useIonRouter } from '@ionic/react';
 const faq: { question: string; answer: string }[] = [

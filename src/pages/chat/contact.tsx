@@ -49,7 +49,7 @@ const formatTime = (time: number): string => {
 type IContactPages = RouteComponentProps<{
   id: string;
 }>;
-const removeLastGrapheme = (str: string) => {
+export const removeLastGrapheme = (str: string) => {
   const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
   const segments = Array.from(segmenter.segment(str)); // Split into graphemes
   return segments

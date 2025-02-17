@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import { useUpdateUserMutation } from '@/graphql/generated/graphql.codegen';
 import AppBar from '../layout/Header/AppBar';
 import { Page } from '../layout/Page';

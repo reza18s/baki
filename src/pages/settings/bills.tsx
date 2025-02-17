@@ -1,6 +1,5 @@
 import { IcExclamationMarkInCircleFill } from '@/components/icons/IcExclamationMarkInCircleFill';
 import { IcTickCircle } from '@/components/icons/IcTickCircle';
-import { IcXCircle } from '@/components/icons/IcXCircle';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import { useGetTransactionQuery } from '@/graphql/generated/graphql.codegen';

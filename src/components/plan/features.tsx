@@ -1,11 +1,5 @@
 import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 import { IcTick } from '@/components/icons/IcTick';
-import React from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const Items = [

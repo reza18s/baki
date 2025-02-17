@@ -1,8 +1,6 @@
 import Button from '@/components/base/Button/Button';
-import { IcDangerTriangle } from '@/components/icons/IcDangerTriangle';
 import { IcNoInternet } from '@/components/icons/IcNoInternet';
 import { Page } from '@/components/layout/Page';
-import { useIonRouter } from '@ionic/react';
 import React from 'react';
 import { useHistory } from 'react-router';
 

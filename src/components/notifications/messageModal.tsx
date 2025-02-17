@@ -162,7 +162,7 @@ export const MessageModal = ({
                       searchType: notification.searchType,
                       type: notification.type as RequestType,
                     },
-                    onCompleted(data) {
+                    onCompleted() {
                       customToast('درخواست با موفقیت قبول شد', 'success');
                       refetch();
                     },

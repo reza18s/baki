@@ -4,7 +4,6 @@ import { Pagination } from 'swiper/modules';
 import { IcTickCircle } from '../icons/IcTickCircle';
 import { IcStarCircle } from '../icons/IcStarCircle';
 import { IcUserHeard } from '../icons/IcUserHeard';
-import { IcChat } from '../icons/IcChat';
 import { IcClockCircle } from '../icons/IcClockCircle';
 import { IcUndo } from '../icons/IcUndo';
 import { IcDialog2 } from '../icons/IcDialog2';
