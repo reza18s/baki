@@ -7,7 +7,7 @@ mutation UpdateUser(
   $record: String
   $avatar: String
   $mainImage: String
-  $images: [String!]
+  $images: [String]
   $travelInterests: [String!]
   $personalInterests: [String!]
   $mySpecialty: [String!]

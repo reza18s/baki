@@ -31,7 +31,6 @@ export default function UploadPictures({
   } = useLocalStore((s) => s);
   const [updateUser, { loading }] = useUpdateUserMutation();
   const hs = useIonRouter();
-
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number | 'main',
@@ -118,6 +117,9 @@ export default function UploadPictures({
                 updateUser({
                   variables: {
                     images: imagesUrl,
+                  },
+                  onError(error, clientOptions) {
+                    console.log(error);
                   },
                 });
               } else {

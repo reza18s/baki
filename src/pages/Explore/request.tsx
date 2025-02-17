@@ -153,7 +153,7 @@ export const Request = ({
                   receiverId: id,
                   searchType: searchType || 'random',
                   type: 'hostingInvitation' as RequestType,
-                  message: 'دوست دارین میزبانی من شی؟',
+                  message: 'مایلم میزبان شما باشم.خیلی خوشحال می‌شم اگه بیای',
                 },
                 onCompleted: () => {
                   customToast('دعوت با موفقیت ارسال شد', 'success');

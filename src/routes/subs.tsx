@@ -28,12 +28,11 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
       setState('normal');
     },
   });
-
   useEffect(() => {
     if (data?.getMe) {
       const getMe = data.getMe;
       // @ts-expect-error the
-      updateUserInfo({ ...getMe, images: [] });
+      updateUserInfo({ ...getMe });
       setState('normal');
     }
   }, [data, refetch]);

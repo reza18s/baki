@@ -137,7 +137,7 @@ export default function Explore() {
       (!FirstEnter.noImage.lastShow ||
         new Date().getTime() - new Date(FirstEnter.noImage.lastShow).getTime() >
           1000 * 60 * 60) &&
-      (!me?.getMe.mainImage || !me?.getMe.images || me.getMe.images.length > 3)
+      (!me?.getMe.mainImage || !me?.getMe.images || me.getMe.images.length < 3)
     ) {
       setIsOpen('no-image');
     }
