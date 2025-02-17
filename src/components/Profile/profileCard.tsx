@@ -23,6 +23,7 @@ import RecordAnimation from '@/assets/recordA.json';
 import { IcEdit } from '../icons/IcEdit';
 import { useIonRouter } from '@ionic/react';
 import { paths } from '@/routes/paths';
+import { Link } from 'react-router-dom';
 
 export const ProfileCard = ({
   user,
@@ -89,7 +90,7 @@ export const ProfileCard = ({
         )}
         <div className="flex items-center justify-between">
           <div className={cn('text-sm', user?.mainImage && 'text-white')}>
-            {!me && (
+            {!me ? (
               <>
                 {' '}
                 <div className="flex items-center gap-2">
@@ -117,6 +118,13 @@ export const ProfileCard = ({
                   {user?.isOnline ? 'آنلاین' : 'آفلاین'}
                 </div>
               </>
+            ) : (
+              <Link
+                to={paths.profile.completePictures}
+                className="rounded-2xl bg-brand-yellow p-2 py-1 text-xs font-medium text-black"
+              >
+                ویرایش تصویر
+              </Link>
             )}
           </div>
           <div className="flex items-center gap-x-[8px]">
@@ -145,7 +153,19 @@ export const ProfileCard = ({
       {/* body */}
       <div className="flex flex-col gap-8 p-4">
         <div className="flex flex-col gap-4">
-          <Bio bio={user?.bio || ''}></Bio>
+          <Bio
+            bio={user?.bio || ''}
+            edit={
+              me && (
+                <IcEdit
+                  className="size-4"
+                  onClick={() => {
+                    hs.push(`${paths.profile.editProfile}#bio`);
+                  }}
+                ></IcEdit>
+              )
+            }
+          ></Bio>
           <Info
             className="bg-brand-yellow"
             items={getBaseInfo(user) as string[]}
@@ -196,13 +216,43 @@ export const ProfileCard = ({
           className="bg-warning-100"
           items={user?.languages as string[] | undefined}
           title="زبان هایی که میدانم "
+          edit={
+            me && (
+              <IcEdit
+                className="size-4"
+                onClick={() => {
+                  hs.push(`${paths.profile.editProfile}#languages`);
+                }}
+              ></IcEdit>
+            )
+          }
         ></Info>
         <Info
           className="bg-warning-100"
           items={user?.traveledToPlaces as string[] | undefined}
           title="مکان‌هایی که سفر کرده‌ام"
+          edit={
+            me && (
+              <IcEdit
+                className="size-4"
+                onClick={() => {
+                  hs.push(`${paths.profile.editProfile}#traveledToPlaces`);
+                }}
+              ></IcEdit>
+            )
+          }
         ></Info>
         <Info
+          edit={
+            me && (
+              <IcEdit
+                className="size-4"
+                onClick={() => {
+                  hs.push(`${paths.profile.editProfile}#livedInPlaces`);
+                }}
+              ></IcEdit>
+            )
+          }
           className="bg-warning-100"
           items={user?.livedInPlaces as string[] | undefined}
           title="مکان‌هایی که زندگی کرده‌ام"
@@ -211,9 +261,17 @@ export const ProfileCard = ({
       {user?.images?.map((image) => (
         <div
           key={image}
-          className="flex items-center justify-center bg-brand-black"
+          className="relative flex items-center justify-center bg-brand-black"
         >
-          <img src={image} className="max-h-96"></img>
+          <img src={image || ''} className="max-h-96"></img>
+          {me && (
+            <Link
+              to={paths.profile.completePictures}
+              className="absolute bottom-2 right-2 z-[2] rounded-2xl bg-brand-yellow p-2 py-1 text-xs font-medium"
+            >
+              ویرایش تصویر
+            </Link>
+          )}
         </div>
       ))}
       {!me && (

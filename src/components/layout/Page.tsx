@@ -148,7 +148,7 @@ export const Page = forwardRef<HTMLIonContentElement, PageProps>(
 
         <IonContent
           id="ion-content"
-          // className="max-h-screen overflow-scroll"
+          className="max-h-screen overflow-scroll"
           onIonScroll={(e) => {
             scrollPositionRef.current = e.detail.scrollTop; // Save scroll position
             onScroll?.(e);

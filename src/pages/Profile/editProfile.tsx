@@ -34,6 +34,7 @@ import {
 import { useStore } from '@/store/useStore';
 import { useIonRouter } from '@ionic/react';
 import { Input } from '@/components/shared/Inputs/input';
+import { useLocation } from 'react-router';
 
 export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
@@ -41,6 +42,7 @@ export default function EditProfile() {
   >();
   const containerRef = useRef<HTMLIonContentElement | null>(null);
   const hs = useIonRouter();
+  const location = useLocation();
   const userInfo = useLocalStore((store) => store.userInfo);
   const calculateCompletionPercentage = useLocalStore(
     (store) => store.calculateCompletionPercentage,
@@ -56,7 +58,11 @@ export default function EditProfile() {
       bio: userInfo.bio,
     },
   });
-
+  useEffect(() => {
+    if (location.hash === '#bio') {
+      hs.push(paths.profile.editProfile, 'forward', 'replace');
+    }
+  }, [location]);
   const [updateUser] = useUpdateUserMutation();
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const setBasicInformationsStep = useStore((s) => s.setBasicInformationsStep);
@@ -165,7 +171,10 @@ export default function EditProfile() {
         <UploadPictures onChange />
       </div>
       {/* About Me */}
-      <div className="flex min-h-fit w-full flex-col items-center gap-y-3">
+      <div
+        className="flex min-h-fit w-full flex-col items-center gap-y-3"
+        id="bio"
+      >
         <h1 className="w-full text-lg font-bold">درباره من</h1>
         <div className="w-full">
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
@@ -191,7 +200,7 @@ export default function EditProfile() {
             onChange={(e) => setValue('username', e.target.value)}
           />
         </div>
-        <div className="w-full" id="biography">
+        <div className="w-full">
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
             بیوگرافی
           </h2>
@@ -309,8 +318,10 @@ export default function EditProfile() {
           </div>
         </div>
       </div>
-      {/* More about Me */}
-      <div className="flex min-h-fit w-full flex-col items-center gap-y-3 pt-5">
+      <div
+        id="languages"
+        className="flex min-h-fit w-full flex-col items-center gap-y-3 pt-5"
+      >
         <h1 className="w-full pb-2 text-lg font-bold">موارد بیشتر درباره من</h1>
         <div className="w-full">
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">

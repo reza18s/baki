@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatLastSeen } from '@/utils/datetime';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { useIonRouter } from '@ionic/react';
+import BakiBanner from '../../assets/images/BakiBanner.png';
 
 export const Profile = () => {
   const { data, loading, refetch } = useGetMeQuery();
@@ -122,6 +123,10 @@ export const Profile = () => {
                   </div>
                 ))}
             </div>
+          </div>
+
+          <div className="flex w-full items-center">
+            <img src={BakiBanner} className="w-full" alt="BakiBanner" />
           </div>
           <ProfileCard user={me as User} me={true}></ProfileCard>
         </>
