@@ -70,6 +70,7 @@ export const Blocked = () => {
       setHoldTimeout(null);
     }
   };
+  console.log(data?.getBlockList);
   return (
     <Page
       header={
@@ -123,8 +124,9 @@ export const Blocked = () => {
           className="flex flex-col rounded-xl border border-gray-300 bg-white px-3 py-2"
           onTouchMove={handleTouchMove}
         >
-          {data?.getBlockList.chats?.map((chat) => (
+          {data?.getBlockList.chats?.map((chat, i) => (
             <Contact
+              last={(data?.getBlockList?.chats?.length || 0) - 1 === i}
               key={chat?.id}
               className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
               onClick={

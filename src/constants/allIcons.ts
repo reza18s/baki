@@ -1,3 +1,4 @@
+import { IcAries } from '@/components/icons/IcAries';
 import {
   AdventoreIcon,
   AmountOfEarlyRisingSvg,
@@ -76,8 +77,67 @@ import {
   WineIcon,
   WritingIcon,
 } from './icons';
+import IcTaurus from '../assets/img/Astronomy/Tarazoo libra.svg';
+import IcGemini from '../assets/img/Astronomy/Do Peikar gemini.svg';
+import IcCancer from '../assets/img/Astronomy/Kharchang cancer.svg';
+import IcCapricorn from '../assets/img/Astronomy/Boz capricorn.svg';
+import IcLeo from '../assets/img/Astronomy/Shir leo.svg';
+import IcVirgo from '../assets/img/Astronomy/Khooshe virgo.svg';
+import IcLibra from '../assets/img/Astronomy/Tarazoo libra.svg';
+import IcScorpio from '../assets/img/Astronomy/Aghrab Scorpio.svg';
+import IcSagittarius from '../assets/img/Astronomy/Kaman sagittarius.svg';
+import IcAquarius from '../assets/img/Astronomy/Abriz aquarius.svg';
+import IcPisces from '../assets/img/Astronomy/Mahi pisces.svg';
 
 export const allIcon = [
+  {
+    title: 'حمل',
+    icon: IcAries,
+  },
+  {
+    title: 'ثور',
+    icon: IcTaurus,
+  },
+  {
+    title: 'جوزا',
+    icon: IcGemini,
+  },
+  {
+    title: 'سرطان',
+    icon: IcCancer,
+  },
+  {
+    title: 'اسد',
+    icon: IcLeo,
+  },
+  {
+    title: 'سنبله',
+    icon: IcVirgo,
+  },
+  {
+    title: 'میزان',
+    icon: IcLibra,
+  },
+  {
+    title: 'عقرب',
+    icon: IcScorpio,
+  },
+  {
+    title: 'قوس',
+    icon: IcSagittarius,
+  },
+  {
+    title: 'جدی',
+    icon: IcCapricorn,
+  },
+  {
+    title: 'دلو',
+    icon: IcAquarius,
+  },
+  {
+    title: 'حوت',
+    icon: IcPisces,
+  },
   { title: 'البرز', flag: '🇮🇷' },
   { title: 'اردبیل', flag: '🇮🇷' },
   { title: 'ایلام', flag: '🇮🇷' },

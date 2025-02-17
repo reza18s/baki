@@ -124,8 +124,9 @@ export const Favorite = () => {
           className="flex flex-col rounded-xl border border-gray-300 bg-white px-3 py-2"
           onTouchMove={handleTouchMove}
         >
-          {data?.getFavorite.chats?.map((chat) => (
+          {data?.getFavorite.chats?.map((chat, i) => (
             <Contact
+              last={(data?.getFavorite?.chats?.length || 0) - 1 === i}
               key={chat?.id}
               className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
               chat={chat as Chat}

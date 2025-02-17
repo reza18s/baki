@@ -1,6 +1,7 @@
 import { IcAquarius } from '@/components/icons/IcAquarius';
 import { IcAries } from '@/components/icons/IcAries';
 import { IcCancer } from '@/components/icons/IcCancer';
+import { IcCapricorn } from '@/components/icons/IcCapricorn';
 import { IcGemini } from '@/components/icons/IcGemini';
 import { IcLeo } from '@/components/icons/IcLeo';
 import { IcLibra } from '@/components/icons/IcLibra';
@@ -59,7 +60,7 @@ export const zodiacSigns = [
   {
     label: 'جدی',
     value: 'Capricorn',
-    icon: <IcCancer></IcCancer>,
+    icon: <IcCapricorn></IcCapricorn>,
   },
   {
     label: 'دلو',

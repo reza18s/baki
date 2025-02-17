@@ -167,11 +167,13 @@ export const Confirm = ({ match }: IConfirm) => {
       loading={loading || !plan}
     >
       <>
-        <PlanCard
-          className="shadow-[0px_1px_#0000001f]"
-          plan={plan as PricePlan}
-          discount={discount}
-        ></PlanCard>
+        {plan && (
+          <PlanCard
+            className="shadow-[0px_1px_#0000001f]"
+            plan={plan}
+            discount={discount}
+          ></PlanCard>
+        )}
 
         <h2
           className="w-full px-4 text-sm font-bold"
@@ -194,7 +196,10 @@ export const Confirm = ({ match }: IConfirm) => {
           className="h-12 w-full text-white"
         >
           پرداخت{' '}
-          {bakiPrice(plan!.price, plan!.discount + (discount?.percent || 0))}{' '}
+          {bakiPrice(
+            plan?.price || 0,
+            (plan?.discount || 0) + (discount?.percent || 0),
+          )}{' '}
           تومان
         </Button>
       </>

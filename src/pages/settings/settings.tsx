@@ -13,6 +13,8 @@ import { Page } from '@/components/layout/Page';
 import ArrowButton from '@/components/shared/Buttons/ArrowButton';
 import { Rules } from '@/components/Signup/rules';
 import { clientLogout } from '@/graphql/apollo/client';
+import { useGetMeQuery } from '@/graphql/generated/graphql.codegen';
+import { cn } from '@/lib/utils';
 import { paths } from '@/routes/paths';
 import { share } from '@/utils/share';
 import { useState } from 'react';
@@ -20,6 +22,11 @@ export const Settings = () => {
   const [isOpen, setIsOpen] = useState<'logout' | 'role' | undefined>(
     undefined,
   );
+  const { data } = useGetMeQuery();
+  const daysLeft = data?.getMe.plan
+    ? (new Date(data.getMe.plan.expireAt).getTime() - new Date().getTime()) /
+      (1000 * 60 * 60 * 24)
+    : 0;
   return (
     <Page
       contentClassName="pt-20 p-6 flex flex-col gap-2 h-full justify-between pb-2 bg-gray-50"
@@ -30,10 +37,19 @@ export const Settings = () => {
           url={paths.plans.main}
           className="bg-brand-yellow"
           text={
-            <>
+            <div className="flex items-center gap-1">
               خرید اشتراک{' '}
-              <span className="text-brand-red">(اشتراک غیرفعال)</span>
-            </>
+              <span
+                className={cn(
+                  'text-xs text-brand-red',
+                  daysLeft > 0 && 'text-brand-green',
+                )}
+              >
+                {daysLeft <= 0
+                  ? '(اشتراک غیرفعال)'
+                  : `(${daysLeft} روز باقیمانده)`}{' '}
+              </span>
+            </div>
           }
           icon={<IcCrownStar></IcCrownStar>}
         ></ArrowButton>{' '}
@@ -45,12 +61,12 @@ export const Settings = () => {
         <ArrowButton
           onClick={() => share()}
           text="دعوت از دوستان"
-          icon={<IcShear></IcShear>}
+          icon={<IcShear> </IcShear>}
         ></ArrowButton>
         <ArrowButton
           url={paths.favorite.main}
           text="لیست علاقه‌مندی‌ها"
-          icon={<IcStar></IcStar>}
+          icon={<IcStar className="size-5"></IcStar>}
         ></ArrowButton>
         <ArrowButton
           url={paths.blocked.main}

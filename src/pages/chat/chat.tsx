@@ -262,8 +262,9 @@ export const Chat = () => {
                 }
               })
 
-              .map((chat) => (
+              .map((chat, i) => (
                 <Contact
+                  last={chats.getChats.length - 1 === i}
                   key={chat.id}
                   onClick={
                     selects.length > 0

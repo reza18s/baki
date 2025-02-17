@@ -57,8 +57,9 @@ export const Features = () => {
                   <IcExclamationMarkInCircle className="fill-gray-300"></IcExclamationMarkInCircle>
                 </PopoverTrigger>
                 <PopoverContent
+                  align="center"
                   side="top"
-                  className="flex flex-col items-center justify-center border-none bg-transparent p-0 shadow-none"
+                  className="flex w-[206px] flex-col items-center justify-center border-none bg-transparent p-0 shadow-none"
                 >
                   <div className="flex items-center rounded-xl bg-black p-2 text-center text-xs text-white">
                     {description}

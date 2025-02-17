@@ -27,7 +27,7 @@ export default function NoInternet() {
               hs.go(0);
             }}
           >
-            بازگشت
+            تلاش مجدد
           </Button>
           <Button
             variant="outline"

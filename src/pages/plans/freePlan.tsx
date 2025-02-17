@@ -224,8 +224,8 @@ export const FreePlan = () => {
           </div>
         ))}
       </div>
-      <Button className="fixed bottom-6 z-20 w-[calc(100%-48px)] py-4">
-        ارسال لینک دعوت
+      <Button className="fixed bottom-6 z-20 h-12 w-[calc(100%-48px)] py-4">
+        دعوت از دوستان
       </Button>
 
       <BottomSheetModal

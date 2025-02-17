@@ -19,8 +19,9 @@ export const Contact: FC<
     className?: string;
     checked?: boolean;
     hideChecked?: boolean;
+    last: boolean;
   }
-> = ({ chat, me, checked, hideChecked = true, ...props }) => {
+> = ({ chat, last = false, me, checked, hideChecked = true, ...props }) => {
   const user = chat.participants?.filter((user) => user?.id !== me?.id)[0];
   const { data, loading } = useGetFavoriteQuery();
   const [addToFavorite] = useAddToFavoriteMutation();
@@ -49,7 +50,7 @@ export const Contact: FC<
             className={`absolute bottom-1 left-0 size-[14px] rounded-full border-[2.5px] border-white ${user?.isOnline ? 'bg-brand-green' : 'bg-gray-400'}`}
           ></div>
         </div>
-        <div className="w-full border-b border-gray-100 pb-1">
+        <div className={cn('w-full', !last && 'border-b border-gray-100 pb-1')}>
           <div className="flex h-14 flex-1 items-center justify-between gap-2">
             <div>
               <h2 className="text-sm font-bold">{user?.name}</h2>

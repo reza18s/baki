@@ -32,10 +32,10 @@ export const Request = ({
       {request ? (
         <div className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white py-4">
           {request.type === 'companionRequest' && (
-            <IcChair className="size-12"></IcChair>
+            <IcCase className="size-12"></IcCase>
           )}
           {request.type === 'hostingInvitation' && (
-            <IcCase className="size-12"></IcCase>
+            <IcChair className="size-12"></IcChair>
           )}
           <h1 className="text-sm font-bold">
             {request.type === 'companionRequest'
