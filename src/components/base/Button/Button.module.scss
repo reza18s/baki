@@ -1,5 +1,5 @@
 .button {
-  @apply py-2 text-center text-sm font-iransans font-bold transition-colors duration-200;
+  @apply py-2 text-center font-iransans text-sm font-bold transition-colors duration-200;
   &:disabled {
     @apply opacity-50;
   }
@@ -41,9 +41,9 @@
     }
   }
   &.outline {
-    @apply border border-solid border-gray-200 bg-transparent text-gray-800;
+    @apply border-[1.5px] border-solid border-gray-300 bg-transparent text-gray-800;
     &:active:not(:disabled) {
-      @apply bg-gray-200;
+      @apply bg-gray-300;
     }
   }
 

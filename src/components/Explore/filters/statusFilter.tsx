@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import React, { useState } from 'react';
@@ -52,12 +53,12 @@ export const StatusFilter = ({
                 setValue(el);
               }}
             >
-              <input
+              {' '}
+              <Checkbox
                 checked={!!value?.includes(el)}
-                type="checkbox"
+                className="border-black"
                 readOnly
-                className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
-              />
+              ></Checkbox>
               {el}
             </div>
           ))}

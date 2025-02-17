@@ -229,7 +229,7 @@ export const Record = () => {
         </div>
         <Button
           className="flex size-16 items-center justify-center rounded-full bg-brand-yellow"
-          loading={isLoading}
+          loading={!!record && isLoading}
         >
           {record ? (
             isPlaying ? (

@@ -33,7 +33,7 @@ export const Subs = ({ children }: { children: React.ReactNode }) => {
     if (data?.getMe) {
       const getMe = data.getMe;
       // @ts-expect-error the
-      updateUserInfo({ ...getMe });
+      updateUserInfo({ ...getMe, images: [] });
       setState('normal');
     }
   }, [data, refetch]);

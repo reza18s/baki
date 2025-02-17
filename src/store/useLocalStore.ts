@@ -34,7 +34,7 @@ interface IFirstEntered {
   swapLeft: boolean;
   swapRight: boolean;
   showUndo: boolean;
-  noImage: { id?: string; time: number };
+  noImage: { id?: string; time: number; lastShow?: string };
 }
 interface IStore {
   step: StepsNumber;

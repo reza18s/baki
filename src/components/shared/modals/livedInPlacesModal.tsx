@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcXCircle } from '@/components/icons/IcXCircle';
@@ -83,16 +84,15 @@ export const LivedInPlacesModal = ({
                   setValue(el.country);
                 }}
               >
-                <input
+                <Checkbox
                   checked={
                     typeof value === 'object'
                       ? value.includes(el.country)
                       : value === el.country
                   }
-                  type="checkbox"
+                  className="border-black"
                   readOnly
-                  className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
-                />
+                ></Checkbox>
                 {el.country}
               </div>
             ))}

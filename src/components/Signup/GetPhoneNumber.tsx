@@ -1,13 +1,20 @@
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import * as SolarIconSet from 'solar-icon-set';
 import Button from '../base/Button/Button';
 import { IcLock } from '../icons/IcLock';
+import { Input } from '../shared/Inputs/input';
 
 export default function GetPhoneNumber(props: {
-  control: any;
+  control: Control<
+    {
+      phoneNumber: string;
+    },
+    any
+  >;
   phoneNumber: string;
   handleSignup: () => void;
   loading: boolean;
+  error?: string;
 }) {
   return (
     <div className="flex h-[calc(100%)] flex-col justify-between gap-y-[40px]">
@@ -17,41 +24,42 @@ export default function GetPhoneNumber(props: {
           ما با اطمینان از واقعی بودن همه افرادی که در باکی هستند از کاربران خود
           محافظت می کنیم.
         </p>
-        <div
-          className={`mt-6 flex h-12 items-center justify-between rounded-xl border-[1.5px] border-black py-4 pl-3 pr-4 ${props.phoneNumber?.length !== 0 ? 'shadow-[0px_3px_#000]' : ''} `}
-        >
-          <SolarIconSet.Phone size={30} />
-          <Controller
-            name="phoneNumber"
-            control={props.control}
-            defaultValue={null}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="tel"
-                dir="ltr"
-                placeholder="09111111111"
-                maxLength={11}
-                className="w-full border-none bg-white outline-none"
-                onKeyDown={(e) => {
-                  if (!/^\d$/.test(e.key) && e.key !== 'Backspace') {
-                    e.preventDefault(); // Prevent invalid characters
-                  }
-                }}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ''); // Filter non-numeric input
-                  field.onChange(value);
-                }}
-              />
-            )}
-          />
-        </div>
+        <Controller
+          name="phoneNumber"
+          control={props.control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              type="tel"
+              className="pl-2"
+              icon={
+                <SolarIconSet.Phone
+                  size={20}
+                  color={props.error ? 'red' : ''}
+                />
+              }
+              placeholder="09111111111"
+              maxLength={11}
+              onKeyDown={(e) => {
+                if (!/^\d$/.test(e.key) && e.key !== 'Backspace') {
+                  e.preventDefault(); // Prevent invalid characters
+                }
+              }}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, ''); // Filter non-numeric input
+                field.onChange(value);
+              }}
+            />
+          )}
+        />
       </div>
       {/* Footer */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-x-[8px]">
-          {/* <SolarIconSet.LockKeyhole size={24} /> */}
-          <IcLock className="size-8" />
+        <div className="flex items-end gap-x-[8px]">
+          <span>
+            <IcLock className="size-6" />
+          </span>
+
           <p className="pl-9 pr-1 font-iransans text-xs font-medium leading-none text-brand-black">
             شماره موبایل شما در پروفایل شما نمایش داده نخواهد شد.
           </p>

@@ -4,6 +4,7 @@ import { FC } from 'react';
 interface BaseProps {
   icon?: React.ReactNode;
   multiline?: boolean;
+  error?: string;
   className?: string;
 }
 
@@ -16,31 +17,34 @@ type InputProps =
 export const Input: FC<InputProps> = ({
   className,
   icon,
+  error,
   multiline,
   ...props
 }) => {
-  const hasValue = (props.value?.toString()?.length || 0) > 0;
-
   const baseClass =
-    'flex w-full items-center gap-x-2 rounded-xl font-iransans border-[1.5px] py-3 pl-6 pr-2  transition-all duration-200 ease-in-out';
-  const activeClass = hasValue ? 'shadow-[0px_3px_#000]' : '';
+    'flex w-full items-center gap-x-2 rounded-xl font-iransans border-[1.5px] py-3 pl-6 pr-3  transition-all duration-200 ease-in-out focus-within:shadow-[0px_3px_#000]';
+  const errorClass =
+    error && 'border-brand-red bg-red-50 focus-within:shadow-[0px_3px_#fe4a49]';
   const inputClass =
-    'w-full appearance-none border-none font-iransans bg-white text-sm outline-none';
+    'w-full appearance-none border-none font-iransans bg-transparent  text-sm outline-none';
 
   return (
-    <div className={cn(baseClass, 'border-black', activeClass, className)}>
-      {icon && <span>{icon}</span>}
-      {multiline ? (
-        <textarea
-          {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
-          className={cn(inputClass, 'resize-none')}
-        />
-      ) : (
-        <input
-          {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
-          className={inputClass}
-        />
-      )}
+    <div>
+      <div className={cn(baseClass, 'border-black', errorClass, className)}>
+        {icon && <>{icon}</>}
+        {multiline ? (
+          <textarea
+            {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            className={cn(inputClass, 'resize-none placeholder:font-bold')}
+          />
+        ) : (
+          <input
+            {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
+            className={inputClass}
+          />
+        )}
+      </div>
+      {error && <span className="px-3 text-xs text-brand-red">{error}</span>}
     </div>
   );
 };

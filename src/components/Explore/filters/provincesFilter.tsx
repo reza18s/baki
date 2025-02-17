@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { IcSearch } from '@/components/icons/IcSearch';
@@ -91,12 +92,11 @@ export const ProvincesFilter = ({
                     setValue(el.label);
                   }}
                 >
-                  <input
+                  <Checkbox
                     checked={!!value?.includes(el.label)}
+                    className="border-black"
                     readOnly
-                    type="checkbox"
-                    className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
-                  />
+                  ></Checkbox>
                   {el.label}
                 </div>
               ))}

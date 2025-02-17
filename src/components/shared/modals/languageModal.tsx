@@ -1,4 +1,5 @@
 import Button from '@/components/base/Button/Button';
+import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
 import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcSearch } from '@/components/icons/IcSearch';
 import { IcXCircle } from '@/components/icons/IcXCircle';
@@ -67,7 +68,9 @@ export const LanguageModal = ({
                   {item?.icon && (
                     <img src={item.icon} alt={val} className="h-4 w-4" />
                   )}
-                  {item?.flag && <span className='font-serif'>{item?.flag}</span>}
+                  {item?.flag && (
+                    <span className="font-serif">{item?.flag}</span>
+                  )}
                   {val}
                   <IcXCircle className="stroke-black"></IcXCircle>
                 </div>
@@ -87,16 +90,16 @@ export const LanguageModal = ({
                   setValue(el.language);
                 }}
               >
-                <input
+                <Checkbox
                   checked={
                     typeof value === 'object'
                       ? value.includes(el.language)
                       : value === el.language
                   }
-                  type="checkbox"
+                  className="border-black"
                   readOnly
-                  className="custom-checkbox h-5 w-5 appearance-none rounded border-2 border-brand-black bg-white transition-colors duration-200 checked:border-brand-yellow checked:bg-brand-yellow focus:outline-none focus:ring-0"
-                />
+                ></Checkbox>
+
                 {el.language}
               </div>
             ))}

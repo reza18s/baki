@@ -87,11 +87,12 @@ export default function Explore() {
     },
 
     onError: (err) => {
+      setLoading(false);
       //@ts-expect-error the
       if (err.graphQLErrors[0].code === 'PLAN_LIMIT') {
         refetchMe();
       } else {
-        customToast(err.message, 'error');
+        customToast('همسفری پیدا نشد', 'error');
       }
     },
   });
@@ -110,6 +111,8 @@ export default function Explore() {
         mySpecialty: filters.mySpecialty,
         province: filters.provinces,
         travelInterests: filters.interest,
+      }).catch((err) => {
+        setLoading(false);
       });
     }
   };
@@ -131,9 +134,10 @@ export default function Explore() {
       setIsOpen('searchType');
       updateFirstEntered({ showSearchType: true });
     } else if (
-      !me?.getMe.mainImage ||
-      !me?.getMe.images ||
-      me.getMe.images.length > 3
+      (!FirstEnter.noImage.lastShow ||
+        new Date().getTime() - new Date(FirstEnter.noImage.lastShow).getTime() >
+          1000 * 60 * 60) &&
+      (!me?.getMe.mainImage || !me?.getMe.images || me.getMe.images.length > 3)
     ) {
       setIsOpen('no-image');
     }
@@ -168,6 +172,7 @@ export default function Explore() {
       setSearchStart(false);
     }
   }, [searchStart]);
+  console.log(planUse);
   const handleSwipe = (id: string, direction: 'left' | 'right') => {
     if (direction === 'right') {
       if (!FirstEnter.swapRight) {
@@ -288,7 +293,7 @@ export default function Explore() {
               <div className="text flex h-[90%] flex-col items-center justify-center text-sm font-bold text-black">
                 <IcFilterNotFound className="mb-4"></IcFilterNotFound>همسفری
                 پیدا نشد!
-                <span className="mb-2 mt-8 text-[10px]">
+                <span className="mb-1 mt-4 text-[10px] font-normal text-gray-500">
                   با کمتر کردن فیلترها می‌توانید همسفرهای بیشتری رو پیدا کنید!
                 </span>
                 <Button
@@ -365,6 +370,10 @@ export default function Explore() {
       <SearchTypeSidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        changeHandler={() => {
+          setStart(false);
+          setCards([]);
+        }}
       ></SearchTypeSidebar>
       <Modal
         isOpen={isOpen === 'swipe-right'}
@@ -374,14 +383,14 @@ export default function Explore() {
       >
         <div className="flex flex-col gap-2 text-lg font-bold">
           خوشتون اومد؟
-          <span className="text-sm text-gray-500">
+          <span className="text-sm font-medium text-gray-500">
             کشیدن پروفایل همسفر به سمت راست به معنای علاقه به ایجاد ارتباط
             می‌باشد.
           </span>
         </div>
         <div className="mt-3 flex justify-end gap-2">
           <Button
-            className="h-7 w-16 border-black p-0 font-iransans"
+            className="h-7 w-16 border-black p-0 font-iransans font-medium"
             rounded="rounded-lg"
             onClick={() => {
               setIsOpen(undefined);
@@ -393,7 +402,7 @@ export default function Explore() {
           <Button
             variant="outline"
             rounded="rounded-lg"
-            className="h-y w-16 rounded-lg border-red-500 p-0 font-iransans text-red-500"
+            className="h-y w-16 rounded-lg border-red-500 p-0 font-iransans font-medium text-red-500"
             onClick={() => {
               setIsOpen(undefined);
               updateFirstEntered({ swapRight: true });
@@ -412,7 +421,7 @@ export default function Explore() {
       >
         <div className="flex flex-col gap-2 text-lg font-bold">
           خوشتون نیومد؟
-          <span className="text-sm text-gray-500">
+          <span className="text-sm font-medium text-gray-500">
             کشیدن پروفایل همسفر به سمت چپ به معنای عدم علاقه به ایجاد ارتباط
             می‌باشد.
           </span>
@@ -423,6 +432,7 @@ export default function Explore() {
             rounded="rounded-lg"
             onClick={() => {
               setIsOpen(undefined);
+              updateFirstEntered({ swapLeft: true });
             }}
           >
             درسته!
@@ -433,6 +443,7 @@ export default function Explore() {
             className="h-y w-16 rounded-lg border-red-500 p-0 text-red-500"
             onClick={() => {
               setIsOpen(undefined);
+              updateFirstEntered({ swapLeft: true });
               handelUndo();
             }}
           >
@@ -586,6 +597,7 @@ export default function Explore() {
                 time:
                   prev.noImage.id === me?.getMe.id ? prev.noImage.time + 1 : 1,
                 id: me?.getMe.id,
+                lastShow: new Date().toISOString(),
               },
             }));
             setIsOpen(undefined);
@@ -593,13 +605,13 @@ export default function Explore() {
         }}
       >
         <div className="flex items-center justify-center rounded-full bg-brand-yellow p-4">
-          <IcNoImage className="size-8 fill-none stroke-black"></IcNoImage>
+          <IcNoImage className="size-8"></IcNoImage>
         </div>
 
         <h1 className="text-center text-lg font-bold">
           هنوز تصویری آپلود نکردی؟
         </h1>
-        <span className="text-center text-sm text-gray-500">
+        <span className="text-center text-sm font-medium text-gray-500">
           داشتن تصویر پروفایل باعث پیدا شدن همسفرهای بیشتری میشه!
         </span>
         <div className="flex w-full gap-2">
@@ -613,13 +625,14 @@ export default function Explore() {
           </Button>
           <Button
             variant="outline"
-            className="h-10 w-full border-black"
+            className="h-10 w-full border-[1.5px] border-black"
             onClick={() => {
               if (!FirstEnter.noImage) {
                 updateFirstEntered(() => ({
                   noImage: {
                     time: 0,
                     id: me?.getMe.id,
+                    lastShow: new Date().toISOString(),
                   },
                 }));
               }
@@ -634,6 +647,7 @@ export default function Explore() {
                         ? prev.noImage.time + 1
                         : 1,
                     id: me?.getMe.id,
+                    lastShow: new Date().toISOString(),
                   },
                 }));
                 setIsOpen(undefined);

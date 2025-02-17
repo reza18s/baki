@@ -9,7 +9,7 @@ export const AgeFilter = ({
 }) => {
   return (
     <div>
-      <h2 className="my-2 text-sm text-gray-500">وضعیت:</h2>
+      <h2 className="my-2 text-sm text-gray-500">سن:</h2>
       <div className="flex h-28 w-full flex-col justify-between rounded-xl border border-gray-300 bg-white p-4 font-medium text-black">
         بین {Math.min(values[0], values[1])} تا {Math.max(values[0], values[1])}{' '}
         سال

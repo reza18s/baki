@@ -12,9 +12,9 @@ import { customToast } from '../base/toast';
 export default function IdentityVerification() {
   const [step, setStep] = useState<0 | 1>(0);
 
-  const { control, watch } = useForm();
+  const { control, watch } = useForm<{ phoneNumber: string }>();
 
-  const [signup, { loading }] = useSignupMutation();
+  const [signup, { loading, error }] = useSignupMutation();
 
   const handleSignup = () => {
     signup({
@@ -49,6 +49,7 @@ export default function IdentityVerification() {
       <div className="relative h-full max-w-[100vw] overflow-auto p-6 text-black">
         {step === 0 && (
           <GetPhoneNumber
+            error={error ? error.message : undefined}
             loading={loading}
             control={control}
             handleSignup={handleSignup}

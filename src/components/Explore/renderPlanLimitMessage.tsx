@@ -63,9 +63,18 @@ export const RenderPlanLimitMessage = ({
         >
           مشاهده اشتراک‌های ویژه
         </Button>
-        {data?.getMe.planUse?.lastRoll && timeLeft > 0 && (
-          <Button variant="outline" className="border-black">
-            {formatTime(timeLeft)} تا شانس مجدد
+        {searchType === 'random' && (
+          <Button
+            variant="outline"
+            className="border-black"
+            onClick={() =>
+              !(data?.getMe.planUse?.lastRoll && timeLeft > 0) &&
+              hs.push(paths.explore.filter)
+            }
+          >
+            {data?.getMe.planUse?.lastRoll && timeLeft > 0
+              ? `${formatTime(timeLeft)} تا شانس مجدد`
+              : 'چرخونک شانس'}
           </Button>
         )}
       </div>

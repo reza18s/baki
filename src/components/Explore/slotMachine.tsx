@@ -74,7 +74,7 @@ const Reel = forwardRef<HTMLDivElement>((_, ref) => {
       <div
         className={clsx(
           styles.reel_frame,
-          'relative overflow-hidden rounded-2xl border border-gray-400',
+          'relative overflow-hidden rounded-2xl border-[1.5px] border-gray-400',
         )}
       ></div>
     </div>
@@ -191,7 +191,11 @@ export const SlotMachine = () => {
         </div>
       </div>
       <div className="w-full">
-        <Button className="w-full" onClick={handleRoll}>
+        <Button
+          disabled={data?.getMe.planUse?.lastRoll && timeLeft > 0}
+          className="w-full"
+          onClick={handleRoll}
+        >
           {data?.getMe.planUse?.lastRoll
             ? timeLeft <= 0
               ? 'شانس مجدد'

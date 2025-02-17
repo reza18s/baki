@@ -148,10 +148,10 @@ export default function Filter() {
         value={filters.status}
         setValue={(val) => handleFilterChange('status', val)}
       />
-      <SlotMachine></SlotMachine>
+      {searchType === 'random' && <SlotMachine></SlotMachine>}
       {/* Save Button */}
       <Button
-        className="sticky bottom-6 w-[calc(100%)]"
+        className="sticky bottom-6 h-12 w-[calc(100%)]"
         onClick={handleSaveFilters}
       >
         ذخیره فیلترها و جستجو
@@ -171,7 +171,7 @@ export default function Filter() {
         </div>
         <div className="flex flex-col items-center gap-2 text-lg font-bold">
           شما تغییرات ذخیره نشده دارید!
-          <span className="text-nowrap text-sm text-gray-500">
+          <span className="text-nowrap text-sm font-normal text-gray-500">
             آیا میخواهید قبل از خروج تغییرات را ذخیره کنید؟
           </span>
         </div>

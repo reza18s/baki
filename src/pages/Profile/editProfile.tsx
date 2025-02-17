@@ -33,6 +33,7 @@ import {
 } from '@/constants';
 import { useStore } from '@/store/useStore';
 import { useIonRouter } from '@ionic/react';
+import { Input } from '@/components/shared/Inputs/input';
 
 export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
@@ -44,7 +45,7 @@ export default function EditProfile() {
   const calculateCompletionPercentage = useLocalStore(
     (store) => store.calculateCompletionPercentage,
   );
-  const { control, watch } = useForm<{
+  const { control, watch, setValue } = useForm<{
     name: string;
     username: string;
     bio: string;
@@ -170,37 +171,37 @@ export default function EditProfile() {
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
             نام
           </h2>
-          <TextInput
+          <Input
             placeholder="نام"
-            control={control}
             icon={<SolarIconSet.UserRounded size={30} />}
             name="name"
             value={watch('name')}
+            onChange={(e) => setValue('name', e.target.value)}
           />
         </div>
         <div className="w-full">
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
             نام کاربری
           </h2>
-          <TextInput
+          <Input
             placeholder="نام کاربری حسابتان ..."
-            control={control}
             icon={<SolarIconSet.UserCircle size={30} />}
             name="username"
             value={watch('username')}
+            onChange={(e) => setValue('username', e.target.value)}
           />
         </div>
         <div className="w-full" id="biography">
           <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
             بیوگرافی
           </h2>
-          <TextInput
+          <Input
             placeholder="از علایق، ویژگی‌ها و هرچی دوست دارین درباره خودتون بگید..."
             multiline={true}
             rows={3}
-            control={control}
             name="bio"
             value={watch('bio')}
+            onChange={(e) => setValue('bio', e.target.value)}
           />
         </div>
         <div className="w-full text-brand-black">

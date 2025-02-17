@@ -180,8 +180,6 @@ const checkUserInfo = (VerifyOtp: VerifyOtpMutation['verifyOtp']) => {
     VerifyOtp?.user?.gender &&
     VerifyOtp?.user.birthdate &&
     VerifyOtp?.user.province &&
-    VerifyOtp?.user.mainImage &&
-    VerifyOtp?.user.images?.length == 3 &&
     (VerifyOtp?.user.travelInterests?.length || 0) >= 5 &&
     (VerifyOtp?.user.personalInterests?.length || 0) >= 5 &&
     (VerifyOtp?.user.mySpecialty?.length || 0) >= 1

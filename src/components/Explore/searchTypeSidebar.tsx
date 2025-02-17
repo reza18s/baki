@@ -8,8 +8,10 @@ import { Toast } from '../base/toast/toast';
 export const SearchTypeSidebar = ({
   isSidebarOpen,
   setIsSidebarOpen,
+  changeHandler,
 }: {
   isSidebarOpen: boolean;
+  changeHandler?: () => void;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { searchType, setSearchType } = useStore((store) => store);
@@ -19,14 +21,6 @@ export const SearchTypeSidebar = ({
       isOpen={isSidebarOpen}
       onRequestClose={() => {
         setIsSidebarOpen(false);
-        toast.custom(
-          (t) => (
-            <Toast t={t} type="warning">
-              شما وارد حالت جستجوی {SearchType?.label || ''} شدید!
-            </Toast>
-          ),
-          { duration: 1500 },
-        );
       }}
       onCloseEnd={() => {
         setIsSidebarOpen(false);
@@ -43,6 +37,7 @@ export const SearchTypeSidebar = ({
               onClick={() => {
                 setSearchType(el.value);
                 setIsSidebarOpen(false);
+                changeHandler?.();
                 toast.custom(
                   (t) => (
                     <Toast t={t} type="warning">

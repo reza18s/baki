@@ -11,7 +11,7 @@ export const IcProfileTap: FC<IconProps> = ({ className, ...props }) => {
       className={className}
       {...props}
     >
-      <circle cx="15" cy="7.5" r="5" strokeWidth="1.5" />
+      <circle cx="15" cy="7.5" r="5" />
       <ellipse cx="15" cy="21.25" rx="8.75" ry="5" />
     </svg>
   );

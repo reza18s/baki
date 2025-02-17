@@ -78,7 +78,7 @@ export default function ExploreCard({
     <>
       <motion.div
         className={cn(
-          'absolute flex max-h-[calc(100%-16px)] w-[calc(100%-32px)] flex-col overflow-y-scroll rounded-2xl',
+          'absolute flex max-h-[calc(100%-32px)] w-[calc(100%-32px)] flex-col overflow-y-scroll rounded-2xl',
           className,
         )}
         drag={drag && 'x'}
@@ -172,27 +172,31 @@ export default function ExploreCard({
                 </div>
               </div>
               <div className="flex items-center gap-x-[8px]">
-                <div
-                  className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow"
-                  onClick={() => setIsOpen('avatar')}
-                >
-                  <img
-                    src={
-                      allAvatars.find((a) => a.path === user.avatar)?.avatar ||
-                      CardAvatar
-                    }
-                    alt="CardAvatar"
-                    className="size-10 rounded-full"
-                  />
-                </div>
-                <div
-                  className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]"
-                  onClick={() => {
-                    playAudio();
-                  }}
-                >
-                  <FaCirclePlay fill="#000" size={24} />
-                </div>
+                {user.avatar && (
+                  <div
+                    className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow"
+                    onClick={() => setIsOpen('avatar')}
+                  >
+                    <img
+                      src={
+                        allAvatars.find((a) => a.path === user.avatar)
+                          ?.avatar || CardAvatar
+                      }
+                      alt="CardAvatar"
+                      className="size-10 rounded-full"
+                    />
+                  </div>
+                )}
+                {user.record && (
+                  <div
+                    className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]"
+                    onClick={() => {
+                      playAudio();
+                    }}
+                  >
+                    <FaCirclePlay fill="#000" size={24} />
+                  </div>
+                )}
               </div>
             </div>
           </div>
