@@ -21,9 +21,12 @@ export const getCardsData = (userInfo: UserInfo) => [
   {
     icon: <SolarIconSet.Gallery size={32} />,
     title: 'تصاویر',
-    description: `${userInfo.images?.length + (userInfo.mainImage ? 1 : 0)} از 4 آپلود شده`,
+    description: `${userInfo.images?.filter((image) => image.length > 0).length + (userInfo.mainImage ? 1 : 0)} از 4 آپلود شده`,
     url: paths.profile.completePictures,
-    status: userInfo.images?.length + (userInfo.mainImage ? 1 : 0) === 4,
+    status:
+      userInfo.images?.filter((image) => image.length > 0).length +
+        (userInfo.mainImage ? 1 : 0) ===
+      4,
   },
   {
     icon: <SolarIconSet.InfoCircle size={32} />,

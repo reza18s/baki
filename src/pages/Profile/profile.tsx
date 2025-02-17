@@ -1,7 +1,11 @@
 import { IcEdit } from '@/components/icons/IcEdit';
 import { IcSetting } from '@/components/icons/IcSetting';
 import { Page } from '@/components/layout/Page';
-import { useGetMeQuery, User } from '@/graphql/generated/graphql.codegen';
+import {
+  useGetMeQuery,
+  User,
+  useRecommendedUsersQuery,
+} from '@/graphql/generated/graphql.codegen';
 import React, { useEffect } from 'react';
 import { MdVerified } from 'react-icons/md';
 import Button from '@/components/base/Button/Button';
@@ -11,10 +15,14 @@ import { ProfileCard } from '@/components/Profile/profileCard';
 import { CircleSpinner } from '@/components/base/Loader/Loader';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatLastSeen } from '@/utils/datetime';
+import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
+import { useIonRouter } from '@ionic/react';
 
 export const Profile = () => {
   const { data, loading, refetch } = useGetMeQuery();
   const me = data?.getMe;
+  const hs = useIonRouter();
+  const { data: recommendedUsers } = useRecommendedUsersQuery();
   useEffect(() => {
     refetch();
   }, []);
@@ -64,6 +72,56 @@ export const Profile = () => {
             <Link to={paths.profile.editProfile} className="w-full">
               <Button className="w-full"> تکمیل پروفایل</Button>
             </Link>
+          </div>
+          <div className="flex w-full flex-col gap-2">
+            <div className="flex w-full justify-between">
+              <h1 className="px-2 text-xs font-bold text-gray-500">
+                همسفران پیشنهادی
+              </h1>
+              <span
+                className="flex text-xs"
+                onClick={() => hs.push(paths.recommendedUsers.main)}
+              >
+                مشاهده همه<IcArrowLeft className="size-4"></IcArrowLeft>
+              </span>
+            </div>
+            <div className="-mx-4 flex items-center gap-2 overflow-x-scroll px-4">
+              {recommendedUsers?.recommendedUsers
+                .slice(0, 7)
+                .map((recommendedUser) => (
+                  <div
+                    key={recommendedUser.id}
+                    className="flex w-[130px] flex-col gap-2 rounded-xl border border-gray-300 p-2"
+                  >
+                    <div className="flex w-full flex-col items-center justify-center gap-2">
+                      <Avatar className="size-[64px]">
+                        <AvatarImage
+                          src={recommendedUser?.mainImage || ''}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="3xl">
+                          {recommendedUser?.name?.[0].toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <h1 className="text-nowrap text-sm font-medium">
+                        {recommendedUser.name},{recommendedUser.age}
+                      </h1>
+                    </div>
+                    <Button
+                      className="w-full text-nowrap px-2 text-xs"
+                      onClick={() => {
+                        hs.push(
+                          paths.profile.userProfile.exactPath(
+                            recommendedUser.id,
+                          ),
+                        );
+                      }}
+                    >
+                      مشاهده پروفایل
+                    </Button>
+                  </div>
+                ))}
+            </div>
           </div>
           <ProfileCard user={me as User} me={true}></ProfileCard>
         </>

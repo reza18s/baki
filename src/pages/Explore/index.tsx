@@ -33,6 +33,11 @@ import { IcCrownStar } from '@/components/icons/IcCrownStar';
 import { IcStars } from '@/components/icons/IcStars';
 import { IcExclamationMarkInCircle } from '@/components/icons/IcExclamationMarkInCircle';
 import { IcNoImage } from '@/components/icons/IcNoImage';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 export default function Explore() {
   const history = useIonRouter();
@@ -48,6 +53,7 @@ export default function Explore() {
     | 'new-plan'
     | 'extend-plan'
     | 'failed-plan'
+    | 'show-undo'
   >();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [start, setStart] = useState(false);
@@ -182,6 +188,13 @@ export default function Explore() {
     } else if (!FirstEnter.swapLeft) {
       setIsOpen('swipe-left');
     }
+    if (me?.getMe.plan && !FirstEnter.showUndo) {
+      setIsOpen('show-undo');
+      updateFirstEntered({ showUndo: true });
+      setTimeout(() => {
+        setIsOpen(undefined);
+      }, 2000);
+    }
     setCardsHistory((prev) => [
       cards.find((card) => card.id === id)!,
       ...prev.filter((card) => id !== card.id),
@@ -213,11 +226,34 @@ export default function Explore() {
               }}
             />
             {cardsHistory.length > 0 && (
-              <IcUndo
-                onClick={() => {
-                  handelUndo();
-                }}
-              ></IcUndo>
+              <Popover open={isOpen === 'show-undo'}>
+                <PopoverTrigger>
+                  <IcUndo
+                    onClick={() => {
+                      handelUndo();
+                    }}
+                  ></IcUndo>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  side="bottom"
+                  className="-mr-2 flex w-fit flex-col items-start justify-center border-none bg-transparent p-0 shadow-none"
+                >
+                  <svg
+                    width="12"
+                    height="6"
+                    viewBox="0 0 12 6"
+                    fill="none"
+                    className="mr-4 rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M6 6L0 0H12L6 6Z" fill="#ffcc4e" />
+                  </svg>
+                  <div className="flex items-center rounded-xl bg-brand-yellow p-2 text-center text-xs font-medium">
+                    با گزینه عقب گرد می‌تونی همسفر قبلی رو دوباره ببینی!
+                  </div>
+                </PopoverContent>
+              </Popover>
             )}
           </div>
           <img

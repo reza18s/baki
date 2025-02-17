@@ -1,18 +1,24 @@
 import { allIcon } from '@/constants';
 import { clsx } from 'clsx';
+import React from 'react';
 
 export function Info({
   title,
   className,
   items,
+  edit,
 }: {
   title: string;
   items?: string[];
   className?: string;
+  edit?: React.ReactNode;
 }) {
   return (
     <div>
-      <h1 className={clsx('my-2 text-sm text-gray-500')}>{title}</h1>
+      <h1 className={clsx('my-2 flex gap-2 text-sm text-gray-500')}>
+        {title}
+        <>{edit}</>
+      </h1>
       <div className="flex flex-wrap gap-2">
         {items?.map((val, index) => {
           const item = allIcon.find((val2) => val2.title === val);

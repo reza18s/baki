@@ -81,6 +81,7 @@ export default function GetPictures({
           },
         );
         if (secondaryResponse.ok) {
+          customToast('عکس های اضافی با موفقیت اپلود شد', 'success');
           const images: string[] = (await secondaryResponse.json())?.files.map(
             (ob: { original: string }) => ob.original,
           );
@@ -92,15 +93,9 @@ export default function GetPictures({
             images.splice(0, 1);
             return select;
           });
-          if (imagesUrl.filter((e) => e).length < 3) {
-            customToast('مشکلی در اپلود عکس های اضافی  پیش امد', 'error');
-            setUploadStatus(false);
-            return;
-          }
           updateUserInfo({
             images: imagesUrl,
           });
-          customToast('عکس های اضافی با موفقیت اپلود شد', 'success');
           setUploadStatus(false);
         } else {
           if ((await secondaryResponse.json()).code === 'INVALID_TOKEN') {

@@ -20,6 +20,9 @@ import Modal from '../base/Modal/Modal';
 import { IcXCircle } from '../icons/IcXCircle';
 import { Player } from '@lottiefiles/react-lottie-player';
 import RecordAnimation from '@/assets/recordA.json';
+import { IcEdit } from '../icons/IcEdit';
+import { useIonRouter } from '@ionic/react';
+import { paths } from '@/routes/paths';
 
 export const ProfileCard = ({
   user,
@@ -30,6 +33,7 @@ export const ProfileCard = ({
   user: User;
   className?: string;
 }) => {
+  const hs = useIonRouter();
   const [isOpen, setIsOpen] = useState<
     'sendMessage' | 'violationReport' | 'avatar' | 'record'
   >();
@@ -85,30 +89,35 @@ export const ProfileCard = ({
         )}
         <div className="flex items-center justify-between">
           <div className={cn('text-sm', user?.mainImage && 'text-white')}>
-            <div className="flex items-center gap-2">
-              <h1 className="text-lg font-black">
-                {user?.name} ، {user?.age}
-              </h1>
-              <MdVerified size={24} className="fill-brand-yellow" />
-            </div>
-            <div className="flex items-center gap-x-1">
-              <RiMapPin2Fill
-                size={16}
-                fill={!user?.mainImage ? '#000' : '#fff'}
-                className="-mr-[2px]"
-              />
-              {user?.province} , {user?.city}
-            </div>
-            <div className="flex items-center gap-x-1">
-              <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
-                <div
-                  className={`h-[8px] w-[8px] rounded-full ${
-                    user?.isOnline ? 'bg-brand-green' : 'bg-red-500'
-                  }`}
-                />
-              </div>
-              {user?.isOnline ? 'آنلاین' : 'آفلاین'}
-            </div>
+            {!me && (
+              <>
+                {' '}
+                <div className="flex items-center gap-2">
+                  <h1 className="text-lg font-black">
+                    {user?.name} ، {user?.age}
+                  </h1>
+                  <MdVerified size={24} className="fill-brand-yellow" />
+                </div>
+                <div className="flex items-center gap-x-1">
+                  <RiMapPin2Fill
+                    size={16}
+                    fill={!user?.mainImage ? '#000' : '#fff'}
+                    className="-mr-[2px]"
+                  />
+                  {user?.province} , {user?.city}
+                </div>
+                <div className="flex items-center gap-x-1">
+                  <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-white">
+                    <div
+                      className={`h-[8px] w-[8px] rounded-full ${
+                        user?.isOnline ? 'bg-brand-green' : 'bg-red-500'
+                      }`}
+                    />
+                  </div>
+                  {user?.isOnline ? 'آنلاین' : 'آفلاین'}
+                </div>
+              </>
+            )}
           </div>
           <div className="flex items-center gap-x-[8px]">
             <div className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow">
@@ -141,17 +150,47 @@ export const ProfileCard = ({
             className="bg-brand-yellow"
             items={getBaseInfo(user) as string[]}
             title="اطلاعات اولیه"
+            edit={
+              me && (
+                <IcEdit
+                  className="size-4"
+                  onClick={() => {
+                    hs.push(paths.profile.basicInformationsAll);
+                  }}
+                ></IcEdit>
+              )
+            }
           ></Info>
         </div>
         <Info
           className="bg-warning-100"
           items={user?.mySpecialty as string[] | undefined}
           title="تخصص"
+          edit={
+            me && (
+              <IcEdit
+                className="size-4"
+                onClick={() => {
+                  hs.push(paths.profile.completeSpecialty);
+                }}
+              ></IcEdit>
+            )
+          }
         ></Info>
         <Info
           className="bg-warning-100"
           items={user?.personalInterests as string[] | undefined}
           title="علایق شخصی من"
+          edit={
+            me && (
+              <IcEdit
+                className="size-4"
+                onClick={() => {
+                  hs.push(paths.profile.completePersonalInterests);
+                }}
+              ></IcEdit>
+            )
+          }
         ></Info>
         <Info
           className="bg-warning-100"

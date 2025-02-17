@@ -34,6 +34,7 @@ interface IFirstEntered {
   swapLeft: boolean;
   swapRight: boolean;
   showUndo: boolean;
+  undo: boolean;
   noImage: { id?: string; time: number; lastShow?: string };
 }
 interface IStore {
@@ -87,6 +88,7 @@ export const defaultInitState: IStore = {
     showUndo: false,
     swapLeft: false,
     swapRight: false,
+    undo: false,
     noImage: { time: 0 },
   },
 };
@@ -119,7 +121,7 @@ export const useLocalStore = create<Store>()(
           userInfo.province,
           userInfo.gender,
           userInfo.mainImage,
-          userInfo.images.length >= 3,
+          userInfo.images.filter((image) => image.length > 0).length >= 3,
           userInfo.personalInterests.length >= 5,
           userInfo.travelInterests.length >= 5,
           userInfo.mySpecialty.length > 0,
