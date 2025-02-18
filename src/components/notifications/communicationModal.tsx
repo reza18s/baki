@@ -22,6 +22,7 @@ import { customToast } from '../base/toast';
 import { useStore } from '@/store/useStore';
 import { paths } from '@/routes/paths';
 import { useIonRouter } from '@ionic/react';
+import { IcExclamationMarkInCircleFill } from '../icons/IcExclamationMarkInCircleFill';
 
 export const CommunicationModal = ({
   isOpen,
@@ -79,8 +80,11 @@ export const CommunicationModal = ({
             className="size-5 stroke-black"
             onClick={() => setClose()}
           ></IcXCircle>
-          <div className="flex items-center justify-center">
-            <IcExclamationMarkInCircle className="fill-black"></IcExclamationMarkInCircle>
+          <div
+            className="flex items-center justify-center"
+            onClick={() => hs.push(paths.settings.guide)}
+          >
+            <IcExclamationMarkInCircleFill className="fill-black"></IcExclamationMarkInCircleFill>
             راهنما
           </div>
         </div>

@@ -23,7 +23,7 @@ export const Contact: FC<
   }
 > = ({ chat, last = false, me, checked, hideChecked = true, ...props }) => {
   const user = chat.participants?.filter((user) => user?.id !== me?.id)[0];
-  const { data, loading } = useGetFavoriteQuery();
+  const { data, refetch } = useGetFavoriteQuery();
   const [addToFavorite] = useAddToFavoriteMutation();
   const notRead =
     chat.Message?.filter(
@@ -52,11 +52,14 @@ export const Contact: FC<
         </div>
         <div className={cn('w-full', !last && 'border-b border-gray-100 pb-1')}>
           <div className="flex h-14 flex-1 items-center justify-between gap-2">
-            <div>
+            <div className="max-w-full">
               <h2 className="text-sm font-bold">{user?.name}</h2>
-              <span className="text-xs text-gray-400">
+              <div className="max-w-[55vw] overflow-hidden text-ellipsis text-nowrap text-xs text-gray-400">
+                {lastMessage?.senderId === me.id && 'شما,'}
                 {lastMessage?.content}
-              </span>
+
+                {lastMessage?.senderId === me.id && ',ارسال کردید'}
+              </div>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-end text-xs text-gray-500">
@@ -85,6 +88,7 @@ export const Contact: FC<
                       },
                       onCompleted: (res) => {
                         customToast(res.addToFavorite.message, 'success');
+                        refetch();
                       },
                     });
                   }}

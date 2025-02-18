@@ -210,9 +210,9 @@ export const Notifications = () => {
                         setIsOpen('likeBack');
                       }
                       if (
-                        notification.type === 'hostingInvitation' ||
-                        notification.type === 'companionRequest' ||
-                        notification.type === 'message'
+                        notification.type.includes('hostingInvitation') ||
+                        notification.type.includes('companionRequest') ||
+                        notification.type.includes('message')
                       ) {
                         setNoti(notification);
                         setIsOpen('message');

@@ -41,6 +41,7 @@ export const MessageModal = ({
     },
   });
   const user = data?.getUser;
+  console.log(user);
   const hs = useIonRouter();
   const { data: chat } = useGetChatQuery({
     variables: { participantId: notification.actionId },
@@ -125,20 +126,28 @@ export const MessageModal = ({
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          <div
-            className={cn(
-              'w-fit max-w-[85%] rounded-xl rounded-br-sm bg-brand-yellow p-2 text-sm text-brand-black',
-            )}
-          >
-            {request?.getRequest?.message}
-          </div>
+          {chat?.getChat.Message?.slice(-3, chat.getChat.Message.length).map(
+            (message) => (
+              <div
+                key={message?.id}
+                className={cn(
+                  'w-fit max-w-[85%] rounded-xl rounded-br-sm bg-brand-yellow p-2 text-sm text-brand-black',
+                  message?.senderId === user?.id &&
+                    'mr-auto rounded-bl-sm rounded-br-xl bg-black text-white',
+                )}
+              >
+                {message?.content}
+              </div>
+            ),
+          )}
         </div>
       </div>
       <div className="flex w-full items-center gap-2">
         <Button
           className="h-10 w-full p-0 text-sm"
           onClick={
-            request?.getRequest?.status !== 'accept'
+            request?.getRequest?.status !== 'accept' ||
+            !notification.type.includes('accept')
               ? () => {
                   acceptRequest({
                     variables: {
@@ -165,7 +174,10 @@ export const MessageModal = ({
                 }
           }
         >
-          {request?.getRequest?.status == 'accept' ? 'رفتن به چت' : 'قبول کردن'}
+          {request?.getRequest?.status == 'accept' ||
+          notification.type.includes('accept')
+            ? 'رفتن به چت'
+            : 'قبول کردن'}
         </Button>
         <Button
           variant="white"

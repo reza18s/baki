@@ -29,7 +29,7 @@ export const Input: FC<InputProps> = ({
     'w-full appearance-none border-none font-iransans bg-transparent  text-sm outline-none';
 
   return (
-    <div>
+    <div className="w-full">
       <div className={cn(baseClass, 'border-black', errorClass, className)}>
         {icon && <>{icon}</>}
         {multiline ? (

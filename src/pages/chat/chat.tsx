@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Page } from '@/components/layout/Page';
 import {
   Chat as IChat,
@@ -25,20 +25,17 @@ import {
 import Checkbox from '@/components/base/Input/checkboxSection/checkbox';
 const chatFilterItem = [
   { label: 'همه', key: 'all' },
-  { label: 'جدید', key: 'new' },
   { label: 'خوانده نشده', key: 'notRead' },
   { label: 'علاقه مندی', key: 'favorite' },
-  { label: 'انلاین', key: 'online' },
+  { label: 'آنلاین', key: 'online' },
 ];
 export const Chat = () => {
   const [filter, setFilter] = useState('all');
   const [chatsFilter, setChatsFilter] = useState<{
-    new: boolean;
     online: boolean;
     favorite: boolean;
     notRead: boolean;
   }>({
-    new: false,
     online: false,
     favorite: false,
     notRead: false,
@@ -51,7 +48,7 @@ export const Chat = () => {
 
   const { data: requests } = useGetRequestsQuery();
   const { data: chats, loading: contactLoading } = useGetChatsQuery();
-  const { data: favorites, loading } = useGetFavoriteQuery();
+  const { data: favorites } = useGetFavoriteQuery();
   const { data: me } = useGetMeQuery({
     onError(err) {
       if (err.message === 'Failed to fetch') {
@@ -236,7 +233,6 @@ export const Chat = () => {
                       } else {
                         setChatsFilter({
                           favorite: true,
-                          new: true,
                           notRead: true,
                           online: true,
                         });
@@ -274,16 +270,12 @@ export const Chat = () => {
                 ) {
                   return true;
                 }
-                const newChat =
-                  new Date().getTime() - new Date(chat.createdAt).getTime() <
-                  1000 * 60 * 60 * 24;
                 const contact = chat.participants?.find(
                   (user) => user?.id !== me?.getMe.id,
                 );
                 if (
-                  (chatsFilter.new && newChat) ||
                   (chatsFilter.favorite &&
-                    favorites?.getFavorite.favorites?.map(
+                    favorites?.getFavorite.favorites?.find(
                       (f) => f?.favoriteUserId === contact?.id,
                     )) ||
                   (chatsFilter.notRead &&

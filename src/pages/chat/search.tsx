@@ -9,6 +9,7 @@ import {
   useGetMeQuery,
   User,
 } from '@/graphql/generated/graphql.codegen';
+import { paths } from '@/routes/paths';
 import { useIonRouter } from '@ionic/react';
 import React, { useState } from 'react';
 
@@ -57,6 +58,15 @@ export const Search = () => {
               <Contact
                 last={data.getChats.length - 1 === i}
                 key={chat?.id}
+                onClick={() =>
+                  hs.push(
+                    paths.chat.contact.exactPath(
+                      chat.participants?.find(
+                        (user) => user?.id !== me?.getMe.id,
+                      )?.id || '',
+                    ),
+                  )
+                }
                 className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
                 chat={chat as Chat}
                 me={me?.getMe as User}
