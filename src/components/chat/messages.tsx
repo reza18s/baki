@@ -181,7 +181,9 @@ const Message = ({
         id={message.id}
         className={cn(
           'relative flex w-full items-center justify-end px-4 py-1 transition-all duration-300 ease-in-out',
+          selects.length > 0 && 'justify-between',
           selects.some((val) => val.id === message.id) && 'bg-brand-yellow/10',
+          message.senderId === me?.getMe?.id && 'justify-start gap-4',
         )}
         onTouchStart={() => handleMouseDown(message)}
         onTouchEnd={handleMouseUpOrLeave}
@@ -194,6 +196,14 @@ const Message = ({
         }
       >
         {/* Checkbox for Selection */}
+        <Checkbox
+          readOnly
+          className={cn(
+            'flex rounded-lg border-[1.25px] border-brand-black',
+            selects.length === 0 && 'hidden',
+          )}
+          checked={selects.some((val) => val.id === message.id)}
+        />
         <motion.div
           key={message.id}
           drag={selects.length > 0 ? false : 'x'}
@@ -220,26 +230,18 @@ const Message = ({
             });
           }}
           className={cn(
-            'relative flex w-full items-center justify-end',
-            selects.length > 0 && 'justify-between',
+            'flex w-full justify-end overflow-hidden',
             message.senderId === me?.getMe?.id && 'justify-start gap-4',
           )}
         >
-          <Checkbox
-            readOnly
-            className={cn(
-              'flex rounded-lg border-[1.25px] border-brand-black',
-              selects.length === 0 && 'hidden',
-            )}
-            checked={selects.some((val) => val.id === message.id)}
-          />
           <div
             className={cn(
-              'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl rounded-bl-sm bg-white text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
+              'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
               selects.some((val) => val.id === message.id) &&
                 'bg-brand-yellow/10',
-              message.senderId === me?.getMe?.id &&
-                'rounded-xl rounded-br-sm bg-brand-yellow',
+              message.senderId === me?.getMe?.id
+                ? 'rounded-br-sm bg-brand-yellow'
+                : 'rounded-bl-sm bg-white',
             )}
           >
             {message.type == 'message' && message.url && (
@@ -300,9 +302,11 @@ const Message = ({
                 {DateTime.fromISO(message.createdAt)
                   .setZone('Asia/Tehran')
                   .toFormat('HH:mm')}
-                <IcCheckRead
-                  className={cn(!message.read && 'fill-gray-500')}
-                ></IcCheckRead>
+                <div>
+                  <IcCheckRead
+                    className={cn(!message.read && 'fill-gray-500')}
+                  ></IcCheckRead>
+                </div>
               </div>
             </div>
           </div>
