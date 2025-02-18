@@ -53,8 +53,9 @@ export const Search = () => {
         <div className="flex flex-col rounded-xl border border-gray-300 bg-white px-3 py-2">
           {data?.getChats
             ?.filter((el) => el.participants?.[0]?.name?.includes(search))
-            .map((chat) => (
+            .map((chat, i) => (
               <Contact
+                last={data.getChats.length - 1 === i}
                 key={chat?.id}
                 className="flex w-full items-center gap-2 transition-all duration-300 ease-in-out active:bg-gray-100"
                 chat={chat as Chat}

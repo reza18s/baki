@@ -36,7 +36,7 @@ const GetPersonalInterests = lazy(
 const GetSpecialty = lazy(() => import('../components/Signup/GetSpecialty'));
 const FinalStep = lazy(() => import('../components/Signup/FinalStep'));
 
-interface SignupForm {
+export interface SignupForm {
   phoneNumber: string;
   name: string;
   gender: string;
@@ -104,6 +104,7 @@ export default function Signup() {
         return (
           <GetPhoneNumber
             loading={loading}
+            //@ts-expect-error the
             control={control}
             handleSignup={handleSignup}
             phoneNumber={watch('phoneNumber')}

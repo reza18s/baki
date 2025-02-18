@@ -152,6 +152,7 @@ export const CommunicationModal = ({
                       receiverId: notification.actionId,
                       searchType: notification.searchType || 'random',
                       type: 'companionRequest' as RequestType,
+                      message: 'دوست دارین با هم بریم سفر؟',
                     },
                     onCompleted: () => {
                       customToast('دعوت با موفقیت ارسال شد', 'success');
@@ -178,6 +179,8 @@ export const CommunicationModal = ({
                       receiverId: notification.actionId,
                       searchType: notification.searchType || 'random',
                       type: 'hostingInvitation' as RequestType,
+                      message:
+                        'مایلم میزبان شما باشم.خیلی خوشحال می‌شم اگه بیای?',
                     },
                     onCompleted: () => {
                       customToast('دعوت با موفقیت ارسال شد', 'success');
