@@ -207,28 +207,8 @@ const Message = ({
         <motion.div
           key={message.id}
           drag={selects.length > 0 ? false : 'x'}
-          dragTransition={{ max: 100 }}
           dragConstraints={{ left: 0, right: 0 }} // فقط اجازه درگ تا 100px به چپ
           dragElastic={{ left: 0.2, right: 0 }}
-          onDrag={(event, info) => {
-            const dragX = info.offset.x;
-            const dragOpacity = dragX >= -100 ? (dragX / 100) * -1 : 1;
-
-            controls.set({
-              opacity: dragOpacity,
-              scale: dragOpacity,
-              transition: { duration: 0.2 },
-            });
-          }}
-          onDragEnd={(event, info) => {
-            if (info.offset.x < -100) {
-              setReply(message);
-            }
-            controls.start({
-              transition: { duration: 0.2 },
-              opacity: 0,
-            });
-          }}
           className={cn(
             'flex w-full justify-end overflow-hidden',
             message.senderId === me?.getMe?.id && 'justify-start gap-4',
