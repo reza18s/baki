@@ -114,22 +114,56 @@ export const Chat = () => {
       <div className="flex flex-col gap-4">
         <h1 className="text-base font-bold">درخواست‌های جدید</h1>
         <div className="flex h-fit max-w-full gap-2 overflow-scroll border-b pb-6">
-          {(requests?.getRequests.filter((r) => {
-            const chat = chats?.getChats.find((chat) =>
-              chat.participants?.find((user) => user?.id === r.requesterId),
-            );
-
-            return (
-              r.status !== 'accept' &&
-              (!chat ||
-                (chat?.Message?.filter(
-                  (message) => message?.senderId === me?.getMe.id,
-                ).length || 0) === 0)
-            );
-          }).length || 0) > 0 ? (
+          {(requests?.getRequests.filter((r) => r.status !== 'accept').length ||
+            0) > 0 ? (
             <>
               {requests?.getRequests
                 .filter((r) => r.status !== 'accept')
+                .filter((r) => {
+                  return (
+                    (new Date().getTime() - new Date(r.createdAt).getTime()) /
+                      (60 * 60 * 1000) <
+                    24
+                  );
+                })
+                .map((req) => (
+                  <div
+                    key={req.id}
+                    className="relative size-[75px] items-center justify-center rounded-full"
+                  >
+                    <div
+                      className="absolute size-16 overflow-hidden rounded-full"
+                      style={{
+                        left: `calc(50%)`,
+                        top: `calc(50%)`,
+                        transform: 'translate(-50%,-50%)',
+                      }}
+                    >
+                      <Avatar className="size-full">
+                        <AvatarImage
+                          src={req.requester?.mainImage || ''}
+                          className="object-cover"
+                        />
+                        <AvatarFallback className="2xl">
+                          {req.requester?.name?.[0].toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                    <CountdownCircle
+                      startDate={req.createdAt}
+                    ></CountdownCircle>
+                  </div>
+                ))}
+              {requests?.getRequests
+                .filter((r) => r.status !== 'accept')
+                .filter((r) => {
+                  return (
+                    (new Date().getTime() - new Date(r.createdAt).getTime()) /
+                      (60 * 60 * 1000) >
+                    24
+                  );
+                })
+                .slice(0, 2)
                 .map((req) => (
                   <div
                     key={req.id}

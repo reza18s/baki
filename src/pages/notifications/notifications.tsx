@@ -7,7 +7,6 @@ import {
   useGetMeQuery,
   useGetNotificationsQuery,
   useGetUsersLazyQuery,
-  useGetUsersQuery,
   User,
 } from '@/graphql/generated/graphql.codegen';
 import { LikeModal } from '@/components/notifications/likeModal';
@@ -130,8 +129,9 @@ export const Notifications = () => {
               {data?.getNotifications
                 .filter(
                   (val) =>
-                    val.type === 'liked' &&
-                    +calculateElapsedTime(val.createdAt, false) < 24,
+                    me?.getMe.plan ||
+                    (val.type === 'liked' &&
+                      +calculateElapsedTime(val.createdAt, false) < 24),
                 )
                 .map((notification) => (
                   <LikeCard
@@ -153,29 +153,31 @@ export const Notifications = () => {
                 ))}
             </div>
           </div>
-          <div className="relative flex flex-col gap-4 pt-6 opacity-50">
-            <h1 className="text-lg font-bold">منقضی شده</h1>
-            <div className="relative grid grid-cols-2 gap-4">
-              {data?.getNotifications
-                .filter(
-                  (val) =>
-                    val.type === 'liked' &&
-                    +calculateElapsedTime(val.createdAt, false) >= 24,
-                )
-                .map((notification) => (
-                  <LikeCard
-                    user={
-                      users?.getUsers.find(
-                        (user) => user.id === notification.actionId,
-                      ) as User
-                    }
-                    key={notification.id}
-                    disabled
-                    showInfo={!!me?.getMe?.plan}
-                  ></LikeCard>
-                ))}
+          {!me?.getMe.plan && (
+            <div className="relative flex flex-col gap-4 pt-6 opacity-50">
+              <h1 className="text-lg font-bold">منقضی شده</h1>
+              <div className="relative grid grid-cols-2 gap-4">
+                {data?.getNotifications
+                  .filter(
+                    (val) =>
+                      val.type === 'liked' &&
+                      +calculateElapsedTime(val.createdAt, false) >= 24,
+                  )
+                  .map((notification) => (
+                    <LikeCard
+                      user={
+                        users?.getUsers.find(
+                          (user) => user.id === notification.actionId,
+                        ) as User
+                      }
+                      key={notification.id}
+                      disabled
+                      showInfo={!!me?.getMe?.plan}
+                    ></LikeCard>
+                  ))}
+              </div>
             </div>
-          </div>
+          )}
         </>
       ) : (
         <>
@@ -185,8 +187,9 @@ export const Notifications = () => {
               {data?.getNotifications
                 .filter(
                   (val) =>
-                    (filter === 'all' || val.searchType === filter) &&
-                    +calculateElapsedTime(val.createdAt, false) < 24,
+                    me?.getMe.plan ||
+                    ((filter === 'all' || val.searchType === filter) &&
+                      +calculateElapsedTime(val.createdAt, false) < 24),
                 )
                 .map((notification) => (
                   <Notification
@@ -208,7 +211,8 @@ export const Notifications = () => {
                       }
                       if (
                         notification.type === 'hostingInvitation' ||
-                        notification.type === 'companionRequest'
+                        notification.type === 'companionRequest' ||
+                        notification.type === 'message'
                       ) {
                         setNoti(notification);
                         setIsOpen('message');
@@ -218,29 +222,31 @@ export const Notifications = () => {
                 ))}
             </div>
           </div>
-          <div className="relative flex flex-col gap-4 pt-6 opacity-50">
-            <h1 className="text-lg font-bold">منقضی شده</h1>
-            <div className="flex flex-1 flex-col gap-2">
-              {data?.getNotifications
-                .filter(
-                  (val) =>
-                    (filter === 'all' || val.searchType === filter) &&
-                    +calculateElapsedTime(val.createdAt, false) >= 24,
-                )
-                .map((notification) => (
-                  <Notification
-                    user={
-                      users?.getUsers.find(
-                        (user) => user.id === notification.actionId,
-                      ) as User
-                    }
-                    key={notification.id}
-                    notification={notification}
-                    disabled
-                  ></Notification>
-                ))}
+          {!me?.getMe.plan && (
+            <div className="relative flex flex-col gap-4 pt-6 opacity-50">
+              <h1 className="text-lg font-bold">منقضی شده</h1>
+              <div className="flex flex-1 flex-col gap-2">
+                {data?.getNotifications
+                  .filter(
+                    (val) =>
+                      (filter === 'all' || val.searchType === filter) &&
+                      +calculateElapsedTime(val.createdAt, false) >= 24,
+                  )
+                  .map((notification) => (
+                    <Notification
+                      user={
+                        users?.getUsers.find(
+                          (user) => user.id === notification.actionId,
+                        ) as User
+                      }
+                      key={notification.id}
+                      notification={notification}
+                      disabled
+                    ></Notification>
+                  ))}
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
       {noti && (
