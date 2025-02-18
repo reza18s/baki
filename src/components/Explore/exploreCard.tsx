@@ -45,7 +45,7 @@ export default function ExploreCard({
   >();
 
   const [audio, setAudio] = useState(
-    user.record ? new Audio(user.record) : undefined,
+    user?.record ? new Audio(user?.record) : undefined,
   );
   const playAudio = () => {
     if (audio) {
@@ -60,10 +60,10 @@ export default function ExploreCard({
     audio?.pause();
   };
   useEffect(() => {
-    if (user.record) {
-      setAudio(new Audio(user.record));
+    if (user?.record) {
+      setAudio(new Audio(user?.record));
     }
-  }, [user.record]);
+  }, [user?.record]);
   useEffect(() => {
     const handleAudioEnd = () => {
       setIsOpen(undefined);
@@ -92,13 +92,13 @@ export default function ExploreCard({
         onDragEnd={(event, info) => {
           if (info.offset.x > 200) {
             setSwipeDirection('right');
-            handleSwipe(user.id, 'right'); // Swipe right logic
+            handleSwipe(user?.id, 'right'); // Swipe right logic
             setTimeout(() => {
               setRotation(0);
             }, 200);
           } else if (info.offset.x < -200) {
             setSwipeDirection('left');
-            handleSwipe(user.id, 'left'); // Swipe left logic
+            handleSwipe(user?.id, 'left'); // Swipe left logic
             setTimeout(() => {
               setRotation(0);
             }, 200);
@@ -127,16 +127,16 @@ export default function ExploreCard({
           <div
             className={cn(
               `relative flex min-h-[60dvh] flex-col justify-between bg-cover bg-center p-4`,
-              !user.mainImage && 'border-b border-brand-black',
+              !user?.mainImage && 'border-b border-brand-black',
             )}
             style={{
-              backgroundImage: `url(${user.mainImage || ''})`,
+              backgroundImage: `url(${user?.mainImage || ''})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
             }}
           >
-            {!user.mainImage && (
+            {!user?.mainImage && (
               <div className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand-yellow">
                 <IcNoImage></IcNoImage>
               </div>
@@ -145,41 +145,41 @@ export default function ExploreCard({
               {searchMethod}
             </p>
             <div className="flex items-center justify-between">
-              <div className={cn('text-sm', user.mainImage && 'text-white')}>
+              <div className={cn('text-sm', user?.mainImage && 'text-white')}>
                 <div className="flex items-center gap-2">
                   <h1 className="text-lg font-black">
-                    {user.name} ، {user.age}
+                    {user?.name} ، {user?.age}
                   </h1>
                   <MdVerified size={24} className="fill-brand-yellow" />
                 </div>
                 <div className="flex items-center gap-x-1">
                   <RiMapPin2Fill
                     size={16}
-                    fill={!user.mainImage ? '#000' : '#fff'}
+                    fill={!user?.mainImage ? '#000' : '#fff'}
                     className="-mr-[2px]"
                   />
-                  {user.province}, {user.city}
+                  {user?.province}, {user?.city}
                 </div>
                 <div className="flex items-center gap-x-1">
                   <div className="flex h-[12px] w-[12px] items-center justify-center rounded-full">
                     <div
                       className={`h-[8px] w-[8px] rounded-full ${
-                        user.isOnline ? 'bg-brand-green' : 'bg-red-500'
+                        user?.isOnline ? 'bg-brand-green' : 'bg-red-500'
                       }`}
                     />
                   </div>
-                  {user.isOnline ? 'آنلاین' : 'آفلاین'}
+                  {user?.isOnline ? 'آنلاین' : 'آفلاین'}
                 </div>
               </div>
               <div className="flex items-center gap-x-[8px]">
-                {user.avatar && (
+                {user?.avatar && (
                   <div
                     className="size-10 max-h-fit max-w-fit items-center justify-center rounded-full bg-brand-yellow"
                     onClick={() => setIsOpen('avatar')}
                   >
                     <img
                       src={
-                        allAvatars.find((a) => a.path === user.avatar)
+                        allAvatars.find((a) => a.path === user?.avatar)
                           ?.avatar || CardAvatar
                       }
                       alt="CardAvatar"
@@ -187,7 +187,7 @@ export default function ExploreCard({
                     />
                   </div>
                 )}
-                {user.record && (
+                {user?.record && (
                   <div
                     className="max-h-fit max-w-fit rounded-full bg-brand-yellow p-[8px]"
                     onClick={() => {
@@ -203,7 +203,7 @@ export default function ExploreCard({
           {/* body */}
           <div className="flex flex-col gap-8 p-4">
             <div className="flex flex-col gap-4">
-              <Bio bio={user.bio || ''}></Bio>
+              <Bio bio={user?.bio || ''}></Bio>
               <Info
                 className="bg-brand-yellow"
                 items={getBaseInfo(user) as string[]}
@@ -216,35 +216,35 @@ export default function ExploreCard({
               onClick={() => setIsOpen('sendMessage')}
             >
               <IcSendMessageHeart></IcSendMessageHeart>
-              ارسال پیام برای {user.name}
+              ارسال پیام برای {user?.name}
             </Button>
             <Info
               className="bg-warning-100"
-              items={user.mySpecialty}
+              items={user?.mySpecialty}
               title="تخصص"
             ></Info>
             <Info
               className="bg-warning-100"
-              items={user.personalInterests}
+              items={user?.personalInterests}
               title="علایق شخصی من"
             ></Info>
             <Info
               className="bg-warning-100"
-              items={user.languages}
+              items={user?.languages}
               title="زبان هایی که میدانم "
             ></Info>
             <Info
               className="bg-warning-100"
-              items={user.traveledToPlaces}
+              items={user?.traveledToPlaces}
               title="مکان‌هایی که سفر کرده‌ام"
             ></Info>
             <Info
               className="bg-warning-100"
-              items={user.livedInPlaces}
+              items={user?.livedInPlaces}
               title="مکان‌هایی که زندگی کرده‌ام"
             ></Info>
           </div>
-          {user.images?.map((image) => (
+          {user?.images?.map((image) => (
             <div
               key={image}
               className="flex items-center justify-center bg-brand-black"
@@ -255,13 +255,13 @@ export default function ExploreCard({
           <div className="my-8 flex justify-between px-8">
             <div
               className="flex size-20 items-center justify-center rounded-full bg-brand-yellow"
-              onClick={() => handleSwipe(user.id, 'right')}
+              onClick={() => handleSwipe(user?.id, 'right')}
             >
               <IcTick></IcTick>
             </div>
             <div
               className="flex size-20 items-center justify-center rounded-full bg-brand-yellow"
-              onClick={() => handleSwipe(user.id, 'left')}
+              onClick={() => handleSwipe(user?.id, 'left')}
             >
               <IcX></IcX>
             </div>
@@ -303,7 +303,7 @@ export default function ExploreCard({
           </div>
           <img
             src={
-              allAvatars.find((a) => a.path === user.avatar)?.avatar ||
+              allAvatars.find((a) => a.path === user?.avatar)?.avatar ||
               CardAvatar
             }
             className="size-48"
@@ -334,7 +334,7 @@ export default function ExploreCard({
         }}
       ></SendMessageModal>
       <ViolationReportModal
-        id={user.id}
+        id={user?.id}
         loading={false}
         title="گزارش تخلف"
         options={optionTexts}
