@@ -178,7 +178,6 @@ export default function Explore() {
       setSearchStart(false);
     }
   }, [searchStart]);
-  console.log(planUse);
   const handleSwipe = (id: string, direction: 'left' | 'right') => {
     if (direction === 'right') {
       if (!FirstEnter.swapRight) {
@@ -225,7 +224,7 @@ export default function Explore() {
                 setIsSidebarOpen(true);
               }}
             />
-            {cardsHistory.length > 0 && (
+            {me?.getMe.plan && cardsHistory.length > 0 && (
               <Popover open={isOpen === 'show-undo'}>
                 <PopoverTrigger>
                   <IcUndo
