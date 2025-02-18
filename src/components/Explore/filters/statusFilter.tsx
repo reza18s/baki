@@ -4,10 +4,10 @@ import BottomSheetModal from '@/components/base/Modal/BottomSheetModal';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import React, { useState } from 'react';
 const status = [
-  'آنلاین',
-  'فعال در 3 روز گذشته',
-  'فعال در 10 روز گذشته',
-  'فعال در بیش از 10 روز گذشته',
+  { label: 'آنلاین', value: 'online' },
+  { label: 'فعال در 10 روز گذشته', value: 'LessThen10Days' },
+  { label: 'فعال در 3 روز گذشته', value: 'LessThen3Days' },
+  { label: 'فعال در بیش از 10 روز گذشته', value: 'MoreThen10Days' },
 ];
 export const StatusFilter = ({
   value,
@@ -47,19 +47,19 @@ export const StatusFilter = ({
         <div className="flex flex-col">
           {status.map((el) => (
             <div
-              key={el}
+              key={el.value}
               className="flex items-center gap-2 border-t py-4 text-sm"
               onClick={() => {
-                setValue(el);
+                setValue(el.value);
               }}
             >
               {' '}
               <Checkbox
-                checked={!!value?.includes(el)}
+                checked={!!value?.includes(el.value)}
                 className="border-black"
                 readOnly
               ></Checkbox>
-              {el}
+              {el.label}
             </div>
           ))}
         </div>
