@@ -18,11 +18,15 @@ import { formatLastSeen } from '@/utils/datetime';
 import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { useIonRouter } from '@ionic/react';
 import BakiBanner from '../../assets/images/BakiBanner.png';
+import { useLocalStore } from '@/store/useLocalStore';
 
 export const Profile = () => {
   const { data, loading, refetch } = useGetMeQuery();
   const me = data?.getMe;
   const hs = useIonRouter();
+  const calculateCompletionPercentage = useLocalStore(
+    (s) => s.calculateCompletionPercentage,
+  );
   const { data: recommendedUsers } = useRecommendedUsersQuery();
   useEffect(() => {
     refetch();
@@ -52,12 +56,22 @@ export const Profile = () => {
       ) : (
         <>
           <div className="flex w-full flex-col items-center gap-2">
-            <Avatar className="size-[88px]">
-              <AvatarImage src={me?.mainImage || ''} className="object-cover" />
-              <AvatarFallback className="3xl">
-                {me?.name?.[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <Avatar className="relative size-[88px]">
+                <AvatarImage
+                  src={me?.mainImage || ''}
+                  className="object-cover"
+                />
+                <AvatarFallback className="3xl">
+                  {me?.name?.[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              {me && (
+                <div className="absolute -bottom-2 left-[50%] z-[1] flex -translate-x-[50%] items-center justify-center rounded-2xl border-[1.5px] border-white bg-brand-yellow px-1 pt-[1px] text-[10px]">
+                  {calculateCompletionPercentage()}%
+                </div>
+              )}
+            </div>
             <div className="flex items-center gap-1">
               <h1 className="flex items-center text-sm font-black">
                 {me?.name} ، {me?.age}

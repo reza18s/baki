@@ -190,9 +190,6 @@ export default function Explore() {
     if (me?.getMe.plan && !FirstEnter.showUndo) {
       setIsOpen('show-undo');
       updateFirstEntered({ showUndo: true });
-      setTimeout(() => {
-        setIsOpen(undefined);
-      }, 2000);
     }
     setCardsHistory((prev) => [
       cards.find((card) => card.id === id)!,
@@ -200,6 +197,17 @@ export default function Explore() {
     ]);
     setCards((prevCards) => prevCards.filter((card) => card.id !== id));
   };
+  useEffect(() => {
+    if (isOpen == 'show-undo') {
+      setTimeout(() => {
+        setIsOpen(undefined);
+      }, 2000);
+    } else if (isOpen == 'swipe') {
+      setTimeout(() => {
+        setIsOpen(undefined);
+      }, 2000);
+    }
+  }, [isOpen]);
   const handelUndo = () => {
     if (cardsHistory[0]) {
       setCards((prev) => {
@@ -348,7 +356,7 @@ export default function Explore() {
           <>
             {isOpen === 'swipe' && (
               <div
-                className="absolute z-[10] h-[calc(100%-16px)] w-[calc(100%-32px)] bg-white/70"
+                className="animate-fade-out absolute z-[10] h-[calc(100%-16px)] w-[calc(100%-32px)] bg-white/70"
                 onClick={() => setIsOpen(undefined)}
               >
                 <div className="flex h-full w-full items-center justify-center gap-24">

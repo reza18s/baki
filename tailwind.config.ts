@@ -89,6 +89,15 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        animation: {
+          'fade-out': 'fadeOut 0.5s ease-out forwards',
+        },
+        keyframes: {
+          fadeOut: {
+            '0%': { opacity: '1' },
+            '100%': { opacity: '0' },
+          },
+        },
       },
     },
   },

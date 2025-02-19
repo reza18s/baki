@@ -78,7 +78,7 @@ export default function ExploreCard({
     <>
       <motion.div
         className={cn(
-          'absolute flex max-h-[calc(100%-32px)] w-[calc(100%-32px)] flex-col overflow-y-scroll rounded-2xl',
+          'absolute flex max-h-[calc(100%-32px)] w-[calc(100%-32px)] flex-col overflow-y-scroll rounded-2xl bg-warning-50',
           className,
         )}
         drag={drag && 'x'}
@@ -144,7 +144,7 @@ export default function ExploreCard({
             <p className="mr-auto max-w-fit rounded-2xl bg-brand-yellow px-[8px] py-[4px] text-xs font-medium">
               {searchMethod}
             </p>
-            <div className="flex items-center justify-between">
+            <div className="relative z-[1] flex items-center justify-between">
               <div className={cn('text-sm', user?.mainImage && 'text-white')}>
                 <div className="flex items-center gap-2">
                   <h1 className="text-lg font-black">
@@ -199,6 +199,9 @@ export default function ExploreCard({
                 )}
               </div>
             </div>
+            {user?.mainImage && (
+              <div className="absolute bottom-0 left-0 z-0 h-[130px] w-full rounded-t-2xl bg-gradient-to-b from-transparent to-brand-black/70"></div>
+            )}
           </div>
           {/* body */}
           <div className="flex flex-col gap-8 p-4">
@@ -249,7 +252,7 @@ export default function ExploreCard({
               key={image}
               className="flex items-center justify-center bg-brand-black"
             >
-              <img src={image} className="max-h-96"></img>
+              <img src={image} className="bg-warning-100"></img>
             </div>
           ))}
           <div className="my-8 flex justify-between px-8">

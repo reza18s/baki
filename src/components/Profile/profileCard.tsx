@@ -66,7 +66,7 @@ export const ProfileCard = ({
   return (
     <div
       className={clsx(
-        'flex flex-col overflow-hidden rounded-2xl bg-warning-50',
+        'flex w-full flex-col overflow-hidden rounded-2xl bg-warning-50',
         className,
       )}
     >
@@ -88,7 +88,7 @@ export const ProfileCard = ({
             <IcNoImage></IcNoImage>
           </div>
         )}
-        <div className="flex items-center justify-between">
+        <div className="relative z-[1] flex items-center justify-between">
           <div className={cn('text-sm', user?.mainImage && 'text-white')}>
             {!me ? (
               <>
@@ -149,6 +149,7 @@ export const ProfileCard = ({
             </div>
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 z-0 h-[130px] w-full rounded-t-xl bg-gradient-to-b from-transparent to-brand-black/70"></div>
       </div>
       {/* body */}
       <div className="flex flex-col gap-8 p-4">
@@ -263,7 +264,7 @@ export const ProfileCard = ({
           key={image}
           className="relative flex items-center justify-center bg-brand-black"
         >
-          <img src={image || ''} className="max-h-96"></img>
+          <img src={image || ''} className=""></img>
           {me && (
             <Link
               to={paths.profile.completePictures}
