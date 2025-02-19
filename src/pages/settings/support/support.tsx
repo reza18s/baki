@@ -6,7 +6,9 @@ import { IcStars } from '@/components/icons/IcStars';
 import AppBar from '@/components/layout/Header/AppBar';
 import { Page } from '@/components/layout/Page';
 import ArrowButton from '@/components/shared/Buttons/ArrowButton';
+import BazarPlugin from '@/plugins/BazarPlugin';
 import { paths } from '@/routes/paths';
+import { Capacitor } from '@capacitor/core';
 import React from 'react';
 
 export const Support = () => {
@@ -36,6 +38,13 @@ export const Support = () => {
         <ArrowButton
           className="bg-white"
           text="ثبت نظر"
+          onClick={() => {
+            if (Capacitor.getPlatform() === 'android') {
+              BazarPlugin.addComment();
+            } else {
+              window.location.href = 'https://cafebazaar.ir/app/ir.baki.app';
+            }
+          }}
           icon={<IcPenRound></IcPenRound>}
         ></ArrowButton>
         <ArrowButton
