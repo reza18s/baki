@@ -206,7 +206,7 @@ const Message = ({
         <motion.div
           key={message.id}
           drag={selects.length > 0 ? false : 'x'}
-          dragConstraints={{ left: 0 }}
+          dragConstraints={{ left: 0, right: 0 }}
           dragElastic={{ left: 0.3, right: 0 }}
           dragTransition={{ bounceStiffness: 200, bounceDamping: 20 }}
           onDragEnd={(event, info) => {
