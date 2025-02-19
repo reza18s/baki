@@ -167,7 +167,7 @@ const Message = ({
       .toLocaleString(DateTime.DATE_MED);
 
   return (
-    <React.Fragment>
+    <>
       {/* Date Divider */}
       {showDateDivider && (
         <div className="flex justify-center py-2 text-xs text-gray-500">
@@ -206,7 +206,7 @@ const Message = ({
         <motion.div
           key={message.id}
           drag={selects.length > 0 ? false : 'x'}
-          dragConstraints={{ left: 0, right: 0 }} // فقط اجازه درگ تا 100px به چپ
+          dragConstraints={{ left: 0 }}
           dragElastic={{ left: 0.3, right: 0 }}
           dragTransition={{ bounceStiffness: 200, bounceDamping: 20 }}
           onDragEnd={(event, info) => {
@@ -297,6 +297,6 @@ const Message = ({
           </div>
         </motion.div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
