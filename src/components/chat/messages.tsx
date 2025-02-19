@@ -166,7 +166,6 @@ const Message = ({
       .setZone('Asia/Tehran')
       .toLocaleString(DateTime.DATE_MED);
 
-  const controls = useAnimation();
   return (
     <React.Fragment>
       {/* Date Divider */}
@@ -215,7 +214,7 @@ const Message = ({
             }
           }}
           className={cn(
-            'relative flex justify-end overflow-hidden',
+            'relative flex w-full justify-end overflow-hidden',
             message.senderId === me?.getMe?.id && 'justify-start gap-4',
           )}
         >
