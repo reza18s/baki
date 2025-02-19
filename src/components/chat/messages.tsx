@@ -207,7 +207,7 @@ const Message = ({
         <motion.div
           key={message.id}
           drag={selects.length > 0 ? false : 'x'}
-          dragConstraints={{ left: 0, right: 0 }} // فقط اجازه درگ تا 100px به چپ
+          dragConstraints={{ left: 0, right: 0 }}
           dragElastic={{ left: 0.2, right: 0 }}
           onDragEnd={(event, info) => {
             if (info.offset.x < -100) {
@@ -215,83 +215,76 @@ const Message = ({
             }
           }}
           className={cn(
-            'flex justify-end overflow-hidden',
-            message.senderId === me?.getMe?.id && 'justify-start gap-4',
+            'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
+            selects.some((val) => val.id === message.id) &&
+              'bg-brand-yellow/10',
+            message.senderId === me?.getMe?.id
+              ? 'rounded-br-sm bg-brand-yellow'
+              : 'rounded-bl-sm bg-white',
           )}
         >
-          <div
-            className={cn(
-              'flex w-fit max-w-[85%] flex-col overflow-hidden rounded-xl text-sm font-medium shadow-md transition-colors duration-1000 ease-in-out',
-              selects.some((val) => val.id === message.id) &&
-                'bg-brand-yellow/10',
-              message.senderId === me?.getMe?.id
-                ? 'rounded-br-sm bg-brand-yellow'
-                : 'rounded-bl-sm bg-white',
-            )}
-          >
-            {message.type == 'message' && message.url && (
-              <div className="my-auto flex items-center justify-center overflow-hidden bg-black">
-                <img
-                  className="max-h-96 object-cover"
-                  src={message.url}
-                  onLoad={handleImageLoad}
-                ></img>
-              </div>
-            )}
-            {message.type == 'audio' && message.url && (
-              <VoicePlayer
-                url={message.url}
-                me={message.senderId === me?.getMe?.id}
-              ></VoicePlayer>
-            )}
-            <div className="px-3 py-2">
-              {message.reply && (
-                <div
-                  className={cn(
-                    'mb-1 flex w-full overflow-hidden rounded-lg bg-gray-100',
-                    message.senderId === me?.getMe?.id && 'bg-warning-100',
-                  )}
-                  onClick={() => clickReply?.(message.reply!.id)}
-                >
-                  <div
-                    className={cn(
-                      'flex max-h-full w-1 overflow-hidden bg-gray-400 text-transparent',
-                      message.senderId === me?.getMe?.id && '',
-                    )}
-                  >
-                    mmm
-                  </div>
-                  <div className="max-w-[calc(100%-4px)] p-1 px-2">
-                    <h1 className="truncate text-sm font-bold">
-                      {message.reply?.sender?.name}
-                    </h1>
-                    <div className="overflow-hidden truncate text-xs text-gray-500">
-                      {message.reply?.type == 'message'
-                        ? 'عکس'
-                        : message.reply?.type == 'audio'
-                          ? 'پیام صوتی'
-                          : message.reply?.content}
-                    </div>
-                  </div>
-                </div>
-              )}
-              <p className="whitespace-pre-wrap leading-normal">
-                {message.content.trim()}
-              </p>
+          {message.type == 'message' && message.url && (
+            <div className="my-auto flex items-center justify-center overflow-hidden bg-black">
+              <img
+                className="max-h-96 object-cover"
+                src={message.url}
+                onLoad={handleImageLoad}
+              ></img>
+            </div>
+          )}
+          {message.type == 'audio' && message.url && (
+            <VoicePlayer
+              url={message.url}
+              me={message.senderId === me?.getMe?.id}
+            ></VoicePlayer>
+          )}
+          <div className="px-3 py-2">
+            {message.reply && (
               <div
                 className={cn(
-                  'flex w-full items-center gap-1 text-end text-[9px]',
-                  message.senderId === me?.getMe?.id && 'text-start',
+                  'mb-1 flex w-full overflow-hidden rounded-lg bg-gray-100',
+                  message.senderId === me?.getMe?.id && 'bg-warning-100',
                 )}
+                onClick={() => clickReply?.(message.reply!.id)}
               >
-                {DateTime.fromISO(message.createdAt)
-                  .setZone('Asia/Tehran')
-                  .toFormat('HH:mm')}
-                <div>
-                  <IcCheckRead
-                    className={cn(!message.read && 'fill-gray-500')}
-                  ></IcCheckRead>
+                <div
+                  className={cn(
+                    'flex max-h-full w-1 overflow-hidden bg-gray-400 text-transparent',
+                    message.senderId === me?.getMe?.id && '',
+                  )}
+                >
+                  mmm
                 </div>
+                <div className="max-w-[calc(100%-4px)] p-1 px-2">
+                  <h1 className="truncate text-sm font-bold">
+                    {message.reply?.sender?.name}
+                  </h1>
+                  <div className="overflow-hidden truncate text-xs text-gray-500">
+                    {message.reply?.type == 'message'
+                      ? 'عکس'
+                      : message.reply?.type == 'audio'
+                        ? 'پیام صوتی'
+                        : message.reply?.content}
+                  </div>
+                </div>
+              </div>
+            )}
+            <p className="whitespace-pre-wrap leading-normal">
+              {message.content.trim()}
+            </p>
+            <div
+              className={cn(
+                'flex w-full items-center gap-1 text-end text-[9px]',
+                message.senderId === me?.getMe?.id && 'text-start',
+              )}
+            >
+              {DateTime.fromISO(message.createdAt)
+                .setZone('Asia/Tehran')
+                .toFormat('HH:mm')}
+              <div>
+                <IcCheckRead
+                  className={cn(!message.read && 'fill-gray-500')}
+                ></IcCheckRead>
               </div>
             </div>
           </div>
