@@ -19,8 +19,6 @@ import { IcArrowLeft } from '@/components/icons/IcArrowLeft';
 import { useIonRouter } from '@ionic/react';
 import BakiBanner from '../../assets/images/BakiBanner.png';
 import { useLocalStore } from '@/store/useLocalStore';
-import { motion, useAnimation } from 'framer-motion';
-import { customToast } from '@/components/base/toast';
 
 export const Profile = () => {
   const { data, loading, refetch } = useGetMeQuery();
@@ -141,20 +139,9 @@ export const Profile = () => {
             </div>
           </div>
 
-          <motion.div
-            drag={'x'}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={{ left: 0.3, right: 0 }}
-            dragTransition={{ bounceStiffness: 200, bounceDamping: 20 }}
-            onDragEnd={(event, info) => {
-              if (info.offset.x < -100) {
-                customToast('', 'success');
-              }
-            }}
-            className="flex w-full items-center"
-          >
+          <div className="flex w-full items-center">
             <img src={BakiBanner} className="w-full" alt="BakiBanner" />
-          </motion.div>
+          </div>
           <ProfileCard user={me as User} me={true}></ProfileCard>
         </>
       )}
