@@ -180,7 +180,7 @@ const Message = ({
       <div
         id={message.id}
         className={cn(
-          'relative flex w-full items-center justify-end px-4 py-1 transition-all duration-300 ease-in-out',
+          'relative flex items-center justify-end px-4 py-1 transition-all duration-300 ease-in-out',
           selects.length > 0 && 'justify-between',
           selects.some((val) => val.id === message.id) && 'bg-brand-yellow/10',
           message.senderId === me?.getMe?.id && 'justify-start gap-4',
@@ -215,7 +215,7 @@ const Message = ({
             }
           }}
           className={cn(
-            'flex justify-end overflow-hidden',
+            'relative flex justify-end overflow-hidden',
             message.senderId === me?.getMe?.id && 'justify-start gap-4',
           )}
         >
