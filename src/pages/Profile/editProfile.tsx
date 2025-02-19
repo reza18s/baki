@@ -35,10 +35,11 @@ import { useStore } from '@/store/useStore';
 import { useIonRouter } from '@ionic/react';
 import { Input } from '@/components/shared/Inputs/input';
 import { useLocation } from 'react-router';
+import { Popup } from '@/components/shared/popup';
 
 export default function EditProfile() {
   const [isOpen, setIsOpen] = useState<
-    'language' | 'livedInPlaces' | 'traveledToPlaces'
+    'language' | 'livedInPlaces' | 'traveledToPlaces' | 'bio'
   >();
   const containerRef = useRef<HTMLIonContentElement | null>(null);
   const hs = useIonRouter();
@@ -59,10 +60,33 @@ export default function EditProfile() {
     },
   });
   useEffect(() => {
-    if (location.hash === '#bio') {
+    if (location.hash && containerRef) {
+      containerRef.current?.scrollToPoint(null, 0, 0);
+      if (location.hash.includes('bio')) {
+        containerRef.current?.scrollToPoint(null, 700, 500);
+        setIsOpen('bio');
+        setTimeout(() => {
+          setIsOpen(undefined);
+        }, 2000);
+      } else if (location.hash.includes('languages')) {
+        containerRef.current?.scrollToPoint(null, 1700, 800);
+        setTimeout(() => {
+          setIsOpen('language');
+        }, 800);
+      } else if (location.hash.includes('livedInPlaces')) {
+        containerRef.current?.scrollToPoint(null, 1700, 800);
+        setTimeout(() => {
+          setIsOpen('language');
+        }, 800);
+      } else if (location.hash.includes('traveledToPlaces')) {
+        containerRef.current?.scrollToPoint(null, 1700, 800);
+        setTimeout(() => {
+          setIsOpen('language');
+        }, 800);
+      }
       hs.push(paths.profile.editProfile, 'forward', 'replace');
     }
-  }, [location]);
+  }, [location, containerRef]);
   const [updateUser] = useUpdateUserMutation();
   const updateUserInfo = useLocalStore((store) => store.updateUserInfo);
   const setBasicInformationsStep = useStore((s) => s.setBasicInformationsStep);
@@ -133,7 +157,7 @@ export default function EditProfile() {
       ref={containerRef}
     >
       <div className="w-full text-brand-black">
-        <h2 className="mr-3 text-sm font-semibold text-gray-500">
+        <h2 className="mr-3 py-2 text-sm font-semibold text-gray-500">
           تکمیل پروفایل:
         </h2>
         <ArrowButton
@@ -147,7 +171,9 @@ export default function EditProfile() {
         />
       </div>
       <div className="w-full">
-        <h2 className="mr-3 text-sm font-semibold text-gray-500">تایید هویت</h2>
+        <h2 className="mr-3 py-2 text-sm font-semibold text-gray-500">
+          تایید هویت
+        </h2>
         <ArrowButton
           icon={
             <IcVerifiedCheck
@@ -201,9 +227,11 @@ export default function EditProfile() {
           />
         </div>
         <div className="w-full">
-          <h2 className="mr-3 py-[8px] text-sm font-semibold text-gray-500">
-            بیوگرافی
-          </h2>
+          <Popup isOpen={isOpen === 'bio'}>
+            <h2 className="mr-3 pb-[8px] text-sm font-semibold text-gray-500">
+              بیوگرافی
+            </h2>
+          </Popup>
           <Input
             placeholder="از علایق، ویژگی‌ها و هرچی دوست دارین درباره خودتون بگید..."
             multiline={true}

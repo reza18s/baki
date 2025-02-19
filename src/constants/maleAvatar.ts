@@ -34,6 +34,51 @@ import { default as Memoji33 } from '../assets/male/Memoji33.png';
 import { default as Memoji34 } from '../assets/male/Memoji34.png';
 import { default as Memoji35 } from '../assets/male/Memoji35.png';
 import { default as Memoji36 } from '../assets/male/Memoji36.png';
+import { default as Memoji37 } from '../assets/male/Memoji37.png';
+import { default as Memoji38 } from '../assets/male/Memoji38.png';
+import { default as Memoji39 } from '../assets/male/Memoji39.png';
+import { default as Memoji40 } from '../assets/male/Memoji40.png';
+import { default as Memoji41 } from '../assets/male/Memoji41.png';
+import { default as Memoji42 } from '../assets/male/Memoji42.png';
+import { default as Memoji43 } from '../assets/male/Memoji43.png';
+import { default as Memoji44 } from '../assets/male/Memoji44.png';
+import { default as Memoji45 } from '../assets/male/Memoji45.png';
+import { default as Memoji46 } from '../assets/male/Memoji46.png';
+import { default as Memoji47 } from '../assets/male/Memoji47.png';
+import { default as Memoji48 } from '../assets/male/Memoji48.png';
+import { default as Memoji49 } from '../assets/male/Memoji49.png';
+import { default as Memoji50 } from '../assets/male/Memoji50.png';
+import { default as Memoji51 } from '../assets/male/Memoji51.png';
+import { default as Memoji52 } from '../assets/male/Memoji52.png';
+import { default as Memoji53 } from '../assets/male/Memoji53.png';
+import { default as Memoji54 } from '../assets/male/Memoji54.png';
+import { default as Memoji55 } from '../assets/male/Memoji55.png';
+import { default as Memoji56 } from '../assets/male/Memoji56.png';
+import { default as Memoji57 } from '../assets/male/Memoji57.png';
+import { default as Memoji58 } from '../assets/male/Memoji58.png';
+import { default as Memoji59 } from '../assets/male/Memoji59.png';
+import { default as Memoji60 } from '../assets/male/Memoji60.png';
+import { default as Memoji61 } from '../assets/male/Memoji61.png';
+import { default as Memoji62 } from '../assets/male/Memoji62.png';
+import { default as Memoji63 } from '../assets/male/Memoji63.png';
+import { default as Memoji64 } from '../assets/male/Memoji64.png';
+import { default as Memoji65 } from '../assets/male/Memoji65.png';
+import { default as Memoji66 } from '../assets/male/Memoji66.png';
+import { default as Memoji67 } from '../assets/male/Memoji67.png';
+import { default as Memoji68 } from '../assets/male/Memoji68.png';
+import { default as Memoji69 } from '../assets/male/Memoji69.png';
+import { default as Memoji70 } from '../assets/male/Memoji70.png';
+import { default as Memoji71 } from '../assets/male/Memoji71.png';
+import { default as Memoji72 } from '../assets/male/Memoji72.png';
+import { default as Memoji73 } from '../assets/male/Memoji73.png';
+import { default as Memoji74 } from '../assets/male/Memoji74.png';
+import { default as Memoji75 } from '../assets/male/Memoji75.png';
+import { default as Memoji76 } from '../assets/male/Memoji76.png';
+import { default as Memoji77 } from '../assets/male/Memoji77.png';
+import { default as Memoji78 } from '../assets/male/Memoji78.png';
+import { default as Memoji79 } from '../assets/male/Memoji79.png';
+import { default as Memoji80 } from '../assets/male/Memoji80.png';
+
 export const MaleAvatar = [
   { path: '../assets/male/Memoji1.png', avatar: Memoji1 },
   { path: '../assets/male/Memoji2.png', avatar: Memoji2 },
@@ -71,4 +116,48 @@ export const MaleAvatar = [
   { path: '../assets/male/Memoji34.png', avatar: Memoji34 },
   { path: '../assets/male/Memoji35.png', avatar: Memoji35 },
   { path: '../assets/male/Memoji36.png', avatar: Memoji36 },
+  { path: '../assets/male/Memoji37.png', avatar: Memoji37 },
+  { path: '../assets/male/Memoji38.png', avatar: Memoji38 },
+  { path: '../assets/male/Memoji39.png', avatar: Memoji39 },
+  { path: '../assets/male/Memoji40.png', avatar: Memoji40 },
+  { path: '../assets/male/Memoji41.png', avatar: Memoji41 },
+  { path: '../assets/male/Memoji42.png', avatar: Memoji42 },
+  { path: '../assets/male/Memoji43.png', avatar: Memoji43 },
+  { path: '../assets/male/Memoji44.png', avatar: Memoji44 },
+  { path: '../assets/male/Memoji45.png', avatar: Memoji45 },
+  { path: '../assets/male/Memoji46.png', avatar: Memoji46 },
+  { path: '../assets/male/Memoji47.png', avatar: Memoji47 },
+  { path: '../assets/male/Memoji48.png', avatar: Memoji48 },
+  { path: '../assets/male/Memoji49.png', avatar: Memoji49 },
+  { path: '../assets/male/Memoji50.png', avatar: Memoji50 },
+  { path: '../assets/male/Memoji51.png', avatar: Memoji51 },
+  { path: '../assets/male/Memoji52.png', avatar: Memoji52 },
+  { path: '../assets/male/Memoji53.png', avatar: Memoji53 },
+  { path: '../assets/male/Memoji54.png', avatar: Memoji54 },
+  { path: '../assets/male/Memoji55.png', avatar: Memoji55 },
+  { path: '../assets/male/Memoji56.png', avatar: Memoji56 },
+  { path: '../assets/male/Memoji57.png', avatar: Memoji57 },
+  { path: '../assets/male/Memoji58.png', avatar: Memoji58 },
+  { path: '../assets/male/Memoji59.png', avatar: Memoji59 },
+  { path: '../assets/male/Memoji60.png', avatar: Memoji60 },
+  { path: '../assets/male/Memoji61.png', avatar: Memoji61 },
+  { path: '../assets/male/Memoji62.png', avatar: Memoji62 },
+  { path: '../assets/male/Memoji63.png', avatar: Memoji63 },
+  { path: '../assets/male/Memoji64.png', avatar: Memoji64 },
+  { path: '../assets/male/Memoji65.png', avatar: Memoji65 },
+  { path: '../assets/male/Memoji66.png', avatar: Memoji66 },
+  { path: '../assets/male/Memoji67.png', avatar: Memoji67 },
+  { path: '../assets/male/Memoji68.png', avatar: Memoji68 },
+  { path: '../assets/male/Memoji69.png', avatar: Memoji69 },
+  { path: '../assets/male/Memoji70.png', avatar: Memoji70 },
+  { path: '../assets/male/Memoji71.png', avatar: Memoji71 },
+  { path: '../assets/male/Memoji72.png', avatar: Memoji72 },
+  { path: '../assets/male/Memoji73.png', avatar: Memoji73 },
+  { path: '../assets/male/Memoji74.png', avatar: Memoji74 },
+  { path: '../assets/male/Memoji75.png', avatar: Memoji75 },
+  { path: '../assets/male/Memoji76.png', avatar: Memoji76 },
+  { path: '../assets/male/Memoji77.png', avatar: Memoji77 },
+  { path: '../assets/male/Memoji78.png', avatar: Memoji78 },
+  { path: '../assets/male/Memoji79.png', avatar: Memoji79 },
+  { path: '../assets/male/Memoji80.png', avatar: Memoji80 },
 ];

@@ -287,6 +287,21 @@ export const Chat = () => {
                   return true;
                 }
               })
+              .sort((a, b) => {
+                // Get the last message in chat A
+                const lastMessageA =
+                  a.Message?.[a.Message.length - 1]?.createdAt || a.createdAt;
+                // Get the last message in chat B
+                const lastMessageB =
+                  b.Message?.[b.Message.length - 1]?.createdAt || b.createdAt;
+
+                // Convert to timestamps for comparison
+                const timestampA = new Date(lastMessageA).getTime();
+                const timestampB = new Date(lastMessageB).getTime();
+
+                // Sort in descending order (most recent first)
+                return timestampB - timestampA;
+              })
 
               .map((chat, i) => (
                 <Contact

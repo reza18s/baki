@@ -12,14 +12,14 @@ export const BottomNavItem: FC<Props> = ({ Icon, isActive }) => {
       whileTap={{ scale: 0.95 }}
       className={clsx(
         'relative flex flex-col items-center justify-center gap-1 py-3 text-center',
-        isActive ? 'text-warning-100 opacity-100' : 'text-gray-800 opacity-75',
+        isActive ? 'text-brand-yellow opacity-100' : 'text-gray-800 opacity-75',
       )}
     >
       {isActive && (
         <motion.div
           layoutId="bottom-navigator-indicator"
           layout="position"
-          className="bg absolute top-0 h-1 w-6 rounded-md bg-warning-100"
+          className="bg absolute top-0 h-[2px] w-10 rounded-b-lg bg-brand-yellow"
         />
       )}
       <div className="">{Icon}</div>

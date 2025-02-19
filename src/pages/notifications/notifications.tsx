@@ -27,7 +27,7 @@ const items = [
     icon: ({ select }: { select: boolean }) => (
       <IcHeardTap
         className={cn(
-          'size-5 fill-none stroke-gray-500',
+          'size-5 fill-none stroke-gray-500 stroke-[1.5]',
           select && 'fill-black stroke-black',
         )}
       ></IcHeardTap>

@@ -4,7 +4,7 @@ import Button from '../base/Button/Button';
 import { RandomUser, User } from '@/graphql/generated/graphql.codegen';
 import { useStore } from '@/store/useStore';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Request } from '@/pages/Explore/request';
+import { Request } from '@/components/shared/request';
 
 export const SendMessageModal = ({
   user,
@@ -42,7 +42,9 @@ export const SendMessageModal = ({
         ></Request>
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-2 border-t pt-4">
-        <Button className="h-10 w-full p-0 text-sm">مشاهده بعدی</Button>
+        <Button className="h-10 w-full p-0 text-sm" onClick={() => setClose()}>
+          مشاهده بعدی
+        </Button>
         <div className="flex items-center gap-1 text-xs" onClick={() => {}}>
           <input
             type="checkbox"

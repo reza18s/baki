@@ -34,7 +34,7 @@ import { client, refreshAccessToken } from '@/graphql/apollo/client';
 import { IcTrash } from '@/components/icons/IcTrash';
 import { useLocalStore } from '@/store/useLocalStore';
 import EmojiPicker from 'emoji-picker-react';
-import { Request } from '../Explore/request';
+import { Request } from '../../components/shared/request';
 import { cn } from '@/lib/utils';
 import Modal from '@/components/base/Modal/Modal';
 import { IcChat } from '@/components/icons/IcChat';

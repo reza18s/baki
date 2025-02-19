@@ -215,7 +215,7 @@ const Message = ({
             }
           }}
           className={cn(
-            'flex w-full justify-end overflow-hidden',
+            'flex justify-end overflow-hidden',
             message.senderId === me?.getMe?.id && 'justify-start gap-4',
           )}
         >
