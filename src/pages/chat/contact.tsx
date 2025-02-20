@@ -33,7 +33,7 @@ import { IcX } from '@/components/icons/IcX';
 import { client, refreshAccessToken } from '@/graphql/apollo/client';
 import { IcTrash } from '@/components/icons/IcTrash';
 import { useLocalStore } from '@/store/useLocalStore';
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Request } from '../../components/shared/request';
 import { cn } from '@/lib/utils';
 import Modal from '@/components/base/Modal/Modal';
@@ -70,7 +70,18 @@ const defaultQs = [
 `,
   `جالب ترین پیامی که تا حالا دریافت کردی چی بوده؟`,
 ];
-
+export const MemoizedEmojiPicker = React.memo(
+  ({ onEmojiClick }: { onEmojiClick: (e: EmojiClickData) => void }) => (
+    <EmojiPicker
+      width={'100%'}
+      height={300}
+      onEmojiClick={onEmojiClick}
+      searchDisabled
+      skinTonesDisabled
+      previewConfig={{ showPreview: false }}
+    />
+  ),
+);
 export const ContactPage = ({ match }: IContactPages) => {
   const id = match.params.id;
   const chatContainerRef = useRef<HTMLIonContentElement | null>(null);
@@ -654,17 +665,13 @@ export const ContactPage = ({ match }: IContactPages) => {
         </div>
 
         <div className={cn('flex flex-col')}>
-          {/* <EmojiPicker
-            width={'100%'}
-            height={isOpen === 'emoji' ? 300 : 0}
-            // className={cn('transition-all delay-0 duration-300')}
-            searchDisabled
-            onEmojiClick={({ emoji }) => {
-              setValue('message', `${watch('message')}${emoji}`);
-            }}
-            skinTonesDisabled // Disable skin tone picker
-            previewConfig={{ showPreview: false }}
-          /> */}
+          {isOpen === 'emoji' && (
+            <MemoizedEmojiPicker
+              onEmojiClick={({ emoji }) => {
+                setValue('message', `${watch('message')}${emoji}`);
+              }}
+            />
+          )}
           <div
             className={cn(
               'p-2 px-4 transition-all delay-300 duration-300',

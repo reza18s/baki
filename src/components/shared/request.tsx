@@ -19,7 +19,10 @@ import { IcSend } from '@/components/icons/IcSend';
 import { Controller, useForm } from 'react-hook-form';
 import { IcFace } from '@/components/icons/IcFace';
 import EmojiPicker from 'emoji-picker-react';
-import { removeLastGrapheme } from '../../pages/chat/contact';
+import {
+  MemoizedEmojiPicker,
+  removeLastGrapheme,
+} from '../../pages/chat/contact';
 import { IcXCircle } from '@/components/icons/IcXCircle';
 import { IcMessageRequest } from '@/components/icons/IcMessageRequest';
 
@@ -274,17 +277,13 @@ export const Request = ({
               </form>
             </div>
             <div className={cn('flex w-full flex-col')}>
-              <EmojiPicker
-                width={'100%'}
-                height={emoji ? 300 : 0}
-                // className={cn('transition-all delay-0 duration-300')}
-                searchDisabled
-                onEmojiClick={({ emoji }) => {
-                  setValue('message', `${watch('message')}${emoji}`);
-                }}
-                skinTonesDisabled // Disable skin tone picker
-                previewConfig={{ showPreview: false }}
-              />
+              {emoji && (
+                <MemoizedEmojiPicker
+                  onEmojiClick={({ emoji }) => {
+                    setValue('message', `${watch('message')}${emoji}`);
+                  }}
+                />
+              )}
               <div
                 className={cn(
                   'p-2 px-4 transition-all delay-300 duration-300',
