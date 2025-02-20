@@ -8,6 +8,7 @@ import { useLocalStore } from '@/store/useLocalStore';
 import { LoaderPage } from '@/components/base/Loader/LoaderPage';
 import { useIonRouter } from '@ionic/react';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { customToast } from '@/components/base/toast';
 
 type GuardState = 'normal' | 'loading' | 'offline';
 
@@ -60,7 +61,10 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
         'pushNotificationActionPerformed',
         (action) => {
           if (action.notification.data.url) {
+            customToast(action.notification.data.url, 'success');
             history.push(action.notification.data.url);
+          } else {
+            customToast(action.notification.data, 'success');
           }
         },
       );
