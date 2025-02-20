@@ -22,7 +22,7 @@ import './theme/variables.css';
 import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { App as IApp } from '@capacitor/app';
 import Modal from './components/base/Modal/Modal';
 import Button from './components/base/Button/Button';

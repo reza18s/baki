@@ -435,7 +435,8 @@ export const ContactPage = ({ match }: IContactPages) => {
           }}
         />
       }
-      contentClassName="min-h-full relative flex flex-col bg-transparent"
+      className="font-iransans"
+      contentClassName="min-h-full relative flex flex-col bg-transparent font-iransans"
       scrollY
       ref={chatContainerRef}
       bgImage={BgChat}
@@ -451,7 +452,7 @@ export const ContactPage = ({ match }: IContactPages) => {
         selects={selects}
         toggleSelect={toggleSelect}
       />
-      <div className="sticky bottom-0 z-10 w-screen bg-white transition-all duration-300 ease-in-out">
+      {/* <div className="sticky bottom-0 z-10 w-screen bg-white transition-all duration-300 ease-in-out">
         <div className="px-3 py-[10px]">
           {isSearch ? (
             <div className="flex w-full justify-between">
@@ -752,7 +753,7 @@ export const ContactPage = ({ match }: IContactPages) => {
             <IcSend className="fill-brand-black"></IcSend> ارسال سوال
           </Button>
         </Modal>
-      </div>
+      </div> */}
     </Page>
   );
 };

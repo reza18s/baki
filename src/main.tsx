@@ -12,6 +12,7 @@ root.render(
       <div
         dir="rtl"
         className="bg-white font-iransans leading-tight text-brand-black"
+        style={{ fontFamily: 'IRANSansX' }}
       >
         <App />
       </div>
