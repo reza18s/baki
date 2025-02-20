@@ -452,7 +452,7 @@ export const ContactPage = ({ match }: IContactPages) => {
         selects={selects}
         toggleSelect={toggleSelect}
       />
-      {/* <div className="sticky bottom-0 z-10 w-screen bg-white transition-all duration-300 ease-in-out">
+      <div className="sticky bottom-0 z-10 w-screen bg-white transition-all duration-300 ease-in-out">
         <div className="px-3 py-[10px]">
           {isSearch ? (
             <div className="flex w-full justify-between">
@@ -654,7 +654,7 @@ export const ContactPage = ({ match }: IContactPages) => {
         </div>
 
         <div className={cn('flex flex-col')}>
-          <EmojiPicker
+          {/* <EmojiPicker
             width={'100%'}
             height={isOpen === 'emoji' ? 300 : 0}
             // className={cn('transition-all delay-0 duration-300')}
@@ -664,7 +664,7 @@ export const ContactPage = ({ match }: IContactPages) => {
             }}
             skinTonesDisabled // Disable skin tone picker
             previewConfig={{ showPreview: false }}
-          />
+          /> */}
           <div
             className={cn(
               'p-2 px-4 transition-all delay-300 duration-300',
@@ -753,7 +753,7 @@ export const ContactPage = ({ match }: IContactPages) => {
             <IcSend className="fill-brand-black"></IcSend> ارسال سوال
           </Button>
         </Modal>
-      </div> */}
+      </div>
     </Page>
   );
 };
