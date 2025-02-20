@@ -23,11 +23,6 @@ import './theme/main.css';
 import './theme/iransans.css';
 import './theme/Yekan.css';
 import { useEffect, useState } from 'react';
-import { customToast } from './components/base/toast';
-import {
-  useAddDeviceTokenMutation,
-  useGetMeQuery,
-} from './graphql/generated/graphql.codegen';
 import { App as IApp } from '@capacitor/app';
 import Modal from './components/base/Modal/Modal';
 import Button from './components/base/Button/Button';
@@ -36,45 +31,7 @@ import { IcCrownStar } from './components/icons/IcCrownStar';
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { data } = useGetMeQuery();
   const [isOpen, setIsOpen] = useState<'update' | 'exit' | undefined>();
-  const [addDeviceToken] = useAddDeviceTokenMutation();
-  useEffect(() => {
-    const initializePushNotifications = async () => {
-      const permission = await PushNotifications.requestPermissions();
-      if (permission.receive === 'granted') {
-        await PushNotifications.register();
-      }
-
-      // Handle token
-      PushNotifications.addListener('registration', (token) => {
-        localStorage.setItem('deviceToken', token.value);
-        if (data?.getMe) {
-          addDeviceToken({
-            variables: {
-              token: token.value,
-            },
-          });
-        }
-      });
-
-      // Handle notification received
-      PushNotifications.addListener(
-        'pushNotificationReceived',
-        (notification) => {
-          // customToast(`Notification Rceived: ${notification}`, 'warning');
-        },
-      );
-
-      // Handle notification action
-      PushNotifications.addListener(
-        'pushNotificationActionPerformed',
-        (action) => {},
-      );
-    };
-
-    initializePushNotifications();
-  }, []);
 
   useEffect(() => {
     const backButtonListener = IApp.addListener('backButton', (e) => {
