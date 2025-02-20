@@ -146,9 +146,14 @@ export const MessageModal = ({
         <Button
           className="h-10 w-full p-0 text-sm"
           onClick={
-            request?.getRequest?.status !== 'accept' ||
-            !notification.type.includes('accept')
+            request?.getRequest?.status === 'accept' ||
+            notification.type.includes('accept')
               ? () => {
+                  if (chat?.getChat.id) {
+                    hs.push(paths.chat.contact.exactPath(user!.id));
+                  }
+                }
+              : () => {
                   acceptRequest({
                     variables: {
                       requesterId: user!.id,
@@ -166,11 +171,6 @@ export const MessageModal = ({
                       );
                     },
                   });
-                }
-              : () => {
-                  if (chat?.getChat.id) {
-                    hs.push(paths.chat.contact.exactPath(user!.id));
-                  }
                 }
           }
         >
