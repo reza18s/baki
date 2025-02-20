@@ -61,10 +61,7 @@ const AppGuard: React.FC<PropsWithChildren> = ({ children }) => {
         'pushNotificationActionPerformed',
         (action) => {
           if (action.notification.data.url) {
-            customToast(action.notification.data.url, 'success');
             history.push(action.notification.data.url);
-          } else {
-            customToast(action.notification.data, 'success');
           }
         },
       );
